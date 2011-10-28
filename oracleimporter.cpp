@@ -1,9 +1,7 @@
-#include "oracleimporter.h"
-#include <QtGui>
-#include <QtNetwork>
-#include <QXmlStreamReader>
-#include <QDomDocument>
-#include <QDebug>
+package OracleImporter;
+
+use XML::DOM::Lite;
+
 
 OracleImporter::OracleImporter(const QString &_dataDir, QObject *parent)
  : CardDatabase(parent), dataDir(_dataDir), setIndex(-1) {
@@ -100,69 +98,72 @@ CardInfo *OracleImporter::addCard(const QString &setName, QString cardName, int 
  return card;
 }
 
-int OracleImporter::importTextSpoiler(CardSet *set, const QByteArray &data) {
- int cards = 0;
- QString bufferContents(data);
 
- // Workaround for ampersand bug in text spoilers
- int index = -1;
- while ((index = bufferContents.indexOf('&', index + 1)) != -1) {
-  int semicolonIndex = bufferContents.indexOf(';', index);
-  if (semicolonIndex > 5) {
-   bufferContents.insert(index + 1, "amp;");
-   index += 4;
+sub importTextSpoiler($$) {
+ my($set, $data) = @_;  # (CardSet *set, const QByteArray &data)
+ my $cards = 0;
+
+ ## Workaround for ampersand bug in text spoilers
+ my $index = -1;
+ while (($index = index $data, '&', $index + 1) != -1) {
+  my $semicolonIndex = index $dat, ';', $index;
+  if ($semicolonIndex > 5) {
+   substr $data, $index + 1, 0, 'amp;';
+   $index += 4;
   }
  }
 
- QDomDocument doc;
- QString errorMsg;
- int errorLine, errorColumn;
- if (!doc.setContent(bufferContents, &errorMsg, &errorLine, &errorColumn))
-  qDebug() << "error:" << errorMsg << "line:" << errorLine << "column:" << errorColumn;
+ my $parser = Parser->new(%options);
+ my $doc = $parser->parse($data);
 
- QDomNodeList divs = doc.elementsByTagName("div");
- for (int i = 0; i < divs.size(); ++i) {
-  QDomElement div = divs.at(i).toElement();
-  QDomNode divClass = div.attributes().namedItem("class");
-  if (divClass.nodeValue() == "textspoiler") {
-   QString cardName, cardCost, cardType, cardPT, cardText;
-   int cardId = 0;
+ ##QDomDocument doc;
+ ##QString errorMsg;
+ ##int errorLine, errorColumn;
+ ##if (!doc.setContent(bufferContents, &errorMsg, &errorLine, &errorColumn))
+ ## qDebug() << "error:" << errorMsg << "line:" << errorLine << "column:" << errorColumn;
 
-   QDomNodeList trs = div.elementsByTagName("tr");
-   for (int j = 0; j < trs.size(); ++j) {
-    QDomElement tr = trs.at(j).toElement();
-    QDomNodeList tds = tr.elementsByTagName("td");
-    if (tds.size() != 2) {
-     QStringList cardTextSplit = cardText.split("\n");
-     for (int i = 0; i < cardTextSplit.size(); ++i)
-      cardTextSplit[i] = cardTextSplit[i].trimmed();
-
-     CardInfo *card = addCard(set->getShortName(), cardName, cardId, cardCost, cardType, cardPT, cardTextSplit);
-     if (!set->contains(card)) {
-      card->addToSet(set);
-      cards++;
+ for my $div (@{$doc->getElementsByTagName('div')}) {
+  my $divClass = $div->getAttribute('class');
+  if (defined $divClass && $divClass eq 'textspoiler') {
+   my($cardName, $cardCost, $cardType, $cardPT, $cardText);
+   my $cardId = 0;
+   for my $tr (@{$div->getElementsByTagName('tr')}) {
+    my $tds = $tr->getElementsByTagName("td");
+    if ($tds->length() != 2) {
+     my @cardTextSplit = split /\n/, $cardText;
+     s/^\s+|\s+$//g for @cardTextSplit;
+     my $card = addCard($set->getShortName(), $cardName, $cardId, $cardCost,
+      $cardType, $cardPt, @cardTextSplit);
+     if (!$set->contains($card)) {
+      $card->addToSet($set);
+      $cards++;
      }
-     cardName = cardCost = cardType = cardPT = cardText = QString();
+     undef $cardName;
+     undef $cardCost;
+     undef $cardType;
+     undef $cardPt;
+     undef $cardText;
     } else {
-     QString v1 = tds.at(0).toElement().text().simplified();
-     QString v2 = tds.at(1).toElement().text().replace(trUtf8("—"), "-");
-
-     if (v1 == "Name:") {
-      QDomElement a = tds.at(1).toElement().elementsByTagName("a").at(0).toElement();
-      QString href = a.attributes().namedItem("href").nodeValue();
-      cardId = href.mid(href.indexOf("multiverseid=") + 13).toInt();
-      cardName = v2.simplified();
-     } else if (v1 == "Cost:") cardCost = v2.simplified();
-     else if (v1 == "Type:") cardType = v2.simplified();
-     else if (v1 == "Pow/Tgh:") cardPT = v2.simplified().remove('(').remove(')');
-     else if (v1 == "Rules Text:") cardText = v2.trimmed();
+     my $v1 = simplify $tds->[0]->nodeValue;
+     my $v2 = $tds->[1]->nodeValue;
+     ###$v2 =~ s/—/-/g;  # Why does Cockatrice do this?
+     if ($v1 eq 'Name:') {
+      my $a = $tds->[1]->getElementsByTagName('a')->[0];
+      my $href = $a->getAttribute('href');
+      $href =~ /multiverseid=(\d+)/ and $cardId = $1;
+      $cardName = simplify $v2;
+     } elsif ($v1 eq 'Cost:') { $cardCost = simplify $v2 }
+     elsif ($v1 eq 'Type:') { $cardType = simplify $v2 }
+     elsif ($v1 eq 'Pow/Tgh:') { ($cardPT = simplify $v2) =~ tr/()//d }
+     elsif ($v1 eq 'Rules Text:') { $cardText = trim $v2 }
     }
    }
-   break;
+   last;  ### Why?!?
   }
  }
- return cards;
+ return $cards;
 }
+
 
 QString OracleImporter::getPictureUrl(QString url, int cardId, QString name, const QString &setName) const {
  if ((name == "Island") || (name == "Swamp") || (name == "Mountain") || (name == "Plains") || (name == "Forest")) name.append("1");
