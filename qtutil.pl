@@ -10,3 +10,9 @@ sub trim($) {
  $str =~ s/^\s+|\s+$//g;
  return $str;
 }
+
+sub elem($@) {
+ my $str = shift;
+ for (@_) { return 1 if $_ eq $str }
+ return 0;
+}

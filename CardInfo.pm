@@ -80,12 +80,12 @@ sub new {
  $self{powtough} = shift;
  $self{text} = shift;
  $self{colors} = shift;  # QStringList
- $self{cipt} = shift;  # bool
- $self{tableRow} = shift;  # int
- $self{sets} = shift;  # SetList
- $self{picURLs} = shift;  # QMap<QString, QString>
- $self{picURLsHq} = shift;  # QMap<QString, QString>
- $self{picURLsSt} = shift;  # QMap<QString, QString>
+ $self{cipt} = shift || 0;  # bool; seems to mean "comes into play tapped"
+ $self{tableRow} = shift || 0;  # int
+ $self{sets} = shift;  # SetList; default SetList()
+ $self{picURLs} = shift;  # QMap<QString, QString>; defaults to default value
+ $self{picURLsHq} = shift;  # QMap<QString, QString>; defaults to default value
+ $self{picURLsSt} = shift;  # QMap<QString, QString>; defaults to default value
  $self{pixmap} = undef;
  my $blessed = bless { %self }, ref $class || $class;
  $_->append($blessed) for @{$self{sets}};
@@ -119,7 +119,7 @@ sub getCorrectedName {
 sub addToSet {  ## (CardSet *set)
  my($self, $set) = @_;
  $set->append($self);
- $sets << $set;
+ $sets << $set;  ###
 }
 
 QString CardInfo::getPicURL() const {

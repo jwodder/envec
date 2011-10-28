@@ -3,6 +3,43 @@ package OracleImporter;
 use XML::DOM::Lite;
 
 
+
+class OracleImporter : public CardDatabase {
+ Q_OBJECT
+
+private:
+ QList<SetToDownload> allSets, setsToDownload;
+ QString pictureUrl, pictureUrlHq, pictureUrlSt, setUrl;
+ QString dataDir;
+ int setIndex;
+ int reqId;
+ QBuffer *buffer;
+ QHttp *http;
+ QString getPictureUrl(QString url, int cardId, QString name, const QString &setName) const;
+
+ void downloadNextFile();
+ void readSetsFromXml(QXmlStreamReader &xml);
+ CardInfo *addCard(const QString &setName, QString cardName, int cardId, const QString &cardCost, const QString &cardType, const QString &cardPT, const QStringList &cardText);
+
+private slots:
+ void httpRequestFinished(int requestId, bool error);
+ void readResponseHeader(const QHttpResponseHeader &responseHeader);
+
+signals:
+ void setIndexChanged(int cardsImported, int setIndex, const QString &nextSetName);
+ void dataReadProgress(int bytesRead, int totalBytes);
+
+public:
+ OracleImporter(const QString &_dataDir, QObject *parent = 0);
+ void readSetsFromByteArray(const QByteArray &data);
+ void readSetsFromFile(const QString &fileName);
+ int startDownload();
+ int importTextSpoiler(CardSet *set, const QByteArray &data);
+ QList<SetToDownload> &getSets() { return allSets; }
+ const QString &getDataDir() const { return dataDir; }
+};
+
+
 OracleImporter::OracleImporter(const QString &_dataDir, QObject *parent)
  : CardDatabase(parent), dataDir(_dataDir), setIndex(-1) {
  buffer = new QBuffer(this);
@@ -52,52 +89,45 @@ void OracleImporter::readSetsFromXml(QXmlStreamReader &xml) {
  }
 }
 
-CardInfo *OracleImporter::addCard(const QString &setName, QString cardName, int cardId, const QString &cardCost, const QString &cardType, const QString &cardPT, const QStringList &cardText) {
- QString fullCardText = cardText.join("\n");
- bool splitCard = false;
- if (cardName.contains('(')) {
-  cardName.remove(QRegExp(" \\(.*\\)"));
-  splitCard = true;
- }
- CardInfo *card;
- if (cardHash.contains(cardName)) {
-  card = cardHash.value(cardName);
-  if (splitCard && !card->getText().contains(fullCardText))
-   card->setText(card->getText() + "\n---\n" + fullCardText);
+sub addCard {
+ my($setName, $cardName, $cardId, $cardCost, $cardType, $cardPT, @cardText)
+  = @_;
+ my $fullCardText = join "\n", @cardText;
+ my $splitCard = ($cardName =~ s/ \(.*\)//g);
+ my $card;
+ if ($cardHash->contains($cardName)) {
+  $card = $cardHash->value($cardName);
+  $card->setText($card->getText() . "\n---\n" . $fullCardText)
+   if $splitCard && index($card->getText, $fullCardText) == -1;
  } else {
-  // Workaround for card name weirdness
-  if (cardName.contains("XX")) cardName.remove("XX");
-  cardName = cardName.replace("Æ", "AE");
-  bool mArtifact = false;
-  if (cardType.endsWith("Artifact"))
-   for (int i = 0; i < cardText.size(); ++i)
-    if (cardText[i].contains("{T}") && cardText[i].contains("to your mana pool")) mArtifact = true;
-  QStringList colors;
-  QStringList allColors = QStringList() << "W" << "U" << "B" << "R" << "G";
-  for (int i = 0; i < allColors.size(); i++)
-   if (cardCost.contains(allColors[i]))
-    colors << allColors[i];
-  if (cardText.contains(cardName + " is white.")) colors << "W";
-  if (cardText.contains(cardName + " is blue.")) colors << "U";
-  if (cardText.contains(cardName + " is black.")) colors << "B";
-  if (cardText.contains(cardName + " is red.")) colors << "R";
-  if (cardText.contains(cardName + " is green.")) colors << "G";
-  bool cipt = (cardText.contains(cardName + " enters the battlefield tapped."));
-  card = new CardInfo(this, cardName, cardCost, cardType, cardPT, fullCardText, colors, cipt);
-  int tableRow = 1;
-  QString mainCardType = card->getMainCardType();
-  if ((mainCardType == "Land") || mArtifact) tableRow = 0;
-  else if ((mainCardType == "Sorcery") || (mainCardType == "Instant")) tableRow = 3;
-  else if (mainCardType == "Creature") tableRow = 2;
-  card->setTableRow(tableRow);
-  cardHash.insert(cardName, card);
+  # Workaround for card name weirdness
+  $cardName =~ s/XX//g;
+  ##$cardName =~ s/Æ/AE/g;
+  my $mArtifact = ($cardType =~ /Artifact$/
+		   && grep { /\{T\}/ && /to your mana pool/ } @cardText);
+  my @colors = grep { $cardCost =~ /$_/ } qw< W U B R G >;
+  push @colors, 'W' if elem("$cardName is white.", @cardText);
+  push @colors, 'U' if elem("$cardName is blue.", @cardText);
+  push @colors, 'B' if elem("$cardName is black.", @cardText);
+  push @colors, 'R' if elem("$cardName is red.", @cardText);
+  push @colors, 'G' if elem("$cardName is green.", @cardText);
+  my $cipt = elem("$cardName enters the battlefield tapped.", @cardText);
+  $card = new CardInfo $this, $cardName, $cardCost, $cardType, $cardPT,
+   $fullCardText, $colors, $cipt;
+  my $tableRow = 1;
+  my $mainCardType = $card->getMainCardType;
+  if ($mainCardType eq "Land" || $mArtifact) { $tableRow = 0 }
+  elsif ($mainCardType eq "Sorcery" || $mainCardType eq "Instant") {
+   $tableRow = 3
+  } elsif ($mainCardType eq "Creature") { $tableRow = 2 }
+  $card->setTableRow($tableRow);
+  $cardHash->insert($cardName, $card);
  }
- card->setPicURL(setName, getPictureUrl(pictureUrl, cardId, cardName, setName));
- card->setPicURLHq(setName, getPictureUrl(pictureUrlHq, cardId, cardName, setName));
- card->setPicURLSt(setName, getPictureUrl(pictureUrlSt, cardId, cardName, setName));
- return card;
+ $card->setPicURL($setName, getPictureUrl($pictureUrl, $cardId, $cardName, $setName));
+ $card->setPicURLHq($setName, getPictureUrl($pictureUrlHq, $cardId, $cardName, $setName));
+ $card->setPicURLSt($setName, getPictureUrl($pictureUrlSt, $cardId, $cardName, $setName));
+ return $card;
 }
-
 
 sub importTextSpoiler($$) {
  my($set, $data) = @_;  # (CardSet *set, const QByteArray &data)
@@ -164,21 +194,23 @@ sub importTextSpoiler($$) {
  return $cards;
 }
 
-
-QString OracleImporter::getPictureUrl(QString url, int cardId, QString name, const QString &setName) const {
- if ((name == "Island") || (name == "Swamp") || (name == "Mountain") || (name == "Plains") || (name == "Forest")) name.append("1");
- return url.replace("!cardid!", QString::number(cardId)).replace("!set!", setName).replace("!name!", name
-  .replace("ö", "o")
-//  .remove('\'')
-  .remove(" // ")
-//  .remove(',')
-//  .remove(':')
-//  .remove('.')
-  .remove(QRegExp("\\(.*\\)"))
-  .simplified()
-//  .replace(' ', '_')
-//  .replace('-', '_')
- );
+sub getPictureUrl {
+ my($url, $cardId, $name, $setName) = @_;
+ $name .= '1' if elem($name, qw< Island Swamp Mountain Plains Forest >);
+ $url =~ s/!cardid!/$cardId/g;
+ $url =~ s/!set!/$setName/g;
+ $name =~ s/ö/o/g;
+ #$name =~ tr/'//d;
+ $name =~ s: // ::g;
+ #$name =~ tr/,//d;
+ #$name =~ tr/://d;
+ #$name =~ tr/.//d;
+ $name =~ s/\(.*\)//g;
+ $name = simplify $name;
+ #$name =~ tr/ /_/;
+ #$name =~ tr/-/_/;
+ $url =~ s/!name!/$name/g;
+ return $url;
 }
 
 int OracleImporter::startDownload() {
