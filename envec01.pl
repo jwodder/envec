@@ -1,11 +1,8 @@
 #!/usr/bin/perl -w
 use strict;
-use EnVec::Card;
+use EnVec;
 
 my $setfile = 'sets.txt';
-
-# Read list of long set names into @allSets; sets that aren't meant to be
-# downloaded/imported should be commented out of the list of sets beforehand.
 open my $sets, '<', $setfile or die "$0: $setfile: $!";
 my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
 close $sets;
@@ -20,8 +17,9 @@ for my $set (@allSets) {
   print STDERR "Could not fetch set \"$set\"\n";
   next;
  };
- my $qty = importTextSpoiler($set, $file);
- print STDERR "$set imported ($qty cards)\n";
+ my %imported = importTextSpoiler($set, $file);
+ print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
+ %cardHash = mergeCards(%cardHash, %imported);
 }
 print "[\n";
 my $first = 1;

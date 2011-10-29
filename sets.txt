@@ -67,7 +67,7 @@ Dissension
 Coldsnap
 
 Time Spiral
-#Time Spiral "Timeshifted"
+Time Spiral "Timeshifted"
 Planar Chaos
 Future Sight
 
@@ -108,7 +108,8 @@ Magic: The Gathering-Commander
 #Unglued
 #Unhinged
 
-#Promo set for Gatherer
+Promo set for Gatherer
+
 #Battle Royale
 #Beatdown
 #Deckmasters 2001

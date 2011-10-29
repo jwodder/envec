@@ -11,12 +11,6 @@ sub trim($) {
  return $str;
 }
 
-sub elem($@) {
- my $str = shift;
- for (@_) { return 1 if $_ eq $str }
- return 0;
-}
-
 sub textContent($) {
 # cf. <http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent>
  my $node = shift;
@@ -34,28 +28,20 @@ sub jsonify($) {
  return $str;
 }
 
-sub addCard(\%$$$$$$@) {
- my($cardHash, $setName, $cardName, $cardId, $cardCost, $cardType, $cardPT, @cardText) = @_;
- my $fullCardText = join "\n", @cardText;
- my $splitCard = ($cardName =~ s/ \(.*\)//g);
+sub addCard(\%$$$$$$$) {
+ my($db, $set, $name, $id, $cost, $type, $PT, $text) = @_;
+ my $splitCard = ($name =~ s/ \(.*\)//);
  my $card;
- if (exists $cardHash->{$cardName}) {
-  $card = $cardHash->{$cardName};
-  $card->text($card->text() . "\n---\n" . $fullCardText)
-   if $splitCard && index($card->text, $fullCardText) == -1;
+ if (exists $db->{$name}) {
+  $card = $db->{$name};
+  $card->text($card->text() . "\n---\n" . $text)
+   if $splitCard && index($card->text, $text) == -1;
  } else {
-  $cardName =~ s/XX//g;  # Workaround for card name weirdness
-  my @colors = grep { $cardCost =~ /$_/ } qw< W U B R G >;
-  push @colors, 'W' if elem("$cardName is white.", @cardText);
-  push @colors, 'U' if elem("$cardName is blue.", @cardText);
-  push @colors, 'B' if elem("$cardName is black.", @cardText);
-  push @colors, 'R' if elem("$cardName is red.", @cardText);
-  push @colors, 'G' if elem("$cardName is green.", @cardText);
-  $card = new Card name => $cardName, manacost => $cardCost,
-   cardtype => $cardType, powtough => $cardPT, text => $fullCardText,
-   colors => colorStr2Bits(join '', @colors);
-  $cardHash->{$cardName} = $card;
+  $name =~ s/^XX//g;  ## Workaround for card name weirdness
+  $card = new Card name => $name, cost => $cost, type => $type,
+   powtough => $PT, text => $text;
+  $db->{$name} = $card;
  }
- $card->sets($setName, $cardId);
+ $card->sets($set, $id);
  return $card;
 }
