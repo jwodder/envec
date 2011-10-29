@@ -59,10 +59,10 @@ sub new {
  $self{colors} = shift;  # QStringList
  $self{cipt} = shift || 0;  # bool; seems to mean "comes into play tapped"
  $self{tableRow} = shift || 0;  # int
- $self{sets} = shift;  # SetList; default SetList()
- $self{picURLs} = shift;  # QMap<QString, QString>; defaults to default value
- $self{picURLsHq} = shift;  # QMap<QString, QString>; defaults to default value
- $self{picURLsSt} = shift;  # QMap<QString, QString>; defaults to default value
+ $self{sets} = shift || [];  # SetList
+ $self{picURLs} = shift || {};  # QMap<QString, QString>
+ $self{picURLsHq} = shift || {};  # QMap<QString, QString>
+ $self{picURLsSt} = shift || {};  # QMap<QString, QString>
  $self{pixmap} = undef;
  my $blessed = bless { %self }, ref $class || $class;
  $_->append($blessed) for @{$self{sets}};
@@ -96,7 +96,7 @@ sub getCorrectedName {
 sub addToSet {  ## (CardSet *set)
  my($self, $set) = @_;
  $set->append($self);
- $sets << $set;  ###
+ push @{$self->{sets}}, $set;
 }
 
 QString CardInfo::getPicURL() const {
@@ -172,7 +172,6 @@ void CardInfo::updatePixmapCache() {
 QXmlStreamWriter &operator<<(QXmlStreamWriter &xml, const CardInfo *info) {
  xml.writeStartElement("card");
  xml.writeTextElement("name", info->getName());
-
  const SetList &sets = info->getSets();
  for (int i = 0; i < sets.size(); i++) {
   xml.writeStartElement("set");
@@ -185,16 +184,12 @@ QXmlStreamWriter &operator<<(QXmlStreamWriter &xml, const CardInfo *info) {
  const QStringList &colors = info->getColors();
  for (int i = 0; i < colors.size(); i++)
   xml.writeTextElement("color", colors[i]);
-
  xml.writeTextElement("manacost", info->getManaCost());
  xml.writeTextElement("type", info->getCardType());
- if (!info->getPowTough().isEmpty())
-  xml.writeTextElement("pt", info->getPowTough());
+ if (!info->getPowTough().isEmpty()) xml.writeTextElement("pt", info->getPowTough());
  xml.writeTextElement("tablerow", QString::number(info->getTableRow()));
  xml.writeTextElement("text", info->getText());
- if (info->getCipt())
-  xml.writeTextElement("cipt", "1");
+ if (info->getCipt()) xml.writeTextElement("cipt", "1");
  xml.writeEndElement(); // card
-
  return xml;
 }

@@ -108,7 +108,7 @@ sub addCard {
   push @colors, 'G' if elem("$cardName is green.", @cardText);
   my $cipt = elem("$cardName enters the battlefield tapped.", @cardText);
   $card = new CardInfo $this, $cardName, $cardCost, $cardType, $cardPT,
-   $fullCardText, $colors, $cipt;
+   $fullCardText, @colors, $cipt;
   my $tableRow = 1;
   my $mainCardType = $card->getMainCardType;
   if ($mainCardType eq "Land" || $mArtifact) { $tableRow = 0 }
