@@ -35,3 +35,11 @@ sub elem($@) {
  for (@_) { return 1 if $_ eq $str }
  return 0;
 }
+
+sub textContent($) {
+ my $node = shift;
+ if ($node->nodeType == TEXT_NODE) { $node->nodeValue }
+ elsif ($node->nodeType == ELEMENT_NODE) {
+  join '', map { textContent $_ } @{$node->childNodes}
+ } # else { ??? }
+}

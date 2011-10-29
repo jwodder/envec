@@ -1,38 +1,60 @@
 package Oracle;
 use Carp;
-use XML::DOM::Lite;
+use HTTP::Status 'status_message';
+use LWP::Simple 'mirror';
+use XML::DOM::Lite 'Parser';
 
 my %cardHash;
 
-### Read list of long set names into @allSets; sets that aren't meant to be
-### downloaded/imported should be commented out of the list of sets beforehand.
+my $setURL = 'http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&set=["!longname!"]&special=true';
 
-### Read the default set URL into $setUrl
+my $setfile = 'sets.txt';
+
+# Read list of long set names into @allSets; sets that aren't meant to be
+# downloaded/imported should be commented out of the list of sets beforehand.
+open my $sets, '<', $setfile or die "$0: $setfile: $!";
+my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
+close $sets;
+chomp for @allSets;
 
 for my $set (@allSets) {
  (my $url = $setUrl) =~ s/!longname!/$set/g;
-
- ### Download into some file
-
- ### importTextSpoiler on the contents of the file
+ (my $file = "oracle/$set.html") =~ tr/ /_/;
+ #my $res = getstore($url, $file);
+ my $res = mirror($url, $file);
+ if (!is_success $res) {
+  print STDERR "Could not fetch set \"$set\": ", status_message($res), "\n";
+  next;
+ }
+ my $qty = importTextSpoiler($set, $file);
+ print "$set imported ($qty cards)\n";
 }
-### Unload the contents of cardHash
+print "[\n";
+my $first = 1;
+for (values %cardHash) {
+ print ",\n\n" if !$first;
+ print $_->toJSON;
+ $first = 0;
+}
+print "]\n";
 
 
 sub importTextSpoiler($$) {
- my($set, $data) = @_;
+ my($set, $file) = @_;
  my $cards = 0;
+
  ## Workaround for ampersand bug in text spoilers:
- my $index = -1;
- while (($index = index $data, '&', $index + 1) != -1) {
-  my $semicolonIndex = index $dat, ';', $index;
-  if ($semicolonIndex > 5) {
-   substr $data, $index + 1, 0, 'amp;';
-   $index += 4;
-  }
- }
- my $parser = Parser->new(%options);
- my $doc = $parser->parse($data);
+ #my $index = -1;
+ #while (($index = index $data, '&', $index + 1) != -1) {
+ # my $semicolonIndex = index $dat, ';', $index;
+ # if ($semicolonIndex - $index > 5) {
+ #  substr $data, $index + 1, 0, 'amp;';
+ #  $index += 4;
+ # }
+ #}
+
+ my $parser = Parser->new;
+ my $doc = $parser->parseFile($file);
  ##if (!doc.setContent(bufferContents, &errorMsg, &errorLine, &errorColumn))
  ## qDebug() << "error:" << errorMsg << "line:" << errorLine << "column:" << errorColumn;
  for my $div (@{$doc->getElementsByTagName('div')}) {
@@ -42,7 +64,7 @@ sub importTextSpoiler($$) {
    my $cardId = 0;
    for my $tr (@{$div->getElementsByTagName('tr')}) {
     my $tds = $tr->getElementsByTagName("td");
-    if ($tds->length() != 2) {
+    if ($tds->length != 2) {
      my @cardTextSplit = split /\n/, $cardText;
      s/^\s+|\s+$//g for @cardTextSplit;
      addCard($set->{longName}, $cardName, $cardId, $cardCost, $cardType,
@@ -52,11 +74,10 @@ sub importTextSpoiler($$) {
      undef $cardType;
      undef $cardPt;
      undef $cardText;
+     $cards++;
     } else {
-     my $v1 = simplify $tds->[0]->nodeValue;
-     my $v2 = $tds->[1]->nodeValue;
-      ### PROBLEM: This ^^ is supposed to fetch the textual content of the node.
-      ### What does it really do?
+     my $v1 = simplify textContent $tds->[0];
+     my $v2 = textContent $tds->[1];
      if ($v1 eq 'Name:') {
       my $a = $tds->[1]->getElementsByTagName('a')->[0];
       my $href = $a->getAttribute('href');
