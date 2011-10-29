@@ -107,7 +107,7 @@ sub importTextSpoiler($$) {
      elsif ($v1 eq 'Rules Text:') { $cardText = trim $v2 }
     }
    }
-   last;  ### Why?!?
+   last;
   }
  }
  return $cards;
@@ -171,6 +171,7 @@ sub elem($@) {
 }
 
 sub textContent($) {
+# cf. <http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent>
  my $node = shift;
  if ($node->nodeType == TEXT_NODE) { $node->nodeValue }
  elsif ($node->nodeType == ELEMENT_NODE) {

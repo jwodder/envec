@@ -1,0 +1,43 @@
+- Fix newline handling (see below)
+- Figure out the purpose of the "ampersand bug workaround" that
+  importTextSpoiler inherited from the Cockatrice source
+- Make split cards properly merge mana costs 
+ - Note: The names of split cards are given in the form "$left // $right
+   ($this_subcard)"
+- Improve handling of split/flip/double-faced cards in general, possibly by
+  having the Card object contain two "subcards"
+- Scrape "Loyalty:", "Set/Rarity:", "Color:" (color indicators for double-faced
+  cards), and "Hand/Life:" fields
+
+- Give Card.pm a method for determining the card's color identity
+- Give Card.pm a method for merging objects describing the same card (e.g.,
+  merging their set information)
+
+- Move most of envec01.pl into a module containing functions for:
+ - Downloading text spoilers, checklists, and standard spoilers (identified by
+   set name) to files, with an option controlling whether to mirror or not
+ - Parsing text spoilers, checklists, and standard spoilers in files and
+   returning card hashes
+ - Parsing an individual card page (identified by multiverseid) and returning a
+   Card object
+  - Parsing an individual card page for printed (rather than Oracle) text
+ - Merging card hashes
+ - Loading Card JSON data from files
+
+- Problems with the text spoilers:
+ - Entries for the faces of double-faced cards don't give the name of the other
+   face.
+ - Reminder text isn't italicized.
+ - Some flip cards are represented by two entries (with the flipped one being
+   named "$originalName ($flippedName)"), while others are represented by a
+   single entry in which the rules text for the main card is followed by a line
+   of four dashes and then all of the text for the flipped card
+ - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
+   obscure mana symbols) is represented as "{2}0}".  (A similar problem applies
+   to the standard and individual card spoilers as well.)
+
+- Problems with XML::DOM::Lite:
+ - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes
+   for no known reason; this could be worked around by having textContent
+   explicitly convert <br/> tags into newlines
+ - No textContent method (introduced in DOM 3), so I have to write my own

@@ -100,10 +100,10 @@ Portal Three Kingdoms
 Starter 1999
 Starter 2000
 
-#Vanguard
-#Planechase
-#Archenemy
-#MTG Commander
+Vanguard
+Planechase
+Archenemy
+Magic: The Gathering-Commander
 
 #Unglued
 #Unhinged
@@ -135,6 +135,7 @@ Starter 2000
 #Premium Deck Series: Slivers
 #Premium Deck Series: Fire & Lightning
 #Premium Deck Series: Graveborn
+
 #Premium Foil Booster
 #Legacy
 #Momir Vig Basic
