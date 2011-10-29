@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use Carp;
-use HTTP::Status 'status_message';
+use HTTP::Status qw< status_message is_success >;
 use LWP::Simple 'mirror';
 use XML::DOM::Lite qw< Parser TEXT_NODE ELEMENT_NODE >;
 use Card;
@@ -45,7 +45,7 @@ for my $set (@allSets) {
   next;
  }
  my $qty = importTextSpoiler($set, $file);
- print "$set imported ($qty cards)\n";
+ print STDERR "$set imported ($qty cards)\n";
 }
 print "[\n";
 my $first = 1;
@@ -85,8 +85,8 @@ sub importTextSpoiler($$) {
     if ($tds->length != 2) {
      my @cardTextSplit = split /\n/, $cardText;
      s/^\s+|\s+$//g for @cardTextSplit;
-     addCard($set->{longName}, $cardName, $cardId, $cardCost, $cardType,
-      $cardPT, @cardTextSplit);
+     addCard($set, $cardName, $cardId, $cardCost, $cardType, $cardPT,
+      @cardTextSplit);
      undef $cardName;
      undef $cardCost;
      undef $cardType;
@@ -131,7 +131,7 @@ sub addCard($$$$$$@) {
   push @colors, 'B' if elem("$cardName is black.", @cardText);
   push @colors, 'R' if elem("$cardName is red.", @cardText);
   push @colors, 'G' if elem("$cardName is green.", @cardText);
-  $card = new CardInfo name => $cardName, manacost => $cardCost,
+  $card = new Card name => $cardName, manacost => $cardCost,
    cardtype => $cardType, powtough => $cardPT, text => $fullCardText,
    colors => colorStr2Bits(join '', @colors);
   $cardHash{$cardName} = $card;
