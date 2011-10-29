@@ -1,12 +1,28 @@
-package Oracle;
+#!/usr/bin/perl -w
+use strict;
 use Carp;
 use HTTP::Status 'status_message';
 use LWP::Simple 'mirror';
-use XML::DOM::Lite 'Parser';
+use XML::DOM::Lite qw< Parser TEXT_NODE ELEMENT_NODE >;
+use Card;
 
-my %cardHash;
+use constant {
+ COLOR_WHITE => 1,
+ COLOR_BLUE  => 2,
+ COLOR_BLACK => 4,
+ COLOR_RED   => 8,
+ COLOR_GREEN => 16
+};
 
-my $setURL = 'http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&set=["!longname!"]&special=true';
+sub importTextSpoiler($$);
+sub addCard($$$$$$@);
+sub colorStr2Bits($);
+sub simplify($);
+sub trim($);
+sub elem($@);
+sub textContent($);
+
+my $setURL = 'http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&set=[%22!longname!%22]&special=true';
 
 my $setfile = 'sets.txt';
 
@@ -17,8 +33,10 @@ my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
 close $sets;
 chomp for @allSets;
 
+my %cardHash;
+
 for my $set (@allSets) {
- (my $url = $setUrl) =~ s/!longname!/$set/g;
+ (my $url = $setURL) =~ s/!longname!/$set/g;
  (my $file = "oracle/$set.html") =~ tr/ /_/;
  #my $res = getstore($url, $file);
  my $res = mirror($url, $file);
@@ -68,11 +86,11 @@ sub importTextSpoiler($$) {
      my @cardTextSplit = split /\n/, $cardText;
      s/^\s+|\s+$//g for @cardTextSplit;
      addCard($set->{longName}, $cardName, $cardId, $cardCost, $cardType,
-      $cardPt, @cardTextSplit);
+      $cardPT, @cardTextSplit);
      undef $cardName;
      undef $cardCost;
      undef $cardType;
-     undef $cardPt;
+     undef $cardPT;
      undef $cardText;
      $cards++;
     } else {
@@ -95,7 +113,7 @@ sub importTextSpoiler($$) {
  return $cards;
 }
 
-sub addCard {
+sub addCard($$$$$$@) {
  my($setName, $cardName, $cardId, $cardCost, $cardType, $cardPT, @cardText)
   = @_;
  my $fullCardText = join "\n", @cardText;
@@ -120,4 +138,42 @@ sub addCard {
  }
  $card->sets($setName, $cardId);
  return $card;
+}
+
+sub colorStr2Bits($) {
+ my $str = shift;
+ my $mask = 0;
+ $mask |= COLOR_WHITE if $str =~ y/W//;
+ $mask |= COLOR_BLUE  if $str =~ y/U//;
+ $mask |= COLOR_BLACK if $str =~ y/B//;
+ $mask |= COLOR_RED   if $str =~ y/R//;
+ $mask |= COLOR_GREEN if $str =~ y/G//;
+ return $mask;
+}
+
+sub simplify($) {
+ my $str = shift;
+ $str =~ s/^\s+|\s+$//g;
+ $str =~ s/\s+/ /g;
+ return $str;
+}
+
+sub trim($) {
+ my $str = shift;
+ $str =~ s/^\s+|\s+$//g;
+ return $str;
+}
+
+sub elem($@) {
+ my $str = shift;
+ for (@_) { return 1 if $_ eq $str }
+ return 0;
+}
+
+sub textContent($) {
+ my $node = shift;
+ if ($node->nodeType == TEXT_NODE) { $node->nodeValue }
+ elsif ($node->nodeType == ELEMENT_NODE) {
+  join '', map { textContent $_ } @{$node->childNodes}
+ } ### else { ??? }
 }

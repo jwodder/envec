@@ -52,3 +52,5 @@ sub getCorrectedName {
  $result =~ y/://d;
  return $result;
 }
+
+1;
