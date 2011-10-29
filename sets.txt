@@ -1,82 +1,140 @@
-# set_url = http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&set=["!longname!"]&special=true
-
-Alara Reborn
-Alliances
-Antiquities
-Apocalypse
-Arabian Nights
-# Archenemy
-Betrayers of Kamigawa
-Champions of Kamigawa
-Chronicles
-Classic Sixth Edition
-Coldsnap
-Conflux
-Darksteel
-Dissension
-Eighth Edition
-Eventide
-Exodus
-Fallen Empires
-Fifth Dawn
-Fifth Edition
-Fourth Edition
-Future Sight
-Guildpact
-Homelands
-Ice Age
-Invasion
-Judgment
-Legends
-Legions
+# Core sets
 Limited Edition Alpha
 Limited Edition Beta
-Lorwyn
+Unlimited Edition
+Revised Edition
+Fifth Edition
+Classic Sixth Edition
+Seventh Edition
+Eighth Edition
+Ninth Edition
+Tenth Edition
 Magic 2010
 Magic 2011
-Mercadian Masques
+Magic 2012
+
+Arabian Nights
+Antiquities
+Legends
+The Dark
+Fallen Empires
+Fourth Edition
+
+Ice Age
+Homelands
+Alliances
+
 Mirage
-Mirrodin
-Mirrodin Besieged
-Morningtide
+Visions
+Weatherlight
+
+Tempest
+Stronghold
+Exodus
+
+Urza's Saga
+Urza's Legacy
+Urza's Destiny
+
+Mercadian Masques
 Nemesis
-Ninth Edition
-Odyssey
-Onslaught
-Planar Chaos
-# Planechase
+Prophecy
+
+Invasion
 Planeshift
+Apocalypse
+
+Odyssey
+Torment
+Judgment
+
+Onslaught
+Legions
+Scourge
+
+Mirrodin
+Darksteel
+Fifth Dawn
+
+Champions of Kamigawa
+Betrayers of Kamigawa
+Saviors of Kamigawa
+
+Ravnica: City of Guilds
+Guildpact
+Dissension
+
+Coldsnap
+
+Time Spiral
+#Time Spiral "Timeshifted"
+Planar Chaos
+Future Sight
+
+Lorwyn
+Morningtide
+Shadowmoor
+Eventide
+
+Shards of Alara
+Conflux
+Alara Reborn
+
+Zendikar
+Worldwake
+Rise of the Eldrazi
+
+Scars of Mirrodin
+Mirrodin Besieged
+New Phyrexia
+
+Innistrad
+Dark Ascension
+
+Chronicles
+#Anthologies
+
 Portal
 Portal Second Age
 Portal Three Kingdoms
-Promo set for Gatherer
-Prophecy
-Ravnica: City of Guilds
-Revised Edition
-Rise of the Eldrazi
-Saviors of Kamigawa
-Scars of Mirrodin
-Scourge
-Seventh Edition
-Shadowmoor
-Shards of Alara
 Starter 1999
 Starter 2000
-Stronghold
-Tempest
-Tenth Edition
-The Dark
-Time Spiral
-# Time Spiral "Timeshifted"
-Torment
-# Unglued
-# Unhinged
-Unlimited Edition
-Urza's Destiny
-Urza's Legacy
-Urza's Saga
-# Vanguard
-Visions
-Weatherlight
-Worldwake
-Zendikar
+
+#Vanguard
+#Planechase
+#Archenemy
+#MTG Commander
+
+#Unglued
+#Unhinged
+
+#Promo set for Gatherer
+#Battle Royale
+#Beatdown
+#Deckmasters 2001
+
+#Masters Edition
+#Masters Edition II
+#Masters Edition III
+#Masters Edition IV
+
+#Elves vs. Goblins
+#Jace vs. Chandra
+#Divine vs. Demonic
+#Garruk vs. Liliana
+#Phyrexia vs. the Coalition
+#Elspeth vs. Tezzeret
+#Knights vs. Dragons
+#Ajani vs. Nicol Bolas
+
+#From the Vault: Dragons
+#From the Vault: Exiled
+#From the Vault: Relics
+#From the Vault: Legends
+
+#Premium Deck Series: Slivers
+#Premium Deck Series: Fire & Lightning
+#Premium Deck Series: Graveborn
+#Premium Foil Booster
+#Legacy
+#Momir Vig Basic
