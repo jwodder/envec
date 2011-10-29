@@ -1,12 +1,9 @@
 package OracleImporter;
-
+use Carp;
 use XML::DOM::Lite;
 
 
-
 class OracleImporter : public CardDatabase {
- Q_OBJECT
-
 private:
  QList<SetToDownload> allSets, setsToDownload;
  QString pictureUrl, pictureUrlHq, pictureUrlSt, setUrl;
@@ -15,8 +12,8 @@ private:
  int reqId;
  QBuffer *buffer;
  QHttp *http;
- QString getPictureUrl(QString url, int cardId, QString name, const QString &setName) const;
 
+ QString getPictureUrl(QString url, int cardId, QString name, const QString &setName) const;
  void downloadNextFile();
  void readSetsFromXml(QXmlStreamReader &xml);
  CardInfo *addCard(const QString &setName, QString cardName, int cardId, const QString &cardCost, const QString &cardType, const QString &cardPT, const QStringList &cardText);
@@ -49,12 +46,10 @@ OracleImporter::OracleImporter(const QString &_dataDir, QObject *parent)
  connect(http, SIGNAL(dataReadProgress(int, int)), this, SIGNAL(dataReadProgress(int, int)));
 }
 
-void OracleImporter::readSetsFromFile(const QString &fileName) {
- QFile setsFile(fileName);
- if (!setsFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-  QMessageBox::critical(0, tr("Error"), tr("Cannot open file '%1'.").arg(fileName));
-  return;
- }
+sub readSetsFromFile {
+ my $filename = shift;
+ open my $setsFile, '<', $filename or croak "$filename: $!";
+
  QXmlStreamReader xml(&setsFile);
  readSetsFromXml(xml);
 }

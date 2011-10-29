@@ -1,3 +1,11 @@
+use constant {
+ COLOR_WHITE => 1,
+ COLOR_BLUE  => 2,
+ COLOR_BLACK => 4,
+ COLOR_RED   => 8,
+ COLOR_GREEN => 16
+};
+
 sub simplify($) {
  my $str = shift;
  $str =~ s/^\s+|\s+$//g;

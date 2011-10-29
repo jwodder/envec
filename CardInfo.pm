@@ -7,35 +7,10 @@ typedef QMap<QString, QString> QStringMap;
 class CardInfo : public QObject {
  Q_OBJECT
 private:
- CardDatabase *db;
-
- QString name;
- SetList sets;
- QString manacost;
- QString cardtype;
- QString powtough;
- QString text;
- QStringList colors;
- QMap<QString, QString> picURLs, picURLsHq, picURLsSt;
- bool cipt;
- int tableRow;
+ ...
  QPixmap *pixmap;
  QMap<int, QPixmap *> scaledPixmapCache;
 public:
- CardInfo(CardDatabase *_db,
-  const QString &_name = QString(),
-  const QString &_manacost = QString(),
-  const QString &_cardtype = QString(),
-  const QString &_powtough = QString(),
-  const QString &_text = QString(),
-  const QStringList &_colors = QStringList(),
-  bool cipt = false,
-  int _tableRow = 0,
-  const SetList &_sets = SetList(),
-  const QStringMap &_picURLs = QStringMap(),
-  const QStringMap &_picURLsHq = QStringMap(),
-  const QStringMap &_picURLsSt = QStringMap());
- ~CardInfo();
  const QString &getName() const { return name; }
  const SetList &getSets() const { return sets; }
  const QString &getManaCost() const { return manacost; }
@@ -48,21 +23,23 @@ public:
  QString getPicURL(const QString &set) const { return picURLs.value(set); }
  QString getPicURLHq(const QString &set) const { return picURLsHq.value(set); }
  QString getPicURLSt(const QString &set) const { return picURLsSt.value(set); }
- QString getPicURL() const;
  const QMap<QString, QString> &getPicURLs() const { return picURLs; }
- QString getMainCardType() const;
- QString getCorrectedName() const;
  int getTableRow() const { return tableRow; }
  void setTableRow(int _tableRow) { tableRow = _tableRow; }
  void setPicURL(const QString &_set, const QString &_picURL) { picURLs.insert(_set, _picURL); }
  void setPicURLHq(const QString &_set, const QString &_picURL) { picURLsHq.insert(_set, _picURL); }
  void setPicURLSt(const QString &_set, const QString &_picURL) { picURLsSt.insert(_set, _picURL); }
+
+ QString getPicURL() const;
+ QString getMainCardType() const;
+ QString getCorrectedName() const;
  void addToSet(CardSet *set);
  QPixmap *loadPixmap();
  QPixmap *getPixmap(QSize size);
  void clearPixmapCache();
  void clearPixmapCacheMiss();
  void imageLoaded(const QImage &image);
+
 public slots:
  void updatePixmapCache();
 signals:

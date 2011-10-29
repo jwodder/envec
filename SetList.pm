@@ -1,21 +1,2 @@
-class SetList : public QList<CardSet *> {
-private:
-	class CompareFunctor;
-public:
-	void sortByKey();
-};
-
-class SetList::CompareFunctor {
-public:
-	inline bool operator()(CardSet *a, CardSet *b) const
-	{
-		return a->getSortKey() < b->getSortKey();
-	}
-};
-
-void SetList::sortByKey()
-{
-	qSort(begin(), end(), CompareFunctor());
-}
-
-
+# A SetList is just a list of CardSet*s with a sortByKey() method that sorts
+# the list in place by the elements' getSortKey() methods.
