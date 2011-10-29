@@ -141,9 +141,6 @@ sub importTextSpoiler($$) {
  my $parser = Parser->new(%options);
  my $doc = $parser->parse($data);
 
- ##QDomDocument doc;
- ##QString errorMsg;
- ##int errorLine, errorColumn;
  ##if (!doc.setContent(bufferContents, &errorMsg, &errorLine, &errorColumn))
  ## qDebug() << "error:" << errorMsg << "line:" << errorLine << "column:" << errorColumn;
 
@@ -209,21 +206,17 @@ sub getPictureUrl {
 }
 
 int OracleImporter::startDownload() {
- setsToDownload.clear();
- for (int i = 0; i < allSets.size(); ++i)
-  if (allSets[i].getImport())
-   setsToDownload.append(allSets[i]);
- if (setsToDownload.isEmpty()) return 0;
- setIndex = 0;
+ @setsToDownload = grep { $_->import } @allSets;
+ return 0 if !@setsToDownload;
+ $setIndex = 0;
  emit setIndexChanged(0, 0, setsToDownload[0].getLongName());
  downloadNextFile();
- return setsToDownload.size();
+ return scalar @setsToDownload;
 }
 
 void OracleImporter::downloadNextFile() {
- QString urlString = setsToDownload[setIndex].getUrl();
- if (urlString.isEmpty()) urlString = setUrl;
- urlString = urlString.replace("!longname!", setsToDownload[setIndex].getLongName());
+ my $urlString = $setsToDownload[$setIndex]->url || $setUrl;
+ $urlString =~ s/!longname!/$setsToDownload[$setIndex]->longName/ge;
  if (urlString.startsWith("http://")) {
   QUrl url(urlString);
   http->setHost(url.host(), QHttp::ConnectionModeHttp, url.port() == -1 ? 0 : url.port());

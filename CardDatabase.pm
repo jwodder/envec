@@ -5,7 +5,6 @@ protected:
  QHash<QString, CardSet *> setHash;
  bool loadSuccess;
  CardInfo *noCard;
- PictureLoadingThread *loadingThread;
 private:
  void loadCardsFromXml(QXmlStreamReader &xml);
  void loadSetsFromXml(QXmlStreamReader &xml);
@@ -15,21 +14,17 @@ public:
  void clear();
  CardInfo *getCard(const QString &cardName = QString());
  CardSet *getSet(const QString &setName);
- QList<CardInfo *> getCardList() const { return cardHash.values(); }
+ QList<CardInfo *> getCardList() const {return cardHash.values(); }
  SetList getSetList() const;
  bool loadFromFile(const QString &fileName);
  bool saveToFile(const QString &fileName);
  QStringList getAllColors() const;
  QStringList getAllMainCardTypes() const;
- bool getLoadSuccess() const { return loadSuccess; }
- void cacheCardPixmaps(const QStringList &cardNames);
- void loadImage(CardInfo *card);
+ bool getLoadSuccess() const {return loadSuccess; }
 public slots:
- void clearPixmapCache();
  bool loadCardDatabase(const QString &path);
  bool loadCardDatabase();
 private slots:
- void imageLoaded(CardInfo *card, QImage image);
  void picDownloadChanged();
  void picsPathChanged();
 signals:
@@ -41,17 +36,8 @@ CardDatabase::CardDatabase(QObject *parent)
  connect(settingsCache, SIGNAL(picsPathChanged()), this, SLOT(picsPathChanged()));
  connect(settingsCache, SIGNAL(cardDatabasePathChanged()), this, SLOT(loadCardDatabase()));
  connect(settingsCache, SIGNAL(picDownloadChanged()), this, SLOT(picDownloadChanged()));
- 
  loadCardDatabase();
- 
- loadingThread = new PictureLoadingThread(settingsCache->getPicsPath(), settingsCache->getPicDownload(), this);
- connect(loadingThread, SIGNAL(imageLoaded(CardInfo *, QImage)), this, SLOT(imageLoaded(CardInfo *, QImage)));
- loadingThread->start(QThread::LowPriority);
- loadingThread->waitForInit();
-
  noCard = new CardInfo(this);
- noCard->loadPixmap(); // cache pixmap for card back
- connect(settingsCache, SIGNAL(cardBackPicturePathChanged()), noCard, SLOT(updatePixmapCache()));
 }
 
 CardDatabase::~CardDatabase() {
@@ -61,16 +47,10 @@ CardDatabase::~CardDatabase() {
 
 void CardDatabase::clear() {
  QHashIterator<QString, CardSet *> setIt(setHash);
- while (setIt.hasNext()) {
-  setIt.next();
-  delete setIt.value();
- }
+ while (setIt.hasNext()) {setIt.next(); delete setIt.value(); }
  setHash.clear();
  QHashIterator<QString, CardInfo *> i(cardHash);
- while (i.hasNext()) {
-  i.next();
-  delete i.value();
- }
+ while (i.hasNext()) {i.next(); delete i.value(); }
  cardHash.clear();
 }
 
@@ -102,15 +82,6 @@ SetList CardDatabase::getSetList() const {
   result << i.value();
  }
  return result;
-}
-
-void CardDatabase::clearPixmapCache() {
- QHashIterator<QString, CardInfo *> i(cardHash);
- while (i.hasNext()) {
-  i.next();
-  i.value()->clearPixmapCache();
- }
- if (noCard) noCard->clearPixmapCache();
 }
 
 void CardDatabase::loadSetsFromXml(QXmlStreamReader &xml) {
@@ -211,15 +182,6 @@ bool CardDatabase::saveToFile(const QString &fileName) {
  return true;
 }
 
-void CardDatabase::picDownloadChanged() {
- loadingThread->getPictureLoader()->setPicDownload(settingsCache->getPicDownload());
- if (settingsCache->getPicDownload()) {
-  QHashIterator<QString, CardInfo *> cardIterator(cardHash);
-  while (cardIterator.hasNext())
-   cardIterator.next().value()->clearPixmapCacheMiss();
- }
-}
-
 bool CardDatabase::loadCardDatabase(const QString &path) {
  if (!path.isEmpty()) loadSuccess = loadFromFile(path);
  else loadSuccess = false;
@@ -256,22 +218,4 @@ QStringList CardDatabase::getAllMainCardTypes() const {
  while (cardIterator.hasNext())
   types.insert(cardIterator.next().value()->getMainCardType());
  return types.toList();
-}
-
-void CardDatabase::cacheCardPixmaps(const QStringList &cardNames) {
- for (int i = 0; i < cardNames.size(); ++i)
-  getCard(cardNames[i])->loadPixmap();
-}
-
-void CardDatabase::loadImage(CardInfo *card) {
- loadingThread->getPictureLoader()->loadImage(card, false);
-}
-
-void CardDatabase::imageLoaded(CardInfo *card, QImage image) {
- card->imageLoaded(image);
-}
-
-void CardDatabase::picsPathChanged() {
- loadingThread->getPictureLoader()->setPicsPath(settingsCache->getPicsPath());
- clearPixmapCache();
 }

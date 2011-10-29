@@ -34,23 +34,13 @@ public:
  QString getMainCardType() const;
  QString getCorrectedName() const;
  void addToSet(CardSet *set);
- QPixmap *loadPixmap();
- QPixmap *getPixmap(QSize size);
- void clearPixmapCache();
- void clearPixmapCacheMiss();
- void imageLoaded(const QImage &image);
-
-public slots:
- void updatePixmapCache();
-signals:
- void pixmapUpdated();
 };
 
 
 sub new {
  my %self = ();
  my $class = shift;
- $self{db} = shift;  # CardDatabase*
+ $self{db} = shift;  # CardDatabase*; only needed for loading images
  $self{name} = shift;
  $self{manacost} = shift;
  $self{cardtype} = shift;
@@ -63,13 +53,10 @@ sub new {
  $self{picURLs} = shift || {};  # QMap<QString, QString>
  $self{picURLsHq} = shift || {};  # QMap<QString, QString>
  $self{picURLsSt} = shift || {};  # QMap<QString, QString>
- $self{pixmap} = undef;
  my $blessed = bless { %self }, ref $class || $class;
  $_->append($blessed) for @{$self{sets}};
  return $blessed;
 }
-
-sub DESTROY { $_[0]->clearPixMapCache }
 
 sub getMainCardType {
  my $result = $_[0]->getCardType;
@@ -103,70 +90,6 @@ QString CardInfo::getPicURL() const {
  SetList sortedSets = sets;
  sortedSets.sortByKey();
  return picURLs.value(sortedSets.first()->getShortName());
-}
-
-QPixmap *CardInfo::loadPixmap() {
- if (pixmap) return pixmap;
- pixmap = new QPixmap();
- if (getName().isEmpty()) {
-  pixmap->load(settingsCache->getCardBackPicturePath());
-  return pixmap;
- }
- db->loadImage(this);
- return pixmap;
-}
-
-void CardInfo::imageLoaded(const QImage &image) {
- if (!image.isNull()) {
-  *pixmap = QPixmap::fromImage(image);
-  emit pixmapUpdated();
- }
-}
-
-QPixmap *CardInfo::getPixmap(QSize size) {
- QPixmap *cachedPixmap = scaledPixmapCache.value(size.width());
- if (cachedPixmap) return cachedPixmap;
- QPixmap *bigPixmap = loadPixmap();
- QPixmap *result;
- if (bigPixmap->isNull()) {
-  if (!getName().isEmpty()) return 0;
-  else {
-   result = new QPixmap(size);
-   result->fill(Qt::transparent);
-   QSvgRenderer svg(QString(":/back.svg"));
-   QPainter painter(result);
-   svg.render(&painter, QRectF(0, 0, size.width(), size.height()));
-  }
- } else result = new QPixmap(bigPixmap->scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
- scaledPixmapCache.insert(size.width(), result);
- return result;
-}
-
-void CardInfo::clearPixmapCache() {
- if (pixmap) {
-  qDebug() << "Deleting pixmap for" << name;
-  delete pixmap;
-  pixmap = 0;
-  QMapIterator<int, QPixmap *> i(scaledPixmapCache);
-  while (i.hasNext()) {
-   i.next();
-   qDebug() << "  Deleting cached pixmap for width" << i.key();
-   delete i.value();
-  }
-  scaledPixmapCache.clear();
- }
-}
-
-void CardInfo::clearPixmapCacheMiss() {
- if (!pixmap) return;
- if (pixmap->isNull()) clearPixmapCache();
-}
-
-void CardInfo::updatePixmapCache() {
- qDebug() << "Updating pixmap cache for" << name;
- clearPixmapCache();
- loadPixmap();
- emit pixmapUpdated();
 }
 
 QXmlStreamWriter &operator<<(QXmlStreamWriter &xml, const CardInfo *info) {
