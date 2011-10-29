@@ -6,6 +6,17 @@ use constant {
  COLOR_GREEN => 16
 };
 
+sub colorStr2Bits($) {
+ my $str = shift;
+ my $mask = 0;
+ $mask |= COLOR_WHITE if $str =~ y/W//;
+ $mask |= COLOR_BLUE  if $str =~ y/U//;
+ $mask |= COLOR_BLACK if $str =~ y/B//;
+ $mask |= COLOR_RED   if $str =~ y/R//;
+ $mask |= COLOR_GREEN if $str =~ y/G//;
+ return $mask;
+}
+
 sub simplify($) {
  my $str = shift;
  $str =~ s/^\s+|\s+$//g;

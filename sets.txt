@@ -1,0 +1,82 @@
+# set_url = http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&set=["!longname!"]&special=true
+
+Alara Reborn
+Alliances
+Antiquities
+Apocalypse
+Arabian Nights
+# Archenemy
+Betrayers of Kamigawa
+Champions of Kamigawa
+Chronicles
+Classic Sixth Edition
+Coldsnap
+Conflux
+Darksteel
+Dissension
+Eighth Edition
+Eventide
+Exodus
+Fallen Empires
+Fifth Dawn
+Fifth Edition
+Fourth Edition
+Future Sight
+Guildpact
+Homelands
+Ice Age
+Invasion
+Judgment
+Legends
+Legions
+Limited Edition Alpha
+Limited Edition Beta
+Lorwyn
+Magic 2010
+Magic 2011
+Mercadian Masques
+Mirage
+Mirrodin
+Mirrodin Besieged
+Morningtide
+Nemesis
+Ninth Edition
+Odyssey
+Onslaught
+Planar Chaos
+# Planechase
+Planeshift
+Portal
+Portal Second Age
+Portal Three Kingdoms
+Promo set for Gatherer
+Prophecy
+Ravnica: City of Guilds
+Revised Edition
+Rise of the Eldrazi
+Saviors of Kamigawa
+Scars of Mirrodin
+Scourge
+Seventh Edition
+Shadowmoor
+Shards of Alara
+Starter 1999
+Starter 2000
+Stronghold
+Tempest
+Tenth Edition
+The Dark
+Time Spiral
+# Time Spiral "Timeshifted"
+Torment
+# Unglued
+# Unhinged
+Unlimited Edition
+Urza's Destiny
+Urza's Legacy
+Urza's Saga
+# Vanguard
+Visions
+Weatherlight
+Worldwake
+Zendikar
