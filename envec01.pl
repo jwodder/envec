@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
-use EnVec;
+use EnVec qw< getTextSpoiler textSpoiler mergeCards dumpArray >;
 
 my $setfile = 'sets.txt';
 
@@ -11,7 +11,6 @@ my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
 close $sets;
 
 my %cardHash;
-
 for my $set (@allSets) {
  chomp $set;
  (my $file = "oracle/$set.html") =~ tr/ /_/;
@@ -22,6 +21,6 @@ for my $set (@allSets) {
  };
  my %imported = textSpoiler($set, $file);
  print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
- %cardHash = mergeCards(%cardHash, %imported);
+ mergeCards(%cardHash, %imported);
 }
 dumpArray values %cardHash;

@@ -1,4 +1,5 @@
 package EnVec::Card;
+use Carp;
 use EnVec::Colors;
 use EnVec::Util 'jsonify';
 
@@ -15,12 +16,14 @@ use Class::Struct
  ids => '%',  # hash from long set names to Oracle card IDs
  rarities => '%';  # hash from long set names to rarities
 
+my @scalars = qw< name cost type PT text loyalty HandLife color >;
+
 sub toJSON {
  my $self = shift;
  my $str = '';
  $str .= " {\n";
  $str .= defined($self->$_()) && "  \"$_\": @{[jsonify $self->$_()]},\n"
-  for qw< name cost type PT text loyalty HandLife color >;
+  for @scalars;
  $str .= "  \"ids\": {\n";
  $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
   sort keys %{$self->ids};
@@ -51,6 +54,32 @@ sub addSetID {
  $self->ids($set, $id);
 }
 
-# sub addSetRarity
+sub mergeHashes($$$$) {  # internal function; not for export
+ my($name, $prefix, $left, $right) = @_;
+ my %res = %$left;
+ for (keys %$right) {
+  next if !defined $right->{$_};
+  if (!defined $res{$_}) { $res{$_} = $right->{$_} }
+  elsif ($res{$_} ne $right->{$_}) {
+   carp "Differing $prefix$_ values for $name: ", jsonify $res{$_}, ' vs. ',
+    jsonify $right->{$_}
+  }
+ }
+ return %res;
+}
+
+sub mergeWith {  # Neither argument is modified.
+ my($self, $other) = @_;
+ if ($self->name ne $other->name) {
+  carp 'Attempting to merge "', $self->name, '" with "', $other->name, '"';
+  return;
+ }
+ my %main = mergeHashes $self->name, '', { map { $_ => $self->$_() } @scalars },
+  { map { $_ => $other->$_() } @scalars };
+ my %ids = mergeHashes $self->name, 'setID:', $self->ids, $other->ids;
+ my %rarities = mergeHashes $self->name, 'setRarities:', $self->rarities,
+  $other->rarities;
+ return new Card %main, ids => \%ids, rarities => \%rarities;
+}
 
 1;

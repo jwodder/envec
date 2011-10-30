@@ -1,7 +1,6 @@
 package EnVec::Get;
-use HTTP::Status qw< status_message is_success >;
+use HTTP::Status 'is_success';
 use LWP::Simple 'mirror';
-
 use Exporter 'import';
 our @EXPORT_OK = qw< getTextSpoiler >;
 

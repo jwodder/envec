@@ -1,12 +1,9 @@
 package EnVec::Util;
-
 use JSON::Syck;
 use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
 use EnVec::Card;
-
 use Exporter 'import';
-our @EXPORT_OK = qw< simplify trim textContent jsonify addCard dumpArray
- dumpHash loadJSON >;
+our @EXPORT_OK = qw< simplify trim textContent jsonify addCard >;
 
 sub simplify($) {
  my $str = shift;
@@ -54,35 +51,4 @@ sub addCard(\%$$%) {
  }
  $card->addSetID($set, $id);
  return $card;
-}
-
-sub dumpArray(@) {
- ### TODO: Add an optional argument for dumping to a filehandle
- print "[\n";
- my $first = 1;
- for (@_) {print ",\n\n" if !$first; print $_->toJSON; $first = 0; }
- print "]\n";
-}
-
-sub dumpHash(%) {
- ### TODO: Add an optional argument for dumping to a filehandle
- my %db = @_;
- print "{\n";
- my $first = 1;
- for (keys %db) {
-  print ",\n\n" if !$first;
-  print ' ', jsonify $_, ': ', $_->toJSON;
-  $first = 0;
- }
- print "}\n";
-}
-
-sub loadJSON($) {  # load from a filehandle
- my $inf = shift;
- local $/ = undef;
- my $data = JSON::Syck::Load(<$inf>);
- if (ref $data eq 'ARRAY') { [ map { new EnVec::Card %$_ } @$data ] }
- elsif (ref $data eq 'HASH') {
-  +{ map { $_ => new EnVec::Card %{$data->{$_}} } keys %$data }
- }
 }

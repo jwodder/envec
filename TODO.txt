@@ -7,9 +7,8 @@
 - Improve handling of split/flip/double-faced cards in general, possibly by
   having the Card object contain two "subcards"
 
-- Handle parse errors in TextSpoiler.pm
 - Finish Card::colorID
-- Give Card.pm a method for merging objects describing the same card
+- Handle parse errors in TextSpoiler.pm
 - Handle failures in Get.pm functions appropriately
 
 - Move most of envec01.pl into a module containing functions for:
@@ -20,8 +19,6 @@
  - Parsing an individual card page (identified by multiverseid) and returning a
    Card object
   - Parsing an individual card page for printed (rather than Oracle) text
- - Merging card hashes
- - Loading Card JSON data from files
 
 - Problems with the text spoilers:
  - Entries for the faces of double-faced cards don't give the name of the other
