@@ -6,21 +6,29 @@ use Class::Struct
  name => '$',
  cost => '$',
  type => '$',
- powtough => '$',
+ PT   => '$',
  text => '$',
- sets => '%';  # Hash from long set names to Oracle card IDs
+ loyalty => '$',
+ HandLife => '$',
+ color => '$',
+  # ^^ color indicators on double-faced cards (or are there other uses?)
+ ids => '%',  # hash from long set names to Oracle card IDs
+ rarities => '%';  # hash from long set names to rarities
 
 sub toJSON {
  my $self = shift;
  my $str = '';
  $str .= " {\n";
- for (qw< name cost type powtough text >) {
-  $str .= "  \"$_\": \"@{[jsonify $self->$_()]}\",\n" if defined $self->$_()
- }
- $str .= "  \"sets\": {\n";
- $str .= join ",\n", map { '   "' . jsonify($_) . '": ' . $self->sets($_) }
-  keys %{$self->sets};
- $str .= "\n  }\n }";
+ $str .= defined($self->$_()) && "  \"$_\": @{[jsonify $self->$_()]},\n"
+  for qw< name cost type PT text loyalty HandLife color >;
+ $str .= "  \"ids\": {\n";
+ $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
+  sort keys %{$self->ids};
+ $str .= "},\n";
+ $str .= "  \"rarities\": {\n";
+ $str .= join ', ', map { jsonify($_) . ': ' . jsonify($self->rarities($_)) }
+  sort keys %{$self->rarities};
+ $str .= "}\n }";
  return $str;
 }
 
@@ -37,5 +45,12 @@ sub colorID {
  ### TODO: Handle color indicators!
  return bits2colors $colors;
 }
+
+sub addSetID {
+ my($self, $set, $id) = @_;
+ $self->ids($set, $id);
+}
+
+# sub addSetRarity
 
 1;

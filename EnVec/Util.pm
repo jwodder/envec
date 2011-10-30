@@ -1,3 +1,5 @@
+use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
+
 sub simplify($) {
  my $str = shift;
  $str =~ s/^\s+|\s+$//g;
@@ -16,7 +18,8 @@ sub textContent($) {
  my $node = shift;
  if ($node->nodeType == TEXT_NODE) { $node->nodeValue }
  elsif ($node->nodeType == ELEMENT_NODE) {
-  join '', map { textContent $_ } @{$node->childNodes}
+  $node->nodeName eq 'br' ? "\n"
+   : join('', map { textContent $_ } @{$node->childNodes})
  } ### else { ??? }
 }
 
@@ -25,23 +28,22 @@ sub jsonify($) {
  $str =~ s/([\\"])/\\$1/g;
  $str =~ s/[\n\r]/\\n/g;
  $str =~ s/\t/\\t/g;
- return $str;
+ return '"' . $str . '"';
 }
 
-sub addCard(\%$$$$$$$) {
- my($db, $set, $name, $id, $cost, $type, $PT, $text) = @_;
- my $splitCard = ($name =~ s/ \(.*\)//);
+sub addCard(\%$$%) {
+ my($db, $set, $id, %fields) = @_;
+ my $splitCard = ($fields{name} =~ s/ \(.*\)//);
  my $card;
- if (exists $db->{$name}) {
-  $card = $db->{$name};
-  $card->text($card->text() . "\n---\n" . $text)
-   if $splitCard && index($card->text, $text) == -1;
+ if (exists $db->{$fields{name}}) {
+  $card = $db->{$fields{name}};
+  $card->text($card->text() . "\n---\n" . $fields{text})
+   if $splitCard && index($card->text, $fields{text}) == -1;
  } else {
-  $name =~ s/^XX//g;  ## Workaround for card name weirdness
-  $card = new Card name => $name, cost => $cost, type => $type,
-   powtough => $PT, text => $text;
-  $db->{$name} = $card;
+  $fields{name} =~ s/^XX//g;  ## Workaround for card name weirdness
+  $card = new Card %fields;
+  $db->{$fields{name}} = $card;
  }
- $card->sets($set, $id);
+ $card->addSetID($set, $id);
  return $card;
 }

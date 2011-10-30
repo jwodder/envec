@@ -22,26 +22,34 @@ sub textSpoiler($$) {
  for my $div (@{$doc->getElementsByTagName('div')}) {
   my $divClass = $div->getAttribute('class');
   if (defined $divClass && $divClass eq 'textspoiler') {
-   my($name, $cost, $type, $PT, $text);
+   my %fields = ();
    my $id = 0;
    for my $tr (@{$div->getElementsByTagName('tr')}) {
     my $tds = $tr->getElementsByTagName('td');
     if ($tds->length != 2) {
-     $text =~ s/^\s+|\s+$//gm;
-     addCard(%cards, $set, $name, $id, $cost, $type, $PT, $text);
-     $name = $cost = $type = $PT = $text = undef;
+     $fields{text} =~ s/^\s+|\s+$//gm;
+     addCard(%cards, $set, $id, %fields);
+     %fields = ();
+     $id = 0;
     } else {
      my $v1 = simplify textContent $tds->[0];
      my $v2 = textContent $tds->[1];
      if ($v1 eq 'Name:') {
-      my $a = $tds->[1]->getElementsByTagName('a')->[0];
-      my $href = $a->getAttribute('href');
-      $href =~ /multiverseid=(\d+)/ and $id = $1;
-      $name = simplify $v2;
-     } elsif ($v1 eq 'Cost:') { $cost = simplify $v2 }
-     elsif ($v1 eq 'Type:') { $type = simplify $v2 }
-     elsif ($v1 eq 'Pow/Tgh:') { ($PT = simplify $v2) =~ tr/()//d }
-     elsif ($v1 eq 'Rules Text:') { $text = trim $v2 }
+      my $url = $tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href');
+      $url =~ /multiverseid=(\d+)/ and $id = $1;
+      $fields{name} = simplify $v2;
+     } elsif ($v1 eq 'Cost:') { $fields{cost} = simplify $v2 }
+     elsif ($v1 eq 'Type:') { $fields{type} = simplify $v2 }
+     elsif ($v1 eq 'Pow/Tgh:') { ($fields{PT} = simplify $v2) =~ tr/()//d }
+     elsif ($v1 eq 'Rules Text:') { $fields{text} = trim $v2 }
+     elsif ($v1 eq 'Loyalty:') { $fields{loyalty} = simplify $v2 }
+     elsif ($v1 eq 'Hand/Life:') { $fields{HandLife} = simplify $v2 }
+     elsif ($v1 eq 'Set/Rarity:') {
+      for (split /\s*,\s*/, simplify $v2) {
+       s/ (Common|Uncommon|(Mythic )?Rare|Special)$//;
+       $fields{rarities}{$_} = $1;
+      }
+     } elsif ($v1 eq 'Color:') { $fields{color} = simplify $v2 }
     }
    }
    last;

@@ -1,17 +1,15 @@
-- Fix newline handling (see below)
-- Figure out the purpose of the "ampersand bug workaround" that
-  importTextSpoiler inherited from the Cockatrice source
+- Reconsider the fix for newline handling (see below)
+- Figure out the purpose of the "ampersand bug workaround" that textSpoiler
+  inherited from Cockatrice
 - Make split cards properly merge mana costs 
  - Note: The names of split cards are given in the form "$left // $right
    ($this_subcard)"
 - Improve handling of split/flip/double-faced cards in general, possibly by
   having the Card object contain two "subcards"
-- Scrape "Loyalty:", "Set/Rarity:", "Color:" (color indicators for double-faced
-  cards), and "Hand/Life:" fields
 
-- Give Card.pm a method for determining the card's color identity
-- Give Card.pm a method for merging objects describing the same card (e.g.,
-  merging their set information)
+- Handle parse errors in TextSpoiler.pm
+- Finish Card::colorID
+- Give Card.pm a method for merging objects describing the same card
 
 - Move most of envec01.pl into a module containing functions for:
  - Downloading text spoilers, checklists, and standard spoilers (identified by
@@ -33,8 +31,8 @@
    single entry in which the rules text for the main card is followed by a line
    of four dashes and then all of the text for the flipped card
  - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
-   obscure mana symbols) is represented as "{2}0}".  (A similar problem applies
-   to the standard and individual card spoilers as well.)
+   uncommon mana symbols) is represented as "{2}0}".  (A similar problem
+   applies to the standard and individual card spoilers as well.)
 
 - Problems with XML::DOM::Lite:
  - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes
