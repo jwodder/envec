@@ -7,6 +7,7 @@ our @EXPORT_OK = qw< simplify trim textContent jsonify addCard >;
 
 sub simplify($) {
  my $str = shift;
+ $str =~ s/&nbsp;/ /g;
  $str =~ s/^\s+|\s+$//g;
  $str =~ s/\s+/ /g;
  return $str;
@@ -24,7 +25,7 @@ sub textContent($) {
  if ($node->nodeType == TEXT_NODE) { $node->nodeValue }
  elsif ($node->nodeType == ELEMENT_NODE) {
   $node->nodeName eq 'br' ? "\n"
-   : join('', map { textContent $_ } @{$node->childNodes})
+   : join('', map { textContent($_) } @{$node->childNodes})
  } ### else { ??? }
 }
 

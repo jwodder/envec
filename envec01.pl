@@ -2,7 +2,8 @@
 use strict;
 use EnVec qw< getTextSpoiler textSpoiler mergeCards dumpArray >;
 
-my $setfile = 'sets.txt';
+#my $setfile = 'sets.txt';
+my $setfile = 'newsets.txt';
 
 -e 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
 
@@ -14,11 +15,11 @@ my %cardHash;
 for my $set (@allSets) {
  chomp $set;
  (my $file = "oracle/$set.html") =~ tr/ /_/;
- getTextSpoiler($set, $file) or do {
+ if (!-e $file && !getTextSpoiler($set, $file)) {
   #print STDERR "Could not fetch set \"$set\": ", status_message($res), "\n";
   print STDERR "Could not fetch set \"$set\"\n";
   next;
- };
+ }
  my %imported = textSpoiler($set, $file);
  print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
  mergeCards(%cardHash, %imported);

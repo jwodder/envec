@@ -42,11 +42,11 @@ sub textSpoiler($$) {
      elsif ($v1 eq 'Type:') { $fields{type} = simplify $v2 }
      elsif ($v1 eq 'Pow/Tgh:') { ($fields{PT} = simplify $v2) =~ tr/()//d }
      elsif ($v1 eq 'Rules Text:') { $fields{text} = trim $v2 }
-     elsif ($v1 eq 'Loyalty:') { $fields{loyalty} = simplify $v2 }
+     elsif ($v1 eq 'Loyalty:') { ($fields{loyalty} = simplify $v2) =~ tr/()//d }
      elsif ($v1 eq 'Hand/Life:') { $fields{HandLife} = simplify $v2 }
      elsif ($v1 eq 'Set/Rarity:') {
       for (split /\s*,\s*/, simplify $v2) {
-       s/ (Common|Uncommon|(Mythic )?Rare|Special)$//;
+       s/ (Common|Uncommon|(Mythic )?Rare|Special|Land)$//;
        $fields{rarities}{$_} = $1;
       }
      } elsif ($v1 eq 'Color:') { $fields{color} = simplify $v2 }

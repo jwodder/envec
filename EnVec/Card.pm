@@ -24,11 +24,11 @@ sub toJSON {
  $str .= " {\n";
  $str .= defined($self->$_()) && "  \"$_\": @{[jsonify $self->$_()]},\n"
   for @scalars;
- $str .= "  \"ids\": {\n";
+ $str .= "  \"ids\": {";
  $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
   sort keys %{$self->ids};
  $str .= "},\n";
- $str .= "  \"rarities\": {\n";
+ $str .= "  \"rarities\": {";
  $str .= join ', ', map { jsonify($_) . ': ' . jsonify($self->rarities($_)) }
   sort keys %{$self->rarities};
  $str .= "}\n }";
@@ -79,7 +79,7 @@ sub mergeWith {  # Neither argument is modified.
  my %ids = mergeHashes $self->name, 'setID:', $self->ids, $other->ids;
  my %rarities = mergeHashes $self->name, 'setRarities:', $self->rarities,
   $other->rarities;
- return new Card (%main, ids => \%ids, rarities => \%rarities);
+ return new EnVec::Card (%main, ids => \%ids, rarities => \%rarities);
 }
 
 1;

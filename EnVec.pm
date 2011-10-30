@@ -2,9 +2,9 @@ package EnVec;
 
 #use EnVec::Card;
 use EnVec::Colors;
-use EnVec::Get;
-use EnVec::JSON;
-use EnVec::TextSpoiler;
+use EnVec::Get 'getTextSpoiler';
+use EnVec::JSON qw< dumpArray dumpHash loadJSON >;
+use EnVec::TextSpoiler 'textSpoiler';
 
 use Exporter 'import';
 our @EXPORT_OK = (@EnVec::Colors::EXPORT, @EnVec::Get::EXPORT_OK,

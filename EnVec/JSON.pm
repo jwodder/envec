@@ -8,7 +8,7 @@ sub dumpArray(@) {
  print "[\n";
  my $first = 1;
  for (@_) {print ",\n\n" if !$first; print $_->toJSON; $first = 0; }
- print "]\n";
+ print "\n]\n";
 }
 
 sub dumpHash(%) {
@@ -21,7 +21,7 @@ sub dumpHash(%) {
   print ' ', jsonify $_, ': ', $_->toJSON;
   $first = 0;
  }
- print "}\n";
+ print "\n}\n";
 }
 
 sub loadJSON($) {  # load from a filehandle
