@@ -79,7 +79,7 @@ sub mergeWith {  # Neither argument is modified.
  my %ids = mergeHashes $self->name, 'setID:', $self->ids, $other->ids;
  my %rarities = mergeHashes $self->name, 'setRarities:', $self->rarities,
   $other->rarities;
- return new Card %main, ids => \%ids, rarities => \%rarities;
+ return new Card (%main, ids => \%ids, rarities => \%rarities);
 }
 
 1;

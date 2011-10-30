@@ -4,7 +4,7 @@ use EnVec qw< getTextSpoiler textSpoiler mergeCards dumpArray >;
 
 my $setfile = 'sets.txt';
 
--e 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!":
+-e 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
 
 open my $sets, '<', $setfile or die "$0: $setfile: $!";
 my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
