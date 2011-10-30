@@ -1,14 +1,17 @@
 package EnVec;
-
 #use EnVec::Card;
 use EnVec::Colors;
-use EnVec::Get 'getTextSpoiler';
-use EnVec::JSON qw< dumpArray dumpHash loadJSON >;
-use EnVec::TextSpoiler 'textSpoiler';
+use EnVec::Get ':all';
+use EnVec::JSON ':all';
+use EnVec::TextSpoiler ':all';
 
 use Exporter 'import';
-our @EXPORT_OK = (@EnVec::Colors::EXPORT, @EnVec::Get::EXPORT_OK,
- @EnVec::JSON::EXPORT_OK, @EnVec::TextSpoiler::EXPORT_OK, 'mergeCards');
+our @EXPORT_OK = (@EnVec::Colors::EXPORT,
+		  $EnVec::Get::EXPORT_TAGS{all},
+		  $EnVec::JSON::EXPORT_TAGS{all},
+		  $EnVec::TextSpoiler::EXPORT_TAGS{all},
+		  'mergeCards');
+our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
 
 sub mergeCards(\%\%) {
  # The contents of $db2 are merged into $db1.  $db2 is left intact, $db1 is not.

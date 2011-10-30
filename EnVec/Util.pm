@@ -2,8 +2,9 @@ package EnVec::Util;
 use JSON::Syck;
 use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
 use EnVec::Card;
+
 use Exporter 'import';
-our @EXPORT_OK = qw< simplify trim textContent jsonify addCard >;
+our @EXPORT = qw< simplify trim textContent jsonify addCard >;
 
 sub simplify($) {
  my $str = shift;

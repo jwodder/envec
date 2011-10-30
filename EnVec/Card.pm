@@ -22,8 +22,8 @@ sub toJSON {
  my $self = shift;
  my $str = '';
  $str .= " {\n";
- $str .= defined($self->$_()) && "  \"$_\": @{[jsonify $self->$_()]},\n"
-  for @scalars;
+ $str .= defined $self->$_() && $self->$_() ne ''
+  && "  \"$_\": @{[jsonify $self->$_()]},\n" for @scalars;
  $str .= "  \"ids\": {";
  $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
   sort keys %{$self->ids};

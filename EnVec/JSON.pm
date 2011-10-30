@@ -1,7 +1,9 @@
 package EnVec::JSON;
 use EnVec::Card;
+
 use Exporter 'import';
 our @EXPORT_OK = qw< dumpArray dumpHash loadJSON >;
+our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
 
 sub dumpArray(@) {
  ### TODO: Add an optional argument for dumping to a filehandle
@@ -13,6 +15,7 @@ sub dumpArray(@) {
 
 sub dumpHash(%) {
  ### TODO: Add an optional argument for dumping to a filehandle
+ ### Add an optional argument for turning on sorting?
  my %db = @_;
  print "{\n";
  my $first = 1;

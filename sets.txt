@@ -1,4 +1,3 @@
-# Core sets
 Limited Edition Alpha
 Limited Edition Beta
 Unlimited Edition
@@ -91,9 +90,6 @@ New Phyrexia
 Innistrad
 #Dark Ascension
 
-Chronicles
-#Anthologies
-
 Portal
 Portal Second Age
 Portal Three Kingdoms
@@ -107,6 +103,9 @@ Magic: The Gathering-Commander
 
 #Unglued
 #Unhinged
+
+Chronicles
+#Anthologies
 
 Promo set for Gatherer
 

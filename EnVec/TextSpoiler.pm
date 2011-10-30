@@ -1,10 +1,12 @@
 package EnVec::TextSpoiler;
 use XML::DOM::Lite 'Parser';
-use EnVec::Util qw< simplify trim addCard textContent >;
-use Exporter 'import';
-our @EXPORT_OK = ('textSpoiler');
+use EnVec::Util;
 
-sub textSpoiler($$) {
+use Exporter 'import';
+our @EXPORT_OK = ('loadTextSpoiler');
+our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+
+sub loadTextSpoiler($$) {
  my($set, $file) = @_;
  my %cards = ();
  ## Workaround for ampersand bug in text spoilers:

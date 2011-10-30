@@ -1,11 +1,10 @@
 #!/usr/bin/perl -w
 use strict;
-use EnVec qw< getTextSpoiler textSpoiler mergeCards dumpArray >;
+use EnVec qw< getTextSpoiler loadTextSpoiler mergeCards dumpArray >;
 
-#my $setfile = 'sets.txt';
-my $setfile = 'newsets.txt';
+my $setfile = shift || 'sets.txt';
 
--e 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
+-d 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
 
 open my $sets, '<', $setfile or die "$0: $setfile: $!";
 my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
@@ -20,7 +19,7 @@ for my $set (@allSets) {
   print STDERR "Could not fetch set \"$set\"\n";
   next;
  }
- my %imported = textSpoiler($set, $file);
+ my %imported = loadTextSpoiler($set, $file);
  print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
  mergeCards(%cardHash, %imported);
 }

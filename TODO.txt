@@ -1,4 +1,3 @@
-- Reconsider the fix for newline handling (see below)
 - Figure out the purpose of the "ampersand bug workaround" that textSpoiler
   inherited from Cockatrice
 - Make split cards properly merge mana costs 
@@ -7,13 +6,12 @@
 - Improve handling of split/flip/double-faced cards in general, possibly by
   having the Card object contain two "subcards"
 
-- Finish Card::colorID
+- Finish EnVec::Card::colorID
 - Handle parse errors in TextSpoiler.pm
 - Handle failures in Get.pm functions appropriately
+- Give EnVec::Card an inSet(String --> Bool) method
 
 - Move most of envec01.pl into a module containing functions for:
- - Downloading text spoilers, checklists, and standard spoilers (identified by
-   set name) to files, with an option controlling whether to mirror or not
  - Parsing text spoilers, checklists, and standard spoilers in files and
    returning card hashes
  - Parsing an individual card page (identified by multiverseid) and returning a
