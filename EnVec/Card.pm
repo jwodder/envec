@@ -1,6 +1,6 @@
 package EnVec::Card;
-
 use EnVec::Colors;
+use EnVec::Util 'jsonify';
 
 use Class::Struct
  name => '$',

@@ -1,4 +1,7 @@
 package EnVec::Colors;
+use Exporter 'import';
+our @EXPORT = qw< COLOR_WHITE COLOR_BLUE COLOR_BLACK COLOR_RED COLOR_GREEN
+ colors2bits bits2colors >;
 
 use constant {
  COLOR_WHITE => 1,

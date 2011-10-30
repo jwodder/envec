@@ -2,6 +2,9 @@ package EnVec::Get;
 use HTTP::Status qw< status_message is_success >;
 use LWP::Simple 'mirror';
 
+use Exporter 'import';
+our @EXPORT_OK = qw< getTextSpoiler >;
+
 sub getTextSpoiler($$) {
  my($set, $file) = @_;
  my $url = "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&set=[%22$set%22]&special=true";

@@ -10,6 +10,7 @@
 - Handle parse errors in TextSpoiler.pm
 - Finish Card::colorID
 - Give Card.pm a method for merging objects describing the same card
+- Handle failures in Get.pm functions appropriately
 
 - Move most of envec01.pl into a module containing functions for:
  - Downloading text spoilers, checklists, and standard spoilers (identified by
@@ -33,6 +34,8 @@
  - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
    uncommon mana symbols) is represented as "{2}0}".  (A similar problem
    applies to the standard and individual card spoilers as well.)
+ - The rules text of basic lands is just the letter of their mana.  (This
+   applies to all Oracle formats.)
 
 - Problems with XML::DOM::Lite:
  - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes

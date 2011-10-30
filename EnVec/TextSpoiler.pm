@@ -1,11 +1,12 @@
 package EnVec::TextSpoiler;
-use XML::DOM::Lite qw< Parser TEXT_NODE ELEMENT_NODE >;
-use EnVec::Card;
+use XML::DOM::Lite 'Parser';
+use EnVec::Util qw< simplify trim addCard textContent >;
+use Exporter 'import';
+our @EXPORT_OK = ('textSpoiler');
 
 sub textSpoiler($$) {
  my($set, $file) = @_;
  my %cards = ();
-
  ## Workaround for ampersand bug in text spoilers:
  #my $index = -1;
  #while (($index = index $data, '&', $index + 1) != -1) {
@@ -15,7 +16,6 @@ sub textSpoiler($$) {
  #  $index += 4;
  # }
  #}
-
  my $parser = Parser->new;
  my $doc = $parser->parseFile($file);
  ### TODO: Handle parse errors somehow!
