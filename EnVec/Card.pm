@@ -1,7 +1,7 @@
 package EnVec::Card;
 use Carp;
 use EnVec::Colors;
-use EnVec::Util 'jsonify';
+use EnVec::Util;
 
 use Class::Struct
  name => '$',
@@ -11,13 +11,14 @@ use Class::Struct
  tough => '$',
  text => '$',
  loyalty => '$',
- HandLife => '$',
+ handMod => '$',
+ lifeMod => '$',
  color => '$',
   # ^^ color indicators on double-faced cards (or are there other uses?)
  ids => '%',  # hash from long set names to Oracle card IDs
  rarities => '%';  # hash from long set names to rarities
 
-my @scalars = qw< name cost type pow tough text loyalty HandLife color >;
+my @scalars = qw< name cost type pow tough text loyalty handMod lifeMod color >;
 
 sub toJSON {
  my $self = shift;
@@ -92,6 +93,58 @@ sub cmc {
   elsif (y/WUBRGSwubrgs//) { $cmc++ }  # This weeds out {X}, {Y}, etc.
  }
  return $cmc;
+}
+
+my %shortRares = (common => 'C', uncommon => 'U', rare => 'R', land => 'L',
+ 'mythic rare' => 'MR');
+
+my %fields = (
+ name => 'Name:',
+ cost => 'Cost:',
+ type => 'Type:',
+ loyalty => 'Loyalty:',
+ color => 'Color:',
+ pow  => 'Power:',
+ tough => 'Tough:',
+ handMod => 'Hand:',
+ lifeMod => 'Life:',
+ # supertypes => 'Supertypes:',
+ # types => 'Types:',
+ # subtypes => 'Subtypes:',
+);
+ #ids => '%',
+ #rarities => '%',
+
+my $tagwidth = 9;  # 11?
+
+sub longField($$$) {  # internal function; not for export
+ my($tag, $width, $txt) = @_;
+ my($first, @rest) = wrapLines $txt, $width;
+ join '', sprintf("%-${tagwidth}s %s\n", $tag, $first),
+  map { (' ' x $tagwidth) . " $_\n" } @rest;
+}
+
+sub showField {
+ my($self, $field, $width) = @_;
+ $width = ($width || 80) - $tagwidth - 1;
+ return '' if !defined $field;
+ if ($field eq 'PT') {
+  sprintf "%-${tagwidth}s %s\n", 'P/T:',
+   defined $self->pow ? $self->pow . '/' . $self->tough : ''
+ } elsif ($field eq 'text') {
+  (my $txt = $self->text || '') =~ s/\n/\n\n/g;
+  longField 'Text:', $width, $txt;
+ } elsif ($field eq 'sets') {
+  longField 'Sets:', $width, join ', ', map {
+   my $rare = $self->rarities($_);
+   "$_ (" . ($shortRares{lc $rare} || $rare) . ')';
+  } sort keys %{$self->rarities}
+ } elsif (exists $fields{$field}) {
+  my $dat = $self->$field();
+  if (!defined $dat) { $dat = '' }
+  elsif (ref $dat eq 'ARRAY') { $dat = join ' ', @$dat }
+  sprintf "%-${tagwidth}s %s\n", $fields{$field}, $dat;
+ } else { '' }
 }
 
 1;

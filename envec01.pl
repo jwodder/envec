@@ -13,7 +13,7 @@ close $sets;
 my %cardHash;
 for my $set (@allSets) {
  chomp $set;
- (my $file = "oracle/$set.html") =~ tr/ /_/;
+ (my $file = "oracle/$set.html") =~ tr/ "'/_/d;
  if (!-e $file && !getTextSpoiler($set, $file)) {
   #print STDERR "Could not fetch set \"$set\": ", status_message($res), "\n";
   print STDERR "Could not fetch set \"$set\"\n";
