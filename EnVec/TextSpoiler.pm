@@ -40,12 +40,29 @@ sub loadTextSpoiler($$) {
       my $url = $tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href');
       $url =~ /multiverseid=(\d+)/ and $id = $1;
       $fields{name} = simplify $v2;
-     } elsif ($v1 eq 'Cost:') { $fields{cost} = simplify $v2 }
+     } elsif ($v1 eq 'Cost:') {
+      $fields{cost} = simplify $v2;
+      $fields{cost} =~ s:\G(\d+|[XYZWUBRG])|\G\(([2WUBRG]/[WUBRGP])\):{@{[uc($2 || $1)]}}:gi;
+      # Assume no snow in mana costs
+     }
      elsif ($v1 eq 'Type:') { $fields{type} = simplify $v2 }
-     elsif ($v1 eq 'Pow/Tgh:') { ($fields{PT} = simplify $v2) =~ tr/()//d }
-     elsif ($v1 eq 'Rules Text:') { $fields{text} = trim $v2 }
+    #elsif ($v1 eq 'Type:') {
+    # @fields{'supertypes', 'types', 'subtypes'} = parseTypes $v2
+    #}
+     elsif ($v1 eq 'Pow/Tgh:') {
+      $v2 =~ tr/()//d;
+      my($p, $t) = split m:/:, $v2, 2;
+      $fields{pow} = simplify $p;
+      $fields{tough} = simplify $t;
+     } elsif ($v1 eq 'Rules Text:') {
+      $fields{text} = trim $v2;
+      $fields{text} =~ s/[\n\r]+/\n/g;
+      # Fix Oracular snow weirdness:
+      $fields{text} =~ s/\{S\}i\}/{S}/g;
+      # Get rid of parentheses in things like "{(r/p)}":
+      $fields{text} =~ s:\{\((\w/\w)\)\}:{@{[uc $1]}}:g;
+     } elsif ($v1 eq 'Hand/Life:') { $fields{HandLife} = simplify $v2 }
      elsif ($v1 eq 'Loyalty:') { ($fields{loyalty} = simplify $v2) =~ tr/()//d }
-     elsif ($v1 eq 'Hand/Life:') { $fields{HandLife} = simplify $v2 }
      elsif ($v1 eq 'Set/Rarity:') {
       for (split /\s*,\s*/, simplify $v2) {
        s/ (Common|Uncommon|(Mythic )?Rare|Special|Land)$//;

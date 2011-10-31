@@ -7,7 +7,8 @@ use Class::Struct
  name => '$',
  cost => '$',
  type => '$',
- PT   => '$',
+ pow  => '$',
+ tough => '$',
  text => '$',
  loyalty => '$',
  HandLife => '$',
@@ -16,7 +17,7 @@ use Class::Struct
  ids => '%',  # hash from long set names to Oracle card IDs
  rarities => '%';  # hash from long set names to rarities
 
-my @scalars = qw< name cost type PT text loyalty HandLife color >;
+my @scalars = qw< name cost type pow tough text loyalty HandLife color >;
 
 sub toJSON {
  my $self = shift;
@@ -80,6 +81,17 @@ sub mergeWith {  # Neither argument is modified.
  my %rarities = mergeHashes $self->name, 'setRarities:', $self->rarities,
   $other->rarities;
  return new EnVec::Card (%main, ids => \%ids, rarities => \%rarities);
+}
+
+sub cmc {
+ my $self = shift;
+ return 0 if !$self->cost;
+ my $cmc = 0;
+ for (split /(?=\{)/, $self->cost) {
+  if (/(\d+)/) { $cmc += $1 }
+  elsif (y/WUBRGSwubrgs//) { $cmc++ }  # This weeds out {X}, {Y}, etc.
+ }
+ return $cmc;
 }
 
 1;

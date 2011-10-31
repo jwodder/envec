@@ -4,7 +4,7 @@ use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
 use EnVec::Card;
 
 use Exporter 'import';
-our @EXPORT = qw< simplify trim textContent jsonify addCard >;
+our @EXPORT = qw< simplify trim textContent jsonify addCard parseTypes >;
 
 sub simplify($) {
  my $str = shift;
@@ -53,4 +53,21 @@ sub addCard(\%$$%) {
  }
  $card->addSetID($set, $id);
  return $card;
+}
+
+sub parseTypes($) {
+ my($types, $sub) = split / ?\x{2014} ?| -+ /, simplify $_[0], 2;
+ my @sublist = $types eq 'Plane' ? ($sub) : split(' ', $sub);
+  # Assume that Plane cards never have supertypes or other card types.
+ my @typelist = split ' ', $types;
+ my @superlist = ();
+ while (@typelist) {
+  if ($typelist[0] =~ /^(Basic|Legendary|Ongoing|Snow|World)$/i) {
+   push @superlist, shift @typelist
+  } elsif ($typelist[0] =~ /^Enchant$/i) {  # For when scraping printed text
+   @typelist = join ' ', @typelist;
+   break;
+  } else { break }
+ }
+ return [ @superlist ], [ @typelist ], [ @sublist ];
 }
