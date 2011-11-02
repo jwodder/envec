@@ -7,12 +7,10 @@
   having the Card object contain two "subcards"
 - Handle leveler cards
 
-- Finish EnVec::Card::colorID
 - Handle parse errors in TextSpoiler.pm
 - Handle failures in Get.pm functions appropriately
 - Give EnVec::Card an inSet(String --> Bool) method
-- Give EnVec::Card a method for formatting the card data into a human-readable
-  string
+- Rename EnVec::Card's "color" field to distinguish it from colorID
 
 - Move most of envec01.pl into a module containing functions for:
  - Parsing text spoilers, checklists, and standard spoilers in files and

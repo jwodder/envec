@@ -38,7 +38,7 @@ sub loadTextSpoiler($$) {
      my $v2 = textContent $tds->[1];
      if ($v1 eq 'Name:') {
       my $url = $tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href');
-      $url =~ /multiverseid=(\d+)/ and $id = $1;
+      $url =~ /\bmultiverseid=(\d+)/ and $id = $1;
       $fields{name} = simplify $v2;
      } elsif ($v1 eq 'Cost:') {
       $fields{cost} = simplify $v2;
@@ -69,7 +69,7 @@ sub loadTextSpoiler($$) {
        s/ (Common|Uncommon|(Mythic )?Rare|Special|Land)$//;
        $fields{rarities}{$_} = $1;
       }
-     } elsif ($v1 eq 'Color:') { $fields{color} = simplify $v2 }
+     } elsif ($v1 eq 'Color:') { $fields{color} = parseColors $v2 }
      elsif ($v1 eq 'Loyalty:') { ($fields{loyalty} = simplify $v2) =~ tr/()//d }
     }
    }
