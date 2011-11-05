@@ -44,12 +44,9 @@ sub loadTextSpoiler($$) {
       $fields{cost} = simplify $v2;
       $fields{cost} =~ s:\G(\d+|[XYZWUBRG])|\G\(([2WUBRG]/[WUBRGP])\):{@{[uc($2 || $1)]}}:gi;
       # Assume no snow in mana costs
-     }
-     elsif ($v1 eq 'Type:') { $fields{type} = simplify $v2 }
-    #elsif ($v1 eq 'Type:') {
-    # @fields{'supertypes', 'types', 'subtypes'} = parseTypes $v2
-    #}
-     elsif ($v1 eq 'Pow/Tgh:') {
+     } elsif ($v1 eq 'Type:') {
+      @fields{'supertypes', 'types', 'subtypes'} = parseTypes $v2
+     } elsif ($v1 eq 'Pow/Tgh:') {
       $v2 =~ tr/()//d;
       my($p, $t) = split m:/:, $v2, 2;
       $fields{pow} = simplify $p;

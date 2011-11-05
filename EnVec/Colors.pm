@@ -13,6 +13,7 @@ use constant {
 
 sub colors2bits($) {
  my $str = shift;
+ return 0 if !defined $str;
  my $mask = 0;
  $mask |= COLOR_WHITE if $str =~ y/W//;
  $mask |= COLOR_BLUE  if $str =~ y/U//;

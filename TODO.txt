@@ -1,10 +1,9 @@
 - Figure out the purpose of the "ampersand bug workaround" that textSpoiler
   inherited from Cockatrice
-- Make split cards properly merge mana costs 
+- Improve handling of split/flip/double-faced cards, possibly by having the
+  Card object contain two "subcards"
  - Note: The names of split cards are given in the form "$left // $right
    ($this_subcard)"
-- Improve handling of split/flip/double-faced cards in general, possibly by
-  having the Card object contain two "subcards"
 - Handle leveler cards
 
 - Handle parse errors in TextSpoiler.pm
