@@ -75,8 +75,8 @@ sub parseTypes($) {
    push @superlist, shift @typelist
   } elsif ($typelist[0] =~ /^Enchant$/i) {
    @typelist = join ' ', @typelist;
-   break;
-  } else { break }
+   last;
+  } else { last }
  }
  return [ @superlist ], [ @typelist ], [ @sublist ];
 }

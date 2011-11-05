@@ -7,9 +7,9 @@ use EnVec::TextSpoiler ':all';
 
 use Exporter 'import';
 our @EXPORT_OK = (@EnVec::Colors::EXPORT,
-		  $EnVec::Get::EXPORT_TAGS{all},
-		  $EnVec::JSON::EXPORT_TAGS{all},
-		  $EnVec::TextSpoiler::EXPORT_TAGS{all},
+		  @{$EnVec::Get::EXPORT_TAGS{all}},
+		  @{$EnVec::JSON::EXPORT_TAGS{all}},
+		  @{$EnVec::TextSpoiler::EXPORT_TAGS{all}},
 		  'mergeCards');
 our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
 
