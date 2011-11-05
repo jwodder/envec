@@ -2,6 +2,7 @@ Limited Edition Alpha
 Limited Edition Beta
 Unlimited Edition
 Revised Edition
+Fourth Edition
 Fifth Edition
 Classic Sixth Edition
 Seventh Edition
@@ -17,7 +18,6 @@ Antiquities
 Legends
 The Dark
 Fallen Empires
-Fourth Edition
 
 Ice Age
 Homelands
@@ -101,6 +101,8 @@ Planechase
 Archenemy
 Magic: The Gathering-Commander
 
+Promo set for Gatherer
+
 #Unglued
 #Unhinged
 
@@ -109,8 +111,6 @@ Magic: The Gathering-Commander
 #Battle Royale
 #Beatdown
 #Deckmasters 2001
-
-Promo set for Gatherer
 
 #Masters Edition
 #Masters Edition II

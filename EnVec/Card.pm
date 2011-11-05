@@ -29,7 +29,7 @@ sub toJSON {
  $str .= " {\n";
  $str .= defined $self->$_() && $self->$_() ne ''
   && "  \"$_\": @{[jsonify $self->$_()]},\n" for @scalars;
- $str .= @{$self->$_()} && "  \"$_\": " . jsonList(@{$self->$_()}) . ",\n"
+ $str .= !!@{$self->$_()} && "  \"$_\": " . jsonList(@{$self->$_()}) . ",\n"
   for @lists;
  $str .= "  \"ids\": {";
  $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
@@ -86,7 +86,7 @@ sub mergeWith {  # Neither argument is modified.
   my $right = jsonList @{$other->$_()};
   carp "Differing $_ values for ", $self->name, ': ', $left, ' vs. ', $right
    if $left ne $right;
-  $main{$_} = @{$self->$_()};
+  $main{$_} = $self->$_();
  }
  my %ids = mergeHashes $self->name, 'setID:', $self->ids, $other->ids;
  my %rarities = mergeHashes $self->name, 'setRarities:', $self->rarities,

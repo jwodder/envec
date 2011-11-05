@@ -9,6 +9,7 @@ our @EXPORT = qw< simplify trim textContent jsonify jsonList addCard parseTypes
 
 sub simplify($) {
  my $str = shift;
+ return 'XXX' if !defined $str;  #####
  $str =~ s/^\s+|\s+$//g;
  $str =~ s/\s+/ /g;
  return $str;
@@ -64,11 +65,12 @@ sub addCard(\%$$%) {
 }
 
 sub parseTypes($) {
- my($types, $sub) = split / ?\x{2014} ?| -+ /, simplify $_[0], 2;
- return [], [ 'Summon' ], [ $2 || $sub ] if $types =~ /^Summon( (.+))?$/i;
- my @sublist = $types eq 'Plane' ? ($sub) : split(' ', $sub);
+ my($type, $sub) = split / ?— ?| -+ /, simplify $_[0], 2;
+  # The first "hyphen" above is U+2014.
+ return [], [ 'Summon' ], [ $2 || $sub ] if $type =~ /^Summon( (.+))?$/i;
+ my @sublist = $type eq 'Plane' ? ($sub) : defined $sub ? split(' ', $sub) : ();
   # Assume that Plane cards never have supertypes or other card types.
- my @typelist = split ' ', $types;
+ my @typelist = split ' ', $type;
  my @superlist = ();
  while (@typelist) {
   if ($typelist[0] =~ /^(Basic|Legendary|Ongoing|Snow|World)$/i) {

@@ -1,5 +1,6 @@
 package EnVec::TextSpoiler;
 use XML::DOM::Lite 'Parser';
+use EnVec::Colors;
 use EnVec::Util;
 
 use Exporter 'import';
@@ -48,7 +49,7 @@ sub loadTextSpoiler($$) {
       # Assume no snow in mana costs
      } elsif ($v1 eq 'Type:') {
       @fields{'supertypes', 'types', 'subtypes'} = parseTypes $v2
-     } elsif ($v1 eq 'Pow/Tgh:') {
+     } elsif ($v1 eq 'Pow/Tgh:' && $v2 =~ /\S/) {
       $v2 =~ tr/()//d;
       my($p, $t) = split m:/:, $v2, 2;
       $fields{pow} = simplify $p;

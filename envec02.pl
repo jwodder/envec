@@ -1,6 +1,8 @@
 #!/usr/bin/perl -w
+# The only data that this should lose by not merging should be most
+# multiverseids, but who needs those?
 use strict;
-use EnVec qw< getTextSpoiler loadTextSpoiler mergeCards dumpArray >;
+use EnVec qw< getTextSpoiler loadTextSpoiler >;
 
 my $setfile = shift || 'sets.txt';
 
@@ -10,7 +12,8 @@ open my $sets, '<', $setfile or die "$0: $setfile: $!";
 my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
 close $sets;
 
-my %cardHash;
+my %seen;
+print "[\n";
 for my $set (@allSets) {
  chomp $set;
  (my $file = "oracle/$set.html") =~ tr/ "'/_/d;
@@ -21,7 +24,13 @@ for my $set (@allSets) {
  }
  print STDERR "Importing $set\n";
  my %imported = loadTextSpoiler($set, $file);
- print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
- mergeCards(%cardHash, %imported);
+ print STDERR "$set imported (@{[scalar keys %imported]} cards)\n\n";
+ for (sort keys %imported) {
+  next if exists $seen{$_};
+  print ",\n\n" if %seen;
+  print $imported{$_}->toJSON;
+  $seen{$_} = 1;
+ }
 }
-dumpArray values %cardHash;
+print "\n]\n";
+print STDERR scalar(keys %seen), " cards imported.\n";
