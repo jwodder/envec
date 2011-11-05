@@ -1,5 +1,3 @@
-Homura, Human Ascendant		Homura's Essence	# problematic Oracle entry
-
 Akki Lavarunner			Tok-Tok, Volcano Born
 Kitsune Mystic			Autumn-Tail, Kitsune Sage
 Student of Elements		Tobita, Master of Winds
@@ -10,6 +8,23 @@ Budoka Pupil			Ichiga, Who Topples Oaks
 Callow Jushi			Jaraku the Interloper
 Cunning Bandit			Azamuki, Treachery Incarnate
 Hired Muscle			Scarmaker
+
+# Problematic Oracle entry:
+Homura, Human Ascendant		Homura's Essence
+
+# Unchecked:
+Budoka Gardener			Dokai, Weaver of Life
+Bushi Tenderfoot		Kenzo the Hardhearted
+Initiate of Blood		Goka the Unjust
+Jushi Apprentice		Tomoya the Revealer
+Nezumi Graverobber		Nighteyes the Desecrator
+Nezumi Shortfang		Stabwhisker the Odious
+Orochi Eggwatcher		Shidako, Broodmistress
+Erayo, Soratami Ascendant	Erayo's Essence
+Homura, Human Ascendant		Homura's Essence
+Kuon, Ogre Ascendant		Kuon's Essence
+Rune-Tail, Kitsune Ascendant	Rune-Tail's Essence
+Sasaya, Orochi Ascendant	Sasaya's Essence
 
 # It appears that viewing a basic individual spoiler without specifying which
 # half to view gives you the text of the half that you last viewed.  If you

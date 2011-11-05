@@ -1,4 +1,5 @@
 package EnVec::JSON;
+use JSON::Syck;
 use EnVec::Card;
 
 use Exporter 'import';

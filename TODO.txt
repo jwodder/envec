@@ -7,6 +7,10 @@
  - Note: So far, every split card has been homogenously typed (i.e., always
    either Instant // Instant or Sorcery // Sorcery).
 - Handle leveler cards
+- Abnormal card names to take care of:
+ - "rathi Berserker (Ærathi Berserker)"
+ - "Altar Of Dementia (Altar of Dementia)"
+ - "Knight Of Dawn (Knight of Dawn)"
 
 - Handle parse errors in TextSpoiler.pm
 - Handle failures in Get.pm functions appropriately

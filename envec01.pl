@@ -6,7 +6,9 @@ my $setfile = shift || 'sets.txt';
 
 -d 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
 
-open my $sets, '<', $setfile or die "$0: $setfile: $!";
+my $sets;
+if ($setfile eq '-') { $sets = *STDIN }
+else { open $sets, '<', $setfile or die "$0: $setfile: $!" }
 my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
 close $sets;
 
