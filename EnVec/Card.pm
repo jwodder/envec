@@ -21,6 +21,7 @@ use Class::Struct
  rarities => '%';  # hash from long set names to rarities
 
 my @scalars = qw< name cost pow tough text loyalty handMod lifeMod color >;
+my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {
  my $self = shift;
@@ -28,9 +29,8 @@ sub toJSON {
  $str .= " {\n";
  $str .= defined $self->$_() && $self->$_() ne ''
   && "  \"$_\": @{[jsonify $self->$_()]},\n" for @scalars;
- $str .= @{$self->$_()} && "  \"$_\": ["
-  . join(', ', map { jsonify $_ } @{$self->$_()}) . "],\n"
-  for qw< supertypes types subtypes >;
+ $str .= @{$self->$_()} && "  \"$_\": " . jsonList(@{$self->$_()}) . ",\n"
+  for @lists;
  $str .= "  \"ids\": {";
  $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
   sort keys %{$self->ids};
@@ -77,10 +77,17 @@ sub mergeWith {  # Neither argument is modified.
  my($self, $other) = @_;
  if ($self->name ne $other->name) {
   carp 'Attempting to merge "', $self->name, '" with "', $other->name, '"';
-  return;
+  return undef;
  }
  my %main = mergeHashes $self->name, '', { map { $_ => $self->$_() } @scalars },
   { map { $_ => $other->$_() } @scalars };
+ for (@lists) {
+  my $left = jsonList @{$self->$_()};
+  my $right = jsonList @{$other->$_()};
+  carp "Differing $_ values for ", $self->name, ': ', $left, ' vs. ', $right
+   if $left ne $right;
+  $main{$_} = @{$self->$_()};
+ }
  my %ids = mergeHashes $self->name, 'setID:', $self->ids, $other->ids;
  my %rarities = mergeHashes $self->name, 'setRarities:', $self->rarities,
   $other->rarities;
