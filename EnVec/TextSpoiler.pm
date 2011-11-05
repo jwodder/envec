@@ -40,6 +40,8 @@ sub loadTextSpoiler($$) {
       my $url = $tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href');
       $url =~ /\bmultiverseid=(\d+)/ and $id = $1;
       $fields{name} = simplify $v2;
+      $fields{name} =~ s/^XX([^()]+) \(\1\)$/$1/;
+       # This ^^ fixes a weird problem with Call of the Herd and Valor.
      } elsif ($v1 eq 'Cost:') {
       $fields{cost} = simplify $v2;
       $fields{cost} =~ s:\G(\d+|[XYZWUBRG])|\G\(([2WUBRG]/[WUBRGP])\):{@{[uc($2 || $1)]}}:gi;
@@ -64,7 +66,7 @@ sub loadTextSpoiler($$) {
      } elsif ($v1 eq 'Set/Rarity:') {
       for (split /\s*,\s*/, simplify $v2) {
        s/ (Common|Uncommon|(Mythic )?Rare|Special|Land)$//;
-       $fields{rarities}{$_} = $1;
+       $fields{rarities}{$_} = $1 || 'UNKNOWN';
       }
      } elsif ($v1 eq 'Color:') { $fields{color} = parseColors $v2 }
      elsif ($v1 eq 'Loyalty:') { ($fields{loyalty} = simplify $v2) =~ tr/()//d }

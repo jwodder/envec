@@ -1,0 +1,16 @@
+Homura, Human Ascendant		Homura's Essence	# problematic Oracle entry
+
+Akki Lavarunner			Tok-Tok, Volcano Born
+Kitsune Mystic			Autumn-Tail, Kitsune Sage
+Student of Elements		Tobita, Master of Winds
+Faithful Squire			Kaiso, Memory of Loyalty
+
+# Split cards with single-text/merged individual spoilers:
+Budoka Pupil			Ichiga, Who Topples Oaks
+Callow Jushi			Jaraku the Interloper
+Cunning Bandit			Azamuki, Treachery Incarnate
+Hired Muscle			Scarmaker
+
+# It appears that viewing a basic individual spoiler without specifying which
+# half to view gives you the text of the half that you last viewed.  If you
+# haven't viewed the card before, it seems that you are shown the flipped half.

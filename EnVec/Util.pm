@@ -40,21 +40,25 @@ sub jsonify($) {
  return '"' . $str . '"';
 }
 
+my $subname = qr:[^(/)]+:;
+
 sub addCard(\%$$%) {
  my($db, $set, $id, %fields) = @_;
- my $splitCard = ($fields{name} =~ s/ \(.*\)//);
- my $card;
- if (exists $db->{$fields{name}}) {
-  $card = $db->{$fields{name}};
-  $card->text($card->text() . "\n---\n" . $fields{text})
-   if $splitCard && index($card->text, $fields{text}) == -1;
- } else {
-  $fields{name} =~ s/^XX//;  ## Workaround for card name weirdness
-  $card = new EnVec::Card %fields;
-  $db->{$fields{name}} = $card;
- }
- $card->addSetID($set, $id);
- return $card;
+ my $card = new EnVec::Card %fields;
+
+#if ($card->name =~ m:^($subname) // ($subname) \(($subname)\)$:) {
+# my($left, $right, $this) = ($1, $2, $3);
+# my $other = "$left // $right (" . ($left eq $this ? $right : $left) . ')';
+# if (exists $db->{$other}) {
+#  $card = $db->{"$left // $right"} = joinCards $card, delete $db->{$other};
+#  $card->addSetId($set, $id);
+#  return $card;
+# }
+#}
+
+ $db->{$card->name} = $card if !exists $db->{$card->name};
+ $db->{$card->name}->addSetID($set, $id);
+ return $db->{$card->name};
 }
 
 sub parseTypes($) {

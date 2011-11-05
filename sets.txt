@@ -104,14 +104,13 @@ Magic: The Gathering-Commander
 #Unglued
 #Unhinged
 
-Chronicles
+#Chronicles
 #Anthologies
-
-Promo set for Gatherer
-
 #Battle Royale
 #Beatdown
 #Deckmasters 2001
+
+Promo set for Gatherer
 
 #Masters Edition
 #Masters Edition II

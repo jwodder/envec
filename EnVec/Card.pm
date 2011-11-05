@@ -6,9 +6,9 @@ use EnVec::Util;
 use Class::Struct
  name => '$',
  cost => '$',
- supertypes => '$',
- types => '$',
- subtypes => '$',
+ supertypes => '@',
+ types => '@',
+ subtypes => '@',
  pow  => '$',
  tough => '$',
  text => '$',
@@ -20,8 +20,7 @@ use Class::Struct
  ids => '%',  # hash from long set names to Oracle card IDs
  rarities => '%';  # hash from long set names to rarities
 
-my @scalars = qw< name cost supertypes types subtypes pow tough text loyalty
- handMod lifeMod color >;
+my @scalars = qw< name cost pow tough text loyalty handMod lifeMod color >;
 
 sub toJSON {
  my $self = shift;
@@ -29,6 +28,9 @@ sub toJSON {
  $str .= " {\n";
  $str .= defined $self->$_() && $self->$_() ne ''
   && "  \"$_\": @{[jsonify $self->$_()]},\n" for @scalars;
+ $str .= @{$self->$_()} && "  \"$_\": ["
+  . join(', ', map { jsonify $_ } @{$self->$_()}) . "],\n"
+  for qw< supertypes types subtypes >;
  $str .= "  \"ids\": {";
  $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
   sort keys %{$self->ids};

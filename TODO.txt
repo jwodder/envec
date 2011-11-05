@@ -4,6 +4,8 @@
   Card object contain two "subcards"
  - Note: The names of split cards are given in the form "$left // $right
    ($this_subcard)"
+ - Note: So far, every split card has been homogenously typed (i.e., always
+   either Instant // Instant or Sorcery // Sorcery).
 - Handle leveler cards
 
 - Handle parse errors in TextSpoiler.pm
