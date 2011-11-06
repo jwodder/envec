@@ -25,21 +25,11 @@ my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {
  my $self = shift;
- my $str = '';
- $str .= " {\n";
- $str .= defined $self->$_() && $self->$_() ne ''
-  && "  \"$_\": @{[jsonify $self->$_()]},\n" for @scalars;
- $str .= !!@{$self->$_()} && "  \"$_\": " . jsonList(@{$self->$_()}) . ",\n"
-  for @lists;
- $str .= "  \"ids\": {";
- $str .= join ', ', map { jsonify($_) . ': ' . $self->ids($_) }
-  sort keys %{$self->ids};
- $str .= "},\n";
- $str .= "  \"rarities\": {";
- $str .= join ', ', map { jsonify($_) . ': ' . jsonify($self->rarities($_)) }
-  sort keys %{$self->rarities};
- $str .= "}\n }";
- return $str;
+ return " {\n" .  join(",\n", map {
+   my $val = $self->$_();
+   defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
+    && !(ref $val eq 'HASH' && !%$val) && "  \"$_\": @{[jsonify $val]}";
+  } @scalars, @list, 'ids', 'rarities') . "\n }";
 }
 
 sub colorID {
@@ -82,8 +72,8 @@ sub mergeWith {  # Neither argument is modified.
  my %main = mergeHashes $self->name, '', { map { $_ => $self->$_() } @scalars },
   { map { $_ => $other->$_() } @scalars };
  for (@lists) {
-  my $left = jsonList @{$self->$_()};
-  my $right = jsonList @{$other->$_()};
+  my $left = jsonify $self->$_();
+  my $right = jsonify $other->$_();
   carp "Differing $_ values for ", $self->name, ': ', $left, ' vs. ', $right
    if $left ne $right;
   $main{$_} = $self->$_();
@@ -127,7 +117,7 @@ my %fields = (
  #ids => '%',
  #rarities => '%',
 
-my $tagwidth = 9;  # 11?
+our $tagwidth = 9;  # 11?
 
 sub showField {
  my($self, $field, $width) = @_;
@@ -157,6 +147,7 @@ sub showField {
 sub toText1 {
  my($self, $sets) = @_;
  my $str = $self->showField('name');
+ $str .= $self->showField('format') if $self->isSplit;
  $str .= $self->showField('type');
  $str .= $self->showField('cost') if $self->cost;
  $str .= $self->showField('color') if defined $self->color;
@@ -174,5 +165,7 @@ sub type {
  return join ' ', @{$self->supertypes}, @{$self->types},
   @{$self->subtypes} ? ('--', @{$self->subtypes}) : ();
 }
+
+sub isSplit { '' }
 
 1;

@@ -2,10 +2,6 @@
   inherited from Cockatrice
 - Improve handling of split/flip/double-faced cards, possibly by having the
   Card object contain two "subcards"
- - Note: The names of split cards are given in the form "$left // $right
-   ($this_subcard)"
- - Note: So far, every split card has been homogenously typed (i.e., always
-   either Instant // Instant or Sorcery // Sorcery).
 - Handle leveler cards
 - Abnormal card names to take care of:
  - "rathi Berserker (Ærathi Berserker)"
@@ -23,36 +19,6 @@
  - Parsing an individual card page (identified by multiverseid) and returning a
    Card object
   - Parsing an individual card page for printed (rather than Oracle) text
-
-- Problems with the text spoilers:
- - Entries for the faces of double-faced cards don't give the name of the other
-   face.
- - Reminder text and ability words aren't italicized.
- - Some flip cards are represented by two entries (with the flipped one being
-   named "$originalName ($flippedName)"), while others are represented by a
-   single entry in which the rules text for the main card is followed by a line
-   of four dashes and then all of the text for the flipped card
- - The rules text of basic lands is just the letter of their mana.  (This
-   applies to all Oracle formats.)
- - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
-   uncommon mana symbols) is represented as "{2}0}".  (A similar problem
-   applies to the standard and individual card spoilers as well.)
- - Snow mana is represented as "{S}i}".  This does not apply to the standard or
-   individual card spoilers.
- - Some Unglued cards (and possibly others?) encode mana & tap symbols in rules
-   text incorrectly, and this carries over to the other spoiler formats.
-   Erroneous symbols include:
-  - ocT - {T}
-  - oW - {W}
-  - oU - {U}
-  - oB - {B}
-  - oR - {R}
-  - oG - {G}
-  - o2 - {2}
-  - o4 - {4}
-  - o7 - {7}
-  - Consecutive botched mana symbols can even be run together without
-    intervening spaces.
 
 - Problems with XML::DOM::Lite:
  - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes

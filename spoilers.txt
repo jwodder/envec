@@ -1,0 +1,37 @@
+NOTES ON SCRAPING SPOILERS FROM GATHERER
+- The names of split cards are given in the form "$left // $right
+  ($this_subcard)"
+- So far, every split card has been homogenously typed (i.e., always either
+  Instant // Instant or Sorcery // Sorcery).
+
+- Problems with the spoilers, regardless of format:
+ - In all formats other than the individual card details pages, entries for the
+   faces of double-faced cards don't give the name of the other face.
+ - Some flip cards are represented by two entries (with the flipped one being
+   named "$originalName ($flippedName)"), while others are represented by a
+   single entry in which the rules text for the main card is followed by a line
+   of four dashes and then all of the text for the flipped card
+ - The rules text of basic lands is just the letter of their mana.  (This
+   applies to all Oracle formats.)
+ - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
+   uncommon mana symbols) is represented as "{2}0}".  (A similar problem
+   applies to the standard and individual card spoilers as well.)
+ - Some Unglued cards (and possibly others?) encode mana & tap symbols in rules
+   text incorrectly.  Erroneous symbols include:
+  - ocT - {T}
+  - oW - {W}
+  - oU - {U}
+  - oB - {B}
+  - oR - {R}
+  - oG - {G}
+  - o2 - {2}
+  - o4 - {4}
+  - o7 - {7}
+  - Consecutive botched mana symbols can even be run together without
+    intervening spaces.
+
+- Problems with the text spoilers only:
+ - Reminder text and ability words aren't italicized.
+ - Snow mana is represented as "{S}i}".
+ - Some Unhinged cards (and possibly others?) run consecutive mana symbols
+   together, e.g., "{1B}" or "{WW}".

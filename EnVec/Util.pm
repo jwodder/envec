@@ -4,7 +4,7 @@ use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
 use EnVec::Card;
 
 use Exporter 'import';
-our @EXPORT = qw< simplify trim textContent jsonify jsonList addCard parseTypes
+our @EXPORT = qw< simplify trim textContent jsonify addCard parseTypes
  wrapLines >;
 
 sub simplify($) {
@@ -34,14 +34,18 @@ sub textContent($) {
 }
 
 sub jsonify($) {
- my $str = shift;
- $str =~ s/([\\"])/\\$1/g;
- $str =~ s/[\n\r]/\\n/g;
- $str =~ s/\t/\\t/g;
- return '"' . $str . '"';
+ my $obj = shift;
+ if (!defined $obj) { 'null' }
+ elsif (ref $obj eq 'ARRAY') { '['.join(', ', map { jsonify $_ } @$obj).']' }
+ elsif (ref $obj eq 'HASH') {
+  '{' . join(', ', map { jsonify($_) . ': ' . jsonify($obj->{$_}) } sort keys %$obj) . '}'
+ } else {
+  $obj =~ s/([\\"])/\\$1/g;
+  $obj =~ s/[\n\r]/\\n/g;
+  $obj =~ s/\t/\\t/g;
+  return '"' . $obj . '"';
+ }
 }
-
-sub jsonList(@) { '[' . join(', ', map { jsonify $_ } @_) . ']' }
 
 my $subname = qr:[^(/)]+:;
 

@@ -3,7 +3,7 @@ use JSON::Syck;
 use EnVec::Card;
 
 use Exporter 'import';
-our @EXPORT_OK = qw< dumpArray dumpHash loadJSON >;
+our @EXPORT_OK = qw< dumpArray dumpHash loadJSON fromJSON >;
 our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
 
 sub dumpArray(@) {
@@ -32,8 +32,17 @@ sub loadJSON($) {  # load from a filehandle
  my $inf = shift;
  local $/ = undef;
  my $data = JSON::Syck::Load(<$inf>);
- if (ref $data eq 'ARRAY') { [ map { new EnVec::Card %$_ } @$data ] }
+ if (ref $data eq 'ARRAY') { [ map { fromJSON $_ } @$data ] }
  elsif (ref $data eq 'HASH') {
-  +{ map { $_ => new EnVec::Card %{$data->{$_}} } keys %$data }
+  +{ map { $_ => fromJSON $data->{$_} } keys %$data }
  }
+}
+
+sub fromJSON($) {  # converts a single hash reference into a single Card object
+ my $obj = shift;
+ if (exists $obj->{format}) {
+  $obj->{part1} = fromJSON $obj->{part1};
+  $obj->{part2} = fromJSON $obj->{part2};
+  return new EnVec::Card::Split %$obj;
+ } else { return new EnVec::Card %$obj }
 }
