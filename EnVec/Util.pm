@@ -1,11 +1,16 @@
 package EnVec::Util;
+use Carp;
 use JSON::Syck;
+use Storable 'dclone';
 use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
 use EnVec::Card;
+use EnVec::Card::Split;
 
 use Exporter 'import';
-our @EXPORT = qw< simplify trim textContent jsonify addCard parseTypes
- wrapLines >;
+our @EXPORT = qw< simplify trim uniq textContent jsonify parseTypes wrapLines
+ mergePrintings joinSplit addCard >;
+
+my $subname = qr:[^(/)]+:;
 
 sub simplify($) {
  my $str = shift;
@@ -19,6 +24,11 @@ sub trim($) {
  my $str = shift;
  $str =~ s/^\s+|\s+$//g;
  return $str;
+}
+
+sub uniq(@) {  # The list must be pre-sorted
+ my $prev = undef;
+ grep { (!defined $prev or $prev ne $_) and ($prev = $_ or 1) } @_;
 }
 
 sub textContent($) {
@@ -45,27 +55,6 @@ sub jsonify($) {
   $obj =~ s/\t/\\t/g;
   return '"' . $obj . '"';
  }
-}
-
-my $subname = qr:[^(/)]+:;
-
-sub addCard(\%$$%) {
- my($db, $set, $id, %fields) = @_;
- my $card = new EnVec::Card %fields;
-
-#if ($card->name =~ m:^($subname) // ($subname) \(($subname)\)$:) {
-# my($left, $right, $this) = ($1, $2, $3);
-# my $other = "$left // $right (" . ($left eq $this ? $right : $left) . ')';
-# if (exists $db->{$other}) {
-#  $card = $db->{"$left // $right"} = joinCards $card, delete $db->{$other};
-#  $card->addSetId($set, $id);
-#  return $card;
-# }
-#}
-
- $db->{$card->name} = $card if !exists $db->{$card->name};
- $db->{$card->name}->addSetID($set, $id);
- return $db->{$card->name};
 }
 
 sub parseTypes($) {
@@ -103,4 +92,71 @@ sub wrapLines($;$) {
   }
   $_ eq '' ? @lines : (@lines, $_);
  } split /\n/, $str;
+}
+
+sub mergePrintings($$$) {
+ my($name, $left, $right) = @_;
+ my %merged = %{dclone $left};
+ for my $set (keys %$right) {
+  if (!exists $merged{$set}) { $merged{$set} = $right->{$set} }
+  else {
+   if (defined $right->{$set}{rarity}) {
+    if (!defined $merged{$set}{rarity}) {
+     $merged{$set}{rarity} = $right->{$set}{rarity}
+    } elsif ($merged{$set}{rarity} ne $right->{$set}{rarity}) {
+     carp "Conflicting rarities for $name in $set: $merged{$set}{rarity} vs. "
+      . $right->{$set}{rarity}
+    }
+   }
+   my $leftIDs = $merged{$set}{ids} || [];
+   my $rightIDs = $right->{$set}{ids} || [];
+   $merged{$set}{ids} = [ uniq sort @$leftIDs, @$rightIDs ];
+  }
+ }
+ return \%merged;
+}
+
+sub joinSplit($$) {
+ my($a, $b) = @_;
+ $a->name =~ m:^($subname) // ($subname) \(($subname)\)$:
+  or croak "joinSplit: non-split card: " . $a->name;
+ my($leftN, $rightN, $aN) = ($1, $2, $3);
+ my($left, $right, $bN);
+ if ($leftN eq $aN) {
+  $left = $a;
+  $right = $b;
+  $bN = "$leftN // $rightN ($rightN)";
+ } elsif ($rightN eq $aN) {
+  $left = $b;
+  $right = $a;
+  $bN = "$leftN // $rightN ($leftN)";
+ } else { croak "joinSplit: bad card name: " . $a->name }
+ croak "joinSplit: card " . $a->name . " does not match card " . $b->name
+  if $b->name ne $bN;
+ $left->name($leftN);
+ $right->name($rightN);
+ my $printings = mergePrintings "$leftN // $rightN", $left->printings,
+  $right->printings;
+ $left->printings({});
+ $right->printings({});
+ return new EnVec::Card::Split format => 'split', part1 => $left,
+  part2 => $right, printings => $printings;
+}
+
+sub addCard(\%$$%) {
+ my($db, $set, $id, %fields) = @_;
+ my $card = new EnVec::Card %fields;
+ if ($card->name =~ m:^($subname) // ($subname) \(($subname)\)$:) {
+  my($left, $right, $this) = ($1, $2, $3);
+  my $other = "$left // $right (" . ($left eq $this ? $right : $left) . ')';
+  if (exists $db->{$other}) {
+   $card = $db->{"$left // $right"} = joinSplit $card, delete $db->{$other};
+   $card->addSetId($set, $id);
+   return $card;
+  }
+ }
+ ### Should this use merge or mergeCheck?
+ $db->{$card->name} = $card if !exists $db->{$card->name};
+ $db->{$card->name}->addSetID($set, $id);
+ return $db->{$card->name};
 }

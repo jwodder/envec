@@ -1,5 +1,6 @@
 package EnVec::Card;
 use Carp;
+use Storable 'dclone';
 use EnVec::Colors;
 use EnVec::Util;
 
@@ -9,16 +10,18 @@ use Class::Struct
  supertypes => '@',
  types => '@',
  subtypes => '@',
- pow  => '$',
+ pow => '$',
  tough => '$',
  text => '$',
  loyalty => '$',
  handMod => '$',
  lifeMod => '$',
  color => '$',  # /^W?U?B?R?G?$/
-  # ^^ color indicators on double-faced cards (or are there other uses?)
- ids => '%',  # hash from long set names to Oracle card IDs
- rarities => '%';  # hash from long set names to rarities
+ printings => '%';
+  # The 'printings' field is a mapping from long set names to subhashes
+  # containing the following fields (each optional):
+  #  rarity - string
+  #  ids - list of multiverseid values, ideally sorted and without duplicates
 
 my @scalars = qw< name cost pow tough text loyalty handMod lifeMod color >;
 my @lists = qw< supertypes types subtypes >;
@@ -29,25 +32,39 @@ sub toJSON {
    my $val = $self->$_();
    defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
     && !(ref $val eq 'HASH' && !%$val) && "  \"$_\": @{[jsonify $val]}";
-  } @scalars, @list, 'ids', 'rarities') . "\n }";
+  } @scalars, @list, 'printings') . "\n }";
 }
 
 sub colorID {
  my $self = shift;
  my $name = $self->name;
  my $colors = colors2bits($self->cost) | colors2bits($self->color);
- $colors |= COLOR_WHITE if $self->text =~ m:\{(./)?W(/.)?\}|^\Q$name\E is white\.$:m;
- $colors |= COLOR_BLUE  if $self->text =~ m:\{(./)?U(/.)?\}|^\Q$name\E is blue\.$:m;
- $colors |= COLOR_BLACK if $self->text =~ m:\{(./)?B(/.)?\}|^\Q$name\E is black\.$:m;
- $colors |= COLOR_RED   if $self->text =~ m:\{(./)?R(/.)?\}|^\Q$name\E is red\.$:m;
- $colors |= COLOR_GREEN if $self->text =~ m:\{(./)?G(/.)?\}|^\Q$name\E is green\.$:m;
+ my $text = $self->text || '';
+ $colors |= COLOR_WHITE if $text =~ m:\{(./)?W(/.)?\}|^\Q$name\E is white\.$:m;
+ $colors |= COLOR_BLUE  if $text =~ m:\{(./)?U(/.)?\}|^\Q$name\E is blue\.$:m;
+ $colors |= COLOR_BLACK if $text =~ m:\{(./)?B(/.)?\}|^\Q$name\E is black\.$:m;
+ $colors |= COLOR_RED   if $text =~ m:\{(./)?R(/.)?\}|^\Q$name\E is red\.$:m;
+ $colors |= COLOR_GREEN if $text =~ m:\{(./)?G(/.)?\}|^\Q$name\E is green\.$:m;
  ### Reminder text has to be ignored somehow.
  ### Do basic land types contribute to color identity?
  ### Handle things like the printed text of Transguild Courier.
  return bits2colors $colors;
 }
 
-sub addSetID {my($self, $set, $id) = @_; $self->ids($set, $id); }
+sub addSetID {
+ my($self, $set, $id) = @_;
+ if (!defined $self->printings($set)) { $self->printings($set, {ids => [$id]}) }
+ else {
+  my @ids = @{$self->printings($set)->{ids} || []};
+  my $i;
+  for ($i=0; $i<@ids; $i++) {
+   break  if $id lt $ids[$i];
+   return if $id eq $ids[$i];
+  }
+  splice @ids, $i, 0, $id;
+  $self->printings($set)->{ids} = \@ids;
+ }
+}
 
 sub mergeHashes($$$$) {  # internal function; not for export
  my($name, $prefix, $left, $right) = @_;
@@ -63,12 +80,12 @@ sub mergeHashes($$$$) {  # internal function; not for export
  return %res;
 }
 
-sub mergeWith {  # Neither argument is modified.
+sub mergeCheck {  # Neither argument is modified.
  my($self, $other) = @_;
- if ($self->name ne $other->name) {
-  carp 'Attempting to merge "', $self->name, '" with "', $other->name, '"';
-  return undef;
- }
+ croak 'Attempting to merge "', $self->name, '" with "', $other->name, '"'
+  if $self->name ne $other->name;
+ croak 'Attempting to merge non-multipart card "', $self->name,
+  '" with a multipart version.' if $other->isSplit;
  my %main = mergeHashes $self->name, '', { map { $_ => $self->$_() } @scalars },
   { map { $_ => $other->$_() } @scalars };
  for (@lists) {
@@ -78,10 +95,21 @@ sub mergeWith {  # Neither argument is modified.
    if $left ne $right;
   $main{$_} = $self->$_();
  }
- my %ids = mergeHashes $self->name, 'setID:', $self->ids, $other->ids;
- my %rarities = mergeHashes $self->name, 'setRarities:', $self->rarities,
-  $other->rarities;
- return new EnVec::Card (%main, ids => \%ids, rarities => \%rarities);
+ my $prints = mergePrintings $self->name, $self->printings, $other->printings;
+ return new EnVec::Card (%main, printings => $prints);
+}
+
+sub merge {  # Neither argument is modified.
+ my($self, $other) = @_;
+ croak 'Attempting to merge "', $self->name, '" with "', $other->name, '"'
+  if $self->name ne $other->name;
+ # This version only looks at the 'name' and 'printings' fields, and the values
+ # of all other fields are taken from the invocant.  If you want fields in the
+ # argument but not the invocant to be taken into consideration and/or for
+ # differences in field values to be checked, use mergeCheck.
+ my $new = $self->copy;
+ $new->printings(mergePrintings $self->name, $self->printings, $other->printings);
+ return $new;
 }
 
 sub cmc {
@@ -113,11 +141,10 @@ my %fields = (
  loyalty => 'Loyalty:',
  handMod => 'Hand:',
  lifeMod => 'Life:',
+#printings => 'Printings:',
 );
- #ids => '%',
- #rarities => '%',
 
-our $tagwidth = 9;  # 11?
+our $tagwidth = 11;
 
 sub showField {
  my($self, $field, $width) = @_;
@@ -130,9 +157,9 @@ sub showField {
  } elsif ($field eq 'sets') {
   $tag = 'Sets:';
   $text = join ', ', map {
-   my $rare = $self->rarities($_);
+   my $rare = $self->printings($_)->{rarity} || 'XXX';
    "$_ (" . ($shortRares{lc $rare} || $rare) . ')';
-  } sort keys %{$self->rarities};
+  } sort keys %{$self->printings};
  } elsif (exists $fields{$field}) {
   $tag = $fields{$field};
   $text = $self->$field();
@@ -167,5 +194,14 @@ sub type {
 }
 
 sub isSplit { '' }
+
+sub copy {
+ my $self = shift;
+ # It isn't clear whether Storable::dclone can handle blessed objects, so...
+ my %fields = map { $_ => $self->$_() } @scalars;
+ $fields{$_} = [ @{$self->$_()} ] for @lists;
+ $fields{printings} = dclone $self->printings;
+ new EnVec::Card %fields;
+}
 
 1;

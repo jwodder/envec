@@ -1,5 +1,6 @@
 package EnVec;
 #use EnVec::Card;
+#use EnVec::Card::Split;
 use EnVec::Colors;
 use EnVec::Get ':all';
 use EnVec::JSON ':all';
@@ -17,7 +18,7 @@ sub mergeCards(\%\%) {
  # The contents of $db2 are merged into $db1.  $db2 is left intact, $db1 is not.
  my($db1, $db2) = @_;
  for (keys %$db2) {
-  if (exists $db1->{$_}) { $db1->{$_} = $db1->{$_}->mergeWith($db2->{$_}) }
+  if (exists $db1->{$_}) { $db1->{$_} = $db1->{$_}->merge($db2->{$_}) }
   else { $db1->{$_} = $db2->{$_} }
  }
 }
