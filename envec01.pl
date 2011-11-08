@@ -2,7 +2,7 @@
 use strict;
 use EnVec qw< getTextSpoiler loadTextSpoiler mergeCards dumpArray >;
 
-my $setfile = shift || 'sets.txt';
+my $setfile = shift || 'data/sets.txt';
 
 -d 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
 

@@ -66,7 +66,7 @@ Dissension
 Coldsnap
 
 Time Spiral
-Time Spiral "Timeshifted"
+#Time Spiral "Timeshifted"
 Planar Chaos
 Future Sight
 
@@ -107,9 +107,8 @@ Promo set for Gatherer
 #Unhinged
 
 #Chronicles
-#Anthologies
-#Battle Royale
-#Beatdown
+#Battle Royale Box Set
+#Beatdown Box Set
 #Deckmasters 2001
 
 #Masters Edition
@@ -117,14 +116,14 @@ Promo set for Gatherer
 #Masters Edition III
 #Masters Edition IV
 
-#Elves vs. Goblins
-#Jace vs. Chandra
-#Divine vs. Demonic
-#Garruk vs. Liliana
-#Phyrexia vs. the Coalition
-#Elspeth vs. Tezzeret
-#Knights vs. Dragons
-#Ajani vs. Nicol Bolas
+#Duel Decks: Elves vs. Goblins
+#Duel Decks: Jace vs. Chandra
+#Duel Decks: Divine vs. Demonic
+#Duel Decks: Garruk vs. Liliana
+#Duel Decks: Phyrexia vs. the Coalition
+#Duel Decks: Elspeth vs. Tezzeret
+#Duel Decks: Knights vs. Dragons
+#Duel Decks: Ajani vs. Nicol Bolas
 
 #From the Vault: Dragons
 #From the Vault: Exiled
@@ -134,7 +133,3 @@ Promo set for Gatherer
 #Premium Deck Series: Slivers
 #Premium Deck Series: Fire & Lightning
 #Premium Deck Series: Graveborn
-
-#Premium Foil Booster
-#Legacy
-#Momir Vig Basic
