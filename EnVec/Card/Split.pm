@@ -3,13 +3,83 @@ use Carp;
 use Storable 'dclone';
 use EnVec::Card;
 
-use Class::Struct
- format => '$',  # "split", "flip", or "double-faced"
- part1 => 'EnVec::Card',
- part2 => 'EnVec::Card',
- printings => '%';
-
 our @ISA = ('EnVec::Card');
+
+# Class::Struct forcibly resists being superclassed, so we have to manually
+# implement what it would automatically implement.
+
+# Fields:
+#  cardType - ideally one of the strings "split", "flip", or "double-faced"
+#  part1 - an EnVec::Card
+#  part2 - an EnVec::Card
+#  printings - same as in EnVec::Card
+
+sub new {
+ my($class, %fields) = @_;
+ my %self = (cardType => $fields{cardType}, part1 => undef, part2 => undef,
+  printings => {});
+ croak "new EnVec::Card::Split: cardType field may not be undef"
+  if !defined $self{cardType};
+ if (defined $fields{part1}) {
+  croak "new EnVec::Card::Split: part1 field must be an EnVec::Card object"
+   if !UNIVERSAL::isa($_[0], 'EnVec::Card');
+  $self{part1} = $fields{part1};
+ }
+ if (defined $fields{part2}) {
+  croak "new EnVec::Card::Split: part2 field must be an EnVec::Card object"
+   if !UNIVERSAL::isa($_[0], 'EnVec::Card');
+  $self{part2} = $fields{part2};
+ }
+ if (defined $fields{printings}) {
+  croak "new EnVec::Card::Split: printings field must be a hash reference"
+   if ref $fields{printings} ne 'HASH';
+  $self{printings} = $fields{printings};
+ }
+ bless \%self, $class;
+}
+
+sub cardType {
+ my $self = shift;
+ if (@_) {
+  croak "EnVec::Card::Split->cardType: field may not be sent to undef"
+   if !defined $_[0];
+  $self->{cardType} = shift;
+ }
+ return $self->{cardType};
+}
+
+sub part1 {
+ my $self = shift;
+ if (@_) {
+  croak "EnVec::Card::Split->part1: field must be an EnVec::Card object"
+   if !UNIVERSAL::isa($_[0], 'EnVec::Card');
+  $self->{part1} = shift;
+ }
+ return $self->{part1};
+}
+
+sub part2 {
+ my $self = shift;
+ if (@_) {
+  croak "EnVec::Card::Split->part2: field must be an EnVec::Card object"
+   if !UNIVERSAL::isa($_[0], 'EnVec::Card');
+  $self->{part2} = shift;
+ }
+ return $self->{part2};
+}
+
+sub printings {
+ my $self = shift;
+ if (@_) {
+  if (ref $_[0] eq 'HASH') { $self->{printings} = shift }
+  else {
+   my $key = shift;
+   $self->{printings}{$key} = shift if @_;
+   return $self->{printings}{$key};
+  }
+ }
+ return $self->{printings};
+}
 
 my $sep = ' // ';
 
@@ -21,7 +91,7 @@ sub $field {
  croak "Card fields of EnVec::Card::Split objects cannot be modified" if \@_;
  my \$left = \$self->part1->$field;
  my \$right = \$self->part2->$field;
- return undef if !defined \$left && !defined $right;
+ return undef if !defined \$left && !defined \$right;
  \$left = '' if !defined \$left;
  \$right = '' if !defined \$right;
  return \$left . \$sep . \$right;
@@ -41,7 +111,7 @@ EOT
 
 sub toJSON {
  my $self = shift;
- my $str = " {\n  \"format\": " . jsonify($self->format) . ",\n  \"part1\": ";
+ my $str = " {\n  \"cardType\": " . jsonify($self->cardType) . ",\n  \"part1\": ";
  (my $sub = $self->part1->toJSON) =~ s/^/ /gm;
  $str .= $sub . ",\n  \"part2\": ";
  ($sub = $self->part2->toJSON) =~ s/^/ /gm;
@@ -57,12 +127,12 @@ sub mergeCheck {  # Neither argument is modified.
   if $self->name ne $other->name;
  croak 'Attempting to merge multipart card "', $self->name,
   '" with a non-multipart version.' if !$other->isSplit;
- carp "Differing format values for ", $self->name, ': ', $self->format,
-  ' vs. ', $other->format if $self->format ne $other->format;
+ carp "Differing cardType values for ", $self->name, ': ', $self->cardType,
+  ' vs. ', $other->cardType if $self->cardType ne $other->cardType;
  my $part1 = $self->part1->mergeCheck($other->part1);
  my $part2 = $self->part2->mergeCheck($other->part2);
  my $prints = mergePrintings $self->name, $self->printings, $other->printings;
- return new EnVec::Card::Split format => $self->format, part1 => $part1,
+ return new EnVec::Card::Split cardType => $self->cardType, part1 => $part1,
   part2 => $part2, printings => $prints;
 }
 
@@ -71,8 +141,8 @@ our $tagwidth = $EnVec::Card::tagwidth;
 sub showField {
  my($self, $field, $width) = @_;
  $width = ($width || 80) - $tagwidth - 1;
- return sprintf "%-${tagwidth}s %s\n", 'Format:', $self->format
-  if $field eq 'format';
+ return sprintf "%-${tagwidth}s %s\n", 'Card type:', $self->cardType
+  if $field eq 'cardType';
  my $subwidth = int(($width - length($sep)) / 2) + $tagwidth + 1;
  my $left = $self->part1->showField($field, $subwidth);
  my $right = $self->part2->showField($field, $subwidth);
@@ -92,7 +162,7 @@ sub copy {
  my $self = shift;
  # It isn't clear whether Storable::dclone can handle blessed objects, so...
  new EnVec::Card::Split
-  format => $self->format,
+  cardType => $self->cardType,
   part1 => $self->part1->copy,
   part2 => $self->part2->copy,
   printings => dclone $self->printings;

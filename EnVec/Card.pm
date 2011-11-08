@@ -58,7 +58,7 @@ sub addSetID {
   my @ids = @{$self->printings($set)->{ids} || []};
   my $i;
   for ($i=0; $i<@ids; $i++) {
-   break  if $id lt $ids[$i];
+   last   if $id lt $ids[$i];
    return if $id eq $ids[$i];
   }
   splice @ids, $i, 0, $id;
@@ -174,7 +174,7 @@ sub showField {
 sub toText1 {
  my($self, $sets) = @_;
  my $str = $self->showField('name');
- $str .= $self->showField('format') if $self->isSplit;
+ $str .= $self->showField('cardType') if $self->isSplit;
  $str .= $self->showField('type');
  $str .= $self->showField('cost') if $self->cost;
  $str .= $self->showField('color') if defined $self->color;

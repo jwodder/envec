@@ -139,7 +139,7 @@ sub joinSplit($$) {
   $right->printings;
  $left->printings({});
  $right->printings({});
- return new EnVec::Card::Split format => 'split', part1 => $left,
+ return new EnVec::Card::Split cardType => 'split', part1 => $left,
   part2 => $right, printings => $printings;
 }
 

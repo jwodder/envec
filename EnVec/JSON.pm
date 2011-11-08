@@ -40,7 +40,7 @@ sub loadJSON($) {  # load from a filehandle
 
 sub fromJSON($) {  # converts a single hash reference into a single Card object
  my $obj = shift;
- if (exists $obj->{format}) {
+ if (exists $obj->{cardType}) {
   $obj->{part1} = fromJSON $obj->{part1};
   $obj->{part2} = fromJSON $obj->{part2};
   return new EnVec::Card::Split %$obj;

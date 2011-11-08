@@ -2,7 +2,7 @@
   inherited from Cockatrice
 - Improve handling of split/flip/double-faced cards, possibly by having the
   Card object contain two "subcards"
-- Handle leveler cards
+- Handle leveler cards?
 - Abnormal card names to take care of:
  - "rathi Berserker (Ærathi Berserker)"
  - "Altar Of Dementia (Altar of Dementia)"
