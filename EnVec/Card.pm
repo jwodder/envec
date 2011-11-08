@@ -157,7 +157,7 @@ sub showField {
  } elsif ($field eq 'sets') {
   $tag = 'Sets:';
   $text = join ', ', map {
-   my $rare = $self->printings($_)->{rarity} || 'XXX';
+   my $rare = $self->rarity($_) || 'XXX';
    "$_ (" . ($shortRares{lc $rare} || $rare) . ')';
   } sort keys %{$self->printings};
  } elsif (exists $fields{$field}) {
@@ -202,6 +202,18 @@ sub copy {
  $fields{$_} = [ @{$self->$_()} ] for @lists;
  $fields{printings} = dclone $self->printings;
  new EnVec::Card %fields;
+}
+
+sub sets { keys %{$_[0]->printings} }
+
+sub rarity {
+ my($self, $set) = @_;
+ return ($self->printings($set) || {})->{rarity};
+}
+
+sub setIDs {
+ my($self, $set) = @_;
+ return @{($self->printings($set) || {})->{ids} || []};
 }
 
 1;

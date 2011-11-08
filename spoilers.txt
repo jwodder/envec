@@ -3,6 +3,8 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
   ($this_subcard)"
 - So far, every split card has been homogenously typed (i.e., always either
   Instant // Instant or Sorcery // Sorcery).
+- The entries for the flipped portions of flipped cards (when they're separate
+  entries in the first place) list the mana costs of the non-flipped portions.
 
 - Problems with the spoilers, regardless of format:
  - In all formats other than the individual card details pages, entries for the

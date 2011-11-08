@@ -30,7 +30,6 @@ sub loadTextSpoiler($$) {
    for my $tr (@{$div->getElementsByTagName('tr')}) {
     my $tds = $tr->getElementsByTagName('td');
     if ($tds->length != 2) {
-     $fields{text} =~ s/^\s+|\s+$//gm;
      addCard(%cards, $set, $id, %fields);
      %fields = ();
      $id = 0;
@@ -56,6 +55,7 @@ sub loadTextSpoiler($$) {
       $fields{tough} = simplify $t;
      } elsif ($v1 eq 'Rules Text:') {
       $fields{text} = trim $v2;
+      #$fields{text} =~ s/^\s+|\s+$//gm;
       $fields{text} =~ s/[\n\r]+/\n/g;
       # Fix Oracular snow weirdness:
       $fields{text} =~ s/\{S\}i\}/{S}/g;
@@ -67,7 +67,7 @@ sub loadTextSpoiler($$) {
      } elsif ($v1 eq 'Set/Rarity:') {
       for (split /\s*,\s*/, simplify $v2) {
        s/ (Common|Uncommon|(Mythic )?Rare|Special|Land)$//;
-       $fields{rarities}{$_} = $1 || 'UNKNOWN';
+       $fields{printings}{$_}{rarity} = $1 || 'UNKNOWN';
       }
      } elsif ($v1 eq 'Color:') { $fields{color} = parseColors $v2 }
      elsif ($v1 eq 'Loyalty:') { ($fields{loyalty} = simplify $v2) =~ tr/()//d }
