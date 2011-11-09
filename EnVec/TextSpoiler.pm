@@ -1,7 +1,10 @@
 package EnVec::TextSpoiler;
+use warnings;
+use strict;
 use XML::DOM::Lite 'Parser';
 use EnVec::Colors;
 use EnVec::Util;
+use EnVec::Card::Util;
 
 use Exporter 'import';
 our @EXPORT_OK = ('loadTextSpoiler');

@@ -1,4 +1,6 @@
 package EnVec::Get;
+use warnings;
+use strict;
 use HTTP::Status 'is_success';
 use LWP::Simple 'getstore';
 

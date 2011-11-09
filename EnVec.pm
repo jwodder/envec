@@ -1,4 +1,7 @@
 package EnVec;
+use warnings;
+use strict;
+
 #use EnVec::Card;
 #use EnVec::Card::Split;
 use EnVec::Colors;

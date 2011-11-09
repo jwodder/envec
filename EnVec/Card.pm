@@ -1,23 +1,24 @@
 package EnVec::Card;
+use warnings;
+use strict;
 use Carp;
 use Storable 'dclone';
 use EnVec::Colors;
 use EnVec::Util;
 
-use Class::Struct
- name => '$',
- cost => '$',
- supertypes => '@',
- types => '@',
- subtypes => '@',
- pow => '$',
- tough => '$',
- text => '$',
- loyalty => '$',
- handMod => '$',
- lifeMod => '$',
- color => '$',  # /^W?U?B?R?G?$/
- printings => '%';
+use Class::Struct name       => '$',
+		  cost       => '$',
+		  supertypes => '@',
+		  types      => '@',
+		  subtypes   => '@',
+		  pow        => '$',
+		  tough      => '$',
+		  text       => '$',
+		  loyalty    => '$',
+		  handMod    => '$',
+		  lifeMod    => '$',
+		  color      => '$',  # /^W?U?B?R?G?$/
+		  printings  => '%';
   # The 'printings' field is a mapping from long set names to subhashes
   # containing the following fields (each optional):
   #  rarity - string
@@ -31,8 +32,8 @@ sub toJSON {
  return " {\n" .  join(",\n", map {
    my $val = $self->$_();
    defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
-    && !(ref $val eq 'HASH' && !%$val) && "  \"$_\": @{[jsonify $val]}";
-  } @scalars, @list, 'printings') . "\n }";
+    && !(ref $val eq 'HASH' && !%$val) ? "  \"$_\": @{[jsonify $val]}" : ();
+  } @scalars, @lists, 'printings') . "\n }";
 }
 
 sub colorID {
@@ -123,9 +124,6 @@ sub cmc {
  return $cmc;
 }
 
-my %shortRares = (common => 'C', uncommon => 'U', rare => 'R', land => 'L',
- 'mythic rare' => 'MR');
-
 my %fields = (
  name => 'Name:',
  cost => 'Cost:',
@@ -144,29 +142,26 @@ my %fields = (
 #printings => 'Printings:',
 );
 
-our $tagwidth = 11;
+our $tagwidth = $EnVec::Util::tagwidth;
 
 sub showField {
  my($self, $field, $width) = @_;
- $width = ($width || 80) - $tagwidth - 1;
+ $width = ($width || 79) - $tagwidth - 1;
  my($tag, $text);
  if (!defined $field) { return '' }
  elsif ($field eq 'PT') {
   $tag = 'P/T:';
   $text = defined $self->pow ? $self->pow . '/' . $self->tough : '';
- } elsif ($field eq 'sets') {
-  $tag = 'Sets:';
-  $text = join ', ', map {
-   my $rare = $self->rarity($_) || 'XXX';
-   "$_ (" . ($shortRares{lc $rare} || $rare) . ')';
-  } sort keys %{$self->printings};
- } elsif (exists $fields{$field}) {
+ } elsif ($field eq 'sets') { return showSets $self->printings, $width }
+ elsif (exists $fields{$field}) {
   $tag = $fields{$field};
   $text = $self->$field();
   if (!defined $text) { $text = '' }
   elsif (ref $text eq 'ARRAY') { $text = join ' ', @$text }
+  $text =~ s/—/--/g;
  } else { return '' }
- my($first, @rest) = wrapLines $text, $width;
+ my($first, @rest) = wrapLines $text, $width, 2;
+ $first = '' if !defined $first;
  return join '', sprintf("%-${tagwidth}s %s\n", $tag, $first),
   map { (' ' x $tagwidth) . " $_\n" } @rest;
 }
@@ -174,7 +169,8 @@ sub showField {
 sub toText1 {
  my($self, $sets) = @_;
  my $str = $self->showField('name');
- $str .= $self->showField('cardType') if $self->isSplit;
+#$str .= $self->showField('cardType') if $self->isSplit;
+  # This ^^ doesn't look very appealing....
  $str .= $self->showField('type');
  $str .= $self->showField('cost') if $self->cost;
  $str .= $self->showField('color') if defined $self->color;

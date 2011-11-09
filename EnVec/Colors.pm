@@ -1,4 +1,6 @@
 package EnVec::Colors;
+use warnings;
+use strict;
 use Exporter 'import';
 our @EXPORT = qw< COLOR_WHITE COLOR_BLUE COLOR_BLACK COLOR_RED COLOR_GREEN
  colors2bits bits2colors parseColors >;

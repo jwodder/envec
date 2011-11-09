@@ -1,12 +1,15 @@
 package EnVec::Card::Split;
+use warnings;
+use strict;
 use Carp;
 use Storable 'dclone';
 use EnVec::Card;
+use EnVec::Util;
 
 our @ISA = ('EnVec::Card');
 
-# Class::Struct forcibly resists being superclassed, so we have to manually
-# implement what it would automatically implement.
+# Class::Struct forcibly resists being superclassed, so we have to do manually
+# what it would automatically.
 
 # Fields:
 #  cardType - ideally one of the strings "split", "flip", or "double-faced"
@@ -111,13 +114,11 @@ EOT
 
 sub toJSON {
  my $self = shift;
- my $str = " {\n  \"cardType\": " . jsonify($self->cardType) . ",\n  \"part1\": ";
+ my $str = " {\n  \"cardType\": @{[jsonify($self->cardType)]},\n  \"part1\": ";
  (my $sub = $self->part1->toJSON) =~ s/^/ /gm;
  $str .= $sub . ",\n  \"part2\": ";
  ($sub = $self->part2->toJSON) =~ s/^/ /gm;
- $str .= $sub . ",\n";
- $str .= "  \"ids\": " . jsonify($self->ids) . ",\n";
- $str .= "  \"rarities\": " . jsonify($self->rarities) . "\n }";
+ $str .= $sub . ",\n  \"printings\": " . jsonify($self->printings) . "\n }";
  return $str;
 }
 
@@ -136,24 +137,28 @@ sub mergeCheck {  # Neither argument is modified.
   part2 => $part2, printings => $prints;
 }
 
-our $tagwidth = $EnVec::Card::tagwidth;
+our $tagwidth = $EnVec::Util::tagwidth;
 
 sub showField {
  my($self, $field, $width) = @_;
- $width = ($width || 80) - $tagwidth - 1;
- return sprintf "%-${tagwidth}s %s\n", 'Card type:', $self->cardType
-  if $field eq 'cardType';
- my $subwidth = int(($width - length($sep)) / 2) + $tagwidth + 1;
- my $left = $self->part1->showField($field, $subwidth);
- my $right = $self->part2->showField($field, $subwidth);
- return '' if $left eq '' && $right eq '';
- my @leftLines = map { sprintf "%-${subwidth}s", $_ } split /\n/, $left;
- my @rightLines = map { substr $tagwidth+1, $_ } split /\n/, $right;
- if (@leftLines < @rightLines) {
-  push @leftLines, (sprintf "%-${subwidth}s", '') x (@rightLines - @leftLines)
- } else { push @rightLines, '' x (@leftLines - @rightLines) }
- return join '', map { $leftLines[$_] . $sep . $rightLines[$_] . "\n" }
-  0..$#leftLines;
+ $width = ($width || 79) - $tagwidth - 1;
+ if (!defined $field) { return '' }
+ elsif ($field eq 'cardType') {
+  return sprintf "%-${tagwidth}s %s\n", 'Format:', ucfirst $self->cardType
+ } elsif ($field eq 'sets') { return showSets $self->printings, $width }
+ else {
+  my $subwidth = int(($width - length($sep)) / 2) + $tagwidth + 1;
+  my $left = $self->part1->showField($field, $subwidth);
+  my $right = $self->part2->showField($field, $subwidth);
+  return '' if $left eq '' && $right eq '';
+  my @leftLines = map { sprintf "%-${subwidth}s", $_ } split /\n/, $left;
+  my @rightLines = map { substr $_, $tagwidth+1 } split /\n/, $right;
+  if (@leftLines < @rightLines) {
+   push @leftLines, (sprintf "%-${subwidth}s", '') x (@rightLines - @leftLines)
+  } else { push @rightLines, '' x (@leftLines - @rightLines) }
+  return join '', map { $leftLines[$_] . $sep . $rightLines[$_] . "\n" }
+   0..$#leftLines;
+ }
 }
 
 sub isSplit { 1 }
