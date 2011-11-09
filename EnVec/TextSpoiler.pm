@@ -58,7 +58,7 @@ sub loadTextSpoiler($$) {
       $fields{tough} = simplify $t;
      } elsif ($v1 eq 'Rules Text:') {
       $fields{text} = trim $v2;
-      #$fields{text} =~ s/^\s+|\s+$//gm;
+      $fields{text} =~ s/^[ \t]+|[ \t]+$//gm;
       $fields{text} =~ s/[\n\r]+/\n/g;
       # Fix Oracular snow weirdness:
       $fields{text} =~ s/\{S\}i\}/{S}/g;

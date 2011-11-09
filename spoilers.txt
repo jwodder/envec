@@ -18,6 +18,7 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
  - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
    uncommon mana symbols) is represented as "{2}0}".  (A similar problem
    applies to the standard and individual card spoilers as well.)
+  - An analogous problem applies to the "{10}" in the rules text of Draco.
  - Some Unglued cards (and possibly others?) encode mana & tap symbols in rules
    text incorrectly.  Erroneous symbols include:
   - ocT - {T}

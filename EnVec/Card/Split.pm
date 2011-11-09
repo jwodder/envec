@@ -155,7 +155,7 @@ sub showField {
   my @rightLines = map { substr $_, $tagwidth+1 } split /\n/, $right;
   if (@leftLines < @rightLines) {
    push @leftLines, (sprintf "%-${subwidth}s", '') x (@rightLines - @leftLines)
-  } else { push @rightLines, '' x (@leftLines - @rightLines) }
+  } else { push @rightLines, ('') x (@leftLines - @rightLines) }
   return join '', map { $leftLines[$_] . $sep . $rightLines[$_] . "\n" }
    0..$#leftLines;
  }
