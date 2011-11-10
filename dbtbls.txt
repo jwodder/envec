@@ -1,0 +1,52 @@
+POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
+- "cards" table; columns:
+ - cardID - int
+  - The cardID of a card is its index (zero based?) in a lexicographically
+    sorted list of cards in which each card is a (set, card-name) pair, each
+    card name is only paired with the set in which it was first printed
+    chronologically, and sets are sorted in chronological order.
+   - Card names are in UTF-8.
+   - Split card names are in the form "left // right".
+   - Flip and double-faced cards are assigned the names of their primary
+     components.
+   - Problem: promo cards
+ - subcard - int
+  - 0 - whole of a "standard" card; left half of a split card; top of a flip
+    card; front of a double-faced card
+  - 1 - right half of a split card; bottom of a flip card; back of a
+    double-faced card
+ - name - string
+ - cost - string or NULL
+ - rulesText - string of some type
+ - color-indicator - colors bitfield
+ - power, toughness, loyalty, handMod, lifeMod - int or NULL
+ - cardType - "standard", "split", "flip", or "double-faced" (or enum
+   representations thereof)
+
+- "types" table
+ - cardID
+ - level (supertype, type, subtype)
+ - index (in the list of supertypes/types/subtypes printed on the card)
+ - type - string or index into another table
+
+- "printings" table; columns:
+ - cardID
+ - set - int cross-reference to "sets" table
+ - rarity
+ - collectorNum - int or NULL
+ - multiverseid - int
+ - artist - string ?
+ - watermark - string
+ - flavorText - string ?
+
+- "sets" table; columns:
+ - [ID]
+ - long name
+ - short name
+ - release date
+ - set type? (core set, expansion, casual supplement, etc.)
+
+- "rulings" table
+ - cardID
+ - date
+ - text

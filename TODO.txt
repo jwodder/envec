@@ -1,9 +1,8 @@
 - Figure out the purpose of the "ampersand bug workaround" that textSpoiler
   inherited from Cockatrice
-- Improve handling of split/flip/double-faced cards, possibly by having the
-  Card object contain two "subcards"
+- Handle flip and double-faced cards
 - Handle leveler cards?
-- Abnormal card names to take care of:
+- Abnormal card names to handle:
  - "rathi Berserker (Ærathi Berserker)"
  - "Altar Of Dementia (Altar of Dementia)"
  - "Knight Of Dawn (Knight of Dawn)"
@@ -13,12 +12,11 @@
 - Give EnVec::Card an inSet(String --> Bool) method
 - Rename EnVec::Card's "color" field to distinguish it from colorID
 
-- Move most of envec01.pl into a module containing functions for:
- - Parsing text spoilers, checklists, and standard spoilers in files and
-   returning card hashes
- - Parsing an individual card page (identified by multiverseid) and returning a
-   Card object
-  - Parsing an individual card page for printed (rather than Oracle) text
+- Add functions for parsing checklists & standard spoilers in files
+- Add a function for parsing an individual card page (identified by
+  multiverseid) and returning a Card object
+- Add a function for parsing an individual card page for printed (rather than
+  Oracle) text?
 
 - Problems with XML::DOM::Lite:
  - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes

@@ -115,7 +115,7 @@ sub mergePrintings($$$) {
 }
 
 my %shortRares = (common => 'C', uncommon => 'U', rare => 'R', land => 'L',
- 'mythic rare' => 'MR');
+ 'mythic rare' => 'M');
 
 sub showSets($$) {
  my($printings, $width) = @_;

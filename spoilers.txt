@@ -6,6 +6,24 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
 - The entries for the flipped portions of flipped cards (when they're separate
   entries in the first place) list the mana costs of the non-flipped portions.
 
+- On the checklist output format:
+ - When searching by a single set:
+  - Each card link uses the multiverseid of the card's printing in that set.
+  - A card that had multiple versions printed in the set (usually basic lands)
+    will use the same multiverseid for all of its card links, though how the id
+    is selected is unknown.
+ - When not searching by set, each card link uses the multiverseid of the
+   latest printing.
+ - The data is contained in a table of class "checklist".  Each card is
+   represented as a <tr class="cardItem"> containing <td>s with the following
+   classes:
+    - number - collector's number; potentially empty
+    - name - contains hyperlinked name (<a class="nameLink">)
+    - artist
+    - color - slash-separated list
+    - rarity - L, C, U, R, or M
+    - set
+
 - Problems with the spoilers, regardless of format:
  - In all formats other than the individual card details pages, entries for the
    faces of double-faced cards don't give the name of the other face.
@@ -13,8 +31,7 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
    named "$originalName ($flippedName)"), while others are represented by a
    single entry in which the rules text for the main card is followed by a line
    of four dashes and then all of the text for the flipped card
- - The rules text of basic lands is just the letter of their mana.  (This
-   applies to all Oracle formats.)
+ - The rules text of basic lands is just the letter of their mana.
  - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
    uncommon mana symbols) is represented as "{2}0}".  (A similar problem
    applies to the standard and individual card spoilers as well.)
@@ -32,6 +49,25 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
   - o7 - {7}
   - Consecutive botched mana symbols can even be run together without
     intervening spaces.
+
+ - Figure of Destiny
+ - Foxfire Oak [text only]
+ - Rhys the Redeemed
+ - Rune-Cervin Rider
+ - Crackleburr
+ - Creakwood Ghoul
+ - Evershrike
+ - Mindwrack Lieg
+ - Mirror Sheen
+ - Restless Apparition
+ - Stillmoon Cavalier
+ - Suture Spirit [text only]
+ - Swirling Spriggan [text only]
+ - Lashwrithe  [text only]
+
+ - Various flavor texts are formatted incorrectly, e.g., those of:
+  - Steamflogger Boss
+  - Angus Mackenzie
 
 - Problems with the text spoilers only:
  - Reminder text and ability words aren't italicized.
