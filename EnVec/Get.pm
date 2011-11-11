@@ -5,7 +5,8 @@ use HTTP::Status 'is_success';
 use LWP::Simple 'getstore';
 
 use Exporter 'import';
-our @EXPORT_OK = qw< getTextSpoiler getChecklist getStdSpoiler getURL >;
+our @EXPORT_OK = qw< getURL getTextSpoiler getChecklist getStdSpoiler
+ getDetails >;
 our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
 
 sub getURL($$) {
@@ -31,4 +32,10 @@ sub getChecklist($$) {
 sub getStdSpoiler($$) {
  my($set, $file) = @_;
  getURL "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=standard&set=[%22$set%22]&special=true", $file;
+}
+
+sub getDetails($$;$) {
+ my($id, $file, $part) = @_;
+ $part = defined $part ? "part=$part&" : '';
+ getURL "http://gatherer.wizards.com/Pages/Card/Details.aspx?${part}multiverseid=$id", $file;
 }

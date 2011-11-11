@@ -12,19 +12,122 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
   - A card that had multiple versions printed in the set (usually basic lands)
     will use the same multiverseid for all of its card links, though how the id
     is selected is unknown.
+  - Each half of a split card is listed twice and has the name of only that
+    half.
  - When not searching by set, each card link uses the multiverseid of the
    latest printing.
  - The data is contained in a table of class "checklist".  Each card is
    represented as a <tr class="cardItem"> containing <td>s with the following
    classes:
-    - number - collector's number; potentially empty
-    - name - contains hyperlinked name (<a class="nameLink">)
-    - artist
-    - color - slash-separated list
-    - rarity - L, C, U, R, or M
-    - set
+  - number - collector's number; potentially empty
+  - name - contains hyperlinked name (<a class="nameLink">)
+  - artist
+  - color - slash-separated list
+  - rarity - L, C, U, R, or M
+  - set
 
-- Problems with the spoilers, regardless of format:
+- On the individual card details pages:
+ - For a single-part card:
+  - The data is contained in a <td> with the id
+    "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rightCol", which in
+    turn contains three <div>s, all with class "smallGreyMono".  The second
+    <div> contains a series of <div>s with unique ids and class="row", with
+    each sub-<div> containing two more <div>s with the classes "label" and
+    "value", in that order.  The possible rows that can appear are:
+
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow"
+trim(label) = Card Name:
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_manaRow"
+trim(label) = Mana Cost:
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_cmcRow"
+trim(label) = Converted Mana Cost:
+ - The value may contain extra trailing <br/>s.
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow"
+trim(label) = Types:
+ - As printed on the card (e.g., "Creature  — Elf Druid"); calling &simplify
+   will be necessary.
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_textRow"
+trim(label) = Card Text:
+ - The "value" div contains a series of <div class="cardtextbox">s, each
+   representing one line of the card's rules text.
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_flavorRow"
+trim(label) = Flavor Text:
+ - The "value" div contains a series of <div class="cardtextbox">s, each
+   representing one line of the flavor text (though there isn't always a direct
+   correspondence between printed lines and cardtextboxes).  Indentation of
+   "citation" lines at the end of flavor text does not seem to be preserved.
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_colorIndicatorRow"
+trim(label) = Color Indicator:
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ptRow"
+trim(label) = P/T:
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ptRow"
+trim(label) = Loyalty:
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ptRow"
+trim(label) = Hand/Life:
+ - example value (trimmed): "(Hand Modifier: +0 , Life Modifier: +5)"
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_setRow"
+trim(label) = Expansion:
+ - The value is a <div> with
+   id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol"
+   that contains two hyperlinks, the first being the expansion symbol (linking
+   to the current page) and the second the name of the expansion (linking to
+   the standard spoilers for that expansion).
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow"
+trim(label) = Rarity:
+ - The value is a <span> whose class corresponds to the rarity ("common",
+   "mythic", etc.) and which contains the rarity.
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsRow"
+trim(label) = Other Sets:
+ - The value is a <div> with
+   id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsValue"
+   that contains a series of expansion symbol images, each a hyperlink to the
+   card's page for its printing in the corresponding set.
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_numberRow"
+trim(label) = Card #:
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_artistRow"
+trim(label) = Artist:
+ - The value is a <div> with
+   id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ArtistCredit"
+   containing the name of the artist hyperlinked to a Gatherer search for eir
+   other work.
+
+   - Practically all of the "value" fields will need to be trimmed.
+
+  - Rulings are stored in a <div> with
+    id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rulingsContainer",
+    which contains a <table> in which each <tr> (representing a ruling)
+    contains two <td>s, the first containing the date of the ruling and the
+    second containing the text of the ruling.  Cards which have no rulings do
+    not seem to have this <div>.
+
+  - For double-faced cards, all of the relevant IDs for the front face
+    (including the IDs of the containing <td>s and rulings blocks) insert
+    "ctl05_" before the last "word", and the IDs for the back face insert
+    "ctl06_" before the last word.  A parser can test whether a card is
+    double-faced by first checking for the existence of, e.g.,
+    "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow", and iff no
+    such element is found, the card is double-faced.
+   - Note that each face of a double-faced card is given its own collector's
+     number (both in the Oracle DB and on the printed card), with the front's
+     number ending in 'a' and the back's ending in 'b'.
+
+
+- Problems with the spoilers, (mostly) regardless of format:
  - In all formats other than the individual card details pages, entries for the
    faces of double-faced cards don't give the name of the other face.
  - Some flip cards are represented by two entries (with the flipped one being
@@ -32,10 +135,10 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
    single entry in which the rules text for the main card is followed by a line
    of four dashes and then all of the text for the flipped card
  - The rules text of basic lands is just the letter of their mana.
- - The "{20}" in the rules text of Spawnsire of Ulamog (and possibly other
-   uncommon mana symbols) is represented as "{2}0}".  (A similar problem
-   applies to the standard and individual card spoilers as well.)
-  - An analogous problem applies to the "{10}" in the rules text of Draco.
+ - The "{10}" in the rules text of Draco and the "{20}" in the rules text of
+   Spawnsire of Ulamog are represented in the text spoilers as "{1}0}" and
+   "{2}0}", respectively, with analogous mixing of mana symbols and "0}" in the
+   standard & individual spoilers.
  - Some Unglued cards (and possibly others?) encode mana & tap symbols in rules
    text incorrectly.  Erroneous symbols include:
   - ocT - {T}
@@ -68,6 +171,13 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
  - Various flavor texts are formatted incorrectly, e.g., those of:
   - Steamflogger Boss
   - Angus Mackenzie
+  - Chub Toad
+  - A general description of this problem seems to be that italicization is
+    only applied to the first line/cardtextbox of each piece of flavor text,
+    even though there are some instances where it should be done otherwise.
+
+ - Incorrectly transcribed flavor texts:
+  - Invasion Plans
 
 - Problems with the text spoilers only:
  - Reminder text and ability words aren't italicized.

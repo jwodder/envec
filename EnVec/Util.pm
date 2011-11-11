@@ -6,10 +6,12 @@ use Storable 'dclone';
 use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
 
 use Exporter 'import';
-our @EXPORT = qw< simplify trim uniq jsonify wrapLines textContent parseTypes
+our @EXPORT = qw< trim simplify uniq jsonify wrapLines textContent parseTypes
  mergePrintings showSets >;
 
 our $tagwidth = 11;
+
+sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
 sub simplify($) {
  my $str = shift;
@@ -18,8 +20,6 @@ sub simplify($) {
  $str =~ s/\s+/ /g;
  return $str;
 }
-
-sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
 sub uniq(@) {  # The list must be pre-sorted
  my $prev = undef;

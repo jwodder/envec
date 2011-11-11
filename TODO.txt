@@ -17,6 +17,8 @@
   multiverseid) and returning a Card object
 - Add a function for parsing an individual card page for printed (rather than
   Oracle) text?
+- Add a means to read EnVec::Card objects from a JSON file one at a time rather
+  than all at once
 
 - Problems with XML::DOM::Lite:
  - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes

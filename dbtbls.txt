@@ -18,26 +18,32 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
  - name - string
  - cost - string or NULL
  - rulesText - string of some type
- - color-indicator - colors bitfield
+ - color-indicator - colors bitfield or NULL
  - power, toughness, loyalty, handMod, lifeMod - int or NULL
  - cardType - "standard", "split", "flip", or "double-faced" (or enum
    representations thereof)
 
 - "types" table
  - cardID
+ - subcard
  - level (supertype, type, subtype)
  - index (in the list of supertypes/types/subtypes printed on the card)
  - type - string or index into another table
 
 - "printings" table; columns:
  - cardID
- - set - int cross-reference to "sets" table
+ - set - int - cross-reference to "sets" table
  - rarity
  - collectorNum - int or NULL
  - multiverseid - int
- - artist - string ?
- - watermark - string
- - flavorText - string ?
+ - artist - string - Multipart cards use the same artist for each part, right?
+ - watermark - string or NULL
+ - flavorText - string ? - This would necessitate adding a "subcard" column.
+ - Idea: Rather than giving each subcard a separate row (which would lead to
+   non-uniqueness of multiverseids, which is not desirable), any "artist",
+   "watermark", and/or "flavorText" values that differ between subcards could
+   be handled by joining the conflicting values together with some unambiguous
+   separator ("\f"?) and then storing this concatenated value.
 
 - "sets" table; columns:
  - [ID]
@@ -48,5 +54,6 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
 
 - "rulings" table
  - cardID
+ - subcard - Double-faced cards have separate rulings for each face; WHY‽
  - date
  - text
