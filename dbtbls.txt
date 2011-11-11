@@ -35,7 +35,7 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
  - set - int - cross-reference to "sets" table
  - rarity
  - collectorNum - int or NULL
- - multiverseid - int
+ - multiverseid - int, unique, non-NULL
  - artist - string - Multipart cards use the same artist for each part, right?
  - watermark - string or NULL
  - flavorText - string ? - This would necessitate adding a "subcard" column.

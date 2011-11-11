@@ -22,7 +22,7 @@ sub loadChecklist($) {
    my %item = ();
    for my $td (@{$tr->getElementsByTagName('td')}) {
     my $key = $td->getAttribute('class');
-    my $value = textContent $td;
+    my $value = simplify textContent $td;
     $item{$key} = $value;
     if ($key eq 'name') {
      my $url = $td->getElementsByTagName('a')->[0]->getAttribute('href');

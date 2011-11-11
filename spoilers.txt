@@ -1,10 +1,13 @@
 NOTES ON SCRAPING SPOILERS FROM GATHERER
 - The names of split cards are given in the form "$left // $right
   ($this_subcard)"
-- So far, every split card has been homogenously typed (i.e., always either
+- So far, every split card has been homogeneously typed (i.e., always either
   Instant // Instant or Sorcery // Sorcery).
 - The entries for the flipped portions of flipped cards (when they're separate
   entries in the first place) list the mana costs of the non-flipped portions.
+- Don't try to find patterns in the assignment of multiverseids; there are too
+  many gaps, temporary jumps backwards, and other discontinuities for it to
+  make sense.
 
 - On the checklist output format:
  - When searching by a single set:
@@ -62,6 +65,10 @@ trim(label) = Flavor Text:
    representing one line of the flavor text (though there isn't always a direct
    correspondence between printed lines and cardtextboxes).  Indentation of
    "citation" lines at the end of flavor text does not seem to be preserved.
+
+id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_markRow"
+trim(label) = Watermark:
+ - The value div uses cardtextboxes for some reason.
 
 id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_colorIndicatorRow"
 trim(label) = Color Indicator:

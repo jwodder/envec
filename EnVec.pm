@@ -4,13 +4,15 @@ use strict;
 
 #use EnVec::Card;
 #use EnVec::Card::Split;
+use EnVec::Checklist ':all';
 use EnVec::Colors;
 use EnVec::Get ':all';
 use EnVec::JSON ':all';
 use EnVec::TextSpoiler ':all';
 
 use Exporter 'import';
-our @EXPORT_OK = (@EnVec::Colors::EXPORT,
+our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
+		  @EnVec::Colors::EXPORT,
 		  @{$EnVec::Get::EXPORT_TAGS{all}},
 		  @{$EnVec::JSON::EXPORT_TAGS{all}},
 		  @{$EnVec::TextSpoiler::EXPORT_TAGS{all}},
