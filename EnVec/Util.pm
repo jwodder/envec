@@ -9,7 +9,7 @@ use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines textContent parseTypes
  mergePrintings showSets >;
 
-our $tagwidth = 11;
+our $tagwidth = 8;
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 

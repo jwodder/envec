@@ -1,138 +1,158 @@
-# The short names are those used in the URLs of the expansion symbols on
-# Gatherer.
+# columns: short name #1, short name #2, long name, release date, import flag
 
-1E	Limited Edition Alpha			1993-08-??
-2E	Limited Edition Beta			1993-10-??
-2U	Unlimited Edition			1993-12-??
-3E	Revised Edition				1994-04-??
-4E	Fourth Edition				1995-04-??
-5E	Fifth Edition				1997-03-??
-6E	Classic Sixth Edition			1999-04-??
-7E	Seventh Edition				2001-04-??
-8ED	Eighth Edition				2003-07-??
-9ED	Ninth Edition				2005-07-??
-10E	Tenth Edition				2007-07-??
-M10	Magic 2010				2009-07-??
-M11	Magic 2011				2010-07-??
-M12	Magic 2012				2011-07-??
+# The first set of short names are those used in the URLs of the expansion
+# symbols on Gatherer.  The second set of short names are those listed on [1],
+# which, despite differing from the Gatherer abbreviations in numerous
+# instances, are/were apparently used internally by Wizards for some purposes.
 
-AN	Arabian Nights				1993-12-??
-AQ	Antiquities				1994-03-??
-LE	Legends					1994-06-??
-DK	The Dark				1994-08-??
-FE	Fallen Empires				1994-11-??
+# The long set names are as listed on Gatherer.
 
-IA	Ice Age					1995-06-??
-HM	Homelands				1995-10-??
-AL	Alliances				1996-06-??
+# Exact release dates are taken from [1].
 
-MI	Mirage					1996-10-??
-VI	Visions					1997-02-??
-WL	Weatherlight				1997-06-??
+# The import flags specify which sets to scrape in order to get the rules text
+# of all cards with a near-minimum number of HTTP requests.  Sets with a flag
+# of "1" are scraped, while sets with a flag of "0" (usually sets that didn't
+# introduce any new cards) are not.
 
-TE	Tempest					1997-10-??
-ST	Stronghold				1998-03-??
-EX	Exodus					1998-06-??
+# Sets not listed in Gatherer (e.g., Anthologies, Deckmasters 2001) are not
+# listed here.
 
-UZ	Urza's Saga				1998-10-??
-GU	Urza's Legacy				1999-02-??
-CG	Urza's Destiny				1999-06-??
+# Sets are commented out iff they have not yet been released and/or are Un-sets.
 
-MM	Mercadian Masques			1999-10-??
-NE	Nemesis					2000-02-??
-PR	Prophecy				2000-06-??
+# [1] <http://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets>
 
-IN	Invasion				2000-10-??
-PS	Planeshift				2001-02-??
-AP	Apocalypse				2001-06-??
+1E	LEA	Limited Edition Alpha			1993-08-05	0
+2E	LEB	Limited Edition Beta			1993-10-??	1
+2U	2ED	Unlimited Edition			1993-12-??	0
+3E	3ED	Revised Edition				1994-04-??	0
+4E	4ED	Fourth Edition				1995-04-??	0
+5E	5ED	Fifth Edition				1997-03-24	0
+6E	6ED	Classic Sixth Edition			1999-04-28	0
+7E	7ED	Seventh Edition				2001-04-11	0
+8ED	8ED	Eighth Edition				2003-07-28	0
+9ED	9ED	Ninth Edition				2005-07-29	0
+10E	10E	Tenth Edition				2007-07-14	0
+M10	M10	Magic 2010				2009-07-17	1
+M11	M11	Magic 2011				2010-07-16	1
+M12	M12	Magic 2012				2011-07-15	1
 
-OD	Odyssey					2001-10-??
-TOR	Torment					2002-02-??
-JUD	Judgment				2002-05-??
+AN	ARN	Arabian Nights				1993-12-??	1
+AQ	ATQ	Antiquities				1994-03-??	1
+LE	LEG	Legends					1994-06-??	1
+DK	DRK	The Dark				1994-08-??	1
+FE	FEM	Fallen Empires				1994-11-??	1
 
-ONS	Onslaught				2002-10-??
-LGN	Legions					2003-02-??
-SCG	Scourge					2003-05-??
+IA	ICE	Ice Age					1995-06-??	1
+HM	HML	Homelands				1995-10-??	1
+AL	ALL	Alliances				1996-06-10	1
 
-MRD	Mirrodin				2003-10-??
-DST	Darksteel				2004-02-??
-5DN	Fifth Dawn				2004-06-??
+MI	MIR	Mirage					1996-10-07	1
+VI	VIS	Visions					1997-02-03	1
+WL	WTH	Weatherlight				1997-06-09	1
 
-CHK	Champions of Kamigawa			2004-10-??
-BOK	Betrayers of Kamigawa			2005-02-??
-SOK	Saviors of Kamigawa			2005-06-??
+TE	TMP	Tempest					1997-10-13	1
+ST	STH	Stronghold				1998-03-02	1
+EX	EXO	Exodus					1998-06-15	1
 
-RAV	Ravnica: City of Guilds			2005-10-??
-GPT	Guildpact				2006-02-??
-DIS	Dissension				2006-05-??
+UZ	USG	Urza's Saga				1998-10-12	1
+GU	ULG	Urza's Legacy				1999-02-15	1
+CG	UDS	Urza's Destiny				1999-06-07	1
 
-CSP	Coldsnap				2006-07-??
+MM	MMQ	Mercadian Masques			1999-10-04	1
+NE	NMS	Nemesis					2000-02-14	1
+PR	PCY	Prophecy				2000-06-05	1
 
-TSP	Time Spiral				2006-10-??
-#TSB	Time Spiral "Timeshifted"		2006-10-??
-PLC	Planar Chaos				2007-02-??
-FUT	Future Sight				2007-05-??
+IN	INV	Invasion				2000-10-02	1
+PS	PLS	Planeshift				2001-02-05	1
+AP	APC	Apocalypse				2001-06-04	1
 
-LRW	Lorwyn					2007-10-??
-MOR	Morningtide				2008-02-??
-SHM	Shadowmoor				2008-05-??
-EVE	Eventide				2008-07-??
+OD	ODY	Odyssey					2001-10-01	1
+TOR	TOR	Torment					2002-02-04	1
+JUD	JUD	Judgment				2002-05-27	1
 
-ALA	Shards of Alara				2008-10-??
-CON	Conflux					2009-02-??
-ARB	Alara Reborn				2009-04-??
+ONS	ONS	Onslaught				2002-10-07	1
+LGN	LGN	Legions					2003-02-03	1
+SCG	SCG	Scourge					2003-05-26	1
 
-ZEN	Zendikar				2009-10-??
-WWK	Worldwake				2010-02-??
-ROE	Rise of the Eldrazi			2010-04-??
+MRD	MRD	Mirrodin				2003-10-03	1
+DST	DST	Darksteel				2004-02-06	1
+5DN	5DN	Fifth Dawn				2004-06-04	1
 
-SOM	Scars of Mirrodin			2010-10-??
-MBS	Mirrodin Besieged			2011-02-??
-NPH	New Phyrexia				2011-05-??
+CHK	CHK	Champions of Kamigawa			2004-10-01	1
+BOK	BOK	Betrayers of Kamigawa			2005-02-04	1
+SOK	SOK	Saviors of Kamigawa			2005-06-03	1
 
-ISD	Innistrad				2011-09-30
-###	Dark Ascension				2012-02-??
+RAV	RAV	Ravnica: City of Guilds			2005-10-07	1
+GPT	GPT	Guildpact				2006-02-03	1
+DIS	DIS	Dissension				2006-05-05	1
 
-PO	Portal					1997-06-??
-P2	Portal Second Age			1998-06-??
-PK	Portal Three Kingdoms			1999-05-??
-P3	Starter 1999				1999-07-??
-P4	Starter 2000				2000-07-??
+CSP	CSP	Coldsnap				2006-07-21	1
 
-VAN	Vanguard				1997-07-??
-HOP	Planechase				2009-09-??
-ARC	Archenemy				2010-06-??
-CMD	Magic: The Gathering-Commander		2011-06-??
+TSP	TSP	Time Spiral				2006-10-06	1
+TSB	TSB	Time Spiral "Timeshifted"		2006-10-06	0
+PLC	PLC	Planar Chaos				2007-02-02	1
+FUT	FUT	Future Sight				2007-05-04	1
 
-PPR	Promo set for Gatherer
+LRW	LRW	Lorwyn					2007-10-12	1
+MOR	MOR	Morningtide				2008-02-01	1
+SHM	SHM	Shadowmoor				2008-05-02	1
+EVE	EVE	Eventide				2008-07-25	1
 
-#UG	Unglued					1998-08-??
-#UNH	Unhinged				2004-11-??
+ALA	ALA	Shards of Alara				2008-10-03	1
+CON	CON	Conflux					2009-02-06	1
+ARB	ARB	Alara Reborn				2009-04-30	1
 
-#CH	Chronicles				1995-07-??
-#BR	Battle Royale Box Set			1999-11-??
-#BD	Beatdown Box Set			2000-10-??
-###	Deckmasters 2001			2001-12-??
+ZEN	ZEN	Zendikar				2009-10-02	1
+WWK	WWK	Worldwake				2010-02-05	1
+ROE	ROE	Rise of the Eldrazi			2010-04-23	1
 
-#MED	Masters Edition				2007-09-??
-#ME2	Masters Edition II			2008-09-??
-#ME3	Masters Edition III			2009-09-??
-#ME4	Masters Edition IV			2011-01-??
+SOM	SOM	Scars of Mirrodin			2010-10-01	1
+MBS	MBS	Mirrodin Besieged			2011-02-04	1
+NPH	NPH	New Phyrexia				2011-05-13	1
 
-#EVG	Duel Decks: Elves vs. Goblins		2007-11-??
-#DD2	Duel Decks: Jace vs. Chandra		2008-11-??
-#DDC	Duel Decks: Divine vs. Demonic		2009-04-??
-#DDD	Duel Decks: Garruk vs. Liliana		2009-11-??
-#DDE	Duel Decks: Phyrexia vs. the Coalition	2010-03-??
-#DDF	Duel Decks: Elspeth vs. Tezzeret	2010-09-??
-#DDG	Duel Decks: Knights vs. Dragons		2011-04-??
-#DDH	Duel Decks: Ajani vs. Nicol Bolas	2011-09-??
+ISD	ISD	Innistrad				2011-09-30	1
+#DKA	DKA	Dark Ascension				2012-02-03	1
 
-#DRB	From the Vault: Dragons			2008-08-??
-#V09	From the Vault: Exiled			2009-08-??
-#V10	From the Vault: Relics			2010-08-??
-#V11	From the Vault: Legends			2011-08-??
+PPR	???	Promo set for Gatherer			---		1
 
-#H09	Premium Deck Series: Slivers		2009-11-??
-#PD2	Premium Deck Series: Fire & Lightning	2010-11-??
-###	Premium Deck Series: Graveborn		2011-11-18
+PO	POR	Portal					1997-06-??	1
+P2	P02	Portal Second Age			1998-06-??	1
+PK	PTK	Portal Three Kingdoms			1999-05-??	1
+P3	S99	Starter 1999				1999-07-??	1
+P4	S00	Starter 2000				2000-07-??	0
+
+VAN	???	Vanguard				1997-07-??	1
+HOP	HOP	Planechase				2009-09-04	1
+ARC	ARC	Archenemy				2010-06-18	1
+CMD	CMD	Magic: The Gathering-Commander		2011-06-17	1
+
+#UG	UGL	Unglued					1998-08-17	1
+#UNH	UNH	Unhinged				2004-11-19	1
+
+CH	CHR	Chronicles				1995-07-??	0
+BR	BRB	Battle Royale Box Set			1999-11-12	0
+BD	BTD	Beatdown Box Set			2000-10-??	0
+
+EVG	EVG	Duel Decks: Elves vs. Goblins		2007-11-16	0
+DD2	DD2	Duel Decks: Jace vs. Chandra		2008-11-07	0
+DDC	DDC	Duel Decks: Divine vs. Demonic		2009-04-10	0
+DDD	DDD	Duel Decks: Garruk vs. Liliana		2009-10-30	0
+DDE	DDE	Duel Decks: Phyrexia vs. the Coalition	2010-03-19	0
+DDF	DDF	Duel Decks: Elspeth vs. Tezzeret	2010-09-03	0
+DDG	DDG	Duel Decks: Knights vs. Dragons		2011-04-01	0
+DDH	DDH	Duel Decks: Ajani vs. Nicol Bolas	2011-09-02	0
+#???	???	Duel Decks: Venser vs. Koth		2012-03-30	0
+
+DRB	DRB	From the Vault: Dragons			2008-08-29	0
+V09	V09	From the Vault: Exiled			2009-08-28	0
+V10	V10	From the Vault: Relics			2010-08-27	0
+V11	V11	From the Vault: Legends			2011-08-26	0
+
+H09	H09	Premium Deck Series: Slivers		2009-11-20	0
+PD2	PD2	Premium Deck Series: Fire & Lightning	2010-11-19	0
+#???	???	Premium Deck Series: Graveborn		2011-11-18	0
+
+MED	MED	Masters Edition				2007-09-10	0
+ME2	ME2	Masters Edition II			2008-09-22	0
+ME3	ME3	Masters Edition III			2009-09-07	0
+ME4	ME4	Masters Edition IV			2011-01-10	0

@@ -125,21 +125,21 @@ sub cmc {
 }
 
 my %fields = (
- name => 'Name:',
- cost => 'Cost:',
- cmc => 'CMC:',
- color => 'Color:',
- supertypes => 'Supertypes:',
- types => 'Types:',
- subtypes => 'Subtypes:',
- type => 'Type:',
- text => 'Text:',
- pow  => 'Power:',
- tough => 'Tough:',
- loyalty => 'Loyalty:',
- handMod => 'Hand:',
- lifeMod => 'Life:',
-#printings => 'Printings:',
+ name       => 'Name:',
+ cost       => 'Cost:',
+ cmc        => 'CMC:',
+ color      => 'Color:',
+ supertypes => 'Super:',
+ types      => 'Types:',
+ subtypes   => 'Sub:',
+ type       => 'Type:',
+ text       => 'Text:',
+ pow        => 'Power:',
+ tough      => 'Tough:',
+ loyalty    => 'Loyalty:',
+ handMod    => 'Hand:',
+ lifeMod    => 'Life:',
+#printings  => 'Printings:',
 );
 
 our $tagwidth = $EnVec::Util::tagwidth;

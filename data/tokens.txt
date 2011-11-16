@@ -1,0 +1,25 @@
+# Creature tokens (all from duel decks so far) that are listed in Gatherer for
+# no good reason
+Beast
+Demon
+Elemental
+Elemental Shaman
+Elephant
+Elf Warrior
+Goblin
+Hornet
+Minion
+Saproling
+Spirit
+Thrull
+
+# Unglued tokens; unlike the others, these are actually included in the set's
+# collectors' numbering.  Also unlike the others, their Oracle entries lack any
+# rules-relevant data other than their names, and their Types fields simply
+# read "(none)".
+Goblin token card
+Pegasus token card
+Sheep token card
+Soldier token card
+Squirrel token card
+Zombie token card

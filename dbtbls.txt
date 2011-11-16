@@ -1,4 +1,14 @@
 POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
+- Enumerations:
+ - "subcard" values:
+  - ??? - whole of a "standard" card; left half of a split card; top of a flip
+    card; front of a double-faced card
+  - ??? - right half of a split card; bottom of a flip card; back of a
+    double-faced card
+ - type "levels" - supertype, type, subtype
+ - rarities?
+ - cardType?
+
 - "cards" table; columns:
  - cardID - int
   - The cardID of a card is its index (zero based?) in a lexicographically
@@ -6,18 +16,15 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
     card name is only paired with the set in which it was first printed
     chronologically, and sets are sorted in chronological order.
    - Card names are in UTF-8.
-   - Split card names are in the form "left // right".
+   - Split card names are (for the purpose of assigning cardIDs) in the form
+     "left // right".
    - Flip and double-faced cards are assigned the names of their primary
      components.
    - Problem: promo cards
- - subcard - int
-  - 0 - whole of a "standard" card; left half of a split card; top of a flip
-    card; front of a double-faced card
-  - 1 - right half of a split card; bottom of a flip card; back of a
-    double-faced card
+ - subcard
  - name - string
  - cost - string or NULL
- - rulesText - string of some type
+ - rulesText - string
  - color-indicator - colors bitfield or NULL
  - power, toughness, loyalty, handMod, lifeMod - int or NULL
  - cardType - "standard", "split", "flip", or "double-faced" (or enum
@@ -32,21 +39,17 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
 
 - "printings" table; columns:
  - cardID
+ - subcard
+ - multiverseid - int, non-NULL
  - set - int - cross-reference to "sets" table
  - rarity
  - collectorNum - int or NULL
- - multiverseid - int, unique, non-NULL
- - artist - string - Multipart cards use the same artist for each part, right?
+ - artist - string
  - watermark - string or NULL
- - flavorText - string ? - This would necessitate adding a "subcard" column.
- - Idea: Rather than giving each subcard a separate row (which would lead to
-   non-uniqueness of multiverseids, which is not desirable), any "artist",
-   "watermark", and/or "flavorText" values that differ between subcards could
-   be handled by joining the conflicting values together with some unambiguous
-   separator ("\f"?) and then storing this concatenated value.
+ - flavorText - string or NULL
 
 - "sets" table; columns:
- - [ID]
+ - setID
  - long name
  - short name
  - release date

@@ -8,6 +8,8 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
 - Don't try to find patterns in the assignment of multiverseids; there are too
   many gaps, temporary jumps backwards, and other discontinuities for it to
   make sense.
+- The different faces of double-faced cards have separate multiverseids, even
+  though they lead to the same page!
 
 - On the checklist output format:
  - When searching by a single set:
@@ -17,6 +19,8 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
     is selected is unknown.
   - Each half of a split card is listed twice and has the name of only that
     half.
+  - Each half of a flip or double-faced card is listed separately and has the
+    name of only that half.
  - When not searching by set, each card link uses the multiverseid of the
    latest printing.
  - The data is contained in a table of class "checklist".  Each card is
@@ -28,6 +32,9 @@ NOTES ON SCRAPING SPOILERS FROM GATHERER
   - color - slash-separated list
   - rarity - L, C, U, R, or M
   - set
+ - The problems with the names of Valor, Call of the Herd, Ærathi Berserker,
+   Altar of Dementia, and Knight of Dawn do not occur with the checklist output
+   format.
 
 - On the individual card details pages:
  - For a single-part card:
@@ -159,9 +166,14 @@ trim(label) = Artist:
   - o7 - {7}
   - Consecutive botched mana symbols can even be run together without
     intervening spaces.
+ - Rules text that is italicized in print (e.g., ability words, "Sarpadian
+   Empires, Vol. VII", il- and en- creatures) is not italicized in the
+   spoilers.
+ - Certain tokens are listed in Gatherer for no good reason (see
+   data/tokens.txt), and their card numbers overlap with those of the real
+   cards in their sets.
 
  - Figure of Destiny
- - Foxfire Oak [text only]
  - Rhys the Redeemed
  - Rune-Cervin Rider
  - Crackleburr
@@ -171,6 +183,7 @@ trim(label) = Artist:
  - Mirror Sheen
  - Restless Apparition
  - Stillmoon Cavalier
+ - Foxfire Oak [text only]
  - Suture Spirit [text only]
  - Swirling Spriggan [text only]
  - Lashwrithe  [text only]
@@ -179,15 +192,37 @@ trim(label) = Artist:
   - Steamflogger Boss
   - Angus Mackenzie
   - Chub Toad
+  - Mesa Chicken
+  - Woodland Druid
+  - Fool's Tome
+  - Phosphorescent Feast (Future Sight)
   - A general description of this problem seems to be that italicization is
     only applied to the first line/cardtextbox of each piece of flavor text,
     even though there are some instances where it should be done otherwise.
 
  - Incorrectly transcribed flavor texts:
+  - Steamflogger Boss
   - Invasion Plans
+  - Pariah (Urza's Saga) [different formatting issue]
+
+ - Cards with flavor text listed in Oracle but not with any actually printed on
+   the card:
+  - Shimmering Wings (Tenth Edition)
+  - Paladin en-Vec (Tenth Edition)
+  - Pariah (Tenth Edition)
 
 - Problems with the text spoilers only:
  - Reminder text and ability words aren't italicized.
  - Snow mana is represented as "{S}i}".
  - Some Unhinged cards (and possibly others?) run consecutive mana symbols
    together, e.g., "{1B}" or "{WW}".
+ - The following cards have their names listed incorrectly:
+  - Valor - as "XXValor (Valor)" (Timeshifted printing only)
+  - Call of the Herd - as "XXCall of the Herd (Call of the Herd)" (Timeshifted
+    printing only)
+  - Ærathi Berserker - as "rathi Berserker (Ærathi Berserker)"
+  - Altar of Dementia - as "Altar Of Dementia (Altar of Dementia)"
+  - Knight of Dawn - as "Knight Of Dawn (Knight of Dawn)"
+  - The same problem applies to a lesser degree on the corresponding individual
+    card details pages, where the unparenthesized names are shown in the large
+    heading and the parenthesized names are listed in the "Name:" field.
