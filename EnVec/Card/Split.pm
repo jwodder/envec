@@ -86,8 +86,7 @@ sub printings {
 
 my $sep = ' // ';
 
-for my $field (qw< name cost pow tough text loyalty handMod lifeMod color type
- >) {
+for my $field (qw< name pow tough text loyalty handMod lifeMod color type >) {
  eval <<EOT;
 sub $field {
  my \$self = shift;
@@ -110,6 +109,14 @@ sub $field {
  return [ \@{\$self->part1->$field}, \@{\$self->part2->$field} ];
 }
 EOT
+}
+
+sub cost {
+ my $self = shift;
+ croak "Card fields of EnVec::Card::Split objects cannot be modified" if @_;
+ if ($self->cardType eq 'split') {
+  ($self->part1->cost || '') . $sep . ($self->part2->cost || '')
+ } else { $self->part1->cost }
 }
 
 sub toJSON {

@@ -167,19 +167,19 @@ sub showField {
 }
 
 sub toText1 {
- my($self, $sets) = @_;
- my $str = $self->showField('name');
-#$str .= $self->showField('cardType') if $self->isSplit;
+ my($self, $width, $sets) = @_;
+ my $str = $self->showField('name', $width);
+#$str .= $self->showField('cardType', $width) if $self->isSplit;
   # This ^^ doesn't look very appealing....
- $str .= $self->showField('type');
- $str .= $self->showField('cost') if $self->cost;
- $str .= $self->showField('color') if defined $self->color;
- $str .= $self->showField('text') if $self->text;
- $str .= $self->showField('PT') if defined $self->pow;
- $str .= $self->showField('loyalty') if defined $self->loyalty;
- $str .= $self->showField('handMod') if defined $self->handMod;
- $str .= $self->showField('lifeMod') if defined $self->lifeMod;
- $str .= $self->showField('sets') if $sets;
+ $str .= $self->showField('type', $width);
+ $str .= $self->showField('cost', $width) if $self->cost;
+ $str .= $self->showField('color', $width) if defined $self->color;
+ $str .= $self->showField('text', $width) if $self->text;
+ $str .= $self->showField('PT', $width) if defined $self->pow;
+ $str .= $self->showField('loyalty', $width) if defined $self->loyalty;
+ $str .= $self->showField('handMod', $width) if defined $self->handMod;
+ $str .= $self->showField('lifeMod', $width) if defined $self->lifeMod;
+ $str .= $self->showField('sets', $width) if $sets;
  return $str;
 }
 

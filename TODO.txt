@@ -12,6 +12,8 @@
 - Give EnVec::Card an inSet(String --> Bool) method
 - Rename EnVec::Card's "color" field to distinguish it from colorID
 - Give EnVec::Card a method for getting a card's color, ignoring color ID?
+- EnVec::Card->showField should treat a negative width as disabling
+  line-wrapping
 
 - Add functions for parsing checklists & standard spoilers in files
 - Add a function for parsing an individual card page (identified by

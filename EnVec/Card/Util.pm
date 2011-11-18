@@ -9,7 +9,7 @@ use EnVec::Card::Split;
 use EnVec::Util;
 
 use Exporter 'import';
-our @EXPORT = qw< joinSplit addCard >;
+our @EXPORT = qw< joinSplit addCard joinFlip unmungFlip >;
 
 my $subname = qr:[^(/)]+:;
 
@@ -56,4 +56,38 @@ sub addCard(\%$$%) {
  $db->{$card->name} = $card if !exists $db->{$card->name};
  $db->{$card->name}->addSetID($set, $id);
  return $db->{$card->name};
+}
+
+sub joinFlip($$) {
+ my($top, $bottom) = @_;
+ my $topName = $top->name;
+ $bottom->name =~ /^\Q$topName\E \(([^)]+)\)$/
+  or croak "joinFlip: invalid arguments: $topName vs. " . $bottom->name;
+ $bottom->name($1);
+ my $printings = mergePrintings "$topName // $1", $top->printings,
+  $bottom->printings;
+ $top->printings({});
+ $bottom->printings({});
+ return new EnVec::Card::Split cardType => 'flip', part1 => $top,
+  part2 => $bottom, printings => $printings;
+}
+
+sub unmungFlip($) {
+ my $flip = shift;
+ my $topText = $flip->text || '';
+ $topText =~ s/\n----\n(.*)$//s or return $flip;
+  # Should a warning be given if $flip isn't actually a munged flip card?
+ my($name, $type, $pt, @text) = split /\n/, $1;
+ my($supers, $types, $subs) = parseType $type;
+ my($pow, $tough) = map { simplify $_ } split m:/:, $pt, 2;
+ my $bottom = new EnVec::Card name => $name, supertypes => $supers,
+  types => $types, subtypes => $subtypes, pow => $pow, tough => $tough,
+  text => join("\n", @text);
+  # Should the bottom half store the mana cost and color indicator of the top
+  # half?  It would be in accordance with the rules for flipped cards.
+ $flip->text($topText);
+ my $printings = $flip->printings;
+ $flip->printings({});
+ return new EnVec::Card::Split cardType => 'flip', part1 => $flip,
+  part2 => $bottom, printings => $printings;
 }

@@ -2,7 +2,7 @@
 <!ENTITY % symbols '%mana;|T|Q|chaos|PW'>
 <!ENTITY % text '(#PCDATA|%symbols;|i)*'>
 
-<!ELEMENT mtgcard (name, cost?, supertype*, type+, subtype*, text*, level*, ((pow, tough)|loyalty|(hand, life))?, indicator?, printing*, ruling*>
+<!ELEMENT mtgcard (name, cost?, supertype*, type+, subtype*, text*, level*, ((pow, tough)|loyalty|(hand, life))?, indicator?, printing*, ruling*, format*)>
 
 <!ELEMENT name (#PCDATA|i)*>
 
@@ -40,6 +40,9 @@
 
 <!ELEMENT ruling %text;>
 <!ATTLIST ruling date CDATA #IMPLIED>
+
+<!ELEMENT format EMPTY>
+<!ATTLIST format name CDATA #REQUIRED legality (legal|restricted|banned) #REQUIRED>
 
 <!ELEMENT i %text;>  <!-- italicized text -->
 

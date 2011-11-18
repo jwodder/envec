@@ -6,7 +6,7 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
   - ??? - right half of a split card; bottom of a flip card; back of a
     double-faced card
  - type "levels" - supertype, type, subtype
- - rarities?
+ - rarities - land, common, uncommon, rare, mythic, special
  - cardType?
 
 - "cards" table; columns:
@@ -60,3 +60,8 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
  - subcard - Double-faced cards have separate rulings for each face; WHY‽
  - date
  - text
+
+- "formats" table (optional)
+ - cardID
+ - formatName
+ - legality - enum for legal, restricted, or banned
