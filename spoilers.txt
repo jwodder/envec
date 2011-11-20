@@ -164,8 +164,8 @@ trim(label) = Artist:
    Spawnsire of Ulamog are represented in the text spoilers as "{1}0}" and
    "{2}0}", respectively, with analogous mixing of mana symbols and "0}" in the
    standard & individual spoilers.
- - Some Unglued cards (and possibly others?) encode mana & tap symbols in rules
-   text incorrectly.  Erroneous symbols include:
+ - Some (all?) Unglued cards (and Who/What/When/Where/Why in Unhinged) encode
+   mana & tap symbols in rules text incorrectly.  Erroneous symbols include:
   - ocT - {T}
   - oW - {W}
   - oU - {U}
@@ -198,6 +198,8 @@ trim(label) = Artist:
  - Suture Spirit [text only]
  - Swirling Spriggan [text only]
  - Lashwrithe  [text only]
+
+ - B.F.M. (Big Furry Monster)
 
  - Various flavor texts are formatted incorrectly, e.g., those of:
   - Steamflogger Boss

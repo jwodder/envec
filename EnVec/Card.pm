@@ -5,6 +5,7 @@ use Carp;
 use Storable 'dclone';
 use EnVec::Colors;
 use EnVec::Util;
+use EnVec::Sets ();
 
 use Class::Struct name       => '$',
 		  cost       => '$',
@@ -17,14 +18,14 @@ use Class::Struct name       => '$',
 		  loyalty    => '$',
 		  handMod    => '$',
 		  lifeMod    => '$',
-		  color      => '$',  # /^W?U?B?R?G?$/
+		  indicator  => '$',  # /^W?U?B?R?G?$/
 		  printings  => '%';
-  # The 'printings' field is a mapping from long set names to subhashes
-  # containing the following fields (each optional):
-  #  rarity - string
-  #  ids - list of multiverseid values, ideally sorted and without duplicates
+ # The 'printings' field is a mapping from long set names to subhashes
+ # containing the following fields (each optional):
+ #  rarity - string
+ #  ids - list of multiverseid values, ideally sorted and without duplicates
 
-my @scalars = qw< name cost pow tough text loyalty handMod lifeMod color >;
+my @scalars = qw< name cost pow tough text loyalty handMod lifeMod indicator >;
 my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {
@@ -39,7 +40,7 @@ sub toJSON {
 sub colorID {
  my $self = shift;
  my $name = $self->name;
- my $colors = colors2bits($self->cost) | colors2bits($self->color);
+ my $colors = colors2bits($self->cost) | colors2bits($self->indicator);
  my $text = $self->text || '';
  $colors |= COLOR_WHITE if $text =~ m:\{(./)?W(/.)?\}|^\Q$name\E is white\.$:m;
  $colors |= COLOR_BLUE  if $text =~ m:\{(./)?U(/.)?\}|^\Q$name\E is blue\.$:m;
@@ -128,7 +129,7 @@ my %fields = (
  name       => 'Name:',
  cost       => 'Cost:',
  cmc        => 'CMC:',
- color      => 'Color:',
+ indicator  => 'Color:',
  supertypes => 'Super:',
  types      => 'Types:',
  subtypes   => 'Sub:',
@@ -173,7 +174,7 @@ sub toText1 {
   # This ^^ doesn't look very appealing....
  $str .= $self->showField('type', $width);
  $str .= $self->showField('cost', $width) if $self->cost;
- $str .= $self->showField('color', $width) if defined $self->color;
+ $str .= $self->showField('indicator', $width) if defined $self->indicator;
  $str .= $self->showField('text', $width) if $self->text;
  $str .= $self->showField('PT', $width) if defined $self->pow;
  $str .= $self->showField('loyalty', $width) if defined $self->loyalty;
@@ -201,6 +202,13 @@ sub copy {
 }
 
 sub sets { keys %{$_[0]->printings} }
+
+sub firstSet { EnVec::Sets::firstSet($_[0]->sets) }
+
+sub inSet {
+ my($self, $set) = @_;
+ return defined $self->printings($set) && %{$self->printings($set)};
+}
 
 sub rarity {
  my($self, $set) = @_;

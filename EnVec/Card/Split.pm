@@ -8,6 +8,8 @@ use EnVec::Util;
 
 our @ISA = ('EnVec::Card');
 
+my $sep = ' // ';
+
 # Class::Struct forcibly resists being superclassed, so we have to do manually
 # what it would automatically.
 
@@ -84,9 +86,7 @@ sub printings {
  return $self->{printings};
 }
 
-my $sep = ' // ';
-
-for my $field (qw< name pow tough text loyalty handMod lifeMod color type >) {
+for my $field (qw<name pow tough text loyalty handMod lifeMod indicator type>) {
  eval <<EOT;
 sub $field {
  my \$self = shift;

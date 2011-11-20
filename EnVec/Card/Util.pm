@@ -77,15 +77,15 @@ sub unmungFlip($) {
  my $flip = shift;
  my $topText = $flip->text || '';
  $topText =~ s/\n----\n(.*)$//s or return $flip;
-  # Should a warning be given if $flip isn't actually a munged flip card?
+  ### Should a warning be given if $flip isn't actually a munged flip card?
  my($name, $type, $pt, @text) = split /\n/, $1;
  my($supers, $types, $subs) = parseType $type;
  my($pow, $tough) = map { simplify $_ } split m:/:, $pt, 2;
  my $bottom = new EnVec::Card name => $name, supertypes => $supers,
   types => $types, subtypes => $subs, pow => $pow, tough => $tough,
   text => join("\n", @text);
-  # Should the bottom half store the mana cost and color indicator of the top
-  # half?  It would be in accordance with the rules for flipped cards.
+  ### Should the bottom half store the mana cost and color indicator of the top
+  ### half?  It would be in accordance with the rules for flipped cards.
  $flip->text($topText);
  my $printings = $flip->printings;
  $flip->printings({});

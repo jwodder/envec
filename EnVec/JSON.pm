@@ -50,5 +50,7 @@ sub parseJSON($) {  # load from a string
  }
 }
 
-sub loadJSON($) {local $/ = undef; parseJSON <$_[0]>; }
- # load from a filehandle
+# Load from a filehandle:
+sub loadJSON($) {local $/ = undef; my $in = shift; parseJSON <$in>; }
+ # Doing "<$_[0]>" instead of "my $in = shift; ... <$in>" causes problems (see
+ # perlop).

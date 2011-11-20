@@ -2,7 +2,18 @@
 <!ENTITY % symbols '%mana;|T|Q|chaos|PW'>
 <!ENTITY % text '(#PCDATA|%symbols;|i)*'>
 
-<!ELEMENT mtgcard (name, cost?, supertype*, type+, subtype*, text*, level*, ((pow, tough)|loyalty|(hand, life))?, indicator?, printing*, ruling*, format*)>
+<!ELEMENT mtgcard (name, cost?,
+		   supertype*, type+, subtype*,
+		   text*,
+		   level*,
+		   (pow, tough)?,
+		   loyalty?,
+		   (hand, life)?,
+		   indicator?,
+		   alternate*,
+		   printing*,
+		   ruling*,
+		   format*)>
 
 <!ELEMENT name (#PCDATA|i)*>
 
@@ -14,7 +25,7 @@
 <!ELEMENT subtype (#PCDATA)>
 <!ATTLIST subtype type CDATA #IMPLIED>
 
-<!ELEMENT text %text;> <!-- One line/paragraph of rules text -->
+<!ELEMENT text %text;>  <!-- one line/paragraph of rules text -->
 
 <!ELEMENT level (text*, pow, tough)>
 <!ATTLIST level min CDATA #REQUIRED max CDATA #IMPLIED>
@@ -27,7 +38,19 @@
 
 <!ELEMENT indicator (#PCDATA)>  <!-- color indicator -->
 
-<!ELEMENT printing (set, rarity?, date?, number?, artist, multiverseid?, flavor?, watermark?, notes?)>
+<!-- The alternate portion of a split, flip, or double-faced card: -->
+<!ELEMENT alternate (name, cost?,
+		     supertype*, type+, subtype*,
+		     text*,
+		     level*,
+		     (pow, tough)?,
+		     loyalty?,
+		     (hand, life)?,
+		     indicator?,
+		     ruling*)>
+<!ATTLIST alternate format (split|flip|double-faced) #REQUIRED>
+
+<!ELEMENT printing (set, rarity?, date?, number?, artist+, multiverseid*, flavor*, watermark*, notes*)>
 <!ELEMENT set (#PCDATA)>
 <!ELEMENT rarity (#PCDATA)>
 <!ELEMENT date (#PCDATA)>
@@ -38,11 +61,22 @@
 <!ELEMENT watermark (#PCDATA)>
 <!ELEMENT notes %text;>
 
+<!-- "alternate" attributes identify which component of a multi-part card is
+     being described: 0 for the main part, 1, 2, etc. for the alternate parts
+     in the order that they're listed.  A tag without an "alternate" attribute
+     describes the card as a whole. -->
+<!ATTLIST artist alternate CDATA #IMPLIED>
+<!ATTLIST multiverseid alternate CDATA #IMPLIED>
+<!ATTLIST flavor alternate CDATA #IMPLIED>
+<!ATTLIST watermark alternate CDATA #IMPLIED>
+<!ATTLIST notes alternate CDATA #IMPLIED>
+
 <!ELEMENT ruling %text;>
-<!ATTLIST ruling date CDATA #IMPLIED>
+<!ATTLIST ruling date CDATA #IMPLIED alternate CDATA #IMPLIED>
 
 <!ELEMENT format EMPTY>
-<!ATTLIST format name CDATA #REQUIRED legality (legal|restricted|banned) #REQUIRED>
+<!ATTLIST format name CDATA #REQUIRED
+		 legality (legal|restricted|banned) #REQUIRED>
 
 <!ELEMENT i %text;>  <!-- italicized text -->
 

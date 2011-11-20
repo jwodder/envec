@@ -4,7 +4,7 @@ use strict;
 use Carp;
 use Storable 'dclone';
 use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
-use EnVec::Sets qw< cmpSets loadedSets >;
+use EnVec::Sets qw< loadedSets cmpSets >;
 
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines textContent parseTypes
@@ -125,7 +125,7 @@ sub showSets($$;$) {
  my $text = join ', ', map {
   my $rare = $printings->{$_}{rarity} || 'XXX';
   "$_ (" . ($shortRares{lc $rare} || $rare) . ')';
- } ($sort ? sort &cmpSets @sets : sort @sets);
+ } ($sort ? sort cmpSets @sets : sort @sets);
  my($first, @rest) = wrapLines $text, $width, 2;
  $first = '' if !defined $first;
  return join '', sprintf("%-${tagwidth}s %s\n", 'Sets:', $first),
