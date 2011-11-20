@@ -1,21 +1,14 @@
 #!/usr/bin/perl -w
 use strict;
-use EnVec qw< getTextSpoiler loadTextSpoiler mergeCards dumpArray >;
+use EnVec qw< loadSets setsToImport getTextSpoiler loadTextSpoiler mergeCards
+ dumpArray >;
 
-my $setfile = shift || 'data/sets.txt';
-
+loadSets(shift || 'data/sets.tsv');
 -d 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
-
-my $sets;
-if ($setfile eq '-') { $sets = *STDIN }
-else { open $sets, '<', $setfile or die "$0: $setfile: $!" }
-my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
-close $sets;
-
 my %cardHash;
-for my $set (@allSets) {
- chomp $set;
+for my $set (setsToImport) {
  (my $file = "oracle/$set.html") =~ tr/ "'/_/d;
+ print STDERR "Checking for $set data...\n";
  if (!-e $file && !getTextSpoiler($set, $file)) {
   #print STDERR "Could not fetch set \"$set\": ", status_message($res), "\n";
   print STDERR "Could not fetch set \"$set\"\n";

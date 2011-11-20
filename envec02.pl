@@ -2,22 +2,14 @@
 # The only data that this should lose by not merging should be most
 # multiverseids, but who needs those?
 use strict;
-use EnVec qw< getTextSpoiler loadTextSpoiler >;
+use EnVec qw< loadSets setsToImport getTextSpoiler loadTextSpoiler >;
 
-my $setfile = shift || 'data/sets.txt';
-
+loadSets(shift || 'data/sets.tsv');
 -d 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
-
-my $sets;
-if ($setfile eq '-') { $sets = *STDIN }
-else { open $sets, '<', $setfile or die "$0: $setfile: $!" }
-my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
-close $sets;
 
 my %seen;
 print "[\n";
-for my $set (@allSets) {
- chomp $set;
+for my $set (setsToImport) {
  (my $file = "oracle/$set.html") =~ tr/ "'/_/d;
  print STDERR "Checking for $set data...\n";
  if (!-e $file && !getTextSpoiler($set, $file)) {

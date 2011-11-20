@@ -1,19 +1,12 @@
 #!/usr/bin/perl -w
 use strict;
 use File::Temp;
-use EnVec qw< getChecklist loadChecklist >;
+use EnVec qw< loadSets setsToImport getChecklist loadChecklist >;
 
-my $setfile = shift || 'data/sets.txt';
-my $sets;
-if ($setfile eq '-') { $sets = *STDIN }
-else { open $sets, '<', $setfile or die "$0: $setfile: $!" }
-my @allSets = grep { !/^\s*#/ && !/^\s*$/ } <$sets>;
-close $sets;
-
+loadSets(shift || 'data/sets.tsv');
 my $tmp = new File::Temp;
 my $file = $tmp->filename;
-for my $set (@allSets) {
- chomp $set;
+for my $set (setsToImport) {
  print STDERR "Importing $set...\n";
  if (!getChecklist($set, $file)) {print STDERR "Could not fetch $set\n"; next; }
  my @cards = loadChecklist $file;

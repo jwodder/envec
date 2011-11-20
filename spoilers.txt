@@ -1,8 +1,9 @@
 NOTES ON SCRAPING SPOILERS FROM GATHERER
 
 NOTE: Gatherer changed the format of the individual card details pages for
-flipped cards on or around 17 Nov; the notes below need to be updated
-appropriately.
+flipped cards on or around 17 Nov, along with the "Other Sets" fields on all
+card details pages (and possibly other things); the notes below need to be
+updated appropriately.
 
 - So far, every split card has been homogeneously typed (i.e., always either
   Instant // Instant or Sorcery // Sorcery).
@@ -216,6 +217,7 @@ trim(label) = Artist:
   - Pariah (Urza's Saga)
   - Greed (Legends, Fourth Edition, & Fifth Edition, the last two being solely
     incorrect formatting)
+  - Squee, Goblin Nabob
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:
@@ -225,7 +227,8 @@ trim(label) = Artist:
 
 - Problems with the text spoilers only:
  - Reminder text and ability words aren't italicized.
- - Snow mana is represented as "{S}i}".
+ - Snow mana is represented as "{S}i}" (except for the first {S} in the text of
+   Frost Raptor, which is simply "{S}i".)
  - Some Unhinged cards (and possibly others?) run consecutive mana symbols
    together, e.g., "{1B}" or "{WW}".
  - The following cards have their names listed incorrectly:

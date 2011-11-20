@@ -61,7 +61,7 @@ sub loadTextSpoiler($$) {
       $fields{text} =~ s/^[ \t]+|[ \t]+$//gm;
       $fields{text} =~ s/[\n\r]+/\n/g;
       # Fix Oracular snow weirdness:
-      $fields{text} =~ s/\{S\}i\}/{S}/g;
+      $fields{text} =~ s/\{S\}i\}?/{S}/g;
       # Get rid of parentheses in things like "{(r/p)}":
       $fields{text} =~ s:\{\((\w/\w)\)\}:{@{[uc $1]}}:g;
      } elsif ($v1 eq 'Hand/Life:' && simplify($v2) =~ /^Hand Modifier: ([-+]?\d+) ?, ?Life Modifier: ([-+]?\d+)$/i) {

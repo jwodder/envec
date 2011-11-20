@@ -64,6 +64,7 @@ sub joinFlip($$) {
  $bottom->name =~ /^\Q$topName\E \(([^)]+)\)$/
   or croak "joinFlip: invalid arguments: $topName vs. " . $bottom->name;
  $bottom->name($1);
+ $bottom->cost(undef);
  my $printings = mergePrintings "$topName // $1", $top->printings,
   $bottom->printings;
  $top->printings({});
@@ -81,7 +82,7 @@ sub unmungFlip($) {
  my($supers, $types, $subs) = parseType $type;
  my($pow, $tough) = map { simplify $_ } split m:/:, $pt, 2;
  my $bottom = new EnVec::Card name => $name, supertypes => $supers,
-  types => $types, subtypes => $subtypes, pow => $pow, tough => $tough,
+  types => $types, subtypes => $subs, pow => $pow, tough => $tough,
   text => join("\n", @text);
   # Should the bottom half store the mana cost and color indicator of the top
   # half?  It would be in accordance with the rules for flipped cards.
