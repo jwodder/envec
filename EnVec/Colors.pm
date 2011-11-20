@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use Exporter 'import';
 our @EXPORT = qw< COLOR_WHITE COLOR_BLUE COLOR_BLACK COLOR_RED COLOR_GREEN
- colors2bits bits2colors parseColors >;
+ colors2bits bits2colors parseColors colors2colors >;
 
 use constant {
  COLOR_WHITE => 1,
@@ -47,4 +47,14 @@ sub parseColors($) {
  return $str;
 }
 
-1;
+sub colors2colors($) {
+ my $in = shift;
+ return '' if !defined $in;
+ my $out = '';
+ $out .= 'W' if $in =~ y/W//;
+ $out .= 'U' if $in =~ y/U//;
+ $out .= 'B' if $in =~ y/B//;
+ $out .= 'R' if $in =~ y/R//;
+ $out .= 'G' if $in =~ y/G//;
+ return $out;
+}

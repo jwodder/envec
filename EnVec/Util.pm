@@ -16,7 +16,7 @@ sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
 sub simplify($) {
  my $str = shift;
- return 'XXX' if !defined $str;  #####
+ #return 'XXX' if !defined $str;  #####
  $str =~ s/^\s+|\s+$//g;
  $str =~ s/\s+/ /g;
  return $str;
