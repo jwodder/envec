@@ -128,6 +128,6 @@ sub showSets($$;$) {
  } ($sort ? sort cmpSets @sets : sort @sets);
  my($first, @rest) = wrapLines $text, $width, 2;
  $first = '' if !defined $first;
- return join '', sprintf("%-${tagwidth}s %s\n", 'Sets:', $first),
+ return join '', sprintf("%-*s %s\n", $tagwidth, 'Sets:', $first),
   map { (' ' x $tagwidth) . " $_\n" } @rest;
 }

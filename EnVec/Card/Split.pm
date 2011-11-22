@@ -152,7 +152,7 @@ sub showField {
  $width = ($width || 79) - $tagwidth - 1;
  if (!defined $field) { return '' }
  elsif ($field eq 'cardType') {
-  return sprintf "%-${tagwidth}s %s\n", 'Format:', ucfirst $self->cardType
+  return sprintf "%-*s %s\n", $tagwidth, 'Format:', ucfirst $self->cardType
  } elsif ($field eq 'sets') { return showSets $self->printings, $width }
  else {
   my $subwidth = int(($width - length($sep)) / 2) + $tagwidth + 1;
@@ -162,7 +162,7 @@ sub showField {
   my @leftLines = map { sprintf "%-${subwidth}s", $_ } split /\n/, $left;
   my @rightLines = map { substr $_, $tagwidth+1 } split /\n/, $right;
   if (@leftLines < @rightLines) {
-   push @leftLines, (sprintf "%-${subwidth}s", '') x (@rightLines - @leftLines)
+   push @leftLines, (sprintf '%-*s', $subwidth, '') x (@rightLines - @leftLines)
   } else { push @rightLines, ('') x (@leftLines - @rightLines) }
   return join '', map { $leftLines[$_] . $sep . $rightLines[$_] . "\n" }
    0..$#leftLines;

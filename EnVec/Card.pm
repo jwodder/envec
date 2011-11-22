@@ -130,6 +130,7 @@ my %fields = (
  cost       => 'Cost:',
  cmc        => 'CMC:',
  indicator  => 'Color:',
+#indicator  => 'Indicator:',
  supertypes => 'Super:',
  types      => 'Types:',
  subtypes   => 'Sub:',
@@ -161,7 +162,7 @@ sub showField {
  } else { return '' }
  my($first, @rest) = wrapLines $text, $width, 2;
  $first = '' if !defined $first;
- return join '', sprintf("%-${tagwidth}s %s\n", $tag, $first),
+ return join '', sprintf("%-*s %s\n", $tagwidth, $tag, $first),
   map { (' ' x $tagwidth) . " $_\n" } @rest;
 }
 
@@ -169,7 +170,7 @@ sub toText1 {
  my($self, $width, $sets) = @_;
  my $str = $self->showField('name', $width);
 #$str .= $self->showField('cardType', $width) if $self->isSplit;
-  ## This ^^ doesn't look very appealing....
+## This ^^ doesn't look very appealing....
  $str .= $self->showField('type', $width);
  $str .= $self->showField('cost', $width) if $self->cost;
  $str .= $self->showField('indicator', $width) if defined $self->indicator;

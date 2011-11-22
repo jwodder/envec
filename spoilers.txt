@@ -190,7 +190,7 @@ trim(label) = Artist:
  - Crackleburr
  - Creakwood Ghoul
  - Evershrike
- - Mindwrack Lieg
+ - Mindwrack Liege
  - Mirror Sheen
  - Restless Apparition
  - Stillmoon Cavalier
