@@ -22,8 +22,8 @@ updated appropriately.
   - A card that had multiple versions printed in the set (usually basic lands)
     will use the same multiverseid for all of its card links, though how the id
     is selected is unknown.
-  - Each half of a split card is listed twice and has the name of only that
-    half.
+  - Each half of a split card is listed twice (only for the Invasion block?)
+    and has the name of only that half.
   - Each half of a flip or double-faced card is listed separately and has the
     name of only that half.
  - When not searching by set, each card link uses the multiverseid of the

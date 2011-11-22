@@ -48,8 +48,8 @@ sub getStdSpoiler($$) {
 
 sub detailsURL($;$) {
  my($id, $part) = @_;
- $part = defined $part ? "part=$part&" : '';
- return "http://gatherer.wizards.com/Pages/Card/Details.aspx?${part}multiverseid=$id";
+ $part = defined $part ? "&part=$part" : '';
+ return "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=$id$part";
 }
 
 sub getDetails($$;$) {

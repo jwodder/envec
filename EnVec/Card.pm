@@ -30,7 +30,7 @@ my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {
  my $self = shift;
- return " {\n" .  join(",\n", map {
+ return " {\n" . join(",\n", map {
    my $val = $self->$_();
    defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
     && !(ref $val eq 'HASH' && !%$val) ? "  \"$_\": @{[jsonify $val]}" : ();
@@ -140,6 +140,7 @@ my %fields = (
  loyalty    => 'Loyalty:',
  handMod    => 'Hand:',
  lifeMod    => 'Life:',
+ PT         => 'P/T:',
 #printings  => 'Printings:',
 );
 
@@ -150,10 +151,7 @@ sub showField {
  $width = ($width || 79) - $tagwidth - 1;
  my($tag, $text);
  if (!defined $field) { return '' }
- elsif ($field eq 'PT') {
-  $tag = 'P/T:';
-  $text = defined $self->pow ? $self->pow . '/' . $self->tough : '';
- } elsif ($field eq 'sets') { return showSets $self->printings, $width }
+ elsif ($field eq 'sets') { return showSets $self->printings, $width }
  elsif (exists $fields{$field}) {
   $tag = $fields{$field};
   $text = $self->$field();
@@ -171,7 +169,7 @@ sub toText1 {
  my($self, $width, $sets) = @_;
  my $str = $self->showField('name', $width);
 #$str .= $self->showField('cardType', $width) if $self->isSplit;
-  # This ^^ doesn't look very appealing....
+  ## This ^^ doesn't look very appealing....
  $str .= $self->showField('type', $width);
  $str .= $self->showField('cost', $width) if $self->cost;
  $str .= $self->showField('indicator', $width) if defined $self->indicator;
@@ -218,6 +216,11 @@ sub rarity {
 sub setIDs {
  my($self, $set) = @_;
  return @{($self->printings($set) || {})->{ids} || []};
+}
+
+sub PT {
+ my $self = shift;
+ return defined $self->pow ? $self->pow . '/' . $self->tough : undef;
 }
 
 1;

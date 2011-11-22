@@ -21,6 +21,11 @@
 - Give EnVec.pm tags for the export lists of each submodule
 - Make EnVec.pm preserve the non-'all' tags of the submodules
 - Give dumpArray and dumpHash arguments for dumping to a filehandle
+- Add files to data/ for:
+ - The correct text of Homura's Essence
+ - The reserved list
+ - The various release dates of different Vanguard cards?
+ - Rarities of cards printed before ... Alliances?
 
 - Problems with XML::DOM::Lite:
  - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes

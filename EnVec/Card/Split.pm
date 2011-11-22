@@ -86,7 +86,8 @@ sub printings {
  return $self->{printings};
 }
 
-for my $field (qw<name pow tough text loyalty handMod lifeMod indicator type>) {
+for my $field (qw< name pow tough text loyalty handMod lifeMod indicator type
+ PT >) {
  eval <<EOT;
 sub $field {
  my \$self = shift;

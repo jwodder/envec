@@ -2,13 +2,13 @@
 # Fetch the sets in which each card was first printed
 use strict;
 use File::Temp;
-use EnVec qw< loadSets cmpSets setsToImport getChecklist loadChecklist >;
+use EnVec qw< loadSets cmpSets allSets getChecklist loadChecklist >;
 
 loadSets(shift || 'data/sets.tsv');
 my %seen = ();
 my $tmp = new File::Temp;
 my $file = $tmp->filename;
-for my $set (sort &cmpSets setsToImport) {
+for my $set (sort cmpSets allSets) {
  if (!getChecklist($set, $file)) {print STDERR "Could not fetch $set\n"; next; }
  my @cards = loadChecklist $file;
  my $qty = 0;
