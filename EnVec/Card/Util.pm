@@ -79,7 +79,7 @@ sub unmungFlip($) {
  $topText =~ s/\n----\n(.*)$//s or return $flip;
   ### Should a warning be given if $flip isn't actually a munged flip card?
  my($name, $type, $pt, @text) = split /\n/, $1;
- my($supers, $types, $subs) = parseType $type;
+ my($supers, $types, $subs) = parseTypes $type;
  my($pow, $tough) = map { simplify $_ } split m:/:, $pt, 2;
  my $bottom = new EnVec::Card name => $name, supertypes => $supers,
   types => $types, subtypes => $subs, pow => $pow, tough => $tough,

@@ -71,7 +71,7 @@ sub loadTextSpoiler($$) {
        s/ (Common|Uncommon|(Mythic )?Rare|Special|Land)$//;
        $fields{printings}{$_}{rarity} = $1 || 'UNKNOWN';
       }
-     } elsif ($v1 eq 'Color:') { $fields{color} = parseColors $v2 }
+     } elsif ($v1 eq 'Color:') { $fields{indicator} = parseColors $v2 }
      elsif ($v1 eq 'Loyalty:') { ($fields{loyalty} = simplify $v2) =~ tr/()//d }
     }
    }

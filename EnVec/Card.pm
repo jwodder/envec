@@ -169,8 +169,6 @@ sub showField {
 sub toText1 {
  my($self, $width, $sets) = @_;
  my $str = $self->showField('name', $width);
-#$str .= $self->showField('cardType', $width) if $self->isSplit;
-## This ^^ doesn't look very appealing....
  $str .= $self->showField('type', $width);
  $str .= $self->showField('cost', $width) if $self->cost;
  $str .= $self->showField('indicator', $width) if defined $self->indicator;
@@ -179,6 +177,7 @@ sub toText1 {
  $str .= $self->showField('loyalty', $width) if defined $self->loyalty;
  $str .= $self->showField('handMod', $width) if defined $self->handMod;
  $str .= $self->showField('lifeMod', $width) if defined $self->lifeMod;
+ $str .= $self->showField('cardType', $width) if $self->isSplit;
  $str .= $self->showField('sets', $width) if $sets;
  return $str;
 }

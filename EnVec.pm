@@ -12,7 +12,7 @@ use EnVec::JSON ':all';
 use EnVec::Sets ':all';
 use EnVec::TextSpoiler ':all';
 
-use EnVec::Card::Util qw< joinCards unmungFlip >;
+use EnVec::Card::Util qw< joinCards unmungFlip insertCard >;
 
 use Exporter 'import';
 our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
@@ -46,7 +46,7 @@ my $warned = 0;
 sub loadedParts() { $loaded }
 
 sub loadParts(;%) {
- my %files = shift;
+ my %files = @_;
  %split = loadPartFile($files{split} || $splitFile);
  %flip = loadPartFile($files{flip} || $flipFile);
  %double = loadPartFile($files{double} || $doubleFile);

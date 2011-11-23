@@ -3,8 +3,8 @@ use strict;
 
 my $statFile = 'out/stats.txt';
 my $checkFile = 'out/checks.txt';
-my $flipFile = 'data/flip.txt';
-my $doubleFile = 'data/double.txt';
+my $flipFile = 'data/flip.tsv';
+my $doubleFile = 'data/double.tsv';
 my $tokenFile = 'data/tokens.txt';
 
 my %cards = ();

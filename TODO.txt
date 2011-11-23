@@ -1,13 +1,8 @@
-- Handle flip and double-faced cards
-- Abnormal card names to handle:
- - "rathi Berserker (Ærathi Berserker)"
- - "Altar Of Dementia (Altar of Dementia)"
- - "Knight Of Dawn (Knight of Dawn)"
+- Handle parse errors in TextSpoiler.pm
+- Handle failures in Get.pm functions appropriately
 - Handle leveler cards?
 - Figure out the purpose of the "ampersand bug workaround" that TextSpoiler.pm
   inherited from Cockatrice
-- Handle parse errors in TextSpoiler.pm
-- Handle failures in Get.pm functions appropriately
 - Give EnVec::Card a method for getting a card's color, ignoring color ID?
 - EnVec::Card->showField should treat a negative width as disabling
   line-wrapping
@@ -26,9 +21,3 @@
  - The reserved list
  - The various release dates of different Vanguard cards?
  - Rarities of cards printed before ... Alliances?
-
-- Problems with XML::DOM::Lite:
- - Line 160 of Lite::Parser.pm drops newlines at the beginning of text nodes
-   for no known reason; this could be worked around by having textContent
-   explicitly convert <br/> tags into newlines
- - No textContent method (introduced in DOM 3), so I have to write my own

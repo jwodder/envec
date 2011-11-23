@@ -14,7 +14,7 @@ my $sep = ' // ';
 # what it would automatically.
 
 # Fields:
-#  cardType - ideally one of the strings "split", "flip", or "double-faced"
+#  cardType - ideally one of the strings "split", "flip", or "double"
 #  part1 - an EnVec::Card
 #  part2 - an EnVec::Card
 #  printings - same as in EnVec::Card
@@ -122,10 +122,10 @@ sub cost {
 
 sub toJSON {
  my $self = shift;
- my $str = " {\n  \"cardType\": @{[jsonify($self->cardType)]},\n  \"part1\": ";
- (my $sub = $self->part1->toJSON) =~ s/^/ /gm;
- $str .= $sub . ",\n  \"part2\": ";
- ($sub = $self->part2->toJSON) =~ s/^/ /gm;
+ my $str = " {\n  \"cardType\": @{[jsonify($self->cardType)]},\n  \"part1\":";
+ (my $sub = $self->part1->toJSON) =~ s/\n/\n /gm;
+ $str .= $sub . ",\n  \"part2\":";
+ ($sub = $self->part2->toJSON) =~ s/\n/\n /g;
  $str .= $sub . ",\n  \"printings\": " . jsonify($self->printings) . "\n }";
  return $str;
 }
@@ -147,12 +147,16 @@ sub mergeCheck {  # Neither argument is modified.
 
 our $tagwidth = $EnVec::Util::tagwidth;
 
+my %formats = (split => 'Split card', flip => 'Flip card',
+ double => 'Double-faced card');
+
 sub showField {
  my($self, $field, $width) = @_;
  $width = ($width || 79) - $tagwidth - 1;
  if (!defined $field) { return '' }
  elsif ($field eq 'cardType') {
-  return sprintf "%-*s %s\n", $tagwidth, 'Format:', ucfirst $self->cardType
+  return sprintf "%-*s %s\n", $tagwidth, 'Format:',
+   $formats{$self->cardType} || ucfirst $self->cardType
  } elsif ($field eq 'sets') { return showSets $self->printings, $width }
  else {
   my $subwidth = int(($width - length($sep)) / 2) + $tagwidth + 1;
