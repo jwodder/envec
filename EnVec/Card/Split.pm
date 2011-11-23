@@ -89,26 +89,26 @@ sub printings {
 for my $field (qw< name pow tough text loyalty handMod lifeMod indicator type
  PT >) {
  eval <<EOT;
-sub $field {
- my \$self = shift;
- croak "Card fields of EnVec::Card::Split objects cannot be modified" if \@_;
- my \$left = \$self->part1->$field;
- my \$right = \$self->part2->$field;
- return undef if !defined \$left && !defined \$right;
- \$left = '' if !defined \$left;
- \$right = '' if !defined \$right;
- return \$left . \$sep . \$right;
-}
+  sub $field {
+   my \$self = shift;
+   croak "Card fields of EnVec::Card::Split objects cannot be modified" if \@_;
+   my \$left = \$self->part1->$field;
+   my \$right = \$self->part2->$field;
+   return undef if !defined \$left && !defined \$right;
+   \$left = '' if !defined \$left;
+   \$right = '' if !defined \$right;
+   return \$left . \$sep . \$right;
+  }
 EOT
 }
 
 for my $field (qw< supertypes types subtypes >) {
-eval <<EOT;
-sub $field {
- my \$self = shift;
- croak "Card fields of EnVec::Card::Split objects cannot be modified" if \@_;
- return [ \@{\$self->part1->$field}, \@{\$self->part2->$field} ];
-}
+ eval <<EOT;
+  sub $field {
+   my \$self = shift;
+   croak "Card fields of EnVec::Card::Split objects cannot be modified" if \@_;
+   return [ \@{\$self->part1->$field}, \@{\$self->part2->$field} ];
+  }
 EOT
 }
 

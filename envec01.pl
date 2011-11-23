@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 use strict;
-use EnVec qw< loadSets setsToImport getTextSpoiler loadTextSpoiler mergeCards
- dumpArray >;
+use EnVec ':all';
 
 loadSets(shift || 'data/sets.tsv');
+loadParts;
 -d 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
 my %cardHash;
 for my $set (setsToImport) {
@@ -16,6 +16,7 @@ for my $set (setsToImport) {
  }
  print STDERR "Importing $set\n";
  my %imported = loadTextSpoiler($set, $file);
+ mergeParts %imported;
  print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
  mergeCards(%cardHash, %imported);
 }

@@ -9,9 +9,19 @@ use EnVec::Card::Split;
 use EnVec::Util;
 
 use Exporter 'import';
-our @EXPORT = qw< joinSplit addCard joinFlip unmungFlip >;
+our @EXPORT = qw< joinCards joinSplit insertCard addCard joinFlip unmungFlip >;
 
 my $subname = qr:[^(/)]+:;
+
+sub joinCards($$$) {
+ my($format, $part1, $part2) = @_;
+ my $printings = mergePrintings $part1->name . ' // ' . $part2->name,
+  $part1->printings, $part2->printings;
+ $part1->printings({});
+ $part2->printings({});
+ return new EnVec::Card::Split cardType => $format, part1 => $part1,
+  part2 => $part2, printings => $printings;
+}
 
 sub joinSplit($$) {
  my($a, $b) = @_;
@@ -32,30 +42,25 @@ sub joinSplit($$) {
   if $b->name ne $bN;
  $left->name($leftN);
  $right->name($rightN);
- my $printings = mergePrintings "$leftN // $rightN", $left->printings,
-  $right->printings;
- $left->printings({});
- $right->printings({});
- return new EnVec::Card::Split cardType => 'split', part1 => $left,
-  part2 => $right, printings => $printings;
+ return joinCards 'split', $left, $right;
+}
+
+sub insertCard(\%$) {
+ my($db, $card) = @_;
+ my $name = $card->name;
+ return $db->{$name} = exists $db->{$name} ? $db->{$name}->merge($card) : $card;
 }
 
 sub addCard(\%$$%) {
  my($db, $set, $id, %fields) = @_;
  my $card = new EnVec::Card %fields;
+ $card->addSetID($set, $id);
  if ($card->name =~ m:^($subname) // ($subname) \(($subname)\)$:) {
   my($left, $right, $this) = ($1, $2, $3);
   my $other = "$left // $right (" . ($left eq $this ? $right : $left) . ')';
-  if (exists $db->{$other}) {
-   $card = $db->{"$left // $right"} = joinSplit $card, delete $db->{$other};
-   $card->addSetID($set, $id);
-   return $card;
-  }
+  $card = joinSplit $card, delete $db->{$other} if exists $db->{$other};
  }
- ### Should this use merge or mergeCheck?
- $db->{$card->name} = $card if !exists $db->{$card->name};
- $db->{$card->name}->addSetID($set, $id);
- return $db->{$card->name};
+ return insertCard %$db, $card;
 }
 
 sub joinFlip($$) {
@@ -65,12 +70,7 @@ sub joinFlip($$) {
   or croak "joinFlip: invalid arguments: $topName vs. " . $bottom->name;
  $bottom->name($1);
  $bottom->cost(undef);
- my $printings = mergePrintings "$topName // $1", $top->printings,
-  $bottom->printings;
- $top->printings({});
- $bottom->printings({});
- return new EnVec::Card::Split cardType => 'flip', part1 => $top,
-  part2 => $bottom, printings => $printings;
+ return joinCards 'flip', $top, $bottom;
 }
 
 sub unmungFlip($) {
@@ -84,8 +84,6 @@ sub unmungFlip($) {
  my $bottom = new EnVec::Card name => $name, supertypes => $supers,
   types => $types, subtypes => $subs, pow => $pow, tough => $tough,
   text => join("\n", @text);
-  ### Should the bottom half store the mana cost and color indicator of the top
-  ### half?  It would be in accordance with the rules for flipped cards.
  $flip->text($topText);
  my $printings = $flip->printings;
  $flip->printings({});

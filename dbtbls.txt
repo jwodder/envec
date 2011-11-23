@@ -37,6 +37,7 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
  - number - int or NULL
  - watermark - string or NULL
  - flavorText - string or NULL
+ - date - date or NULL - date of the card's release (for promo cards only)
 
 - "sets" table
  - setID

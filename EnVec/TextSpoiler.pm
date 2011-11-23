@@ -43,8 +43,7 @@ sub loadTextSpoiler($$) {
       my $url = $tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href');
       $url =~ /\bmultiverseid=(\d+)/ and $id = $1;
       $fields{name} = simplify $v2;
-      $fields{name} =~ s/^XX([^()]+) \(\1\)$/$1/;
-       # This ^^ fixes a weird problem with Call of the Herd and Valor.
+      $fields{name} =~ s/^[^()]+ \(([^()]+)\)$/$1/;
      } elsif ($v1 eq 'Cost:') {
       $fields{cost} = simplify $v2;
       $fields{cost} =~ s:\G(\d+|[XYZWUBRG])|\G\(([2WUBRG]/[WUBRGP])\):{@{[uc($2 || $1)]}}:gi;

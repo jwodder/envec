@@ -7,7 +7,7 @@ our @EXPORT_OK = qw< loadedSets loadSets cmpSets setsToImport allSets setData
  fromAbbrev firstSet >;
 our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
 
-our $setfile = 'data/sets.tsv';
+our $setFile = 'data/sets.tsv';
 
 my %sets = ();
 my %shorts = ();
@@ -18,7 +18,7 @@ my $warned = 0;
 sub loadedSets() { $loaded }
 
 sub loadSets(;$) {
- my $sf = shift || $setfile;
+ my $sf = shift || $setFile;
  my $setdat;
  if ($sf eq '-') { $setdat = *STDIN }
  else { open $setdat, '<', $sf or croak "EnVec::Sets::loadSets: $sf: $!" }
@@ -45,7 +45,7 @@ sub loadSets(;$) {
   };
   push @setList, $name;
   if (exists $shorts{$short1}) {
-   carp "EnVec::Sets::loadSets: $sf: abbreviation \"$short1\" used more than once; second appearance ignored";
+   carp "EnVec::Sets::loadSets: $sf: abbreviation \"$short1\" used more than once; second appearance ignored"
   } else { $shorts{$short1} = $name }
  }
  $loaded = 1;

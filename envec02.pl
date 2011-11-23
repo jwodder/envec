@@ -2,9 +2,10 @@
 # The only data that this should lose by not merging should be most
 # multiverseids, but who needs those?
 use strict;
-use EnVec qw< loadSets setsToImport getTextSpoiler loadTextSpoiler >;
+use EnVec ':all';
 
 loadSets(shift || 'data/sets.tsv');
+loadParts;
 -d 'oracle' or mkdir 'oracle' or die "$0: oracle/: $!";
 
 my %seen;
@@ -19,6 +20,7 @@ for my $set (setsToImport) {
  }
  print STDERR "Importing $set...\n";
  my %imported = loadTextSpoiler($set, $file);
+ mergeParts %imported;
  print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
  my $new = 0;
  for (sort keys %imported) {
