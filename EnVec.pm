@@ -84,15 +84,20 @@ sub mergeParts(\%) {
  while (($a, $b) = each %flip) {
   if (exists $cards->{$a} && exists $cards->{$b}) {
    $cards->{$b}->cost(undef);
-   $cards->{$a} = joinCards 'flip', $cards->{$a}, $cards->{$b};
+   insertCard(%$cards, joinCards 'flip', $cards->{$a}, $cards->{$b});
+   delete $cards->{$a};
    delete $cards->{$b};
   } elsif (exists $cards->{$a} && $cards->{$a}->text =~ /\n----\n/) {
-   $cards->{$a} = unmungFlip($cards->{$a})
+   insertCard(%$cards, unmungFlip($cards->{$a}));
+   # Potential pitfall: If $cards->{$a} isn't actually a flip card (even though
+   # it _should_ be one if its text has ----), it'll get deleted here.
+   delete $cards->{$a};
   }
  }
  while (($a, $b) = each %double) {
   if (exists $cards->{$a} && exists $cards->{$b}) {
-   $cards->{$a} = joinCards 'double', $cards->{$a}, $cards->{$b};
+   insertCard(%$cards, joinCards 'double', $cards->{$a}, $cards->{$b});
+   delete $cards->{$a};
    delete $cards->{$b};
   }
  }

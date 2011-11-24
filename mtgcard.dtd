@@ -2,18 +2,20 @@
 <!ENTITY % symbols '%mana;|T|Q|chaos|PW'>
 <!ENTITY % text '(#PCDATA|%symbols;|i)*'>
 
-<!ELEMENT mtgcard (name, cost?,
-		   supertype*, type+, subtype*,
-		   text*,
-		   level*,
-		   (pow, tough)?,
-		   loyalty?,
-		   (hand, life)?,
-		   indicator?,
-		   alternate*,
-		   printing*,
-		   ruling*,
-		   format*)>
+<!ELEMENT cardlist (card*)>
+
+<!ELEMENT card (name, cost?,
+		supertype*, type+, subtype*,
+		text*,
+		level*,
+		(pow, tough)?,
+		loyalty?,
+		(hand, life)?,
+		indicator?,
+		alternate*,
+		printing*,
+		ruling*,
+		format*)>
 
 <!ELEMENT name (#PCDATA|i)*>
 
