@@ -12,7 +12,7 @@ use EnVec::JSON ':all';
 use EnVec::Sets ':all';
 use EnVec::TextSpoiler ':all';
 
-use EnVec::Card::Util qw< joinCards unmungFlip insertCard >;
+use EnVec::Card::Util;
 
 use Exporter 'import';
 our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},

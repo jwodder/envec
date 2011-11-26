@@ -142,6 +142,8 @@ my %fields = (
  handMod    => 'Hand:',
  lifeMod    => 'Life:',
  PT         => 'P/T:',
+#HandLife   => 'Hand/Life:',
+ HandLife   => 'H/L:',
 #printings  => 'Printings:',
 );
 
@@ -175,8 +177,9 @@ sub toText1 {
  $str .= $self->showField('text', $width) if $self->text;
  $str .= $self->showField('PT', $width) if defined $self->pow;
  $str .= $self->showField('loyalty', $width) if defined $self->loyalty;
- $str .= $self->showField('handMod', $width) if defined $self->handMod;
- $str .= $self->showField('lifeMod', $width) if defined $self->lifeMod;
+#$str .= $self->showField('handMod', $width) if defined $self->handMod;
+#$str .= $self->showField('lifeMod', $width) if defined $self->lifeMod;
+ $str .= $self->showField('HandLife', $width) if defined $self->handMod;
  $str .= $self->showField('cardType', $width) if $self->isSplit;
  $str .= $self->showField('sets', $width) if $sets;
  return $str;
@@ -221,6 +224,11 @@ sub setIDs {
 sub PT {
  my $self = shift;
  return defined $self->pow ? $self->pow . '/' . $self->tough : undef;
+}
+
+sub HandLife {
+ my $self = shift;
+ return defined $self->handMod ? $self->handMod . '/' . $self->lifeMod : undef;
 }
 
 1;

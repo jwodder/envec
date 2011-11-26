@@ -3,11 +3,7 @@ use strict;
 use EnVec 'parseJSON';
 
 $/ = undef;
-print join("\t", map { defined $_ ? $_ : '' }
- fixFlip($_->name), $_->type, $_->cost, $_->indicator,
- $_->PT,
- $_->loyalty,
- defined $_->handMod && $_->handMod . '/' . $_->lifeMod
-), "\n" for @{parseJSON <>};
-
-sub fixFlip {my $str = shift; $str =~ s/^[^()]+\(([^()]+)\)$/$1/; return $str; }
+print join("\t", map { defined $_ ? $_ : '' } $_->name, $_->type, $_->cost,
+					      $_->indicator, $_->PT,
+					      $_->loyalty, $_->HandLife), "\n"
+ for map { $_->isSplit ? ($_->part1, $_->part2) : $_ } @{parseJSON <>};

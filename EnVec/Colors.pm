@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use Exporter 'import';
 our @EXPORT = qw< COLOR_WHITE COLOR_BLUE COLOR_BLACK COLOR_RED COLOR_GREEN
- colors2bits bits2colors parseColors colors2colors >;
+ colors2bits bits2colors colors2colors parseColors >;
 
 use constant {
  COLOR_WHITE => 1,
@@ -27,6 +27,7 @@ sub colors2bits($) {
 
 sub bits2colors($) {
  my $mask = shift;
+ return '' if !defined $mask;
  my $str = '';
  $str .= 'W' if $mask & COLOR_WHITE;
  $str .= 'U' if $mask & COLOR_BLUE;
@@ -36,20 +37,9 @@ sub bits2colors($) {
  return $str;
 }
 
-sub parseColors($) {
- my $text = shift;
- my $str = '';
- $str .= 'W' if $text =~ /\bWhite\b/i;
- $str .= 'U' if $text =~ /\bBlue\b/i;
- $str .= 'B' if $text =~ /\bBlack\b/i;
- $str .= 'R' if $text =~ /\bRed\b/i;
- $str .= 'G' if $text =~ /\bGreen\b/i;
- return $str;
-}
-
 sub colors2colors($) {
  my $in = shift;
- return '' if !defined $in;
+ return undef if !defined $in;
  my $out = '';
  $out .= 'W' if $in =~ y/W//;
  $out .= 'U' if $in =~ y/U//;
@@ -57,4 +47,16 @@ sub colors2colors($) {
  $out .= 'R' if $in =~ y/R//;
  $out .= 'G' if $in =~ y/G//;
  return $out;
+}
+
+sub parseColors($) {
+ my $text = shift;
+ return undef if !defined $text;
+ my $str = '';
+ $str .= 'W' if $text =~ /\bWhite\b/i;
+ $str .= 'U' if $text =~ /\bBlue\b/i;
+ $str .= 'B' if $text =~ /\bBlack\b/i;
+ $str .= 'R' if $text =~ /\bRed\b/i;
+ $str .= 'G' if $text =~ /\bGreen\b/i;
+ return $str;
 }

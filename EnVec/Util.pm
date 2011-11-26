@@ -7,7 +7,7 @@ use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
 use EnVec::Sets qw< loadedSets cmpSets >;
 
 use Exporter 'import';
-our @EXPORT = qw< trim simplify uniq jsonify wrapLines textContent parseTypes
+our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
  mergePrintings showSets >;
 
 our $tagwidth = 8;
@@ -17,6 +17,7 @@ sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 sub simplify($) {
  my $str = shift;
  #return 'XXX' if !defined $str;  #####
+ return undef if !defined $str;
  $str =~ s/^\s+|\s+$//g;
  $str =~ s/\s+/ /g;
  return $str;
@@ -61,34 +62,39 @@ sub wrapLines($;$$) {
  } split /\n/, $str;
 }
 
-sub textContent($) {
-# cf. <http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent>
+sub magicContent($) {
+ # Like textContent, but better ... for its intended purpose
+ # cf. <http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent>
  my $node = shift;
- if ($node->nodeType == TEXT_NODE) {
+ if (!defined $node) { return '' }
+ elsif ($node->nodeType == TEXT_NODE) {
   (my $txt = $node->nodeValue) =~ s/&nbsp;/ /g;
   return $txt;
  } elsif ($node->nodeType == ELEMENT_NODE) {
-  $node->nodeName eq 'br' ? "\n"
-   : join('', map { textContent($_) } @{$node->childNodes})
+  if ($node->nodeName eq 'br') { return "\n" }
+  elsif ($node->nodeName eq 'i') {
+   '<i>' . join('', map { magicContent($_) } @{$node->childNodes}) . '</i>'
+  } elsif ($node->nodeName eq 'img') {
+   my $src = $node->getAttribute('src') || '';
+   if ($src =~ /\bchaos\.gif$/) { return '{C}' }
+   elsif ($src =~ /\bname=(\w+)\b/) {
+    my $sym = $1;
+    return $sym =~ /^([2WUBRG])([WUBRGP])$/ ? "{$1/$2}" : "{$sym}";
+   } else { return "[$src]" }
+  } else { return join '', map { magicContent($_) } @{$node->childNodes} }
  } ### else { ??? }
 }
 
 sub parseTypes($) {
  my($type, $sub) = split / ?— ?| -+ /, simplify $_[0], 2;
   # The first "hyphen" above is U+2014.
- return [], [ 'Summon' ], [ $2 || $sub ] if $type =~ /^Summon( (.+))?$/i;
- my @sublist = $type eq 'Plane' ? ($sub) : defined $sub ? split(' ', $sub) : ();
+ return [], [ $1 ], [ $3 || $sub ] if $type =~ /^(Summon|Enchant)( (.+))?$/i;
+ my @sublist = $type eq 'Plane' ? ($sub) : split(' ', $sub || '');
   # Assume that Plane cards never have supertypes or other card types.
  my @typelist = split ' ', $type;
  my @superlist = ();
- while (@typelist) {
-  if ($typelist[0] =~ /^(Basic|Legendary|Ongoing|Snow|World)$/i) {
-   push @superlist, shift @typelist
-  } elsif ($typelist[0] =~ /^Enchant$/i) {
-   @typelist = join ' ', @typelist;
-   last;
-  } else { last }
- }
+ push @superlist, shift @typelist
+  while @typelist && $typelist[0] =~ /^(Basic|Legendary|Ongoing|Snow|World)$/i;
  return [ @superlist ], [ @typelist ], [ @sublist ];
 }
 

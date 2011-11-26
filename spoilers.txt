@@ -111,10 +111,10 @@ trim(label) = Expansion:
 id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow"
 trim(label) = Rarity:
  - The value is a <span> whose class corresponds to the rarity ("common",
-   "mythic", etc.) and which contains the rarity.
+   "mythic", etc.) and which contains the name of the rarity.
 
 id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsRow"
-trim(label) = Other Sets:
+trim(label) = All Sets:
  - The value is a <div> with
    id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsValue"
    that contains a series of expansion symbol images, each a hyperlink to the
@@ -130,7 +130,7 @@ trim(label) = Artist:
    containing the name of the artist hyperlinked to a Gatherer search for eir
    other work.
 
-   - Practically all of the "value" fields will need to be trimmed.
+  - Practically all of the "value" fields will need to be trimmed.
 
   - Rulings are stored in a <div> with
     id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rulingsContainer",
@@ -139,17 +139,18 @@ trim(label) = Artist:
     second containing the text of the ruling.  Cards which have no rulings do
     not seem to have this <div>.
 
-  - For double-faced cards, all of the relevant IDs for the front face
-    (including the IDs of the containing <td>s and rulings blocks) insert
-    "ctl05_" before the last "word", and the IDs for the back face insert
-    "ctl06_" before the last word.  A parser can test whether a card is
-    double-faced by first checking for the existence of, e.g.,
+  - For flip and double-faced cards, all of the relevant IDs for the top/front
+    component (including the IDs of the containing <td>s and rulings blocks)
+    insert "ctl05_" before the last "word", and the IDs for the bottom/back
+    component insert "ctl06_" before the last word.  A parser can test whether
+    a card is double-faced by first checking for the existence of, e.g.,
     "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow", and iff no
     such element is found, the card is double-faced.
-   - Note that each face of a double-faced card is given its own collector's
-     number (both in the Oracle DB and on the printed card), with the front's
-     number ending in 'a' and the back's ending in 'b'.  (However, this suffix
-     is absent in the checklist output format.)
+   - Note that each part of a flip/double-faced card is given its own
+     collector's number in the Oracle DB (but only double-faced cards have
+     separate IDs printed on the actual card), with the top/front's number
+     ending in 'a' and the bottom/back's ending in 'b'.  However, these
+     suffixes are absent in the checklist output format.
 
 
 - Problems with the spoilers, (mostly) regardless of format:
@@ -220,6 +221,9 @@ trim(label) = Artist:
   - Greed (Legends, Fourth Edition, & Fifth Edition, the last two being solely
     incorrect formatting)
   - Squee, Goblin Nabob
+  - Thran Golem (Urza's Destiny)
+  - Phyresis
+  - Whipflare
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:

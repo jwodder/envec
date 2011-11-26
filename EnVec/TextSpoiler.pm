@@ -2,9 +2,10 @@ package EnVec::TextSpoiler;
 use warnings;
 use strict;
 use XML::DOM::Lite 'Parser';
+use EnVec::Card;
+use EnVec::Card::Util;
 use EnVec::Colors;
 use EnVec::Util;
-use EnVec::Card::Util;
 
 use Exporter 'import';
 our @EXPORT_OK = ('loadTextSpoiler');
@@ -33,20 +34,22 @@ sub loadTextSpoiler($$) {
    for my $tr (@{$div->getElementsByTagName('tr')}) {
     my $tds = $tr->getElementsByTagName('td');
     if ($tds->length != 2) {
-     addCard(%cards, $set, $id, %fields);
+     my $card = new EnVec::Card %fields;
+     $card->addSetID($set, $id);
+     insertCard %cards, $card;
      %fields = ();
      $id = 0;
     } else {
-     my $v1 = simplify textContent $tds->[0];
-     my $v2 = textContent $tds->[1];
+     my $v1 = simplify magicContent $tds->[0];
+     my $v2 = magicContent $tds->[1];
      if ($v1 eq 'Name:') {
-      my $url = $tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href');
-      $url =~ /\bmultiverseid=(\d+)/ and $id = $1;
-      $fields{name} = simplify $v2;
-      $fields{name} =~ s/^[^()]+ \(([^()]+)\)$/$1/;
+      ($fields{name} = simplify $v2) =~ s/^[^()]+ \(([^()]+)\)$/$1/;
+      $id = ($tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href')
+	      =~ /\bmultiverseid=(\d+)/);
      } elsif ($v1 eq 'Cost:') {
       $fields{cost} = simplify $v2;
-      $fields{cost} =~ s:\G(\d+|[XYZWUBRG])|\G\(([2WUBRG]/[WUBRGP])\):{@{[uc($2 || $1)]}}:gi;
+      $fields{cost} =~ s<\G(\d+|[XYZWUBRG])|\G\(([2WUBRG]/[WUBRGP])\)>
+			<\U{@{[$2 || $1]}}>gi;
       # Assume no snow in mana costs
      } elsif ($v1 eq 'Type:') {
       @fields{'supertypes', 'types', 'subtypes'} = parseTypes $v2

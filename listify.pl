@@ -1,38 +1,39 @@
 #!/usr/bin/perl -w
 use strict;
+use open ':encoding(UTF-8)', ':std';
+ # Using -CSD on the #! line doesn't work when invoking the script as "perl
+ # script.pl", so the 'open' pragma is used here instead.
 
-my $statFile = 'out/stats.txt';
-my $checkFile = 'out/checks.txt';
-my $flipFile = 'data/flip.tsv';
+my $statFile   = 'out/stats.txt';
+my $checkFile  = 'out/checks.txt';
+
+my $splitFile  = 'data/split.tsv';
+my $flipFile   = 'data/flip.tsv';
 my $doubleFile = 'data/double.tsv';
-my $tokenFile = 'data/tokens.txt';
+
+my $tokenFile  = 'data/tokens.txt';
 
 my %cards = ();
 open my $stats, '<', $statFile or die "$0: $statFile: $!";
 while (<$stats>) {
  chomp;
  my($name, $type, $cost, $indic, $pt, $loyalty, $vanguard) = split /\t/;
- my $name2 = $name;
- if ($name2 =~ s: // (.+)$::) {
-  $cards{$1} = 0;
-  $type =~ s: //.*$::;
- }
- $cards{$name2} = [ $name, $cost, $type, $indic, $pt || $loyalty || $vanguard ];
+ $cost = '--' if !$cost;
+ $cost .= " [$indic]" if $indic;
+ $cards{$name} = [ $name, $cost, $type, $pt || $loyalty || $vanguard ];
 }
 close $stats;
 
-for my $file ($flipFile, $doubleFile) {
+for my $file ($splitFile, $flipFile, $doubleFile) {
  open my $in, '<', $file or die "$0: $file: $!";
  while (<$in>) {
   chomp;
   next if /^\s*#/ || /^\s*$/;
   my($a, $b) = split /\t+/;
   if (exists $cards{$b}) {
-   $cards{$a}[4] = sprintf '%-5s  %-30s  %4$-30s %5$-5s %6$s', $cards{$a}[4],
-    @{$cards{$b}}
-  } else { $cards{$a}[4] = sprintf '%-5s  %-30s  ???', $cards{$a}[4], $b }
-  # Stupid munged flip cards...
-  $cards{$b} = 0;
+   push @{$cards{$a}}, $cards{$b};
+   $cards{$b} = 0;
+  }
  }
  close $in;
 }
@@ -46,29 +47,55 @@ while (<$tokens>) {
 }
 close $tokens;
 
+my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic',
+ L => 'Land', S => 'Special');
+
 my @setList = ();
 my $setName = undef;
+my($nameL, $typeL, $costL) = (0, 0, 0);
 open my $checks, '<', $checkFile or die "$0: $checkFile: $!";
 while (<$checks>) {
  chomp;
  my($name, undef, $set, $num, $rarity, undef, undef) = split /\t/;
  print STDERR "$name: no such card\n" and next if !exists $cards{$name};
  next if !$cards{$name};
+ $rarity = $rarities{$rarity} if exists $rarities{$rarity};
  if (!defined $setName) {$setName = $set; print "$set:\n"; }
  elsif ($setName ne $set) {
-  print "$_\n" for uniq(sort @setList);
+  print for uniq(sort map { showCard(@$_) } @setList);
   print "\n$set:\n";
   @setList = ();
   $setName = $set;
+  ($nameL, $typeL, $costL) = (0, 0, 0);
  }
- my($name0, $cost, $type, $indic, $extra) = @{$cards{$name}};
- push @setList, sprintf('%3s  %-33s  %1s  %-40s  %-32s %-5s %s', $num, $name0,
-  $rarity, $type, $cost, $indic, $extra);
+ push @setList, [ $num, $rarity, @{$cards{$name}} ];
+ $nameL = maxLen($nameL, $cards{$name}, 0);
+ $costL = maxLen($costL, $cards{$name}, 1);
+ $typeL = maxLen($typeL, $cards{$name}, 2);
 }
 close $checks;
-print "$_\n" for uniq(sort @setList);
+print for uniq(sort map { showCard(@$_) } @setList);
 
 sub uniq {  # The list must be pre-sorted
  my $prev = undef;
  grep { (!defined $prev or $prev ne $_) and ($prev = $_ or 1) } @_;
+}
+
+sub maxLen {
+ my($max, $arr, $i) = @_;
+ $max = length $arr->[$i] if length $arr->[$i] > $max;
+ $max = length $arr->[4][$i] if exists $arr->[4] && length $arr->[4][$i] > $max;
+ return $max;
+}
+
+sub showCard {
+ my($num, $rare, $name, $cost, $type, $extra, $alt) = @_;
+ my $str = sprintf "%3s %-*s  %-*s  %-8s  %-*s  %1s\n", $num, $nameL, $name,
+  $typeL, $type, $extra, $costL, $cost, $rare;
+ if ($alt) {
+  my($name2, $cost2, $type2, $extra2) = @$alt;
+  $str .= sprintf " // %-*s  %-*s  %-8s  %-*s\n", $nameL, $name2, $typeL,
+   $type2, $extra2, $costL, $cost2;
+ }
+ return $str;
 }
