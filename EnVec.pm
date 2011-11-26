@@ -7,6 +7,7 @@ use Carp;
 #use EnVec::Card::Split;
 use EnVec::Checklist ':all';
 use EnVec::Colors;
+use EnVec::Details ':all';
 use EnVec::Get ':all';
 use EnVec::JSON ':all';
 use EnVec::Sets ':all';
@@ -17,6 +18,7 @@ use EnVec::Card::Util;
 use Exporter 'import';
 our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
 		  @EnVec::Colors::EXPORT,
+		  @{$EnVec::Details::EXPORT_TAGS{all}},
 		  @{$EnVec::Get::EXPORT_TAGS{all}},
 		  @{$EnVec::JSON::EXPORT_TAGS{all}},
 		  @{$EnVec::Sets::EXPORT_TAGS{all}},

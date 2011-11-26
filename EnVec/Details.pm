@@ -2,9 +2,11 @@ package EnVec::Details;
 use warnings;
 use strict;
 use XML::DOM::Lite 'Parser';
-use EnVec::Card::Util;
 use EnVec::Colors;
 use EnVec::Util;
+
+use Carp;  #####
+$SIG{__DIE__} = sub { Carp::confess(@_) };  #####
 
 use Exporter 'import';
 our @EXPORT_OK = ('loadDetails');
@@ -20,14 +22,14 @@ sub loadDetails($) {
  my $doc = $parser->parse($str);
  ### TODO: Handle parse errors somehow!
  my $pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_';
- if (defined $doc->getElementById("${pre}nameRow")) { scrapeSection $doc, $pre }
- else { (part1 => scrapeSection($doc, "${pre}ctl05_"),
-	 part2 => scrapeSection($doc, "${pre}ctl06_")) }
+ if ($doc->getElementById("${pre}nameRow")) { scrapeSection $doc, $pre }
+ else { (part1 => { scrapeSection($doc, "${pre}ctl05_") },
+	 part2 => { scrapeSection($doc, "${pre}ctl06_") }) }
 }
 
 sub divsByClass($$) {
  my($node, $class) = @_;
- return () if !defined $node;
+ return () if !$node;
  return grep {
   $_->nodeName eq 'div'
    && defined $_->getAttribute('class')
@@ -42,22 +44,24 @@ sub rowVal($) {
 
 sub multiline($) {
  my $row = shift;
- return undef if !defined $row;
- return join "\n", map { trim magicContent $_ } divsByClass $row, 'cardtextbox';
+ return undef if !$row;
+ return join "\n", grep { $_ ne '' } map { trim magicContent $_ }
+  divsByClass((divsByClass $row, 'value')[0], 'cardtextbox');
 }
 
 sub expansions($) {
  my $node = shift;
+ return () if !$node;
  my @expands = ();
  for my $a (@{$node->getElementsByTagName('a')}) {
-  my $id = ($a->getAttribute('href') =~ /\bmultiverseid=(\d+)/);
+  my($id) = ($a->getAttribute('href') =~ /\bmultiverseid=(\d+)/);
   next if !defined $id;
-  my($img) = $a->getElementsByTagName('img');
-  next if !defined $img;
+  my($img) = @{$a->getElementsByTagName('img')};
+  next if !$img;
   my $src = $img->getAttribute('src');
   next if !defined $src;
-  my $set = ($src =~ /\bset=(\w+)/);
-  my $rarity = ($src =~ /\brarity=(\w+)/);
+  my($set) = ($src =~ /\bset=(\w+)/);
+  my($rarity) = ($src =~ /\brarity=(\w+)/);
   push @expands, [ $id, $set, $rarity ];
  }
  return @expands;
@@ -67,7 +71,7 @@ sub scrapeSection($$) {
  my($doc, $pre) = @_;
  my %fields = ();
  $fields{name} = simplify rowVal $doc->getElementById("${pre}nameRow");
- $fields{cost} = rowVal $doc->getElementById("${pre}manaRow"));
+ $fields{cost} = rowVal $doc->getElementById("${pre}manaRow");
  $fields{cost} =~ s/\s+//g if defined $fields{cost};
  @fields{'supertypes','types','subtypes'}
   = parseTypes rowVal $doc->getElementById("${pre}typeRow");
@@ -76,23 +80,23 @@ sub scrapeSection($$) {
  $fields{prnt}{mark} = multiline $doc->getElementById("${pre}markRow");
  $fields{indicator} = parseColors rowVal $doc->getElementById("${pre}colorIndicatorRow");
  my $ptRow = $doc->getElementById("${pre}ptRow");
- if (defined $ptRow) {
-  my $label = simplify magicContent((divsByClass $_[0], 'label')[0]);
+ if ($ptRow) {
+  my $label = simplify magicContent((divsByClass $ptRow, 'label')[0]);
   if ($label eq 'P/T:') {
-   @fields{'pow', 'tough'} = (rowVal($ptRow) =~ m:^\s*([^/]+?)\s*/\s*(.+?)\s*$:)
+   @fields{'pow','tough'} = (rowVal($ptRow) =~ m:^\s*([^/]+?)\s*/\s*(.+?)\s*$:)
   } elsif ($label eq 'Loyalty:') { $fields{loyalty} = simplify rowVal $ptRow }
   elsif ($label eq 'Hand/Life:') {
-   $fields{'handMod', 'lifeMod'} = simplify(rowVal($ptRow))
+   @fields{'handMod','lifeMod'} = simplify(rowVal($ptRow))
      =~ /Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)/i
   } else { print STDERR "Unknown ptRow label for $fields{name}: \"$label\"\n" }
  }
- @fields{prnt}{'id','set','rarity'}
-  = @{(expansions $doc->getElementById("${pre}currentSetSymbol"))[0]};
- $fields{printings} = expansions $doc->getElementById("${pre}otherSetsValue");
+ $fields{prnt}{idSetRare}
+  = (expansions $doc->getElementById("${pre}currentSetSymbol"))[0];
+ $fields{printings} = [expansions $doc->getElementById("${pre}otherSetsValue")];
  $fields{prnt}{number} = simplify rowVal $doc->getElementById("${pre}numberRow");
- $fields{prnt}{artist} = simplify rowVal $doc->getElementById("${pre}ArtistCredit");
+ $fields{prnt}{artist} = simplify rowVal $doc->getElementById("${pre}artistRow");
  my $rulings = $doc->getElementById("${pre}rulingsContainer");
- if (defined $rulings) {
+ if ($rulings) {
   for my $tr (@{$rulings->getElementsByTagName('tr')}) {
    my $tds = $tr->getElementsByTagName('td');
    next if $tds->length != 2;

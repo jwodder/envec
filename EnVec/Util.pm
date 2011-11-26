@@ -16,7 +16,6 @@ sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
 sub simplify($) {
  my $str = shift;
- #return 'XXX' if !defined $str;  #####
  return undef if !defined $str;
  $str =~ s/^\s+|\s+$//g;
  $str =~ s/\s+/ /g;
@@ -78,8 +77,12 @@ sub magicContent($) {
    my $src = $node->getAttribute('src') || '';
    if ($src =~ /\bchaos\.gif$/) { return '{C}' }
    elsif ($src =~ /\bname=(\w+)\b/) {
-    my $sym = $1;
-    return $sym =~ /^([2WUBRG])([WUBRGP])$/ ? "{$1/$2}" : "{$sym}";
+    my $sym = uc $1;
+    if ($sym eq 'TAP') { return '{T}' }
+    elsif ($sym eq 'UNTAP') { return '{Q}' }
+    elsif ($sym eq 'SNOW') { return '{S}' }
+    elsif ($sym =~ /^([2WUBRG])([WUBRGP])$/) { return "{$1/$2}" }
+    else { return "{$sym}" }
    } else { return "[$src]" }
   } else { return join '', map { magicContent($_) } @{$node->childNodes} }
  } ### else { ??? }

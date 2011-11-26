@@ -44,8 +44,8 @@ sub loadTextSpoiler($$) {
      my $v2 = magicContent $tds->[1];
      if ($v1 eq 'Name:') {
       ($fields{name} = simplify $v2) =~ s/^[^()]+ \(([^()]+)\)$/$1/;
-      $id = ($tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href')
-	      =~ /\bmultiverseid=(\d+)/);
+      ($id) = ($tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href')
+		=~ /\bmultiverseid=(\d+)/);
      } elsif ($v1 eq 'Cost:') {
       $fields{cost} = simplify $v2;
       $fields{cost} =~ s<\G(\d+|[XYZWUBRG])|\G\(([2WUBRG]/[WUBRGP])\)>

@@ -1,10 +1,4 @@
 NOTES ON SCRAPING SPOILERS FROM GATHERER
-
-NOTE: Gatherer changed the format of the individual card details pages for
-flipped cards on or around 17 Nov, along with the "Other Sets" fields on all
-card details pages (and possibly other things); the notes below need to be
-updated appropriately.
-
 - So far, every split card has been homogeneously typed (i.e., always either
   Instant // Instant or Sorcery // Sorcery).
 - The entries for the flipped portions of flipped cards (when they're separate
@@ -102,7 +96,7 @@ trim(label) = Hand/Life:
 
 id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_setRow"
 trim(label) = Expansion:
- - The value is a <div> with
+ - The value contains a <div> with
    id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol"
    that contains two hyperlinks, the first being the expansion symbol (linking
    to the current page) and the second the name of the expansion (linking to
@@ -110,12 +104,12 @@ trim(label) = Expansion:
 
 id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow"
 trim(label) = Rarity:
- - The value is a <span> whose class corresponds to the rarity ("common",
+ - The value contains a <span> whose class corresponds to the rarity ("common",
    "mythic", etc.) and which contains the name of the rarity.
 
 id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsRow"
 trim(label) = All Sets:
- - The value is a <div> with
+ - The value contains a <div> with
    id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsValue"
    that contains a series of expansion symbol images, each a hyperlink to the
    card's page for its printing in the corresponding set.
@@ -125,12 +119,10 @@ trim(label) = Card #:
 
 id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_artistRow"
 trim(label) = Artist:
- - The value is a <div> with
+ - The value <div> has
    id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ArtistCredit"
-   containing the name of the artist hyperlinked to a Gatherer search for eir
+   and contains the name of the artist hyperlinked to a Gatherer search for eir
    other work.
-
-  - Practically all of the "value" fields will need to be trimmed.
 
   - Rulings are stored in a <div> with
     id="ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rulingsContainer",
@@ -184,6 +176,9 @@ trim(label) = Artist:
  - Certain tokens are listed in Gatherer for no good reason (see
    data/tokens.txt), and their card numbers overlap with those of the real
    cards in their sets.
+ - It seems that the flipped portions of the Ascendant/Essence cards from
+   Saviors of Kamigawa list the P/T of the top half as the P/T of both halves.
+   Look into exactly which output formats this occurs in.
 
  - Figure of Destiny
  - Rhys the Redeemed
@@ -210,6 +205,7 @@ trim(label) = Artist:
   - Woodland Druid
   - Fool's Tome
   - Phosphorescent Feast (Future Sight)
+  - Shapeshifter (Antiquities)
   - A general description of this problem seems to be that italicization is
     only applied to the first line/cardtextbox of each piece of flavor text,
     even though there are some instances where it should be done otherwise.
