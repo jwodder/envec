@@ -5,8 +5,8 @@ use XML::DOM::Lite 'Parser';
 use EnVec::Colors;
 use EnVec::Util;
 
-use Carp;  #####
-$SIG{__DIE__} = sub { Carp::confess(@_) };  #####
+#use Carp;  #####
+#$SIG{__DIE__} = sub { Carp::confess(@_) };  #####
 
 use Exporter 'import';
 our @EXPORT_OK = ('loadDetails');

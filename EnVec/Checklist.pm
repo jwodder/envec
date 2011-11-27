@@ -26,7 +26,7 @@ sub loadChecklist($) {
     $item{$key} = $value;
     if ($key eq 'name') {
      my $url = $td->getElementsByTagName('a')->[0]->getAttribute('href');
-     $item{multiverseid} = $1 if defined $url && $url =~ /\bmultiverseid=(\d+)/;
+     ($item{multiverseid}) = ($url =~ /\bmultiverseid=(\d+)/) if defined $url;
     }
    }
    push @cards, \%item;

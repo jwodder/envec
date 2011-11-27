@@ -1,21 +1,25 @@
-- Handle parse errors in TextSpoiler.pm
+- Handle XML::DOM::Lite parse errors
 - Handle failures in Get.pm functions appropriately
-- Handle leveler cards?
-- Figure out the purpose of the "ampersand bug workaround" that TextSpoiler.pm
-  inherited from Cockatrice
-- Give EnVec::Card a method for getting a card's color, ignoring color ID?
-- EnVec::Card->showField should treat a negative width as disabling
-  line-wrapping
-- Add functions for parsing checklists & standard spoilers in files
 - Add a function for parsing an individual card page (identified by
   multiverseid) and returning a Card object
-- Add a function for parsing an individual card page for printed (rather than
-  Oracle) text?
+- Figure out the purpose of the "ampersand bug workaround" that TextSpoiler.pm
+  inherited from Cockatrice
+- Give EnVec::Card a method for getting a card's color (not color ID)
+- EnVec::Card->showField should treat a negative width as disabling
+  line-wrapping
+- Give EnVec::SplitList functions for getting the alternate components of given
+  halves of multipart cards
+- Give dumpArray and dumpHash arguments for dumping to a filehandle
 - Add a means to read EnVec::Card objects from a JSON file one at a time rather
   than all at once
 - Give EnVec.pm tags for the export lists of each submodule
 - Make EnVec.pm preserve the non-'all' tags of the submodules
-- Give dumpArray and dumpHash arguments for dumping to a filehandle
+- Handle leveler cards?
+- Add a function for parsing standard spoilers?
+- Add a function for parsing an individual card page for printed (rather than
+  Oracle) text?
 - Add files to data/ for:
- - The reserved list
- - The various release dates of different Vanguard cards?
+ - The release dates of the different Vanguard card sets
+ - The release dates of the various promo cards
+- Rewrite listify.pl to use EnVec::SplitList -- or would 'use open' cause
+  problems?

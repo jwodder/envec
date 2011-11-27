@@ -50,9 +50,9 @@ close $tokens;
 my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic',
  L => 'Land', S => 'Special');
 
-my @setList = ();
 my $setName = undef;
-my($nameL, $typeL, $costL) = (0, 0, 0);
+my @setList = ();
+my($nameL, $typeL, $costL, $extraL) = (0, 0, 0, 0);
 open my $checks, '<', $checkFile or die "$0: $checkFile: $!";
 while (<$checks>) {
  chomp;
@@ -60,21 +60,22 @@ while (<$checks>) {
  print STDERR "$name: no such card\n" and next if !exists $cards{$name};
  next if !$cards{$name};
  $rarity = $rarities{$rarity} if exists $rarities{$rarity};
- if (!defined $setName) {$setName = $set; print "$set:\n"; }
+ if (!defined $setName) { $setName = $set }
  elsif ($setName ne $set) {
-  print for uniq(sort map { showCard(@$_) } @setList);
-  print "\n$set:\n";
-  @setList = ();
+  showSet($setName, @setList);
   $setName = $set;
-  ($nameL, $typeL, $costL) = (0, 0, 0);
+  @setList = ();
+  ($nameL, $typeL, $costL, $extraL) = (0, 0, 0, 0);
  }
+ $num .= '.' if $num ne '';
  push @setList, [ $num, $rarity, @{$cards{$name}} ];
  $nameL = maxLen($nameL, $cards{$name}, 0);
  $costL = maxLen($costL, $cards{$name}, 1);
  $typeL = maxLen($typeL, $cards{$name}, 2);
+ $extraL = maxLen($extraL, $cards{$name}, 3);
 }
 close $checks;
-print for uniq(sort map { showCard(@$_) } @setList);
+showSet($setName, @setList);
 
 sub uniq {  # The list must be pre-sorted
  my $prev = undef;
@@ -90,12 +91,28 @@ sub maxLen {
 
 sub showCard {
  my($num, $rare, $name, $cost, $type, $extra, $alt) = @_;
- my $str = sprintf "%3s %-*s  %-*s  %-8s  %-*s  %1s\n", $num, $nameL, $name,
-  $typeL, $type, $extra, $costL, $cost, $rare;
+ my $str = sprintf "%4s %-*s  %-*s  %-*s  %-*s  %s\n", $num, $nameL, $name,
+  $typeL, $type, $extraL, $extra, $costL, $cost, $rare;
  if ($alt) {
   my($name2, $cost2, $type2, $extra2) = @$alt;
-  $str .= sprintf " // %-*s  %-*s  %-8s  %-*s\n", $nameL, $name2, $typeL,
-   $type2, $extra2, $costL, $cost2;
+  $str .= sprintf "  // %-*s  %-*s  %-*s  %-*s\n", $nameL, $name2, $typeL,
+   $type2, $extraL, $extra2, $costL, $cost2;
  }
  return $str;
+}
+
+sub showSet {
+ my($set, @cards) = @_;
+ print "$set:\n";
+ if ($set eq 'Planechase' || $set eq 'Archenemy') {
+  my(@special, @normal);
+  for (@cards) {
+   if ($_->[4] =~ /^(Plane|(Ongoing )?Scheme)\b/) { push @special, $_ }
+   else { push @normal, $_ }
+  }
+  print for uniq(sort map { showCard(@$_) } @special);
+  print "\n";
+  print for uniq(sort map { showCard(@$_) } @normal);
+ } else { print for uniq(sort map { showCard(@$_) } @cards) }
+ print "\n";
 }
