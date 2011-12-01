@@ -4,6 +4,10 @@
   multiverseid) and returning a Card object
 - Figure out the purpose of the "ampersand bug workaround" that TextSpoiler.pm
   inherited from Cockatrice
+- Rewrite listify.pl
+ - Use the data obtained via details-scraping, not text spoiler & checklist
+   scraping
+ - Use EnVec::SplitList -- or would 'use open' cause problems?
 - Give EnVec::Card a method for getting a card's color (not color ID)
 - EnVec::Card->showField should treat a negative width as disabling
   line-wrapping
@@ -21,5 +25,3 @@
 - Add files to data/ for:
  - The release dates of the different Vanguard card sets
  - The release dates of the various promo cards
-- Rewrite listify.pl to use EnVec::SplitList -- or would 'use open' cause
-  problems?
