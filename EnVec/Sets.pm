@@ -5,7 +5,7 @@ use Carp;
 use Exporter 'import';
 our @EXPORT_OK = qw< loadedSets loadSets cmpSets setsToImport allSets setData
  fromAbbrev firstSet >;
-our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 our $setFile = 'data/sets.tsv';
 

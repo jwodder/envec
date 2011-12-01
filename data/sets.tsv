@@ -9,9 +9,9 @@
 
 # Exact release dates are taken from [1].
 
-# The import flags specify which sets to scrape in order to get the rules text
-# of all cards with a near-minimum number of HTTP requests.  Sets with a flag
-# of "1" are scraped, while sets with a flag of "0" (usually sets that didn't
+# The import flags specify which sets to scrape in order to get a list of all
+# cards with a near-minimum number of HTTP requests.  Sets with a flag of "1"
+# are scraped, while sets with a flag of "0" (usually sets that didn't
 # introduce any new cards) are not.
 
 # Sets not listed in Gatherer (e.g., Anthologies, Deckmasters 2001) are not

@@ -7,7 +7,7 @@ use EnVec::Card::Split;
 
 use Exporter 'import';
 our @EXPORT_OK = qw< dumpArray dumpHash fromJSON parseJSON loadJSON >;
-our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub dumpArray(@) {
  ### TODO: Add an optional argument for dumping to a filehandle

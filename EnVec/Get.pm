@@ -10,7 +10,7 @@ our @EXPORT_OK = qw< getURL textSpoilerURL getTextSpoiler checklistURL
  getChecklist stdSpoilerURL getStdSpoiler detailsURL getDetails >;
 
 our %EXPORT_TAGS = (
- all  => [ @EXPORT_OK ],
+ all  => \@EXPORT_OK,
  urls => [ qw< textSpoilerURL checklistURL stdSpoilerURL detailsURL > ],
  get  => [ qw< getURL getTextSpoiler getChecklist getStdSpoiler getDetails >]
 );

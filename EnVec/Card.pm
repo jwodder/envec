@@ -141,6 +141,7 @@ my %fields = (
  loyalty    => 'Loyalty:',
  handMod    => 'Hand:',
  lifeMod    => 'Life:',
+#PT         => 'Pow/Tough:',
  PT         => 'P/T:',
 #HandLife   => 'Hand/Life:',
  HandLife   => 'H/L:',

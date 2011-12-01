@@ -54,6 +54,7 @@
 
 <!ELEMENT printing (set, rarity?, date?, number?, artist+, multiverseid*, flavor*, watermark*, notes*)>
 <!ELEMENT set (#PCDATA)>
+<!ATTLIST set abbrev CDATA #IMPLIED>
 <!ELEMENT rarity (#PCDATA)>
 <!ELEMENT date (#PCDATA)>
 <!ELEMENT number (#PCDATA)>

@@ -8,7 +8,7 @@ use Exporter 'import';
 our @EXPORT_OK = qw< loadedParts loadParts mergeParts isSplit isFlip isDouble
  splitLefts splitRights flipTops flipBottoms doubleFronts doubleBacks
  splits flips doubles >;
-our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 our $splitFile  = 'data/split.tsv';
 our $flipFile   = 'data/flip.tsv';

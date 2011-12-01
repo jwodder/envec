@@ -6,7 +6,7 @@ use EnVec::Util;
 
 use Exporter 'import';
 our @EXPORT_OK = ('loadChecklist');
-our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub loadChecklist($) {
  my $file = shift;

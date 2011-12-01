@@ -33,4 +33,4 @@ for my $set (setsToImport) {
  print STDERR "$new new cards added\n\n";
 }
 print "\n]\n";
-print STDERR scalar(keys %seen), " cards imported.\n";
+print STDERR scalar(keys %seen), " cards imported\n";

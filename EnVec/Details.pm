@@ -5,12 +5,9 @@ use XML::DOM::Lite 'Parser';
 use EnVec::Colors;
 use EnVec::Util;
 
-#use Carp;  #####
-#$SIG{__DIE__} = sub { Carp::confess(@_) };  #####
-
 use Exporter 'import';
 our @EXPORT_OK = ('loadDetails');
-our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub scrapeSection($$);
 

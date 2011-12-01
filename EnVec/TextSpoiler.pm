@@ -9,7 +9,7 @@ use EnVec::Util;
 
 use Exporter 'import';
 our @EXPORT_OK = ('loadTextSpoiler');
-our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub loadTextSpoiler($$) {
  my($set, $file) = @_;

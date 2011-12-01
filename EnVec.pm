@@ -23,7 +23,7 @@ our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
 		  @{$EnVec::SplitList::EXPORT_TAGS{all}},
 		  @{$EnVec::TextSpoiler::EXPORT_TAGS{all}},
 		  'mergeCards');
-our %EXPORT_TAGS = (all => [ @EXPORT_OK ]);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub mergeCards(\%\%) {
  # The contents of $db2 are merged into $db1.  $db2 is left intact, $db1 is not.
