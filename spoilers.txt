@@ -1,9 +1,6 @@
 NOTES ON SCRAPING SPOILERS FROM GATHERER
 - So far, every split card has been homogeneously typed (i.e., always either
   Instant // Instant or Sorcery // Sorcery).
-- The entries for the flipped portions of flipped cards (when they're separate
-  entries in the first place) list the mana costs of the non-flipped portions
-  (in accordance with the rules for flipped cards).
 - Don't try to find patterns in the assignment of multiverseids; there are too
   many gaps, temporary jumps backwards, and other discontinuities for it to
   make sense.
@@ -176,9 +173,9 @@ trim(label) = Artist:
  - Certain tokens are listed in Gatherer for no good reason (see
    data/tokens.txt), and their card numbers overlap with those of the real
    cards in their sets.
- - It seems that the flipped portions of the Ascendant/Essence cards from
-   Saviors of Kamigawa list the P/T of the top half as the P/T of both halves.
-   Look into exactly which output formats this occurs in.
+ - The bottom portions of the Ascendant/Essence cards from Saviors of Kamigawa
+   have their top halves' mana costs and (in the card details format only) P/T
+   listed as their own.
 
  - Figure of Destiny
  - Rhys the Redeemed
@@ -221,6 +218,7 @@ trim(label) = Artist:
   - Phyresis
   - Whipflare
   - Medicine Bag
+  - Mishra's Bauble
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:

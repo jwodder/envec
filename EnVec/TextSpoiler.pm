@@ -71,7 +71,7 @@ sub loadTextSpoiler($$) {
       $fields{lifeMod} = $2;
      } elsif ($v1 eq 'Set/Rarity:') {
       for (split /\s*,\s*/, simplify $v2) {
-       s/ (Common|Uncommon|(Mythic )?Rare|Special|Land)$//;
+       s/ (Common|Uncommon|(Mythic )?Rare|Special|Promo|Land)$//;
        $fields{printings}{$_}{rarity} = $1 || 'UNKNOWN';
       }
      } elsif ($v1 eq 'Color:') { $fields{indicator} = parseColors $v2 }

@@ -1,5 +1,5 @@
 # Creature tokens (all from duel decks so far) that are listed in Gatherer for
-# no good reason
+# no good reason:
 Beast
 Demon
 Elemental

@@ -4,7 +4,7 @@
   multiverseid) and returning a Card object
 - Figure out the purpose of the "ampersand bug workaround" that TextSpoiler.pm
   inherited from Cockatrice
-- Rewrite listify.pl
+- Rewrite & update listify.pl
  - Use the data obtained via details-scraping, not text spoiler & checklist
    scraping
  - Use EnVec::SplitList -- or would 'use open' cause problems?
@@ -25,3 +25,6 @@
 - Add files to data/ for:
  - The release dates of the different Vanguard card sets
  - The release dates of the various promo cards
+- For the multiversion cards in rarities.tsv, give each entry a field for the
+  multiverseid and another field for a short description that a mortal can use
+  to identify the version

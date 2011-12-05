@@ -10,7 +10,8 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
  - cost - string or NULL
  - rulesText - string
  - indicator - colors bitfield or NULL
- - power, toughness, loyalty, handMod, lifeMod - int or NULL
+ - power, toughness - string (in case of asterisks) or NULL
+ - loyalty, handMod, lifeMod - int or NULL
  - altCard - int or NULL - If the row represents the left/top/front portion of
    a split/flip/double-faced card, this is the cardID of the right/bottom/back
    portion; otherwise, it is NULL.
@@ -32,7 +33,7 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
     and flip cards (Double-faced cards have separate IDs for each face).
  - set - int - cross-reference to "sets" table
  - rarity - enum for land, common, uncommon, rare, mythic, or special
-  - Should the old rarities system be supported?
+  - The old rarities system should be supported somehow.
  - artist - string
  - number - int or NULL
  - watermark - string or NULL
@@ -45,6 +46,7 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
  - short name
  - release date
  - set type? (core set, expansion, casual supplement, etc.)
+ - maximum collector's number?
 
 - "rulings" table
  - cardID

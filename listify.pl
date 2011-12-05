@@ -48,7 +48,7 @@ while (<$tokens>) {
 close $tokens;
 
 my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic',
- L => 'Land', S => 'Special');
+ L => 'Land', S => 'Special', P => 'Promo');
 
 my $setName = undef;
 my @setList = ();
@@ -111,7 +111,7 @@ sub showSet {
    else { push @normal, $_ }
   }
   print for uniq(sort map { showCard(@$_) } @special);
-  print "\n";
+  print "---\n";
   print for uniq(sort map { showCard(@$_) } @normal);
  } else { print for uniq(sort map { showCard(@$_) } @cards) }
  print "\n";

@@ -232,4 +232,27 @@ sub HandLife {
  return defined $self->handMod ? $self->handMod . '/' . $self->lifeMod : undef;
 }
 
+sub isSupertype {
+ my($self, $type) = @_;
+ for (@{$self->supertypes}) { return 1 if $_ eq $type }
+ return '';
+}
+
+sub isType {
+ my($self, $type) = @_;
+ for (@{$self->types}) { return 1 if $_ eq $type }
+ return '';
+}
+
+sub isSubtype {
+ my($self, $type) = @_;
+ for (@{$self->subtypes}) { return 1 if $_ eq $type }
+ return '';
+}
+
+sub hasType {
+ my($self, $type) = @_;
+ $self->isType($type) || $self->isSubtype($type) || $self->isSupertype($type);
+}
+
 1;
