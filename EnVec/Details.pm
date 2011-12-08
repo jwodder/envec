@@ -87,8 +87,8 @@ sub scrapeSection($$) {
      =~ /Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)/i
   } else { print STDERR "Unknown ptRow label for $fields{name}: \"$label\"\n" }
  }
- $fields{prnt}{idSetRare}
-  = (expansions $doc->getElementById("${pre}currentSetSymbol"))[0];
+ @{$fields{prnt}}{'id', 'set', 'rarity'}
+  = @{(expansions $doc->getElementById("${pre}currentSetSymbol"))[0]};
  $fields{printings} = [expansions $doc->getElementById("${pre}otherSetsValue")];
  $fields{prnt}{number} = simplify rowVal $doc->getElementById("${pre}numberRow");
  $fields{prnt}{artist} = simplify rowVal $doc->getElementById("${pre}artistRow");

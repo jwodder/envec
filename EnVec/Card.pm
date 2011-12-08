@@ -25,7 +25,7 @@ use Class::Struct name       => '$',
  #  rarity - string
  #  ids - list of multiverseid values, ideally sorted and without duplicates
 
-my @scalars = qw< name cost pow tough text loyalty handMod lifeMod indicator >;
+my @scalars = qw< name cost text pow tough loyalty handMod lifeMod indicator >;
 my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {

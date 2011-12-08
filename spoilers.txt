@@ -1,6 +1,4 @@
 NOTES ON SCRAPING SPOILERS FROM GATHERER
-- So far, every split card has been homogeneously typed (i.e., always either
-  Instant // Instant or Sorcery // Sorcery).
 - Don't try to find patterns in the assignment of multiverseids; there are too
   many gaps, temporary jumps backwards, and other discontinuities for it to
   make sense.
@@ -203,6 +201,7 @@ trim(label) = Artist:
   - Fool's Tome
   - Phosphorescent Feast (Future Sight)
   - Shapeshifter (Antiquities)
+  - Aluren
   - A general description of this problem seems to be that italicization is
     only applied to the first line/cardtextbox of each piece of flavor text,
     even though there are some instances where it should be done otherwise.
@@ -219,6 +218,9 @@ trim(label) = Artist:
   - Whipflare
   - Medicine Bag
   - Mishra's Bauble
+  - Venom (The Dark)
+  - Raging Bull
+  - Battle Mastery
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:

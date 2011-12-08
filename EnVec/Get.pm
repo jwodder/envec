@@ -1,7 +1,8 @@
 package EnVec::Get;
 use warnings;
 use strict;
-use HTTP::Status 'is_success';
+use Carp;
+use HTTP::Status qw< is_success status_message >;
 use LWP::Simple 'getstore';
 
 use Exporter 'import';
@@ -19,9 +20,7 @@ sub getURL($$) {
  my($url, $file) = @_;
  my $res = getstore($url, $file);
  #my $res = mirror($url, $file);
-#if (!is_success $res) {
-# print STDERR "Could not fetch set \"$set\": ", status_message($res), "\n";
-#}
+ carp "Error fetching URL [$url]: ", status_message($res) if !is_success $res;
  return is_success $res;
 }
 

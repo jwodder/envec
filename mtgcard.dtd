@@ -3,9 +3,13 @@
 <!ENTITY % text '(#PCDATA|%symbols;|i)*'>
 
 <!ELEMENT cardlist (card*)>
+<!ATTLIST cardlist date CDATA #IMPLIED>
 
 <!ELEMENT card (content+, printing*, ruling*, format*)>
-<!ATTLIST card type (normal|split|flip|double-faced) "standard">
+<!ATTLIST card type (normal|split|flip|double-faced) "normal">
+<!-- Consider making the "type" attribute just a space-separated list of
+     arbitrary keywords, e.g. "split flip double-faced nontraditional
+     online-only uncard token". -->
 
 <!-- A subcard of a multi-part card (or the entirety of a normal card): -->
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,
