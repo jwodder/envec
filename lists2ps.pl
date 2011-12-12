@@ -29,7 +29,7 @@ while (<>) {
  /pageNo pageNo 1 add def
  66 725 moveto ($set) show
  /pns pageNo buf cvs def
- 546 725 pns stringwidth pop sub moveto
+ 546 pns stringwidth pop sub 725 moveto
  pns show
  66 722.5 moveto 480 0 rlineto stroke
  /y 722 def

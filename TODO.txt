@@ -28,6 +28,7 @@
  - The release dates of the different Vanguard card sets
  - The release dates of the various promo cards
  - Timeshifted cards in Planar Chaos and Future Sight?
+ - Promo cards not in Gatherer
 - For the multiversion cards in rarities.tsv, give each entry a field for the
   multiverseid and another field for a short description that a mortal can use
   to identify the version
