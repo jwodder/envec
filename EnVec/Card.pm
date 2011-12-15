@@ -255,4 +255,9 @@ sub hasType {
  $self->isType($type) || $self->isSubtype($type) || $self->isSupertype($type);
 }
 
+sub isNontraditional {
+ my $self = shift;
+ $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
+}
+
 1;

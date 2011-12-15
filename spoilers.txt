@@ -174,6 +174,8 @@ trim(label) = Artist:
  - The bottom portions of the Ascendant/Essence cards from Saviors of Kamigawa
    have their top halves' mana costs and (in the card details format only) P/T
    listed as their own.
+ - The rules text for Rage Extractor represents the generic Phyrexian mana
+   symbol as "p" (without even any braces!).
 
  - Figure of Destiny
  - Rhys the Redeemed
@@ -221,6 +223,7 @@ trim(label) = Artist:
   - Venom (The Dark)
   - Raging Bull
   - Battle Mastery
+  - Joraga Bard
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:

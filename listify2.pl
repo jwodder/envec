@@ -2,7 +2,7 @@
 use strict;
 use Encode;
 use Getopt::Std;
-use EnVec ('loadSets', 'parseJSON');
+use EnVec ('loadSets', 'parseJSON', 'cmpSets');
 
 my %opts;
 getopts('P', \%opts) || exit 2;
@@ -27,6 +27,110 @@ for my $card (@{parseJSON <>}) {
 
 for my $set (sort cmpSets keys %sets) {
  ### Start list
+
+ print <<EOT if $opts{P};
+%!PS-Adobe-3.0
+/fontsize 10 def
+/Monaco findfont fontsize scalefont setfont
+/em (M) stringwidth pop def
+
+/circRad fontsize 0.4 mul def
+/circWidth circRad 2.1 mul def  % width of a "cell" containing a circle
+
+/pageNo 0 def
+/buf 3 string def
+
+/linefeed {
+ y 72 lineheight add le { showpage startPage } if
+ /y y lineheight sub def
+ 66 y moveto
+} def
+
+/startPage {
+ /pageNo pageNo 1 add def
+ 66 725 moveto ($set) show
+ /pns pageNo buf cvs def
+ 546 pns stringwidth pop sub 725 moveto
+ pns show
+ 66 722.5 moveto 480 0 rlineto stroke
+ /y 722 def
+} def
+
+/nameStart 72 def
+/showNum { dup stringwidth pop nameStart exch sub y moveto show } def
+
+/setcenter {
+ currentpoint
+ fontsize  2 div add /cy exch def
+ circWidth 2 div add /cx exch def
+} def
+
+/disc {
+ setcenter
+ gsave
+ setrgbcolor
+ newpath cx cy circRad 0 360 arc fill
+ grestore
+ circWidth 0 rmoveto
+} def
+
+/W { 1 1 0.53 disc } def
+/U { 0 0 1 disc } def
+/B { 0 0 0 disc } def
+/R { 1 0 0 disc } def
+/G { 0 1 0 disc } def
+/X { (X) show } def
+
+/hybrid {
+ gsave
+ setcenter
+ setrgbcolor newpath cx cy circRad 225 45 arc fill  % bottom half
+ setrgbcolor newpath cx cy circRad 45 225 arc fill  % top half
+ grestore
+ circWidth 0 rmoveto
+} def
+
+/WU { 1 1 0.53  0 0 1  hybrid } def
+/WB { 1 1 0.53  0 0 0  hybrid } def
+/UB { 0 0 1     0 0 0  hybrid } def
+/UR { 0 0 1     1 0 0  hybrid } def
+/BR { 0 0 0     1 0 0  hybrid } def
+/BG { 0 0 0     0 1 0  hybrid } def
+/RG { 1 0 0     0 1 0  hybrid } def
+/RW { 1 0 0     1 1 0.53 hybrid } def
+/GW { 0 1 0     1 1 0.53 hybrid } def
+/GU { 0 1 0     0 0 1  hybrid } def
+/2W { 0.8 0.8 0.8  1 1 0.53  hybrid } def
+/2U { 0.8 0.8 0.8  0 0 1     hybrid } def
+/2B { 0.8 0.8 0.8  0 0 0     hybrid } def
+/2R { 0.8 0.8 0.8  1 0 0     hybrid } def
+/2G { 0.8 0.8 0.8  0 1 0     hybrid } def
+
+/phi {
+ gsave
+ circWidth neg 0 rmoveto
+ setcenter
+ setrgbcolor
+ newpath cx cy circRad 0 360 arc clip
+ newpath
+ currentlinewidth 2 div setlinewidth
+ cx cy circRad 2 div 0 360 arc
+ cx cy circRad add moveto
+ 0 circRad -2 mul rlineto
+ stroke
+ grestore
+} def
+
+/WP { W 0 0 0 phi } def
+/UP { U 1 1 1 phi } def
+/BP { B 1 1 1 phi } def
+/RP { R 1 1 1 phi } def
+/GP { G 0 0 0 phi } def
+
+startPage
+linefeed
+EOT
+
  my @cards = map {
    $_->[0] .= '.' if $_->[0];
    if ($_->[2]{part2}) { ($_, [ '//', '', $_->[2]{part2} ]) }
@@ -118,8 +222,8 @@ sub showCards(@) {
    print 'typeStart y moveto ', psify($card->[2]{type});
    print 'extraStart y moveto ', psify($card->[2]{extra}) if $card->[2]{extra};
    print 'costStart y moveto ';
-   print($2 ? "$2\n" : psify($1 || $3))
-    while $card->[2]{cost} =~ /\G(\{(\d+)\}|\{([^\d{}]+)\}|([^{}]+))/g;
+   print($2 ? "$2\n" : $3 ? "$3$4\n" : psify($1 || $5))
+    while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
    print 'rareStart y moveto ', $card->[1], "\n" if $card->[1];
    print "linefeed\n\n";
   }
