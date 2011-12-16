@@ -1,4 +1,11 @@
 #!/usr/bin/perl -w
+
+# Things this script needs to do:
+#  - Tag split, flip, and double-faced cards as such
+#  - For the Ascendant/Essence cycle, remove the mana costs and P/T values from
+#    the bottom halves.
+#  - Convert short set names to long set names
+
 use strict;
 use JSON::Syck;
 #use EnVec;
@@ -13,7 +20,7 @@ while (<>) {
  for (@entries) {
   my $entry = JSON::Syck::Load($_);
   # Handle JSON-parsing errors
-  my $idno = delete $entry->{idno};
+  my $multiverseid = delete $entry->{multiverseid};
   my $prnt;
   if (exists $entry->{part1}) {
    $entry->{rulings} = mergeRulings delete $entry->{part1}{rulings},
@@ -21,7 +28,7 @@ while (<>) {
    $prnt = {};
    my $prnt1 = delete $entry->{part1}{prnt};
    my $prnt2 = delete $entry->{part2}{prnt};
-   for my $field (qw< artist flavor mark number id set rarity >) {
+   for my $field (qw< artist flavor mark number multiverseid set rarity >) {
     my $val1 = $prnt1->{$field};
     my $val2 = $prnt2->{$field};
     next if !defined $val1 && !defined $val2;
@@ -42,7 +49,7 @@ while (<>) {
   my $entryStr = jsonify $entry;
   if (!defined $content) { ($content, $contentStr) = ($entry, $entryStr) }
   elsif ($contentStr ne $entryStr) {
-   print STDERR "$name/$idno conflicts with initial content of $name\n"
+   print STDERR "$name/$multiverseid conflicts with initial content of $name\n"
   }
   push @printings, $prnt;
  }

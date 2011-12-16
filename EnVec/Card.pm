@@ -3,55 +3,66 @@ use warnings;
 use strict;
 use Carp;
 use Storable 'dclone';
+use EnVec::Card::Content;
 use EnVec::Colors;
 use EnVec::Util;
 use EnVec::Sets ();
 
-use Class::Struct name       => '$',
-		  cost       => '$',
-		  supertypes => '@',
-		  types      => '@',
-		  subtypes   => '@',
-		  text       => '$',
-		  pow        => '$',
-		  tough      => '$',
-		  loyalty    => '$',
-		  handMod    => '$',
-		  lifeMod    => '$',
-		  indicator  => '$',  # /^W?U?B?R?G?$/
-		  printings  => '%';
- # The 'printings' field is a mapping from long set names to subhashes
- # containing the following fields (each optional):
- #  rarity - string
- #  ids - list of multiverseid values, ideally sorted and without duplicates
+use constant {
+ NORMAL_CARD => 1,
+ SPLIT_CARD  => 2,
+ FLIP_CARD   => 3,
+ DOUBLE_CARD => 4
+};
+
+use Class::Struct cardType => '$', content => '@', printings => '@',
+ rulings => '@';
+
+# Each element of the 'content' list is an EnVec::Card::Content object.
+
+# Each element of the 'printings' list is a hash with the following fields:
+#  - set
+#  - rarity
+#  - multiverseid
+#  - artist
+#  - number (optional)
+#  - flavor (optional)
+#  - watermark (optional)
+#  - notes (optional)
+# Each field can be either a scalar value or a list of subhashes with the
+# fields "subcard" and "value".
+
+# Each element of the 'rulings' list is a hash with the following fields:
+#  - date
+#  - ruling
+#  - subcard - 0 or 1 (optional)
 
 my @scalars = qw< name cost text pow tough loyalty handMod lifeMod indicator >;
 my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {
  my $self = shift;
- return " {\n" . join(",\n", map {
-   my $val = $self->$_();
-   defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
-    && !(ref $val eq 'HASH' && !%$val) ? "  \"$_\": @{[jsonify $val]}" : ();
-  } @scalars, @lists, 'printings') . "\n }";
+ my $str = " {\n";
+ ### $str .= "  \"cardType\": " . ???
+ $str .= "  \"content\": [" . join(",\n", map { $_->toJSON } @{$self->content}) . "],\n";
+ $str .= "  \"printings\": [" . join(",\n", map { jsonify($_) } @{$self->printings}) . "],\n";
+ $str .= "  \"rulings\": [" . join(",\n", map { jsonify($_) } @{$self->rulings}) . "]\n";
+ $str .= " }";
+ return $str;
 }
 
-sub colorID {
+sub color { colors2colors join '', map { $_->color } @{$_[0]->content} }
+
+sub colorID { colors2colors join '', map { $_->colorID } @{$_[0]->content} }
+
+sub cmc {
  my $self = shift;
- my $name = $self->name;
- my $colors = colors2bits($self->cost) | colors2bits($self->indicator);
- my $text = $self->text || '';
- $colors |= COLOR_WHITE if $text =~ m:\{(./)?W(/.)?\}|^\Q$name\E is white\.$:m;
- $colors |= COLOR_BLUE  if $text =~ m:\{(./)?U(/.)?\}|^\Q$name\E is blue\.$:m;
- $colors |= COLOR_BLACK if $text =~ m:\{(./)?B(/.)?\}|^\Q$name\E is black\.$:m;
- $colors |= COLOR_RED   if $text =~ m:\{(./)?R(/.)?\}|^\Q$name\E is red\.$:m;
- $colors |= COLOR_GREEN if $text =~ m:\{(./)?G(/.)?\}|^\Q$name\E is green\.$:m;
- ### Reminder text has to be ignored somehow.
- ### Do basic land types contribute to color identity?
- ### Handle things like the printed text of Transguild Courier.
- return bits2colors $colors;
+ my $cmc = 0;
+ $cmc += $_->cmc for @{$self->content};
+ return $cmc;
 }
+
+
 
 sub addSetID {
  my($self, $set, $id) = @_;
@@ -112,17 +123,6 @@ sub merge {  # Neither argument is modified.
  my $new = $self->copy;
  $new->printings(mergePrintings $self->name, $self->printings, $other->printings);
  return $new;
-}
-
-sub cmc {
- my $self = shift;
- return 0 if !$self->cost;
- my $cmc = 0;
- for (split /(?=\{)/, $self->cost) {
-  if (/(\d+)/) { $cmc += $1 }
-  elsif (y/WUBRGSwubrgs//) { $cmc++ }  # This weeds out {X}, {Y}, etc.
- }
- return $cmc;
 }
 
 my %fields = (

@@ -59,7 +59,7 @@ for my $name (sort keys %cardIDs) {
   push @ids, $_ and $seen{$_} = 1 for grep { !$seen{$_} } map { $_->[0] }
    (exists $data{part1} ? (@{$data{part1}{printings}},
 			   @{$data{part2}{printings}}) : @{$data{printings}});
-  print $out jsonify({idno => $id, %data}), "\n";
+  print $out jsonify({multiverseid => $id, %data}), "\n";
  }
  print $out "\n";
 }

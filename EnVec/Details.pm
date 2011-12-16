@@ -87,7 +87,7 @@ sub scrapeSection($$) {
      =~ /Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)/i
   } else { print STDERR "Unknown ptRow label for $fields{name}: \"$label\"\n" }
  }
- @{$fields{prnt}}{'id', 'set', 'rarity'}
+ @{$fields{prnt}}{'multiverseid', 'set', 'rarity'}
   = @{(expansions $doc->getElementById("${pre}currentSetSymbol"))[0]};
  $fields{printings} = [expansions $doc->getElementById("${pre}otherSetsValue")];
  $fields{prnt}{number} = simplify rowVal $doc->getElementById("${pre}numberRow");

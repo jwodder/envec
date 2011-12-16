@@ -8,19 +8,18 @@
  - Use the data obtained via details-scraping, not text spoiler & checklist
    scraping
  - Use EnVec::SplitList -- or would 'use open' cause problems?
-- Give EnVec::Card a method for getting a card's color (not color ID)
 - EnVec::Card->showField should treat a negative width as disabling
   line-wrapping
 - Rewrite the representation of multipart cards to mirror that in mtgcard.dtd
 - Rename EnVec::Card->isSplit to 'isMultipart'
 - Give EnVec::SplitList functions for getting the alternate components of given
   halves of multipart cards
+- Add special handling for leveler cards
 - Give dumpArray and dumpHash arguments for dumping to a filehandle
 - Add a means to read EnVec::Card objects from a JSON file one at a time rather
   than all at once
 - Give EnVec.pm tags for the export lists of each submodule
 - Make EnVec.pm preserve the non-'all' tags of the submodules
-- Handle leveler cards?
 - Add a function for parsing standard spoilers?
 - Add a function for parsing an individual card page for printed (rather than
   Oracle) text?

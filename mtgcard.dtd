@@ -45,9 +45,9 @@
 <!ELEMENT notes %text;>
 
 <!-- "subcard" attributes identify which component of a multi-part card is
-     being described: 0 for the first/primary part, 1, 2, etc. for the other
-     parts in the order that they're listed.  A tag without a "subcard"
-     attribute describes the card as a whole. -->
+     being described: 0 for the first part, 1 for the second part, etc. in the
+     order that the parts are listed.  A tag without a "subcard" attribute
+     describes the card as a whole. -->
 <!ATTLIST number subcard CDATA #IMPLIED>
 <!ATTLIST artist subcard CDATA #IMPLIED>
 <!ATTLIST flavor subcard CDATA #IMPLIED>

@@ -9,7 +9,7 @@ getopts('P', \%opts) || exit 2;
 
 my %rarities = ('Mythic Rare' => 'Mythic',
  map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
-if ($opts{P}) { $rarities{$_} = "($rarities{$_}) show" for keys %rarities }
+%rarities = map { $_ => "($rarities{$_}) show" } keys %rarities if $opts{P};
 
 my %sets = ();
 loadSets;
@@ -19,6 +19,8 @@ for my $card (@{parseJSON <>}) {
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
  push @{$sets{$_->{set}}}, [
   $_->{number} || '',
+  ### PROBLEM: Flip and double-faced cards are given different collector's
+  ### numbers for each half.
   $rarities{$_->{rarity}} || die('Unknown rarity "', $_->{rarity}, '" for ',
 				  $card->name, ' in ', $_->{set}),
   $stats
