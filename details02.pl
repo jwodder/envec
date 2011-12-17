@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 use strict;
-use File::Temp;
 use Getopt::Std;
 use LWP::Simple;
 use EnVec ':all';
@@ -30,12 +29,11 @@ if (exists $opts{C}) {
  close $in;
 } else {
  loadSets($opts{S} || 'data/sets.tsv');
- my $tmp = new File::Temp;
- my $file = $tmp->filename;
  for my $set (setsToImport) {
   print $log "Importing $set...\n";
-  print STDERR "Could not fetch $set\n" and next if !getChecklist($set, $file);
-  for my $c (loadChecklist $file) {
+  my $list = get(checklistURL $set);
+  print STDERR "Could not fetch $set\n" and next if !defined $list;
+  for my $c (parseChecklist $list) {
    $cardIDs{$c->{name}} = $c->{multiverseid} if !exists $cardIDs{$c->{name}}
   }
  }
@@ -55,7 +53,7 @@ for my $name (sort keys %cardIDs) {
   print $log "$name/$id\n";
   my $details = get(isSplit $name ? detailsURL($id, $name) : detailsURL($id));
   print STDERR "Could not fetch $name/$id\n" and next if !defined $details;
-  my %data = loadDetails $details;
+  my %data = parseDetails $details;
   push @ids, $_ and $seen{$_} = 1 for grep { !$seen{$_} } map { $_->[0] }
    (exists $data{part1} ? (@{$data{part1}{printings}},
 			   @{$data{part2}{printings}}) : @{$data{printings}});

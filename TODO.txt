@@ -2,8 +2,6 @@
 - Handle failures in Get.pm functions appropriately
 - Add a function for parsing an individual card page (identified by
   multiverseid) and returning a Card object
-- Figure out the purpose of the "ampersand bug workaround" that TextSpoiler.pm
-  inherited from Cockatrice
 - Rewrite & update listify.pl
  - Use the data obtained via details-scraping, not text spoiler & checklist
    scraping

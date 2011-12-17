@@ -8,24 +8,22 @@ use EnVec::Colors;
 use EnVec::Util;
 
 use Exporter 'import';
-our @EXPORT_OK = ('loadTextSpoiler');
+our @EXPORT_OK = ('parseTextSpoiler', 'loadTextSpoiler');
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
+
+sub parseTextSpoiler($$) {
+ my($set, $str) = @_;
+ return walkTextSpoiler($set, Parser->new->parse($str));
+}
 
 sub loadTextSpoiler($$) {
  my($set, $file) = @_;
+ return walkTextSpoiler($set, Parser->new->parseFile($file));
+}
+
+sub walkTextSpoiler($$) {
+ my($set, $doc) = @_;
  my %cards = ();
- ## Workaround for ampersand bug in text spoilers:
- #my $index = -1;
- #while (($index = index $data, '&', $index + 1) != -1) {
- # my $semicolonIndex = index $dat, ';', $index;
- # if ($semicolonIndex - $index > 5) {
- #  substr $data, $index + 1, 0, 'amp;';
- #  $index += 4;
- # }
- #}
- my $parser = Parser->new;
- my $doc = $parser->parseFile($file);
- ### TODO: Handle parse errors somehow!
  for my $div (@{$doc->getElementsByTagName('div')}) {
   my $divClass = $div->getAttribute('class');
   if (defined $divClass && $divClass eq 'textspoiler') {

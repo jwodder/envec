@@ -1,27 +1,33 @@
 package EnVec::Details;
 use warnings;
 use strict;
+use Carp;
 use XML::DOM::Lite 'Parser';
 use EnVec::Colors;
 use EnVec::Util;
 
 use Exporter 'import';
-our @EXPORT_OK = ('loadDetails');
+our @EXPORT_OK = ('parseDetails', 'loadDetails');
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-sub scrapeSection($$);
-
-sub loadDetails($) {
+sub parseDetails($) {
  my $str = shift;
  # Work around italicization farkup:
  $str =~ s:</i>([^<>]+)</i>:$1:gi;
- my $parser = Parser->new;
- my $doc = $parser->parse($str);
- ### TODO: Handle parse errors somehow!
+ my $doc = Parser->new->parse($str);
  my $pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_';
- if ($doc->getElementById("${pre}nameRow")) { scrapeSection $doc, $pre }
+ if ($doc->getElementById("${pre}nameRow")) { scrapeSection($doc, $pre) }
  else { (part1 => { scrapeSection($doc, "${pre}ctl05_") },
 	 part2 => { scrapeSection($doc, "${pre}ctl06_") }) }
+}
+
+sub loadDetails($) {
+ my $file = shift;
+ local $/ = undef;
+ open my $in, '<', $file or croak "EnVec::Details::loadDetails: $file: $!";
+ my $str = <$in>;
+ close $in;
+ return parseDetails($str);
 }
 
 sub divsByClass($$) {

@@ -5,13 +5,15 @@ use XML::DOM::Lite 'Parser';
 use EnVec::Util;
 
 use Exporter 'import';
-our @EXPORT_OK = ('loadChecklist');
+our @EXPORT_OK = ('parseChecklist', 'loadChecklist');
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-sub loadChecklist($) {
- my $file = shift;
- my $doc = Parser->new->parseFile($file);
- ### TODO: Handle parse errors somehow!
+sub parseChecklist($) { walkChecklist(Parser->new->parse(shift)) }
+
+sub loadChecklist($) { walkChecklist(Parser->new->parseFile(shift)) }
+
+sub walkChecklist($) {
+ my $doc = shift;
  my @cards = ();
  for my $table (@{$doc->getElementsByTagName('table')}) {
   my $tblClass = $table->getAttribute('class');

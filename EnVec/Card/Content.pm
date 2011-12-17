@@ -1,6 +1,7 @@
 package EnVec::Card::Content;
 use warnings;
 use strict;
+use EnVec::Colors;
 
 use Class::Struct name       => '$',
 		  cost       => '$',

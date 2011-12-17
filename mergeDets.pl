@@ -5,6 +5,15 @@
 #  - For the Ascendant/Essence cycle, remove the mana costs and P/T values from
 #    the bottom halves.
 #  - Convert short set names to long set names
+#  - Merge halves of split cards
+#  - Handle the duplicate printings entries for Invasion-block split cards?
+#  - Convert rarities from single characters to full words
+#  - Either this script or its successor needs to:
+#   - Remove the mana costs and P/Ts from the bottom halves of the
+#     Ascendant/Essence cycle
+#   - Fix Homura's Essence
+#   - Incorporate data/rarities.tsv (with affected rarities changed to the form
+#     "Common (C1)"?)
 
 use strict;
 use JSON::Syck;
