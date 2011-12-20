@@ -130,21 +130,6 @@ sub toJSON {
  return $str;
 }
 
-sub mergeCheck {  # Neither argument is modified.
- my($self, $other) = @_;
- croak 'Attempting to merge "', $self->name, '" with "', $other->name, '"'
-  if $self->name ne $other->name;
- croak 'Attempting to merge multipart card "', $self->name,
-  '" with a non-multipart version.' if !$other->isSplit;
- carp "Differing cardType values for ", $self->name, ': ', $self->cardType,
-  ' vs. ', $other->cardType if $self->cardType ne $other->cardType;
- my $part1 = $self->part1->mergeCheck($other->part1);
- my $part2 = $self->part2->mergeCheck($other->part2);
- my $prints = mergePrintings $self->name, $self->printings, $other->printings;
- return new EnVec::Card::Split cardType => $self->cardType, part1 => $part1,
-  part2 => $part2, printings => $prints;
-}
-
 our $tagwidth = $EnVec::Util::tagwidth;
 
 my %formats = (split => 'Split card', flip => 'Flip card',

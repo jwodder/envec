@@ -28,7 +28,7 @@
  - Promo cards not in Gatherer
  - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
    Invasion block)
- - The card set for the Duels of the Planeswalkers decks
+ - The Anthologies, Deckmasters, and Duels of the Planeswalkers sets
 - For the multiversion cards in rarities.tsv, give each entry a field for the
   multiverseid and another field for a short description that a mortal can use
   to identify the version

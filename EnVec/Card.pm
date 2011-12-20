@@ -62,6 +62,21 @@ sub cmc {
  return $cmc;
 }
 
+sub part1 { $_[0]->content(0) }
+
+sub part2 { $_[0]->content(1) }
+
+sub merge {  # Neither argument is modified.
+ my($self, $other) = @_;
+ croak 'EnVec::Card::merge: ', $self->name, ': card data mismatch'
+  if !$self->part1->equals($other->part1)
+     || (defined $self->part2 && !$self->part2->equals($other->part2))
+     || $self->cardType != $other->cardType;
+ my $new = $self->copy;
+ $new->printings(mergePrintings $self->name, $self->printings, $other->printings);
+ return $new;
+}
+
 
 
 sub addSetID {
@@ -77,52 +92,6 @@ sub addSetID {
   splice @ids, $i, 0, $id;
   $self->printings($set)->{ids} = \@ids;
  }
-}
-
-sub mergeHashes($$$$) {  # internal function; not for export
- my($name, $prefix, $left, $right) = @_;
- my %res = %$left;
- for (keys %$right) {
-  next if !defined $right->{$_};
-  if (!defined $res{$_}) { $res{$_} = $right->{$_} }
-  elsif ($res{$_} ne $right->{$_}) {
-   carp "Differing $prefix$_ values for $name: ", jsonify $res{$_}, ' vs. ',
-    jsonify $right->{$_}
-  }
- }
- return %res;
-}
-
-sub mergeCheck {  # Neither argument is modified.
- my($self, $other) = @_;
- croak 'Attempting to merge "', $self->name, '" with "', $other->name, '"'
-  if $self->name ne $other->name;
- croak 'Attempting to merge non-multipart card "', $self->name,
-  '" with a multipart version.' if $other->isSplit;
- my %main = mergeHashes $self->name, '', { map { $_ => $self->$_() } @scalars },
-  { map { $_ => $other->$_() } @scalars };
- for (@lists) {
-  my $left = jsonify $self->$_();
-  my $right = jsonify $other->$_();
-  carp "Differing $_ values for ", $self->name, ': ', $left, ' vs. ', $right
-   if $left ne $right;
-  $main{$_} = $self->$_();
- }
- my $prints = mergePrintings $self->name, $self->printings, $other->printings;
- return new EnVec::Card (%main, printings => $prints);
-}
-
-sub merge {  # Neither argument is modified.
- my($self, $other) = @_;
- croak 'Attempting to merge "', $self->name, '" with "', $other->name, '"'
-  if $self->name ne $other->name;
- # This version only looks at the 'name' and 'printings' fields, and the values
- # of all other fields are taken from the invocant.  If you want fields in the
- # argument but not the invocant to be taken into consideration and/or for
- # differences in field values to be checked, use mergeCheck.
- my $new = $self->copy;
- $new->printings(mergePrintings $self->name, $self->printings, $other->printings);
- return $new;
 }
 
 my %fields = (
@@ -178,8 +147,6 @@ sub toText1 {
  $str .= $self->showField('text', $width) if $self->text;
  $str .= $self->showField('PT', $width) if defined $self->pow;
  $str .= $self->showField('loyalty', $width) if defined $self->loyalty;
-#$str .= $self->showField('handMod', $width) if defined $self->handMod;
-#$str .= $self->showField('lifeMod', $width) if defined $self->lifeMod;
  $str .= $self->showField('HandLife', $width) if defined $self->handMod;
  $str .= $self->showField('cardType', $width) if $self->isSplit;
  $str .= $self->showField('sets', $width) if $sets;

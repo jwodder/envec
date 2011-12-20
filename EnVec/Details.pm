@@ -80,7 +80,7 @@ sub scrapeSection($$) {
   = parseTypes rowVal $doc->getElementById("${pre}typeRow");
  $fields{text} = multiline $doc->getElementById("${pre}textRow");
  $fields{prnt}{flavor} = multiline $doc->getElementById("${pre}flavorRow");
- $fields{prnt}{mark} = multiline $doc->getElementById("${pre}markRow");
+ $fields{prnt}{watermark} = multiline $doc->getElementById("${pre}markRow");
  $fields{indicator} = parseColors rowVal $doc->getElementById("${pre}colorIndicatorRow");
  my $ptRow = $doc->getElementById("${pre}ptRow");
  if ($ptRow) {

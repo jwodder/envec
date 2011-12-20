@@ -14,6 +14,8 @@
 #   - Fix Homura's Essence
 #   - Incorporate data/rarities.tsv (with affected rarities changed to the form
 #     "Common (C1)"?)
+#  - Remove italics from flavor text?
+#  - Remove italics from watermarks?
 
 use strict;
 use JSON::Syck;
@@ -37,7 +39,7 @@ while (<>) {
    $prnt = {};
    my $prnt1 = delete $entry->{part1}{prnt};
    my $prnt2 = delete $entry->{part2}{prnt};
-   for my $field (qw< artist flavor mark number multiverseid set rarity >) {
+   for my $field (qw<artist flavor watermark number multiverseid set rarity>) {
     my $val1 = $prnt1->{$field};
     my $val2 = $prnt2->{$field};
     next if !defined $val1 && !defined $val2;
