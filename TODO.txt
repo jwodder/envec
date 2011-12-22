@@ -2,25 +2,23 @@
 - Handle failures in Get.pm functions appropriately
 - Add a function for parsing an individual card page (identified by
   multiverseid) and returning a Card object
-- Rewrite & update listify.pl
- - Use the data obtained via details-scraping, not text spoiler & checklist
-   scraping
- - Use EnVec::SplitList -- or would 'use open' cause problems?
-- EnVec::Card->showField should treat a negative width as disabling
-  line-wrapping
 - Rewrite the representation of multipart cards to mirror that in mtgcard.dtd
-- Rename EnVec::Card->isSplit to 'isMultipart'
+- Rewrite/update listify.pl
 - Give EnVec::SplitList functions for getting the alternate components of given
   halves of multipart cards
-- Add special handling for leveler cards
-- Give dumpArray and dumpHash arguments for dumping to a filehandle
 - Add a means to read EnVec::Card objects from a JSON file one at a time rather
   than all at once
+- Give dumpArray and dumpHash arguments for dumping to a filehandle
+- Make fromJSON a class method of EnVec::Card
+- Give EnVec::Card toXML and fromXML methods
+- Add special handling for leveler cards
 - Give EnVec.pm tags for the export lists of each submodule
 - Make EnVec.pm preserve the non-'all' tags of the submodules
-- Add a function for parsing standard spoilers?
-- Add a function for parsing an individual card page for printed (rather than
-  Oracle) text?
+- EnVec::Card->showField should treat a negative width as disabling
+  line-wrapping
+- For the multiversion cards in rarities.tsv, give each entry a field for the
+  multiverseid and another field for a short description that a mortal can use
+  to identify the version
 - Add files to data/ for:
  - The release dates of the different Vanguard card sets
  - The release dates of the various promo cards
@@ -29,7 +27,8 @@
  - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
    Invasion block)
  - The Anthologies, Deckmasters, and Duels of the Planeswalkers sets
-- For the multiversion cards in rarities.tsv, give each entry a field for the
-  multiverseid and another field for a short description that a mortal can use
-  to identify the version
 - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
+- Consider just deleting TextSpoiler.pm (and then COPYING)
+- Add a function for parsing standard spoilers?
+- Add a function for parsing an individual card page for printed (rather than
+  Oracle) text?

@@ -9,7 +9,7 @@
 <!ATTLIST card type (normal|split|flip|double-faced) "normal">
 <!-- Consider making the "type" attribute just a space-separated list of
      arbitrary keywords, e.g. "split flip double-faced nontraditional
-     online-only uncard token". -->
+     online-only uncard silver-bordered token". -->
 
 <!-- A subcard of a multi-part card (or the entirety of a normal card): -->
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,

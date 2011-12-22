@@ -15,6 +15,8 @@ use constant {
  DOUBLE_CARD => 4
 };
 
+my $sep = ' // ';
+
 use Class::Struct cardType => '$', content => '@', printings => '@',
  rulings => '@';
 
@@ -62,6 +64,8 @@ sub cmc {
  return $cmc;
 }
 
+sub parts { scalar @{$_[0]->content} }
+
 sub part1 { $_[0]->content(0) }
 
 sub part2 { $_[0]->content(1) }
@@ -69,30 +73,94 @@ sub part2 { $_[0]->content(1) }
 sub merge {  # Neither argument is modified.
  my($self, $other) = @_;
  croak 'EnVec::Card::merge: ', $self->name, ': card data mismatch'
-  if !$self->part1->equals($other->part1)
-     || (defined $self->part2 && !$self->part2->equals($other->part2))
-     || $self->cardType != $other->cardType;
+  if $self->cardType != $other->cardType
+     || $self->parts != $other->parts
+     || grep { !$self->content($_)->equals($other->content($_)) }
+         (0 .. $self->parts-1);
  my $new = $self->copy;
  $new->printings(mergePrintings $self->name, $self->printings, $other->printings);
  return $new;
 }
 
+sub isMultipart { $_[0]->parts > 1 }
+sub isSplit { $_[0]->cardType == SPLIT_CARD }
+sub isFlip { $_[0]->cardType == FLIP_CARD }
+sub isDouble { $_[0]->cardType == DOUBLE_CARD }
 
+sub sets { uniq sort map { $_->{set} } @{$_[0]->printings} }
 
-sub addSetID {
- my($self, $set, $id) = @_;
- if (!defined $self->printings($set)) { $self->printings($set, {ids => [$id]}) }
- else {
-  my @ids = @{$self->printings($set)->{ids} || []};
-  my $i;
-  for ($i=0; $i<@ids; $i++) {
-   last   if $id lt $ids[$i];
-   return if $id eq $ids[$i];
-  }
-  splice @ids, $i, 0, $id;
-  $self->printings($set)->{ids} = \@ids;
- }
+sub firstSet { EnVec::Sets::firstSet($_[0]->sets) }
+
+sub hasType {
+ my($self, $type) = @_;
+ $self->isType($type) || $self->isSubtype($type) || $self->isSupertype($type);
 }
+
+sub isNontraditional {
+ my $self = shift;
+ $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
+}
+
+for my $field (qw< name text pow tough loyalty handMod lifeMod indicator type
+ PT HandLife >) {
+ eval <<EOT;
+  sub $field {
+   my \$self = shift;
+   carp "Card fields of EnVec::Card objects cannot be modified directly" if \@_;
+   my \@fields = map { \$_->$field } \@{\$self->content};
+   return undef if !grep defined, \@fields;
+   return join \$sep, map { defined ? \$_ : '' } \@fields;
+  }
+EOT
+}
+
+for my $field (qw< supertypes types subtypes >) {
+ eval <<EOT;
+  sub $field {
+   my \$self = shift;
+   carp "Card fields of EnVec::Card objects cannot be modified directly" if \@_;
+   return [ map { \@{\$_->$field} } \@{\$self->content} ];
+  }
+EOT
+}
+
+sub cost {
+ my $self = shift;
+ carp "Card fields of EnVec::Card objects cannot be modified directly" if @_;
+ if ($self->isSplit) { join $sep, map { $_->cost || '' } @{$self->content} }
+ else { $self->part1->cost }
+}
+
+sub isSupertype {
+ my($self, $type) = @_;
+ for (@{$self->supertypes}) { return 1 if $_ eq $type }
+ return '';
+}
+
+sub isType {
+ my($self, $type) = @_;
+ for (@{$self->types}) { return 1 if $_ eq $type }
+ return '';
+}
+
+sub isSubtype {
+ my($self, $type) = @_;
+ for (@{$self->subtypes}) { return 1 if $_ eq $type }
+ return '';
+}
+
+sub copy {
+ my $self = shift;
+ # It isn't clear whether Storable::dclone can handle blessed objects, so...
+ new EnVec::Card cardType  => $self->cardType,
+		 content   => [ map { $_->copy } @{$self->content} ],
+		 printings => dclone $self->printings,
+		 rulings   => dclone $self->rulings;
+}
+
+
+
+
 
 my %fields = (
  name       => 'Name:',
@@ -148,31 +216,10 @@ sub toText1 {
  $str .= $self->showField('PT', $width) if defined $self->pow;
  $str .= $self->showField('loyalty', $width) if defined $self->loyalty;
  $str .= $self->showField('HandLife', $width) if defined $self->handMod;
- $str .= $self->showField('cardType', $width) if $self->isSplit;
+ $str .= $self->showField('cardType', $width) if $self->isMultipart;
  $str .= $self->showField('sets', $width) if $sets;
  return $str;
 }
-
-sub type {
- my $self = shift;
- return join ' ', @{$self->supertypes}, @{$self->types},
-  @{$self->subtypes} ? ('--', @{$self->subtypes}) : ();
-}
-
-sub isSplit { '' }
-
-sub copy {
- my $self = shift;
- # It isn't clear whether Storable::dclone can handle blessed objects, so...
- my %fields = map { $_ => $self->$_() } @scalars;
- $fields{$_} = [ @{$self->$_()} ] for @lists;
- $fields{printings} = dclone $self->printings;
- new EnVec::Card %fields;
-}
-
-sub sets { keys %{$_[0]->printings} }
-
-sub firstSet { EnVec::Sets::firstSet($_[0]->sets) }
 
 sub inSet {
  my($self, $set) = @_;
@@ -189,42 +236,19 @@ sub setIDs {
  return @{($self->printings($set) || {})->{ids} || []};
 }
 
-sub PT {
- my $self = shift;
- return defined $self->pow ? $self->pow . '/' . $self->tough : undef;
-}
-
-sub HandLife {
- my $self = shift;
- return defined $self->handMod ? $self->handMod . '/' . $self->lifeMod : undef;
-}
-
-sub isSupertype {
- my($self, $type) = @_;
- for (@{$self->supertypes}) { return 1 if $_ eq $type }
- return '';
-}
-
-sub isType {
- my($self, $type) = @_;
- for (@{$self->types}) { return 1 if $_ eq $type }
- return '';
-}
-
-sub isSubtype {
- my($self, $type) = @_;
- for (@{$self->subtypes}) { return 1 if $_ eq $type }
- return '';
-}
-
-sub hasType {
- my($self, $type) = @_;
- $self->isType($type) || $self->isSubtype($type) || $self->isSupertype($type);
-}
-
-sub isNontraditional {
- my $self = shift;
- $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
+sub addSetID {
+ my($self, $set, $id) = @_;
+ if (!defined $self->printings($set)) { $self->printings($set, {ids => [$id]}) }
+ else {
+  my @ids = @{$self->printings($set)->{ids} || []};
+  my $i;
+  for ($i=0; $i<@ids; $i++) {
+   last   if $id lt $ids[$i];
+   return if $id eq $ids[$i];
+  }
+  splice @ids, $i, 0, $id;
+  $self->printings($set)->{ids} = \@ids;
+ }
 }
 
 1;

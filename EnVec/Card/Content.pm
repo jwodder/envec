@@ -69,24 +69,6 @@ sub type {
   @{$self->subtypes} ? ('--', @{$self->subtypes}) : ();
 }
 
-sub copy {
- my $self = shift;
- # It isn't clear whether Storable::dclone can handle blessed objects, so...
- my %fields = map { $_ => $self->$_() } @scalars;
- $fields{$_} = [ @{$self->$_()} ] for @lists;
- new EnVec::Card::Content %fields;
-}
-
-sub PT {
- my $self = shift;
- return defined $self->pow ? $self->pow . '/' . $self->tough : undef;
-}
-
-sub HandLife {
- my $self = shift;
- return defined $self->handMod ? $self->handMod . '/' . $self->lifeMod : undef;
-}
-
 sub isSupertype {
  my($self, $type) = @_;
  for (@{$self->supertypes}) { return 1 if $_ eq $type }
@@ -113,6 +95,24 @@ sub hasType {
 sub isNontraditional {
  my $self = shift;
  $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
+}
+
+sub PT {
+ my $self = shift;
+ return defined $self->pow ? $self->pow . '/' . $self->tough : undef;
+}
+
+sub HandLife {
+ my $self = shift;
+ return defined $self->handMod ? $self->handMod . '/' . $self->lifeMod : undef;
+}
+
+sub copy {
+ my $self = shift;
+ # It isn't clear whether Storable::dclone can handle blessed objects, so...
+ my %fields = map { $_ => $self->$_() } @scalars;
+ $fields{$_} = [ @{$self->$_()} ] for @lists;
+ new EnVec::Card::Content %fields;
 }
 
 sub equals {
