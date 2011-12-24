@@ -14,7 +14,7 @@
 - Add special handling for leveler cards
 - Give EnVec.pm tags for the export lists of each submodule
 - Make EnVec.pm preserve the non-'all' tags of the submodules
-- EnVec::Card->showField should treat a negative width as disabling
+- EnVec::Card->showField1 should treat a negative width as disabling
   line-wrapping
 - For the multiversion cards in rarities.tsv, give each entry a field for the
   multiverseid and another field for a short description that a mortal can use

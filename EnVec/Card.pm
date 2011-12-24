@@ -17,6 +17,9 @@ use constant {
 
 my $sep = ' // ';
 
+my %formats = (NORMAL_CARD, 'Normal card', SPLIT_CARD, 'Split card',
+ FLIP_CARD, 'Flip card', DOUBLE_CARD, 'Double-faced card');
+
 use Class::Struct cardType => '$', content => '@', printings => '@',
  rulings => '@';
 
@@ -158,10 +161,6 @@ sub copy {
 		 rulings   => dclone $self->rulings;
 }
 
-
-
-
-
 my %fields = (
  name       => 'Name:',
  cost       => 'Cost:',
@@ -178,48 +177,63 @@ my %fields = (
  loyalty    => 'Loyalty:',
  handMod    => 'Hand:',
  lifeMod    => 'Life:',
-#PT         => 'Pow/Tough:',
  PT         => 'P/T:',
-#HandLife   => 'Hand/Life:',
+#PT         => 'Pow/Tough:',
  HandLife   => 'H/L:',
+#HandLife   => 'Hand/Life:',
 #printings  => 'Printings:',
 );
 
 our $tagwidth = $EnVec::Util::tagwidth;
 
-sub showField {
+sub showField1 {
  my($self, $field, $width) = @_;
  $width = ($width || 79) - $tagwidth - 1;
  my($tag, $text);
  if (!defined $field) { return '' }
  elsif ($field eq 'sets') { return showSets $self->printings, $width }
- elsif (exists $fields{$field}) {
-  $tag = $fields{$field};
-  $text = $self->$field();
-  if (!defined $text) { $text = '' }
-  elsif (ref $text eq 'ARRAY') { $text = join ' ', @$text }
-  $text =~ s/—/--/g;
+ elsif ($field eq 'cardType') {
+  return sprintf "%-*s %s\n", $tagwidth, 'Format:',
+   $formats{$self->cardType} || $self->cardType
+ } elsif (exists $fields{$field}) {
+  $width = int(($width - ($self->parts - 1) * length($sep)) / $self->parts);
+  my @lines = map {
+   $_ = $_->$field();
+   $_ = '' if !defined;
+   $_ = join ' ', @$_ if ref eq 'ARRAY';
+   s/—/--/g;
+   [ map { sprintf '%-*s', $width, $_ } wrapLines($_, $width, 2) ];
+  } @{$self->content};
+  my $text = '';
+  for (my $i=0; ; $i++) {
+   my @txt = map { $_->[$i] } @lines;
+   last if !grep defined, @txt;
+   my $line = join $sep, map { defined ? $_ : ' ' x $width } @txt;
+   $line =~ s/\s+$//;
+   $text .= sprintf('%-*s', $tagwidth, $i ? $fields{$field} : '') . " $line\n";
+  }
+  return $text;
  } else { return '' }
- my($first, @rest) = wrapLines $text, $width, 2;
- $first = '' if !defined $first;
- return join '', sprintf("%-*s %s\n", $tagwidth, $tag, $first),
-  map { (' ' x $tagwidth) . " $_\n" } @rest;
 }
 
 sub toText1 {
  my($self, $width, $sets) = @_;
- my $str = $self->showField('name', $width);
- $str .= $self->showField('type', $width);
- $str .= $self->showField('cost', $width) if $self->cost;
- $str .= $self->showField('indicator', $width) if defined $self->indicator;
- $str .= $self->showField('text', $width) if $self->text;
- $str .= $self->showField('PT', $width) if defined $self->pow;
- $str .= $self->showField('loyalty', $width) if defined $self->loyalty;
- $str .= $self->showField('HandLife', $width) if defined $self->handMod;
- $str .= $self->showField('cardType', $width) if $self->isMultipart;
- $str .= $self->showField('sets', $width) if $sets;
+ my $str = $self->showField1('name', $width);
+ $str .= $self->showField1('type', $width);
+ $str .= $self->showField1('cost', $width) if $self->cost;
+ $str .= $self->showField1('indicator', $width) if defined $self->indicator;
+ $str .= $self->showField1('text', $width) if $self->text;
+ $str .= $self->showField1('PT', $width) if defined $self->pow;
+ $str .= $self->showField1('loyalty', $width) if defined $self->loyalty;
+ $str .= $self->showField1('HandLife', $width) if defined $self->handMod;
+ $str .= $self->showField1('cardType', $width) if $self->isMultipart;
+ $str .= $self->showField1('sets', $width) if $sets;
  return $str;
 }
+
+
+
+
 
 sub inSet {
  my($self, $set) = @_;
