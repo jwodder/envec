@@ -42,6 +42,7 @@ sub walkTextSpoiler($$) {
      my $v2 = magicContent $tds->[1];
      if ($v1 eq 'Name:') {
       ($fields{name} = simplify $v2) =~ s/^[^()]+ \(([^()]+)\)$/$1/;
+      ### Un-Problem: Erase (Not the Urza's Legacy One)
       ($id) = ($tds->[1]->getElementsByTagName('a')->[0]->getAttribute('href')
 		=~ /\bmultiverseid=(\d+)/);
      } elsif ($v1 eq 'Cost:') {

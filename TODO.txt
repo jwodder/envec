@@ -1,34 +1,51 @@
-- Handle XML::DOM::Lite parse errors
-- Handle failures in Get.pm functions appropriately
-- Add a function for parsing an individual card page (identified by
-  multiverseid) and returning a Card object
-- Rewrite the representation of multipart cards to mirror that in mtgcard.dtd
+- Robustness:
+ - Handle XML::DOM::Lite parse errors
+ - Handle failures in Get.pm functions appropriately
+ - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
+ - Try to handle fractions in Unhinged cards?
+ - Try to handle Erase (Not the Urza's Legacy One)?
+
+- Features:
+ - Add a function for parsing an individual card page (identified by
+   multiverseid) and returning a Card object
+ - Give EnVec::SplitList functions for getting the alternate components of
+   given halves of multipart cards
+ - Add a means to read EnVec::Card objects from a JSON file one at a time
+   rather than all at once
+ - Give dumpArray and dumpHash arguments for dumping to a filehandle
+ - Add special handling for leveler cards
+ - Give EnVec::Card toXML and fromXML methods
+ - EnVec::Card->showField1 should treat a negative width as disabling
+   line-wrapping
+
+- Coding:
+ - Rewrite the representation of multipart cards to mirror that in mtgcard.dtd
+ - Make fromJSON a class method of EnVec::Card
+ - Give EnVec.pm tags for the export lists of each submodule
+ - Make EnVec.pm preserve the non-'all' tags of the submodules
+ - Make EnVec::Card::Content automatically convert empty fields to undef
+ - Make EnVec::Card::Content prohibit empty names
+ - Make EnVec::Card only allow valid cardType values
+
 - Rewrite/update listify.pl
-- Give EnVec::SplitList functions for getting the alternate components of given
-  halves of multipart cards
-- Add a means to read EnVec::Card objects from a JSON file one at a time rather
-  than all at once
-- Give dumpArray and dumpHash arguments for dumping to a filehandle
-- Make fromJSON a class method of EnVec::Card
-- Give EnVec::Card toXML and fromXML methods
-- Add special handling for leveler cards
-- Give EnVec.pm tags for the export lists of each submodule
-- Make EnVec.pm preserve the non-'all' tags of the submodules
-- EnVec::Card->showField1 should treat a negative width as disabling
-  line-wrapping
-- For the multiversion cards in rarities.tsv, give each entry a field for the
-  multiverseid and another field for a short description that a mortal can use
-  to identify the version
-- Add files to data/ for:
- - The release dates of the different Vanguard card sets
- - The release dates of the various promo cards
- - Timeshifted cards in Planar Chaos and Future Sight?
- - Promo cards not in Gatherer
- - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
-   Invasion block)
- - The Anthologies, Deckmasters, and Duels of the Planeswalkers sets
-- Use a more widespread/reliable XML parsing library than XML::DOM::Lite
 - Consider just deleting TextSpoiler.pm (and then COPYING)
-- Add a function for parsing standard spoilers?
-- Add a function for parsing an individual card page for printed (rather than
-  Oracle) text?
+
+- Data & documentation:
+ - Add documentation
+ - Rewrite spoilers.txt so that it makes sense to other people
+ - Add files to data/ for:
+  - The release dates of the different Vanguard card sets
+  - The release dates of the various promo cards
+  - Timeshifted cards in Planar Chaos and Future Sight?
+  - Promo cards not in Gatherer
+  - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
+    Invasion block)
+  - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
+ - For the multiversion cards in rarities.tsv, give each entry a field for the
+   multiverseid and another field for a short description that a mortal can use
+   to identify the version
+
+- Ideas for later:
+ - Add a function for parsing standard spoilers?
+ - Add a function for parsing an individual card page for printed (rather than
+   Oracle) text

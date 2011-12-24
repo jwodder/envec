@@ -24,8 +24,8 @@ sub joinCards($$$) {
   $part1->printings, $part2->printings;
  $part1->printings({});
  $part2->printings({});
- return new EnVec::Card::Split cardType => $format, part1 => $part1,
-  part2 => $part2, printings => $printings;
+ return new EnVec::Card::Split cardType => $format, content => [$part1, $part2],
+  printings => $printings;
 }
 
 sub unmungFlip($) {
@@ -42,38 +42,6 @@ sub unmungFlip($) {
  $flip->text($topText);
  my $printings = $flip->printings;
  $flip->printings({});
- return new EnVec::Card::Split cardType => 'flip', part1 => $flip,
-  part2 => $bottom, printings => $printings;
+ return new EnVec::Card::Split cardType => FLIP_CARD,
+  content => [$flip, $bottom], printings => $printings;
 }
-
-#sub joinSplit($$) {
-# my($a, $b) = @_;
-# $a->name =~ m:^($subname) // ($subname) \(($subname)\)$:
-#  or croak "joinSplit: non-split card: " . $a->name;
-# my($leftN, $rightN, $aN) = ($1, $2, $3);
-# my($left, $right, $bN);
-# if ($leftN eq $aN) {
-#  $left = $a;
-#  $right = $b;
-#  $bN = "$leftN // $rightN ($rightN)";
-# } elsif ($rightN eq $aN) {
-#  $left = $b;
-#  $right = $a;
-#  $bN = "$leftN // $rightN ($leftN)";
-# } else { croak "joinSplit: bad card name: " . $a->name }
-# croak "joinSplit: card " . $a->name . " does not match card " . $b->name
-#  if $b->name ne $bN;
-# $left->name($leftN);
-# $right->name($rightN);
-# return joinCards 'split', $left, $right;
-#}
-#
-#sub joinFlip($$) {
-# my($top, $bottom) = @_;
-# my $topName = $top->name;
-# $bottom->name =~ /^\Q$topName\E \(([^)]+)\)$/
-#  or croak "joinFlip: invalid arguments: $topName vs. " . $bottom->name;
-# $bottom->name($1);
-# $bottom->cost(undef);
-# return joinCards 'flip', $top, $bottom;
-#}
