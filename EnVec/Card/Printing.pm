@@ -30,14 +30,13 @@ sub new {
  if (!exists $fields{rarity} || $fields{rarity} eq '') {
   $self->{rarity} = undef
  } elsif (ref $fields{rarity}) {
-  carp ...
+  carp "EnVec::Card::Printing->new: 'rarity' field may not be a reference";
   $self->{rarity} = undef;
  } else { $self->{rarity} = $fields{rarity} }
 
- if (!exists $fields{date} || $fields{date} eq '') {
-  $self->{date} = undef
- } elsif (ref $fields{date}) {
-  carp ...
+ if (!exists $fields{date} || $fields{date} eq '') { $self->{date} = undef }
+ elsif (ref $fields{date}) {
+  carp "EnVec::Card::Printing->new: 'date' field may not be a reference";
   $self->{date} = undef;
  } else { $self->{date} = $fields{date} }
 
@@ -52,15 +51,16 @@ sub new {
     elsif (ref $elem eq 'ARRAY') {
      my @elems = ();
      for (@$elem) {
-      if (ref) { carp ... }
-      elsif (defined && $_ ne '') { push @elems, $_ }
-      else { carp ... }
+      if (ref) {
+       carp "EnVec::Card::Printing->new: elements of sublists may not be references"
+      } elsif (defined && $_ ne '') { push @elems, $_ }
+     #else { carp "EnVec::Card::Printing->new: elements of sublists must be nonempty strings" }
      }
      if (!@elems) { $undef++ }
      elsif (@elems == 1) { push @{$self->{$_}}, $elems[0] }
      else { push @{$self->{$_}}, \@elems }
     } elsif (ref $elem) {
-     carp ...
+     carp "EnVec::Card::Printing->new: list elements must be strings, array references, or undef";
      $undef++;
     } else {
      push @{$self->{$_}}, undef x $undef, $elem;
@@ -68,7 +68,7 @@ sub new {
     }
    }
   } else {
-   carp ...
+   carp "EnVec::Card::Printing->new: '$_' field must be a string, array reference, or undef";
    $self->{$_} = [];
   }
  }
@@ -76,26 +76,36 @@ sub new {
  bless $self, ref $class || $class;
 }
 
-sub set { $_[0]->{set} }
+sub set    { $_[0]->{set} }
 sub rarity { $_[0]->{rarity} }
-sub date { $_[0]->{date} }
+sub date   { $_[0]->{date} }
 
 sub arrayGet(&$@) {
  my($merger, $subcard, @vals) = @_;
  if (!@vals) { undef }
  elsif (!defined $subcard) {
-  defined $vals[0] ? $vals[0] : $merger->(grep defined, @vals)
- #defined $vals[0] ? $vals[0] : $merger->(map { defined ? $_ : '' } @vals[1..$#vals])
+  defined $vals[0] ? $vals[0]
+   : $merger->(map { defined ? ref ? @$_ : $_ : '' } @vals[1..$#vals])
  } elsif ($subcard < -1 || $subcard >= $#vals) { undef }
  else { $vals[$subcard+1] }
 }
 
-sub number       { arrayGet { (shift =~ /(\d+)/)[0] } $_[1], @{$_[0]->{number}} }
-sub artist       { arrayGet { join ', ', @_ } $_[1], @{$_[0]->{artist}} }
-sub flavor       { arrayGet { join "\n----\n", @_ } $_[1], @{$_[0]->{flavor}} }
-sub watermark    { arrayGet { join '/', @_ } $_[1], @{$_[0]->{watermark}} }
-sub multiverseid { arrayGet { shift } $_[1], @{$_[0]->{multiverseid}} }
-sub notes        { arrayGet { join "\n----\n", @_ } $_[1], @{$_[0]->{notes}} }
+sub artist    { arrayGet { join ' // ', @_ } $_[1], @{$_[0]->{artist}} }
+sub watermark { arrayGet { join ' // ', @_ } $_[1], @{$_[0]->{watermark}} }
+sub flavor    { arrayGet { join "\n----\n", @_ } $_[1], @{$_[0]->{flavor}} }
+sub notes     { arrayGet { join "\n----\n", @_ } $_[1], @{$_[0]->{notes}} }
+
+sub number {
+ arrayGet {
+  (my $num = (sort { $a <=> $b } grep !/^$/, @_)[0]) =~ s/[[:alpha:]]+$//;
+  return $num;
+ } $_[1], @{$_[0]->{number}}
+}
+
+sub multiverseid {
+ arrayGet { (sort { $a <=> $b } grep !/^$/, @_)[0] }
+  $_[1], @{$_[0]->{multiverseid}}
+}
 
 sub allNumbers    { map { ref ? @$_ : $_ } grep defined, @{$set->{number}} }
 sub allArtists    { map { ref ? @$_ : $_ } grep defined, @{$set->{artist}} }
@@ -103,3 +113,5 @@ sub allFlavor     { map { ref ? @$_ : $_ } grep defined, @{$set->{flavor}} }
 sub allWatermarks { map { ref ? @$_ : $_ } grep defined, @{$set->{watermark}} }
 sub allIDs        { map { ref ? @$_ : $_ } grep defined, @{$set->{multiverseid}} }
 sub allNotes      { map { ref ? @$_ : $_ } grep defined, @{$set->{notes}} }
+
+1;
