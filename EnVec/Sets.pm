@@ -28,7 +28,7 @@ sub loadSets(;$) {
  while (<$setdat>) {
   chomp;
   next if /^\s*#/ || /^\s*$/;
-  my($short1, $short2, $name, $date, $import) = split /\t+/;
+  my($short, $name, $date, $import) = split /\t+/;
   if (exists $sets{$name}) {
    carp "EnVec::Sets::loadSets: $sf: set \"$name\" appears more than once; second appearance discarded";
    next;
@@ -37,16 +37,15 @@ sub loadSets(;$) {
   $date = $name if $date eq '';
    # ^^ so that comparing two dateless sets will at least be deterministic
   $sets{$name} = {
-   short1 => $short1,
-   short2 => $short2,
-   name => $name,
-   date => $date,
+   short  => $short,
+   name   => $name,
+   date   => $date,
    import => $import
   };
   push @setList, $name;
-  if (exists $shorts{$short1}) {
-   carp "EnVec::Sets::loadSets: $sf: abbreviation \"$short1\" used more than once; second appearance ignored"
-  } else { $shorts{$short1} = $name }
+  if (exists $shorts{$short}) {
+   carp "EnVec::Sets::loadSets: $sf: abbreviation \"$short\" used more than once; second appearance ignored"
+  } else { $shorts{$short} = $name }
  }
  $loaded = 1;
  close $setdat;

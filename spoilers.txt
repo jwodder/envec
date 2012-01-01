@@ -193,7 +193,7 @@ trim(label) = Artist:
  - Foxfire Oak [text only]
  - Suture Spirit [text only]
  - Swirling Spriggan [text only]
- - Lashwrithe  [text only]
+ - Lashwrithe [text only]
 
  - B.F.M. (Big Furry Monster)
 

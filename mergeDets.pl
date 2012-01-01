@@ -18,7 +18,7 @@
 
 use strict;
 use JSON::Syck;
-#use EnVec;
+use EnVec;
 use EnVec::Util 'jsonify';
 
 print "[\n";
