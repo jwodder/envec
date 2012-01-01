@@ -1,6 +1,4 @@
 #!/usr/bin/perl -w
-# The only data that this should lose by not merging should be most
-# multiverseids, but who needs those?
 use strict;
 use EnVec ':all';
 
