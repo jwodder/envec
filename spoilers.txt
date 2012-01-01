@@ -176,6 +176,9 @@ trim(label) = Artist:
    listed as their own.
  - The rules text for Rage Extractor represents the generic Phyrexian mana
    symbol as "p" (without even any braces!).
+ - The Eighth & Ninth Edition "box set" cards have their numbers given without
+   the leading 'S', thereby overlapping with the normal card numberings for
+   those sets.
 
  - Figure of Destiny
  - Rhys the Redeemed

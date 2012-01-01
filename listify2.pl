@@ -1,16 +1,17 @@
 #!/usr/bin/perl -w
 use strict;
 use Encode;
-use Fcntl 'SEEK_SET';
 use Getopt::Std;
 use EnVec ('loadSets', 'parseJSON', 'cmpSets');
 
-my %opts;
-getopts('P', \%opts) || exit 2;
-
 my %rarities = ('Mythic Rare' => 'Mythic',
  map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
-%rarities = map { $_ => "($rarities{$_}) show" } keys %rarities if $opts{P};
+
+my %opts;
+getopts('Pd:', \%opts) || exit 2;
+my $prelude = $opts{P} && join('', <DATA>);
+my $dir = $opts{d} || 'lists';
+-d $dir or mkdir $dir or die "$0: $dir/: $!";
 
 my %sets = ();
 loadSets;
@@ -18,22 +19,22 @@ $/ = undef;
 for my $card (@{parseJSON <>}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
- push @{$sets{$_->{set}}}, [
-  $_->{number} || '',
-  ### PROBLEM: Flip and double-faced cards are given different collector's
-  ### numbers for each half.
-  $rarities{$_->{rarity}} || die('Unknown rarity "', $_->{rarity}, '" for ',
-				  $card->name, ' in ', $_->{set}),
+ push @{$sets{$_->set}}, [
+  $_->number || '',
+  $rarities{$_->rarity} || die('Unknown rarity "', $_->rarity, '" for ',
+				$card->name, ' in ', $_->set),
   $stats
  ] for @{$card->printings};
 }
 
 for my $set (sort cmpSets keys %sets) {
- ### Start list
+ (my $file = $set) =~ tr/ "'/_/d;
+ $file = "$dir/$file." . ($opts{P} ? 'ps' : 'txt');
+ open my $out, '>', $file or die "$0: $file: $!";
+ select $out;
  my @cards = map {
   $_->[0] .= '.' if $_->[0];
-  if ($_->[2]{part2}) { ($_, [ '//', '', $_->[2]{part2} ]) }
-  else { ($_) }
+  $_->[2]{part2} ? ($_, [ '//', '', $_->[2]{part2} ]) : ($_);
  } sort { $a->[0] <=> $b->[0] || $a->[2]{name} cmp $b->[2]{name} }
   @{$sets{$set}};
  my $nameLen = maxField('nameLen', @cards);
@@ -41,15 +42,13 @@ for my $set (sort cmpSets keys %sets) {
  my $costLen = maxField('costLen', @cards);
  my $extraLen = maxField('extraLen', @cards);
  if ($opts{P}) {
-  print <DATA>;
-  seek DATA, 0, SEEK_SET;
-  print <<EOT;
+  print $prelude, <<EOT
 /typeStart $nameLen 2 add em mul def
 /extraStart typeStart $typeLen add 2 add em mul def
 /costStart extraStart $extraLen add 2 add em mul def
 /rareStart costStart $costLen add 2 add em mul def
 EOT
- }
+ } else { print "$set\n" }
  if ($set eq 'Planechase' || $set eq 'Archenemy') {
   my(@special, @normal);
   for (@cards) {
@@ -60,8 +59,8 @@ EOT
   print($opts{P} ? "nameStart y moveto (---) show linefeed\n" : "---\n");
   showCards @normal;
  } else { showCards @cards }
- ### End list
  print "showpage\n" if $opts{P};
+ close $out;
 }
 
 sub chrlength($) { length(decode_utf($_[0], Encode::FB_CROAK)) }
@@ -80,13 +79,13 @@ sub stats($) {
   $costLen = length $cost2;
  }
  return {
-  name => $name,
-  nameLen => chrlength $name,
-  type => $type,
-  typeLen => chrlength $type,
-  cost => $cost,
-  costLen => $costLen,
-  extra => $extra,
+  name     => $name,
+  nameLen  => chrlength $name,
+  type     => $type,
+  typeLen  => chrlength $type,
+  cost     => $cost,
+  costLen  => $costLen,
+  extra    => $extra,
   extraLen => length $extra,
  };
 }
@@ -127,7 +126,7 @@ sub showCards(@) {
    print 'costStart y moveto ';
    print($2 ? "$2\n" : $3 ? "$3$4\n" : psify($1 || $5))
     while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
-   print 'rareStart y moveto ', $card->[1], "\n" if $card->[1];
+   print $card->[1], "\n" if $card->[1];
    print "linefeed\n\n";
   }
  } else {
@@ -236,7 +235,13 @@ __DATA__
 /RP { R 1 1 1 phi } def
 /GP { G 0 0 0 phi } def
 
+/Mythic   { rareStart y moveto (Mythic)   show } def
+/Rare     { rareStart y moveto (Rare)     show } def
+/Uncommon { rareStart y moveto (Uncommon) show } def
+/Common   { rareStart y moveto (Common)   show } def
+/Land     { rareStart y moveto (Land)     show } def
+/Special  { rareStart y moveto (Special)  show } def
+/Promo    { rareStart y moveto (Promo)    show } def
+
 startPage
 linefeed
-
-% End of DATA section/PostScript boilerplate

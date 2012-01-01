@@ -41,6 +41,7 @@
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
     Invasion block)
   - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
+  - The various set abbreviations used by different sites and programs?
  - For the multiversion cards in rarities.tsv, give each entry a field for the
    multiverseid and another field for a short description that a mortal can use
    to identify the version
@@ -49,3 +50,5 @@
  - Add a function for parsing standard spoilers?
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text
+ - Add elements to mtgcard.dtd for storing printed text, expansion symbols,
+   card language, etc.

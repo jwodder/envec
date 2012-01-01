@@ -2,14 +2,16 @@
 <!ENTITY % symbols '%mana;|T|Q|chaos|PW'>
 <!ENTITY % text '(#PCDATA|%symbols;|i)*'>
 
-<!ELEMENT cardlist (card*)>
+<!ELEMENT cardlist (attr*, card*)>
 <!ATTLIST cardlist date CDATA #IMPLIED>
 
-<!ELEMENT card (content+, printing*, ruling*, format*)>
+<!ELEMENT attr EMPTY>
+<!ATTLIST attr name CDATA #REQUIRED value CDATA "1">
+<!-- Example attrs (all boolean and for cards so far): "nontraditional",
+     "online-only", "uncard", "silver-bordered", "token" -->
+
+<!ELEMENT card (attr*, content+, printing*, ruling*, format*)>
 <!ATTLIST card type (normal|split|flip|double-faced) "normal">
-<!-- Consider making the "type" attribute just a space-separated list of
-     arbitrary keywords, e.g. "split flip double-faced nontraditional
-     online-only uncard silver-bordered token". -->
 
 <!-- A subcard of a multi-part card (or the entirety of a normal card): -->
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,
@@ -34,8 +36,7 @@
 <!ELEMENT printing (set, date?, rarity?, number*, artist+, flavor*, watermark*,
 		    multiverseid*, notes*)>
 <!ELEMENT set (#PCDATA)>
-<!ATTLIST set abbrev CDATA #IMPLIED>
-<!ELEMENT date (#PCDATA)>  <!-- especially of a promo card's distribution -->
+<!ELEMENT date (#PCDATA)>  <!-- primarily for promo cards -->
 <!ELEMENT rarity (#PCDATA)>
 <!ELEMENT number (#PCDATA)>
 <!ELEMENT artist (#PCDATA)>

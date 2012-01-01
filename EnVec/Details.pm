@@ -89,8 +89,8 @@ sub scrapeSection($$) {
    @fields{'pow','tough'} = (rowVal($ptRow) =~ m:^\s*([^/]+?)\s*/\s*(.+?)\s*$:)
   } elsif ($label eq 'Loyalty:') { $fields{loyalty} = simplify rowVal $ptRow }
   elsif ($label eq 'Hand/Life:') {
-   @fields{'handMod','lifeMod'} = simplify(rowVal($ptRow))
-     =~ /Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)/i
+   @fields{'handMod','lifeMod'} = (simplify(rowVal($ptRow))
+     =~ /Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)/i)
   } else { print STDERR "Unknown ptRow label for $fields{name}: \"$label\"\n" }
  }
  @{$fields{prnt}}{'multiverseid', 'set', 'rarity'}

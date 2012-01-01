@@ -90,7 +90,7 @@ sub isSplit { $_[0]->cardType == SPLIT_CARD }
 sub isFlip { $_[0]->cardType == FLIP_CARD }
 sub isDouble { $_[0]->cardType == DOUBLE_CARD }
 
-sub sets { uniq sort map { $_->{set} } @{$_[0]->printings} }
+sub sets { uniq sort map { $_->set } @{$_[0]->printings} }
 
 sub firstSet { EnVec::Sets::firstSet($_[0]->sets) }
 
@@ -237,7 +237,11 @@ sub toText1 {
 
 sub inSet {
  my($self, $set) = @_;
- return defined $self->printings($set) && %{$self->printings($set)};
+ if (wantarray) { grep { $_->set eq $set } @{$self->printings} }
+ else {
+  for (@{$self->printings}) { return 1 if $_->set eq $set }
+  return '';
+ }
 }
 
 sub rarity {
