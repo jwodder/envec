@@ -122,8 +122,4 @@ sub copy {
  ??? #####
 }
 
-sub setMultiverseid {
- ??? #####
-}
-
 1;

@@ -32,8 +32,7 @@ sub walkTextSpoiler($$) {
    for my $tr (@{$div->getElementsByTagName('tr')}) {
     my $tds = $tr->getElementsByTagName('td');
     if ($tds->length != 2) {
-     my $card = new EnVec::Card %fields;
-     ($card->inSet($set))[0]->setMultiverseid($id);  ###
+     my $card = newCard EnVec::Card %fields;
      insertCard %cards, $card;
      %fields = ();
      $id = 0;
@@ -72,6 +71,7 @@ sub walkTextSpoiler($$) {
       for (split /\s*,\s*/, simplify $v2) {
        s/ (Common|Uncommon|(Mythic )?Rare|Special|Promo|Land)$//;
        $fields{printings}{$_}{rarity} = $1 || 'UNKNOWN';
+       $fields{printings}{$_}{multiverseid} = $id if $_ eq $set;
       }
      } elsif ($v1 eq 'Color:') { $fields{indicator} = parseColors $v2 }
      elsif ($v1 eq 'Loyalty:') { ($fields{loyalty} = simplify $v2) =~ tr/()//d }

@@ -30,8 +30,17 @@ my $sep = ' // ';
 my %formats = (NORMAL_CARD, 'Normal card', SPLIT_CARD, 'Split card',
  FLIP_CARD, 'Flip card', DOUBLE_CARD, 'Double-faced card');
 
-my @scalars = qw< name cost text pow tough loyalty handMod lifeMod indicator >;
-my @lists = qw< supertypes types subtypes >;
+sub newCard {
+ my($class, %attrs) = @_;
+ my %cont = ();
+ for (qw< name cost text pow tough loyalty handMod lifeMod indicator supertypes
+  types subtypes >) { $cont{$_} = $attrs{$_} if exists $attrs{$_} }
+ my $content = new EnVec::Card::Content %cont;
+ my $printings = ref $attrs{printings} eq 'ARRAY'
+  ? [ map { new EnVec::Card::Printing %$_ } @{$attrs{printings}} ] : [];
+ return new EnVec::Card cardType => NORMAL_CARD, content => [ $content ],
+  printings => $printings, rulings => $attrs{rulings} || [];
+}
 
 sub toJSON {
  my $self = shift;
@@ -73,8 +82,10 @@ sub merge {  # Neither argument is modified.
 }
 
 sub isMultipart { $_[0]->parts > 1 }
-sub isSplit { $_[0]->cardType == SPLIT_CARD }
-sub isFlip { $_[0]->cardType == FLIP_CARD }
+
+sub isNormal { $_[0]->cardType == NORMAL_CARD }
+sub isSplit  { $_[0]->cardType == SPLIT_CARD }
+sub isFlip   { $_[0]->cardType == FLIP_CARD }
 sub isDouble { $_[0]->cardType == DOUBLE_CARD }
 
 sub sets { uniq sort map { $_->set } @{$_[0]->printings} }
