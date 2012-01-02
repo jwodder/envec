@@ -4,13 +4,10 @@ use strict;
 use Carp;
 use Storable 'dclone';
 use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
-use EnVec::Sets qw< loadedSets cmpSets >;
 
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- mergePrintings showSets >;
-
-our $tagwidth = 8;
+ mergePrintings >;
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
@@ -122,21 +119,4 @@ sub mergePrintings($$$) {
   }
  }
  return \%merged;
-}
-
-my %shortRares = (common => 'C', uncommon => 'U', rare => 'R', land => 'L',
- 'mythic rare' => 'M');
-
-sub showSets($$;$) {
- my($printings, $width, $sort) = @_;
- $sort = loadedSets if !defined $sort;
- my @sets = keys %$printings;
- my $text = join ', ', map {
-  my $rare = $printings->{$_}{rarity} || 'XXX';
-  "$_ (" . ($shortRares{lc $rare} || $rare) . ')';
- } ($sort ? sort cmpSets @sets : sort @sets);
- my($first, @rest) = wrapLines $text, $width, 2;
- $first = '' if !defined $first;
- return join '', sprintf("%-*s %s\n", $tagwidth, 'Sets:', $first),
-  map { (' ' x $tagwidth) . " $_\n" } @rest;
 }

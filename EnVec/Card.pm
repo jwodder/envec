@@ -7,7 +7,7 @@ use EnVec::Card::Content;
 use EnVec::Card::Printing;
 use EnVec::Colors;
 use EnVec::Util;
-use EnVec::Sets ();
+use EnVec::Sets ('loadedSets', 'cmpSets');
 
 use constant {
  NORMAL_CARD => 1,
@@ -182,15 +182,27 @@ my %fields = (
 #printings  => 'Printings:',
 );
 
-our $tagwidth = $EnVec::Util::tagwidth;
+my %shortRares = (common => 'C', uncommon => 'U', rare => 'R', land => 'L',
+ 'mythic rare' => 'M');
+
+our $tagwidth = 8;
 
 sub showField1 {
  my($self, $field, $width) = @_;
  $width = ($width || 79) - $tagwidth - 1;
  my($tag, $text);
  if (!defined $field) { return '' }
- elsif ($field eq 'sets') { return showSets $self->printings, $width }
- elsif ($field eq 'cardType') {
+ elsif ($field eq 'sets') {
+  my $text = join ', ', uniq map {
+   my $rare = $_->rarity || 'XXX';
+   $_->set . ' (' . ($shortRares{lc $rare} || $rare) . ')';
+  } (loadedSets ? sort { $a->set cmpSets $b->set } @{$self->printings}
+		: sort { $a->set cmp $b->set } @{$self->printings});
+  my($first, @rest) = wrapLines $text, $width, 2;
+  $first = '' if !defined $first;
+  return join '', sprintf("%-*s %s\n", $tagwidth, 'Sets:', $first),
+   map { (' ' x $tagwidth) . " $_\n" } @rest;
+ } elsif ($field eq 'cardType') {
   return sprintf "%-*s %s\n", $tagwidth, 'Format:', $formats{$self->cardType}
    ### || $self->cardType
  } elsif (exists $fields{$field}) {

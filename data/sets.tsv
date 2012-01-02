@@ -12,8 +12,6 @@
 # Sets not listed in Gatherer (e.g., Anthologies, Deckmasters 2001) are not
 # listed here.
 
-# Sets are commented out iff they have not yet been released and/or are Un-sets.
-
 1E	Limited Edition Alpha			1993-08-05	0
 2E	Limited Edition Beta			1993-10-??	1
 2U	Unlimited Edition			1993-12-??	0
@@ -121,8 +119,8 @@ ARC	Archenemy				2010-06-18	1
 CMD	Magic: The Gathering-Commander		2011-06-17	1
 #???	Planechase (2012 Edition)		2012-06-01	1
 
-#UG	Unglued					1998-08-17	1
-#UNH	Unhinged				2004-11-19	1
+UG	Unglued					1998-08-17	0
+UNH	Unhinged				2004-11-19	0
 
 CH	Chronicles				1995-07-??	0
 BR	Battle Royale Box Set			1999-11-12	0
