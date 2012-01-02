@@ -2,8 +2,10 @@
  - Handle XML::DOM::Lite parse errors
  - Handle failures in Get.pm functions appropriately
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
- - Try to handle fractions in Unhinged cards?
- - Try to handle Erase (Not the Urza's Legacy One)?
+ - Uncards:
+  - Try to handle fractions in Unhinged cards?
+  - Try to handle Erase (Not the Urza's Legacy One)?
+  - Try to handle BFM?
 
 - Features:
  - Add a function for parsing an individual card page (identified by
@@ -20,12 +22,12 @@
 
 - Coding:
  - Rewrite the representation of multipart cards to mirror that in mtgcard.dtd
- - Make fromJSON a class method of EnVec::Card
+ - Update fromJSON and make it a class method of EnVec::Card
+ - Make EnVec::Card only allow valid cardType values
+ - Make EnVec::Card::Content prohibit empty names
+ - Make EnVec::Card::Content automatically convert empty fields to undef
  - Give EnVec.pm tags for the export lists of each submodule
  - Make EnVec.pm preserve the non-'all' tags of the submodules
- - Make EnVec::Card::Content automatically convert empty fields to undef
- - Make EnVec::Card::Content prohibit empty names
- - Make EnVec::Card only allow valid cardType values
 
 - Rewrite/update listify.pl
 - Consider just deleting TextSpoiler.pm (and then COPYING)
@@ -52,3 +54,4 @@
    Oracle) text
  - Add elements to mtgcard.dtd for storing printed text, expansion symbols,
    card language, etc.
+ - Implement Card->showField1('printings')

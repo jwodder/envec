@@ -4,6 +4,7 @@ use strict;
 use Carp;
 use Storable 'dclone';
 use EnVec::Card::Content;
+use EnVec::Card::Printing;
 use EnVec::Colors;
 use EnVec::Util;
 use EnVec::Sets ();
@@ -15,32 +16,19 @@ use constant {
  DOUBLE_CARD => 4
 };
 
+use Class::Struct cardType => '$', content => '@', printings => '@',
+ rulings => '@';
+# - Each element of the 'content' list is an EnVec::Card::Content object.
+# - Each element of the 'printings' list is an EnVec::Card::Printing object.
+# - Each element of the 'rulings' list is a hash with the following fields:
+#  - date
+#  - ruling
+#  - subcard - 0 or 1 (optional)
+
 my $sep = ' // ';
 
 my %formats = (NORMAL_CARD, 'Normal card', SPLIT_CARD, 'Split card',
  FLIP_CARD, 'Flip card', DOUBLE_CARD, 'Double-faced card');
-
-use Class::Struct cardType => '$', content => '@', printings => '@',
- rulings => '@';
-
-# Each element of the 'content' list is an EnVec::Card::Content object.
-
-# Each element of the 'printings' list is a hash with the following fields:
-#  - set
-#  - rarity
-#  - multiverseid
-#  - artist
-#  - number (optional)
-#  - flavor (optional)
-#  - watermark (optional)
-#  - notes (optional)
-# Each field can be either a scalar value or a list of subhashes with the
-# fields "subcard" and "value".
-
-# Each element of the 'rulings' list is a hash with the following fields:
-#  - date
-#  - ruling
-#  - subcard - 0 or 1 (optional)
 
 my @scalars = qw< name cost text pow tough loyalty handMod lifeMod indicator >;
 my @lists = qw< supertypes types subtypes >;
@@ -48,16 +36,15 @@ my @lists = qw< supertypes types subtypes >;
 sub toJSON {
  my $self = shift;
  my $str = " {\n";
- ### $str .= "  \"cardType\": " . ???
+ $str .= "  \"cardType\": \"" . $formats{$self->cardType} . "\",\n";
  $str .= "  \"content\": [" . join(",\n", map { $_->toJSON } @{$self->content}) . "],\n";
- $str .= "  \"printings\": [" . join(",\n", map { jsonify($_) } @{$self->printings}) . "],\n";
+ $str .= "  \"printings\": [" . join(",\n", map { $_->toJSON } @{$self->printings}) . "],\n";
  $str .= "  \"rulings\": [" . join(",\n", map { jsonify($_) } @{$self->rulings}) . "]\n";
  $str .= " }";
  return $str;
 }
 
-sub color { colors2colors join '', map { $_->color } @{$_[0]->content} }
-
+sub color   { colors2colors join '', map { $_->color }   @{$_[0]->content} }
 sub colorID { colors2colors join '', map { $_->colorID } @{$_[0]->content} }
 
 sub cmc {
@@ -157,7 +144,7 @@ sub copy {
  # It isn't clear whether Storable::dclone can handle blessed objects, so...
  new EnVec::Card cardType  => $self->cardType,
 		 content   => [ map { $_->copy } @{$self->content} ],
-		 printings => dclone $self->printings,
+		 printings => [ map { $_->copy } @{$self->printings} ],
 		 rulings   => dclone $self->rulings;
 }
 
@@ -193,8 +180,8 @@ sub showField1 {
  if (!defined $field) { return '' }
  elsif ($field eq 'sets') { return showSets $self->printings, $width }
  elsif ($field eq 'cardType') {
-  return sprintf "%-*s %s\n", $tagwidth, 'Format:',
-   $formats{$self->cardType} || $self->cardType
+  return sprintf "%-*s %s\n", $tagwidth, 'Format:', $formats{$self->cardType}
+   ### || $self->cardType
  } elsif (exists $fields{$field}) {
   $width = int(($width - ($self->parts - 1) * length($sep)) / $self->parts);
   my @lines = map {
@@ -231,41 +218,12 @@ sub toText1 {
  return $str;
 }
 
-
-
-
-
 sub inSet {
  my($self, $set) = @_;
  if (wantarray) { grep { $_->set eq $set } @{$self->printings} }
  else {
   for (@{$self->printings}) { return 1 if $_->set eq $set }
   return '';
- }
-}
-
-sub rarity {
- my($self, $set) = @_;
- return ($self->printings($set) || {})->{rarity};
-}
-
-sub setIDs {
- my($self, $set) = @_;
- return @{($self->printings($set) || {})->{ids} || []};
-}
-
-sub addSetID {
- my($self, $set, $id) = @_;
- if (!defined $self->printings($set)) { $self->printings($set, {ids => [$id]}) }
- else {
-  my @ids = @{$self->printings($set)->{ids} || []};
-  my $i;
-  for ($i=0; $i<@ids; $i++) {
-   last   if $id lt $ids[$i];
-   return if $id eq $ids[$i];
-  }
-  splice @ids, $i, 0, $id;
-  $self->printings($set)->{ids} = \@ids;
  }
 }
 

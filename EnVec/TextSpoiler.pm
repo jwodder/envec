@@ -33,7 +33,7 @@ sub walkTextSpoiler($$) {
     my $tds = $tr->getElementsByTagName('td');
     if ($tds->length != 2) {
      my $card = new EnVec::Card %fields;
-     $card->addSetID($set, $id);
+     ($card->inSet($set))[0]->setMultiverseid($id);  ###
      insertCard %cards, $card;
      %fields = ();
      $id = 0;

@@ -114,4 +114,16 @@ sub allWatermarks { map { ref ? @$_ : $_ } grep defined, @{$set->{watermark}} }
 sub allIDs        { map { ref ? @$_ : $_ } grep defined, @{$set->{multiverseid}} }
 sub allNotes      { map { ref ? @$_ : $_ } grep defined, @{$set->{notes}} }
 
+sub toJSON {
+ ??? #####
+}
+
+sub copy {
+ ??? #####
+}
+
+sub setMultiverseid {
+ ??? #####
+}
+
 1;
