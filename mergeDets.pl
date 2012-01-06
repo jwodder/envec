@@ -19,7 +19,7 @@
 use strict;
 use JSON::Syck;
 use EnVec;
-use EnVec::Util 'jsonify';
+use EnVec::Util 'jsonify', 'mergeRulings';
 
 print "[\n";
 $/ = '';
@@ -29,12 +29,17 @@ while (<>) {
  my @printings;
  for (@entries) {
   my $entry = JSON::Syck::Load($_);
-  # Handle JSON-parsing errors
+  ### Handle JSON-parsing errors
   my $multiverseid = delete $entry->{multiverseid};
   my $prnt;
   if (exists $entry->{part1}) {
-   $entry->{rulings} = mergeRulings delete $entry->{part1}{rulings},
-    delete $entry->{part2}{rulings};
+   my $rulings1 = delete $entry->{part1}{rulings};
+   $rulings1 = [ map { +{ date => $_->[0], ruling => $_->[1] } } @$rulings1 ]
+    if defined $rulings1;
+   my $rulings2 = delete $entry->{part2}{rulings};
+   $rulings2 = [ map { +{ date => $_->[0], ruling => $_->[1] } } @$rulings2 ]
+    if defined $rulings2;
+   $entry->{rulings} = mergeRulings $rulings1, $rulings2;
    $prnt = {};
    my $prnt1 = delete $entry->{part1}{prnt};
    my $prnt2 = delete $entry->{part2}{prnt};
@@ -53,7 +58,7 @@ while (<>) {
    }
   } else {
    $entry->{rulings} = [ map { +{ date => $_->[0], ruling => $_[0] } }
-			  @{$entry->rulings} ] if exists $entry->{rulings};
+			  @{$entry->{rulings}} ] if exists $entry->{rulings};
    $prnt = delete $entry->{prnt};
   }
   my $entryStr = jsonify $entry;
@@ -67,22 +72,3 @@ while (<>) {
 
 }
 print "\n]\n";
-
-sub mergeRulings($$) {
- my($rules1, $rules2) = @_;
- $rules1 = [] if !defined $rules1;
- $rules2 = [] if !defined $rules2;
- my @rulings;
- loop1: for my $r1 (@$rules1) {
-  for my $i (0..$#$rules2) {
-   if ($r1->[0] eq $rules2->[$i][0] && $r1->[1] eq $rules2->[$i][1]) {
-    push @rulings, { date => $r1->[0], ruling => $r1->[1] };
-    splice @$rules2, $i, 1;
-    next loop1;
-   }
-  }
-  push @rulings, { subcard => 0, date => $r1->[0], ruling => $r1->[1] };
- }
- return @rulings,
-  map { +{ subcard => 1, date => $_->[0], ruling => $_->[1] } } @$rules2;
-}

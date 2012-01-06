@@ -94,7 +94,7 @@
 <!ELEMENT BP EMPTY>
 <!ELEMENT RP EMPTY>
 <!ELEMENT GP EMPTY>
-<!ELEMENT S EMPTY>
+<!ELEMENT S EMPTY>  <!-- snow mana -->
 <!ELEMENT T EMPTY>  <!-- tap symbol -->
 <!ELEMENT Q EMPTY>  <!-- untap symbol -->
 <!ELEMENT chaos EMPTY>

@@ -20,7 +20,8 @@ sub joinCards($$$) {
  my $printings = mergePrintings $part1->name . ' // ' . $part2->name,
   $part1->printings, $part2->printings;
  return new EnVec::Card cardType => $format,
-  content => [@{$part1->content}, @{$part2->content}], printings => $printings;
+  content => [@{$part1->content}, @{$part2->content}], printings => $printings,
+  rulings => mergeRulings($part1->rulings, $part2->rulings);
 }
 
 sub unmungFlip($) {

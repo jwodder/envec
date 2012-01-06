@@ -120,3 +120,22 @@ sub mergePrintings($$$) {
  }
  return \%merged;
 }
+
+sub mergeRulings($$) {
+ my($rules1, $rules2) = @_;
+ $rules1 = [] if !defined $rules1;
+ $rules2 = [] if !defined $rules2;
+ my @rulings;
+ loop1: for my $r1 (@$rules1) {
+  for my $i (0..$#$rules2) {
+   if ($r1->{date} eq $rules2->[$i]{date}
+    && $r1->{ruling} eq $rules2->[$i]{ruling}) {
+    push @rulings, { %$r1 };
+    splice @$rules2, $i, 1;
+    next loop1;
+   }
+  }
+  push @rulings, { %$r1, subcard => 0 };
+ }
+ return @rulings, map { +{ %$_, subcard => 1 } } @$rules2;
+}
