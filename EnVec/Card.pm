@@ -37,8 +37,10 @@ sub newCard {
   types subtypes >) { $cont{$_} = $attrs{$_} if exists $attrs{$_} }
  my $content = new EnVec::Card::Content %cont;
  my $printings = ref $attrs{printings} eq 'ARRAY'
-  ? [ map { new EnVec::Card::Printing %$_ } @{$attrs{printings}} ] : [];
- return new EnVec::Card cardType => NORMAL_CARD, content => [ $content ],
+  ? [ map { ref eq 'HASH' ? new EnVec::Card::Printing %$_ : $_ }
+	 @{$attrs{printings}} ]
+  : [];
+ return new $class cardType => NORMAL_CARD, content => [ $content ],
   printings => $printings, rulings => $attrs{rulings} || [];
 }
 

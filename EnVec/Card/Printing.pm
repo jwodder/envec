@@ -24,24 +24,24 @@ sub new {
  my($class, %fields) = @_;
  my $self = {};
  croak "EnVec::Card::Printing->new: 'set' field must be a nonempty string"
-  if !exists $fields{set} || $fields{set} eq '' || ref $fields{set};
+  if !defined $fields{set} || $fields{set} eq '' || ref $fields{set};
  $self->{set} = $fields{set};
 
- if (!exists $fields{rarity} || $fields{rarity} eq '') {
+ if (!defined $fields{rarity} || $fields{rarity} eq '') {
   $self->{rarity} = undef
  } elsif (ref $fields{rarity}) {
   carp "EnVec::Card::Printing->new: 'rarity' field may not be a reference";
   $self->{rarity} = undef;
  } else { $self->{rarity} = $fields{rarity} }
 
- if (!exists $fields{date} || $fields{date} eq '') { $self->{date} = undef }
+ if (!defined $fields{date} || $fields{date} eq '') { $self->{date} = undef }
  elsif (ref $fields{date}) {
   carp "EnVec::Card::Printing->new: 'date' field may not be a reference";
   $self->{date} = undef;
  } else { $self->{date} = $fields{date} }
 
  for (qw< number artist flavor watermark multiverseid notes >) {
-  if (!exists $fields{$_} || $fields{$_} eq '') { $self->{$_} = [] }
+  if (!defined $fields{$_} || $fields{$_} eq '') { $self->{$_} = [] }
   elsif (!ref $fields{$_}) { $self->{$_} = [ $fields{$_} ] }
   elsif (ref $fields{$_} eq 'ARRAY') {
    $self->{$_} = [];
@@ -76,7 +76,18 @@ sub new {
  bless $self, ref $class || $class;
 }
 
-sub set    { $_[0]->{set} }
+sub set {
+ # This is needed for converting set abbreviations to long names.
+ my $self = shift;
+ if (@_) {
+  my $new = shift;
+  croak "EnVec::Card::Printing->set: field must be a nonempty string"
+   if !defined $new || $new eq '' || ref $new;
+  $self->{set} = $new;
+ }
+ return $self->{set};
+}
+
 sub rarity { $_[0]->{rarity} }
 sub date   { $_[0]->{date} }
 
