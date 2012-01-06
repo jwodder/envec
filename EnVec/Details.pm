@@ -3,7 +3,9 @@ use warnings;
 use strict;
 use Carp;
 use XML::DOM::Lite 'Parser';
+use EnVec::Card;
 use EnVec::Card::Printing;
+use EnVec::Card::Util 'joinCards';
 use EnVec::Colors;
 use EnVec::Util;
 
@@ -13,13 +15,12 @@ our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub parseDetails($) {
  my $str = shift;
- # Work around italicization farkup:
- $str =~ s:</i>([^<>]+)</i>:$1:gi;
+ $str =~ s:</i>([^<>]+)</i>:$1:gi;  # Work around italicization farkup
  my $doc = Parser->new->parse($str);
  my $pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_';
  if ($doc->getElementById("${pre}nameRow")) { scrapeSection($doc, $pre) }
- else { (part1 => { scrapeSection($doc, "${pre}ctl05_") },
-	 part2 => { scrapeSection($doc, "${pre}ctl06_") }) }
+ else { joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl05_"),
+			       scrapeSection($doc, "${pre}ctl06_") }
 }
 
 sub loadDetails($) {
