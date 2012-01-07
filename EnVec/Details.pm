@@ -85,7 +85,8 @@ sub scrapeSection($$) {
  $fields{text} = multiline $doc->getElementById("${pre}textRow");
  $prnt{flavor} = multiline $doc->getElementById("${pre}flavorRow");
  $prnt{watermark} = multiline $doc->getElementById("${pre}markRow");
- $fields{indicator} = parseColors rowVal $doc->getElementById("${pre}colorIndicatorRow");
+ $fields{indicator}
+  = parseColors rowVal $doc->getElementById("${pre}colorIndicatorRow");
  my $ptRow = $doc->getElementById("${pre}ptRow");
  if ($ptRow) {
   my $label = simplify magicContent((divsByClass $ptRow, 'label')[0]);
@@ -101,12 +102,11 @@ sub scrapeSection($$) {
  my($prnt0) = expansions $doc->getElementById("${pre}currentSetSymbol");
  $prnt{number} = simplify rowVal $doc->getElementById("${pre}numberRow");
  $prnt{artist} = simplify rowVal $doc->getElementById("${pre}artistRow");
-
  $fields{printings} = [
-  (new EnVec::Card::Printing %prnt, set => $prnt0->set, rarity => $prnt0->rarity, multiverseid => $prnt0->multiverseid),
+  (new EnVec::Card::Printing set => $prnt0->set, rarity => $prnt0->rarity,
+			     multiverseid => $prnt0->multiverseid, %prnt),
   expansions $doc->getElementById("${pre}otherSetsValue"),
  ];
-
  my $rulings = $doc->getElementById("${pre}rulingsContainer");
  if ($rulings) {
   for my $tr (@{$rulings->getElementsByTagName('tr')}) {
