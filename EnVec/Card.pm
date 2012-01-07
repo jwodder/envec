@@ -48,9 +48,9 @@ sub toJSON {
  my $self = shift;
  my $str = " {\n";
  $str .= "  \"cardType\": \"" . $formats{$self->cardType} . "\",\n";
- $str .= "  \"content\": [" . join(",\n", map { $_->toJSON } @{$self->content}) . "],\n";
- $str .= "  \"printings\": [" . join(",\n", map { $_->toJSON } @{$self->printings}) . "],\n";
- $str .= "  \"rulings\": [" . join(",\n", map { jsonify($_) } @{$self->rulings}) . "]\n";
+ $str .= "  \"content\": [" . join(",\n   ", map { $_->toJSON } @{$self->content}) . "],\n";
+ $str .= "  \"printings\": [" . join(",\n   ", map { $_->toJSON } @{$self->printings}) . "],\n";
+ $str .= "  \"rulings\": [" . join(",\n   ", map { jsonify($_) } @{$self->rulings}) . "]\n";
  $str .= " }";
  return $str;
 }

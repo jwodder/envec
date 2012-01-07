@@ -21,11 +21,11 @@ my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {
  my $self = shift;
- return "  {\n" . join(",\n", map {
+ return "{\n" . join(",\n", map {
    my $val = $self->$_();
    defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
-    ? "   \"$_\": @{[jsonify $val]}" : ();
-  } @scalars, @lists) . "\n  }";
+    ? "    \"$_\": @{[jsonify $val]}" : ();
+  } @scalars, @lists) . "\n   }";
 }
 
 sub color {
