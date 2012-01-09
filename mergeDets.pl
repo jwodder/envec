@@ -19,7 +19,7 @@
 use strict;
 use JSON::Syck;
 use EnVec;
-use EnVec::Util 'jsonify', 'mergeRulings';
+use EnVec::Util 'jsonify', 'joinRulings';
 
 print "[\n";
 $/ = '';
@@ -39,7 +39,7 @@ while (<>) {
    my $rulings2 = delete $entry->{part2}{rulings};
    $rulings2 = [ map { +{ date => $_->[0], ruling => $_->[1] } } @$rulings2 ]
     if defined $rulings2;
-   $entry->{rulings} = mergeRulings $rulings1, $rulings2;
+   $entry->{rulings} = joinRulings $rulings1, $rulings2;
    $prnt = {};
    my $prnt1 = delete $entry->{part1}{prnt};
    my $prnt2 = delete $entry->{part2}{prnt};

@@ -18,7 +18,7 @@ for my $set (setsToImport) {
  }
  print STDERR "Importing $set...\n";
  my %imported = loadTextSpoiler($set, $file);
- mergeParts %imported;
+ joinParts %imported;
  print STDERR "$set imported (@{[scalar keys %imported]} cards)\n";
  my $new = 0;
  for (sort keys %imported) {

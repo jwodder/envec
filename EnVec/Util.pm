@@ -3,11 +3,10 @@ use warnings;
 use strict;
 use Carp;
 use Storable 'dclone';
-use XML::DOM::Lite qw< TEXT_NODE ELEMENT_NODE >;
-
+use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- mergePrintings >;
+ mergePrintings joinRulings >;
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
@@ -121,7 +120,7 @@ sub mergePrintings($$$) {
  return \%merged;
 }
 
-sub mergeRulings($$) {
+sub joinRulings($$) {
  my($rules1, $rules2) = @_;
  $rules1 = [] if !defined $rules1;
  $rules2 = [] if !defined $rules2;
@@ -138,4 +137,20 @@ sub mergeRulings($$) {
   push @rulings, { %$r1, subcard => 0 };
  }
  return @rulings, map { +{ %$_, subcard => 1 } } @$rules2;
+}
+
+sub sortRulings(@) {
+ #####
+}
+
+sub sortPrintings(@) {
+ #####
+}
+
+sub joinPrintings($$) {
+ #####
+}
+
+sub mergeRulings($$) {
+ #####
 }

@@ -23,9 +23,12 @@
 - Coding:
  - Rewrite the representation of multipart cards to mirror that in mtgcard.dtd
  - Update fromJSON and make it a class method of EnVec::Card
+  - Rename it fromHash and add a *real* fromJSON method that takes a string of
+    JSON as input
+ - Give EnVec::Card a toHash method?
+ - Overload stringification of Multival objects
  - Give EnVec.pm tags for the export lists of each submodule
  - Make EnVec.pm preserve the non-'all' tags of the submodules
- - Overload stringification of Multival objects
  - Runtime type enforcement:
   - Make EnVec::Card only allow valid cardType values
   - Make EnVec::Card::Content prohibit empty names

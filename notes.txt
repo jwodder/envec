@@ -1,0 +1,12 @@
+Function naming conventions:
+ - Combining lists (essentially just concatenating and removing duplicates) of
+   attributes that describe the whole of a card is referred to as "merging"
+ - Combining lists of attributes that describe separate subcards of a card is
+   referred to as "joining"
+ - Functions for parsing the contents of a string have their names prefixed
+   with "parse"
+ - Functions for parsing the contents of a file identified by file name have
+   their names prefixed with "load"
+  - There shouldn't be any functions for parsing the contents of a file
+    identified by a filehandle, but loadJSON (et alii?) was apparently written
+    while suffering from temporary insanity

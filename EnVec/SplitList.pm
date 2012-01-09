@@ -5,7 +5,7 @@ use Carp;
 use EnVec::Card::Util;
 
 use Exporter 'import';
-our @EXPORT_OK = qw< loadedParts loadParts mergeParts isSplit isFlip isDouble
+our @EXPORT_OK = qw< loadedParts loadParts joinParts isSplit isFlip isDouble
  splitLefts splitRights flipTops flipBottoms doubleFronts doubleBacks
  splits flips doubles >;
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -56,13 +56,13 @@ sub loadCheck() {  # not for export
  }
 }
 
-sub mergeParts(\%) {
+sub joinParts(\%) {
  loadCheck;
  my $cards = shift;
  my($a, $b);
  while (($a, $b) = each %split) {
   if (exists $cards->{$a} && exists $cards->{$b}) {
-   insertCard(%$cards, joinCards 'split', $cards->{$a}, $cards->{$b});
+   insertCard(%$cards, joinCards SPLIT_CARD, $cards->{$a}, $cards->{$b});
    delete $cards->{$a};
    delete $cards->{$b};
   }
@@ -70,7 +70,7 @@ sub mergeParts(\%) {
  while (($a, $b) = each %flip) {
   if (exists $cards->{$a} && exists $cards->{$b}) {
    $cards->{$b}->cost(undef);
-   insertCard(%$cards, joinCards 'flip', $cards->{$a}, $cards->{$b});
+   insertCard(%$cards, joinCards FLIP_CARD, $cards->{$a}, $cards->{$b});
    delete $cards->{$a};
    delete $cards->{$b};
   } elsif (exists $cards->{$a} && $cards->{$a}->text =~ /\n----\n/) {
@@ -82,7 +82,7 @@ sub mergeParts(\%) {
  }
  while (($a, $b) = each %double) {
   if (exists $cards->{$a} && exists $cards->{$b}) {
-   insertCard(%$cards, joinCards 'double', $cards->{$a}, $cards->{$b});
+   insertCard(%$cards, joinCards DOUBLE_CARD, $cards->{$a}, $cards->{$b});
    delete $cards->{$a};
    delete $cards->{$b};
   }

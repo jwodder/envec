@@ -80,6 +80,7 @@ sub merge {  # Neither argument is modified.
          (0 .. $self->parts-1);
  my $new = $self->copy;
  $new->printings(mergePrintings $self->name, $self->printings, $other->printings);
+ $new->rulings(mergeRulings $self->name, $self->rulings, $other->rulings);
  return $new;
 }
 
@@ -200,6 +201,7 @@ sub showField1 {
    $_->set . ' (' . ($shortRares{lc $rare} || $rare) . ')';
   } (loadedSets ? sort { $a->set cmpSets $b->set } @{$self->printings}
 		: sort { $a->set cmp $b->set } @{$self->printings});
+		### cf. sortPrintings ???
   my($first, @rest) = wrapLines $text, $width, 2;
   $first = '' if !defined $first;
   return join '', sprintf("%-*s %s\n", $tagwidth, 'Sets:', $first),

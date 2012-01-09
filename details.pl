@@ -53,11 +53,13 @@ for my $name (sort keys %cardIDs) {
   print $log "$name/$id\n";
   my $details = get(isSplit $name ? detailsURL($id, $name) : detailsURL($id));
   print STDERR "Could not fetch $name/$id\n" and next if !defined $details;
-  my %data = parseDetails $details;
-  push @ids, $_ and $seen{$_} = 1 for grep { !$seen{$_} } map { $_->[0] }
-   (exists $data{part1} ? (@{$data{part1}{printings}},
-			   @{$data{part2}{printings}}) : @{$data{printings}});
-  print $out jsonify({multiverseid => $id, %data}), "\n";
+  my $card = parseDetails $details;
+  for (map { $_->multiverseid->all } @{$card->printings}) {
+   push @ids, $_ and $seen{$_} = 1 if !$seen{$_}
+  }
+
+  print $out jsonify({multiverseid => $id, $card->???}), "\n";  #####
+
  }
  print $out "\n";
 }
