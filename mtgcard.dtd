@@ -1,5 +1,5 @@
-<!ENTITY % mana 'W|U|B|R|G|c|X|Y|Z|WU|WB|UB|UR|BR|BG|RG|RW|GW|GU|W2|U2|B2|R2|G2|WP|UP|BP|RP|GP|S'>
-<!ENTITY % symbols '%mana;|T|Q|chaos|PW'>
+<!ENTITY % mana 'W|U|B|R|G|m|X|Y|Z|WU|WB|UB|UR|BR|BG|RG|RW|GW|GU|W2|U2|B2|R2|G2|WP|UP|BP|RP|GP|S'>
+<!ENTITY % symbols '%mana;|P|T|Q|chaos|PW'>
 <!ENTITY % text '(#PCDATA|%symbols;|i)*'>
 
 <!ELEMENT cardlist (attr*, card*)>
@@ -17,7 +17,7 @@
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,
 		   (pow, tough)?, loyalty?, (hand, life)?, indicator?)>
 <!ELEMENT name (#PCDATA|i)*>
-<!ELEMENT cost (%mana;)+>
+<!ELEMENT cost (%mana;)*>
 <!ATTLIST cost cmc CDATA #IMPLIED>
 <!ELEMENT supertype (#PCDATA)>
 <!ELEMENT type (#PCDATA)>
@@ -70,7 +70,7 @@
 <!ELEMENT B EMPTY>
 <!ELEMENT R EMPTY>
 <!ELEMENT G EMPTY>
-<!ELEMENT c (#PCDATA)>  <!-- colorless mana; contents are the amount -->
+<!ELEMENT m (#PCDATA)>  <!-- colorless mana; contents are the amount -->
 <!ELEMENT X EMPTY>
 <!ELEMENT Y EMPTY>
 <!ELEMENT Z EMPTY>
@@ -95,6 +95,7 @@
 <!ELEMENT RP EMPTY>
 <!ELEMENT GP EMPTY>
 <!ELEMENT S EMPTY>  <!-- snow mana -->
+<!ELEMENT P EMPTY>  <!-- generic Phyrexian mana -->
 <!ELEMENT T EMPTY>  <!-- tap symbol -->
 <!ELEMENT Q EMPTY>  <!-- untap symbol -->
 <!ELEMENT chaos EMPTY>

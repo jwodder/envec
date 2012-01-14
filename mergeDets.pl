@@ -13,8 +13,7 @@
 #   - Fix Homura's Essence
 #   - Incorporate data/rarities.tsv (with affected rarities changed to the form
 #     "Common (C1)"?)
-#  - Remove italics from flavor text?
-#  - Remove italics from watermarks?
+#  - Remove italics from flavor text and watermarks
 
 use strict;
 use JSON::Syck;

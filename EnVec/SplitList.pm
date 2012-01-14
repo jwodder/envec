@@ -3,7 +3,6 @@ use warnings;
 use strict;
 use Carp;
 use EnVec::Card::Util;
-
 use Exporter 'import';
 our @EXPORT_OK = qw< loadedParts loadParts joinParts isSplit isFlip isDouble
  splitLefts splitRights flipTops flipBottoms doubleFronts doubleBacks

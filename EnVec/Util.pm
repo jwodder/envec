@@ -6,7 +6,7 @@ use Storable 'dclone';
 use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- mergePrintings joinRulings >;
+ mergePrintings joinRulings txt2xml sym2xml >;
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
@@ -97,6 +97,26 @@ sub parseTypes($) {
  return [ @superlist ], [ @typelist ], [ @sublist ];
 }
 
+sub txt2xml($) {
+ my $str = shift;
+ $str =~ s/&/&amp;/g;
+ $str =~ s/</&lt;/g;
+ $str =~ s/>/&gt;/g;
+ $str =~ s:&lt;(/?i)&gt;:<\L$1>:gi;
+ return $str;
+}
+
+sub sym2xml($) {
+ my $str = txt2xml shift;
+ $str =~ s:\{(\d+)\}:<m>$1</m>:g;
+ $str =~ s:\{([WUBRGPXYZSTQ])\}:<$1/>:g;
+ $str =~ s:\{([WUBRG])/([WUBRGP])\}:<$1$2/>:g;
+ $str =~ s:\{2/([WUBRG])\}:<${1}2/>:g;
+ $str =~ s:\{PW\}:<PW/>:g;
+ $str =~ s:\{C\}:<chaos/>:g;
+ return $str;
+}
+
 sub mergePrintings($$$) {
  my($name, $left, $right) = @_;
  my %merged = %{dclone $left};
@@ -149,6 +169,8 @@ sub sortPrintings(@) {
 
 sub joinPrintings($$) {
  #####
+ # Joining printings of double-faced cards is going to be tricky due to the
+ # differring multiverseids, especially once DFCs start getting reprinted.
 }
 
 sub mergeRulings($$) {

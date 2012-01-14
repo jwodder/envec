@@ -138,8 +138,15 @@ sub showCards(@) {
 
 __DATA__
 %!PS-Adobe-3.0
-/fontsize 10 def
-/Monaco findfont fontsize scalefont setfont
+
+%/fontsize 10 def
+%/lineheight 12 def
+%/Monaco findfont fontsize scalefont setfont
+
+/fontsize 8 def
+/lineheight 10 def
+/Times-Roman findfont fontsize scalefont setfont
+
 /em (M) stringwidth pop def
 
 /circRad fontsize 0.4 mul def

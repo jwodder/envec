@@ -227,6 +227,7 @@ trim(label) = Artist:
   - Raging Bull
   - Battle Mastery
   - Joraga Bard
+  - Ember Hauler
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:

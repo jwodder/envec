@@ -112,8 +112,8 @@ sub scrapeSection($$) {
   for my $tr (@{$rulings->getElementsByTagName('tr')}) {
    my $tds = $tr->getElementsByTagName('td');
    next if $tds->length != 2;
-   my($date, $ruling) = map { simplify magicContent $_ } @$tds;
-   push @{$fields{rulings}}, { date => $date, ruling => $ruling };
+   my($date, $ruling) = map { magicContent $_ } @$tds;
+   push @{$fields{rulings}}, { date => simplify $date, ruling => trim $ruling };
   }
  }
  return newCard EnVec::Card %fields;

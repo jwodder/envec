@@ -8,10 +8,9 @@
   - Try to handle BFM?
 
 - Features:
- - Add a function for parsing an individual card page (identified by
-   multiverseid) and returning a Card object
  - Give EnVec::SplitList functions for getting the alternate components of
    given halves of multipart cards
+ - Give EnVec::SplitList a cardType function
  - Add a means to read EnVec::Card objects from a JSON file one at a time
    rather than all at once
  - Give dumpArray and dumpHash arguments for dumping to a filehandle
@@ -61,3 +60,5 @@
  - Add elements to mtgcard.dtd for storing printed text, expansion symbols,
    card language, etc.
  - Implement Card->showField1('printings')
+ - Add a wrapper around parseDetails that downloads and parses a given
+   multiverseid?
