@@ -4,6 +4,12 @@ use Encode;
 use Getopt::Std;
 use EnVec ('loadSets', 'parseJSON', 'cmpSets');
 
+sub chrlength($);
+sub stats($);
+sub maxField($@);
+sub psify($);
+sub showCards(@);
+
 my %rarities = ('Mythic Rare' => 'Mythic',
  map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
 
@@ -19,12 +25,11 @@ $/ = undef;
 for my $card (@{parseJSON <>}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
- push @{$sets{$_->set}}, [
-  $_->number || '',
-  $rarities{$_->rarity} || die('Unknown rarity "', $_->rarity, '" for ',
-				$card->name, ' in ', $_->set),
-  $stats
- ] for @{$card->printings};
+ for (@{$card->printings}) {
+  die 'Unknown rarity "', $_->rarity, '" for ', $card->name, ' in ', $_->set
+   if !exists $rarities{$_->rarity};
+  push @{$sets{$_->set}}, [ $_->effectiveNum, $rarities{$_->rarity}, $stats ];
+ }
 }
 
 for my $set (sort cmpSets keys %sets) {

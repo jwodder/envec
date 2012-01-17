@@ -36,6 +36,7 @@
 - Rewrite/update listify.pl
 - Rename SplitList.pm to Multipart.pm?
 - Consider just deleting TextSpoiler.pm (and then COPYING)
+- Rename "cardType" to "cardClass" or "class"?
 
 - Data & documentation:
  - Add documentation

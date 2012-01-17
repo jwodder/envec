@@ -66,7 +66,7 @@ for my $name (sort keys %cardIDs) {
   my $prnt = parseDetails $details;
   if (!defined $card) { $card = $prnt }
   ### else { ensure $card == $prnt } ???
-  for (map { $_->multiverseid->all } @{$card->printings}) {
+  for (map { $_->multiverseid->all } @{$prnt->printings}) {
    push @ids, $_ and $seen{$_} = 1 if !$seen{$_}
   }
   # Assume that the printing currently being fetched is the only one that has

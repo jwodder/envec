@@ -111,4 +111,11 @@ sub toJSON {
  return $str . '}';
 }
 
+sub effectiveNum {
+ my @nums = $_[0]->number->all;
+ if (!@nums) { undef }
+ elsif (@nums == 1) { $nums[0] }
+ else { (sort { $a <=> $b } map {s/[a-z]+$//; $_; } @nums)[0] }
+}
+
 1;

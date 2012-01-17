@@ -1,9 +1,3 @@
-# As only the individual card spoilers currently show which double-faced cards
-# are the reverse side of what, this data needs to be given explicitly when
-# scraping other spoiler formats.
-
-# format: front side, tab(s), back side
-
 Bloodline Keeper	Lord of Lineage
 Civilized Scholar	Homicidal Brute
 Cloistered Youth	Unholy Fiend
@@ -25,16 +19,16 @@ Ulvenwald Mystics	Ulvenwald Primordials
 Village Ironsmith	Ironfang
 Villagers of Estwald	Howlpack of Estwald
 
-#Loyal Cathar		Unhallowed Cathar
-#Soul Seizer		Ghastly Haunting
-#Chosen of Markov	???
-#Ravenous Demon		Archdemon of Greed
 #Afflicted Deserter	Werewolf Ransacker
-#Hinterland Hermit	???
-#Mondronen Shaman	Tovolar's Magehunter
-#Lambholt Elder		Silverpelt Werewolf
-#Scorned Villager	Moonscarred Werewolf
-#Wolfbitten Captive	Krallenhorde Killer
-#Huntmaster of the Fells	Ravager of the Fells
 #Chalice of Life	Chalice of Death
+#Chosen of Markov	???
 #Elbrus, the Binding Blade	???
+#Hinterland Hermit	???
+#Huntmaster of the Fells	Ravager of the Fells
+#Lambholt Elder		Silverpelt Werewolf
+#Loyal Cathar		Unhallowed Cathar
+#Mondronen Shaman	Tovolar's Magehunter
+#Ravenous Demon		Archdemon of Greed
+#Scorned Villager	Moonscarred Werewolf
+#Soul Seizer		Ghastly Haunting
+#Wolfbitten Captive	Krallenhorde Killer

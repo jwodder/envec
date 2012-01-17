@@ -71,9 +71,14 @@ sub allSets() {loadCheck; return @setList; }
 sub setData($) {loadCheck; exists $sets{$_[0]} ? %{$sets{$_[0]}} : (); }
 
 sub fromAbbrev($) {loadCheck; return $shorts{$_[0]}; }
- # Get the name of the set corresponding to a type-1 abbreviation (or undef if
- # there is no such abbreviation)
+ # Get the name of the set corresponding to an abbreviation (or undef if there
+ # is no such abbreviation)
 
-sub firstSet(@) {loadCheck; return (sort cmpSets @_)[0]; }
+sub firstSet(@) {
+ loadCheck;
+ my $first = shift;
+ for (@_) { $first = $_ if cmpSets($_, $first) < 0 }
+ return $first;
+}
 
 1;

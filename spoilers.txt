@@ -228,6 +228,7 @@ trim(label) = Artist:
   - Battle Mastery
   - Joraga Bard
   - Ember Hauler
+  - Dakkon Blackblade (Legends)
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:
