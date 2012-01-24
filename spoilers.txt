@@ -179,6 +179,9 @@ trim(label) = Artist:
  - The Eighth & Ninth Edition "box set" cards have their numbers given without
    the leading 'S', thereby overlapping with the normal card numberings for
    those sets.
+ - The non-full-art Zendikar lands have their collector's numbers listed
+   without the 'a' suffix, thereby overlapping with the full art lands'
+   numbers.  [Details pages only?]
 
  - Figure of Destiny
  - Rhys the Redeemed
@@ -229,6 +232,7 @@ trim(label) = Artist:
   - Joraga Bard
   - Ember Hauler
   - Dakkon Blackblade (Legends)
+  - Withdraw
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:

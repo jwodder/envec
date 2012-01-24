@@ -18,12 +18,6 @@ use EnVec::Card::Multival;
 
 my @multival = qw< number artist flavor watermark multiverseid notes >;
 
-sub multival($) {  # internal function, not for outside use
- my $val = shift;
- if (ref $val eq 'EnVec::Card::Multival') { $val->copy }
- else { new EnVec::Card::Multival $val }
-}
-
 sub new {
  my($class, %fields) = @_;
  my $self = {};
@@ -44,7 +38,7 @@ sub new {
   $self->{date} = undef;
  } else { $self->{date} = $fields{date} }
 
- $self->{$_} = multival $fields{$_} for @multival;
+ $self->{$_} = new EnVec::Card::Multival $fields{$_} for @multival;
  bless $self, ref $class || $class;
 }
 
@@ -89,7 +83,7 @@ for my $field (@multival) {
  eval <<EOT;
   sub $field {
    my \$self = shift;
-   \$self->{$field} = multival shift if \@_;
+   \$self->{$field} = new EnVec::Card::Multival shift if \@_;
    return \$self->{$field};
   }
 EOT

@@ -102,12 +102,12 @@ sub txt2xml($) {
  $str =~ s/&/&amp;/g;
  $str =~ s/</&lt;/g;
  $str =~ s/>/&gt;/g;
- $str =~ s:&lt;(/?i)&gt;:<\L$1>:gi;
  return $str;
 }
 
 sub sym2xml($) {
  my $str = txt2xml shift;
+ $str =~ s:&lt;(/?i)&gt;:<\L$1>:gi;
  $str =~ s:\{(\d+)\}:<m>$1</m>:g;
  $str =~ s:\{([WUBRGPXYZSTQ])\}:<$1/>:g;
  $str =~ s:\{([WUBRG])/([WUBRGP])\}:<$1$2/>:g;
@@ -159,20 +159,60 @@ sub joinRulings($$) {
  return @rulings, map { +{ %$_, subcard => 1 } } @$rules2;
 }
 
-sub sortRulings(@) {
- #####
+sub joinPrintings($$$) {
+ ### FRAGILE ASSUMPTIONS:
+ ### - joinPrintings will only ever be called to join data freshly scraped from
+ ###   Gatherer.
+ ### - The data will always contain no more than one value in each Multival
+ ###   field.
+ ### - Such values will always be in the card-wide slot.
+ ### - The split cards from the Invasion blocks are the only cards that need to
+ ###   be joined that have more than one printing per set, and these duplicate
+ ###   printings differ only in multiverseid.
+ ### - The rarity and date fields of part 1 are always valid for the whole card.
+ my($name, $prnt1, $prnt2) = @_;
+ my(%prnts1, %prnts2);
+ push @{$prnts1{$_->set}}, $_ for @$prnt1;
+ push @{$prnts2{$_->set}}, $_ for @$prnt2;
+ my @joined;
+ for my $set (keys %prnts1) {
+  croak "joinPrintings: set mismatch for \"$name\": part 1 has a printing in $set but part 2 does not" if !exists $prnts2{$set};
+  ### Should I also check for sets that part 2 has but part 1 doesn't?
+  croak "joinPrintings: printings mismatch for \"$name\" in $set: part 1 has ",
+   scalar @{$prnts1{$set}}, " printings but part 2 has ",
+   scalar @{$prnts2{$set}} if @{$prnts1{$set}} != @{$prnts2{$set}};
+  my $multiverse;
+  $multiverse = new EnVec::Card::Multival
+   [[ sort map { $_->multiverseid->all } @{$prnts1{$set}} ]]
+   if @{$prnts1{$set}} > 1;
+  my $p1 = $prnts1{$set}[0];
+  my $p2 = $prnts2{$set}[0];
+  my %prnt = (set => $set, rarity => $p1->rarity, date => $p1->date);
+  for my $field (qw< number artist flavor watermark multiverseid notes >) {
+   my($val1) = $p1->$field->get;
+   my($val2) = $p2->$field->get;
+   my $valM;
+   if (defined $val1 || defined $val2) {
+    if (!defined $val1) { $valM = [[], [], [ $val2 ]] }
+    elsif (!defined $val2) { $valM = [[], [ $val1 ]] }
+    elsif ($val1 ne $val2) { $valM = [[], [ $val1 ], [ $val2 ]] }
+    else { $valM = $p1->$field }
+   }
+   $prnt{$field} = new EnVec::Card::Multival $valM;
+  }
+  $prnt{multiverseid} = $multiverse if defined $multiverse;
+  push @joined, new EnVec::Card::Printing %prnt;
+ }
+ return sortPrintings @joined;
 }
 
 sub sortPrintings(@) {
- #####
+ sort {
+  (loadedSets ? $a->set cmpSets $b->set : $a->set cmp $b->set)
+   || ($a->multiverseid->all)[0] <=> ($b->multiverseid->all)[0]
+  ### This needs to handle multiverseid->all being empty or unsorted.
+ } @_
 }
 
-sub joinPrintings($$) {
- #####
- # Joining printings of double-faced cards is going to be tricky due to the
- # differring multiverseids, especially once DFCs start getting reprinted.
-}
-
-sub mergeRulings($$) {
- #####
-}
+#sub mergeRulings($$)
+#sub sortRulings(@)

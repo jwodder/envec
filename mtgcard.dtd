@@ -16,7 +16,7 @@
 <!-- A subcard of a multi-part card (or the entirety of a normal card): -->
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,
 		   (pow, tough)?, loyalty?, (hand, life)?, indicator?)>
-<!ELEMENT name (#PCDATA|i)*>
+<!ELEMENT name (#PCDATA)>
 <!ELEMENT cost (%mana;)*>
 <!ATTLIST cost cmc CDATA #IMPLIED>
 <!ELEMENT supertype (#PCDATA)>

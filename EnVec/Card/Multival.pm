@@ -36,7 +36,8 @@ sub new {
     $undef++;
    } else {push @$self, [] x $undef, $elem; $undef = 0; }
   }
- } else {
+ } elsif (ref $val eq 'EnVec::Card::Multival') { return $val->copy }
+ else {
   carp "Multival constructors must be strings, array references, or undef";
   $self = [];
  }
@@ -63,6 +64,11 @@ sub copy {
 sub asArray { [ @{$_[0]} ] }
 
 sub toJSON { jsonify($_[0]->asArray) }
+
+sub mapvals {
+ my($self, $thunk) = @_;
+ return $self->new([ map { [ map { $thunk->($_) } @$_ ] } @$self ]);
+}
 
 1;
 

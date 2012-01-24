@@ -61,7 +61,7 @@ EOT
    else { push @normal, $_ }
   }
   showCards @special;
-  print($opts{P} ? "nameStart y moveto (---) show linefeed\n" : "---\n");
+  print($opts{P} ? "linefeed nameStart y moveto (---) show\n" : "---\n");
   showCards @normal;
  } else { showCards @cards }
  print "showpage\n" if $opts{P};
@@ -110,20 +110,21 @@ sub psify($) {
  $str =~ s/([(\\)])/\\$1/g;
  $str =~ s/’/'/g;
  $str =~ s/Æ/\\341/g;
- $str =~ s/à/a) bs (\\301/g;
- $str =~ s/á/a) bs (\\302/g;
- $str =~ s/é/e) bs (\\302/g;
- $str =~ s/í/\\365) bs (\\302/g;
- $str =~ s/ú/u) bs (\\302/g;
- $str =~ s/â/a) bs (\\303/g;
- $str =~ s/û/u) bs (\\303/g;
- $str =~ s/ö/o) bs (\\310/g;
+ $str =~ s/à/) show (a) (\\301) accent (/g;
+ $str =~ s/á/) show (a) (\\302) accent (/g;
+ $str =~ s/é/) show (e) (\\302) accent (/g;
+ $str =~ s/í/) show (\\365) (\\302) accent (/g;
+ $str =~ s/ú/) show (u) (\\302) accent (/g;
+ $str =~ s/â/) show (a) (\\303) accent (/g;
+ $str =~ s/û/) show (u) (\\303) accent (/g;
+ $str =~ s/ö/) show (o) (\\310) accent (/g;
  return "($str) show\n";
 }
 
 sub showCards(@) {
  if ($opts{P}) {
   for my $card (@_) {
+   print "\n", "linefeed\n";
    print '(' . $card->[0] . ") showNum\n" if $card->[0];
    print 'nameStart y moveto ', psify($card->[2]{name});
    print 'typeStart y moveto ', psify($card->[2]{type});
@@ -132,7 +133,6 @@ sub showCards(@) {
    print($2 ? "$2\n" : $3 ? "$3$4\n" : psify($1 || $5))
     while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
    print $card->[1], "\n" if $card->[1];
-   print "linefeed\n\n";
   }
  } else {
   printf "%4s %-*s  %-*s  %-*s  %-*s  %s\n", $_->[0], $nameLen, $_->[2]{name},
@@ -160,10 +160,11 @@ __DATA__
 /pageNo 0 def
 /buf 3 string def
 
+/accent { exch dup show gsave stringwidth pop neg 0 rmoveto show grestore } def
+
 /linefeed {
  y 72 lineheight add le { showpage startPage } if
  /y y lineheight sub def
- 66 y moveto
 } def
 
 /startPage {
@@ -256,4 +257,3 @@ __DATA__
 /Promo    { rareStart y moveto (Promo)    show } def
 
 startPage
-linefeed

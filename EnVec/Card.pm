@@ -199,9 +199,7 @@ sub showField1 {
   my $text = join ', ', uniq map {
    my $rare = $_->rarity || 'XXX';
    $_->set . ' (' . ($shortRares{lc $rare} || $rare) . ')';
-  } (loadedSets ? sort { $a->set cmpSets $b->set } @{$self->printings}
-		: sort { $a->set cmp $b->set } @{$self->printings});
-		### cf. sortPrintings ???
+  } sortPrintings @{$self->printings};
   my($first, @rest) = wrapLines $text, $width, 2;
   $first = '' if !defined $first;
   return join '', sprintf("%-*s %s\n", $tagwidth, 'Sets:', $first),

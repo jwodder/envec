@@ -7,12 +7,14 @@ use EnVec::Util 'jsonify';
 use EnVec::Card::Util 'joinCards';
 
 my %opts;
-getopts('C:S:o:l:', \%opts) || exit 2;
+getopts('C:S:j:x:l:', \%opts) || exit 2;
 loadParts;
 
-my $out;
-if (!exists $opts{o} || $opts{o} eq '-') { $out = *STDOUT }
-else { open $out, '>', $opts{o} or die "$0: $opts{o}: $!" }
+$opts{j} ||= 'out/details.json';
+open my $json, '>', $opts{j} or die "$0: $opts{j}: $!";
+
+$opts{x} ||= 'out/details.xml';
+open my $xml, '>', $opts{x} or die "$0: $opts{x}: $!";
 
 my $log;
 if (!exists $opts{l} || $opts{l} eq '-') { $log = *STDERR }
@@ -45,14 +47,15 @@ print $log scalar(keys %cardIDs), " cards imported\n\n";
 delete $cardIDs{$_} for flipBottoms, doubleBacks;
 
 print $log "Fetching individual card data...\n";
-print $out "[\n";
+print $json "[\n";
+print $xml "<cardlist>\n\n";  ### Include date attribute?
 my %split = ();
 my $first = 1;
 
 for my $name (sort keys %cardIDs) {
  if (!isSplit $name) {
   if ($first) { $first = 0 }
-  else { print $out ",\n\n" }
+  else { print $json ",\n\n" }
  }
  my @ids = ($cardIDs{$name});
  my %seen = ($cardIDs{$name} => 1);
@@ -71,11 +74,14 @@ for my $name (sort keys %cardIDs) {
   }
   # Assume that the printing currently being fetched is the only one that has
   # an "artist" field.
-  push @printings, grep { $_->artist->any } @{$prnt->printings};
+  my($newPrnt) = grep { $_->artist->any } @{$prnt->printings};
+  $newPrnt->flavor($newPrnt->flavor->mapvals(\&rmitalics));
+  $newPrnt->watermark($newPrnt->watermark->mapvals(\&rmitalics));
+  push @printings, $newPrnt;
  }
- $card->printings(\@printings);  ### Shouldn't these be sorted?
+ $card->printings([ sortPrintings @printings ]);
  if (isSplit $name) { $split{$name} = $card }
- else { print $out $card->toJSON }
+ else {print $json $card->toJSON; print $xml $card->toXML, "\n"; }
 }
 
 print $log "Joining split cards...\n";
@@ -88,9 +94,17 @@ for my $left (splitLefts) {  # splitLefts is already sorted.
   next;
  }
  if ($first) { $first = 0 }
- else { print $out ",\n\n" }
+ else { print $json ",\n\n" }
  my $card = joinCards SPLIT_CARD, $left, $right;
- print $out $card->toJSON;
+ print $json $card->toJSON;
+ print $xml $card->toXML, "\n";
 }
 
-print $out "\n]\n";
+print $json "\n]\n";
+print $xml "</cardlist>\n";
+
+sub rmitalics {
+ my $str = shift;
+ $str =~ s:</?i>::gi;
+ return $str;
+}
