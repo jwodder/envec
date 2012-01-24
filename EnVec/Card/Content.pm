@@ -12,11 +12,11 @@ use Class::Struct name       => '$',
 		  pow        => '$',
 		  tough      => '$',
 		  loyalty    => '$',
-		  handMod    => '$',
-		  lifeMod    => '$',
+		  hand       => '$',
+		  life       => '$',
 		  indicator  => '$';  # /^W?U?B?R?G?$/
 
-my @scalars = qw< name cost text pow tough loyalty handMod lifeMod indicator >;
+my @scalars = qw< name cost text pow tough loyalty hand life indicator >;
 my @lists = qw< supertypes types subtypes >;
 
 sub toJSON {
@@ -26,6 +26,24 @@ sub toJSON {
    defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
     ? "    \"$_\": @{[jsonify $val]}" : ();
   } @scalars, @lists) . "\n   }";
+}
+
+sub toXML {
+ my $self = shift;
+ my $str = "  <content>\n   <name>" . txt2xml($self->name) . "</name>\n";
+ $str .= "   <cost>" . sym2xml($self->cost) . "</cost>\n"
+  if defined $self->cost;
+ $str .= "   <supertype>" . txt2xml($_) . "</supertype>\n"
+  for @{$self->supertypes};
+ $str .= "   <type>" . txt2xml($_) . "</type>\n" for @{$self->types};
+ $str .= "   <subtype>" . txt2xml($_) . "</subtype>\n" for @{$self->subtypes};
+ $str .= "   <text>" . sym2xml($_) . "</text>\n"
+  for split /\n+/, $self->text || '';
+ for (qw< pow tough loyalty hand life indicator >) {
+  $str .= "   <$_>" . txt2xml($self->$_()) . "</$_>\n" if defined $self->$_()
+ }
+ $str .= "  </content>\n";
+ return $str;
 }
 
 sub color {
@@ -104,7 +122,7 @@ sub PT {
 
 sub HandLife {
  my $self = shift;
- return defined $self->handMod ? $self->handMod . '/' . $self->lifeMod : undef;
+ return defined $self->hand ? $self->hand . '/' . $self->life : undef;
 }
 
 sub copy {

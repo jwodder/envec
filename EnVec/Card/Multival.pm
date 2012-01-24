@@ -65,6 +65,20 @@ sub asArray { [ @{$_[0]} ] }
 
 sub toJSON { jsonify($_[0]->asArray) }
 
+sub toXML {
+ my($self, $name, $sym) = @_;
+ $name ||= 'MULTIVAL';  # Just in case
+ my $str = '';
+ my $i = -1;
+ for my $sub (@$self) {
+  my $attr = $i == -1 ? '' : " subcard=\"$i\"";
+  $str .= "   <$name$attr>" . ($sym ? sym2xml($_) : txt2xml($_)) . "</$name>\n"
+   for @$sub;
+  $i++;
+ }
+ return $str;
+}
+
 sub mapvals {
  my($self, $thunk) = @_;
  return $self->new([ map { [ map { $thunk->($_) } @$_ ] } @$self ]);

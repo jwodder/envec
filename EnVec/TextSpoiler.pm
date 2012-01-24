@@ -65,8 +65,8 @@ sub walkTextSpoiler($$) {
       # Get rid of parentheses in things like "{(r/p)}":
       $fields{text} =~ s:\{\((\w/\w)\)\}:{@{[uc $1]}}:g;
      } elsif ($v1 eq 'Hand/Life:' && simplify($v2) =~ /^Hand Modifier: ([-+]?\d+) ?, ?Life Modifier: ([-+]?\d+)$/i) {
-      $fields{handMod} = $1;
-      $fields{lifeMod} = $2;
+      $fields{hand} = $1;
+      $fields{life} = $2;
      } elsif ($v1 eq 'Set/Rarity:') {
       for (split /\s*,\s*/, simplify $v2) {
        s/ (Common|Uncommon|(Mythic )?Rare|Special|Promo|Land)$//;

@@ -21,6 +21,7 @@
    given halves of multipart cards?
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
+ - Support fetching & storing format legality information
 
 - Coding:
  - Rewrite/update Card->merge and mergePrintings (and then update insertCard)
@@ -31,6 +32,8 @@
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
  - Give EnVec::Card a toHash method?
+ - Make the storage of Content->text fields mirror their representation in
+   mtgcard.dtd
  - Runtime type enforcement:
   - Make EnVec::Card only allow valid cardType values
   - Make EnVec::Card::Content prohibit empty names

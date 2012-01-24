@@ -95,7 +95,7 @@ sub scrapeSection($$) {
    @fields{'pow','tough'} = ($pt =~ m:^([^/]+?) ?/ ?(.+?)$:)
   } elsif ($label eq 'Loyalty:') { $fields{loyalty} = $pt }
   elsif ($label eq 'Hand/Life:') {
-   @fields{'handMod','lifeMod'}
+   @fields{'hand','life'}
     = ($pt =~ /Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)/i)
   } else { carp "Unknown ptRow label for $fields{name}: \"$label\"" }
  }

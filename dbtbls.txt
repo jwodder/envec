@@ -11,7 +11,7 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
  - rulesText - string
  - indicator - colors bitfield or NULL
  - power, toughness - string (in case of asterisks) or NULL
- - loyalty, handMod, lifeMod - int or NULL
+ - loyalty, hand, life - int or NULL
  - altCard - int or NULL - If the row represents the left/top/front portion of
    a split/flip/double-faced card, this is the cardID of the right/bottom/back
    portion; otherwise, it is NULL.

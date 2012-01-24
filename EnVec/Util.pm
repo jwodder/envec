@@ -8,7 +8,7 @@ use EnVec::Card::Multival;
 use EnVec::Card::Printing;
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- txt2xml sym2xml joinPrintings sortPrintings joinRulings >;
+ txt2xml txt2attr sym2xml joinPrintings sortPrintings joinRulings >;
  ### mergePrintings
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
@@ -105,6 +105,11 @@ sub txt2xml($) {
  $str =~ s/&/&amp;/g;
  $str =~ s/</&lt;/g;
  $str =~ s/>/&gt;/g;
+ return $str;
+}
+
+sub txt2attr($) {
+ (my $str = txt2xml shift) =~ s/"/&quot;/g;
  return $str;
 }
 

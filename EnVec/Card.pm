@@ -27,14 +27,17 @@ use Class::Struct cardType => '$', content => '@', printings => '@',
 
 my $sep = ' // ';
 
+my %formats0 = (NORMAL_CARD, 'normal', SPLIT_CARD, 'split', FLIP_CARD, 'flip',
+ DOUBLE_CARD, 'double-faced');
+
 my %formats = (NORMAL_CARD, 'Normal card', SPLIT_CARD, 'Split card',
  FLIP_CARD, 'Flip card', DOUBLE_CARD, 'Double-faced card');
 
 sub newCard {
  my($class, %attrs) = @_;
  my %cont = ();
- for (qw< name cost text pow tough loyalty handMod lifeMod indicator supertypes
-  types subtypes >) { $cont{$_} = $attrs{$_} if exists $attrs{$_} }
+ for (qw< name cost text pow tough loyalty hand life indicator supertypes types
+  subtypes >) { $cont{$_} = $attrs{$_} if exists $attrs{$_} }
  my $content = new EnVec::Card::Content %cont;
  my $printings = ref $attrs{printings} eq 'ARRAY'
   ? [ map { ref eq 'HASH' ? new EnVec::Card::Printing %$_ : $_ }
@@ -47,11 +50,26 @@ sub newCard {
 sub toJSON {
  my $self = shift;
  my $str = " {\n";
- $str .= "  \"cardType\": \"" . $formats{$self->cardType} . "\",\n";
+ $str .= "  \"cardType\": \"" . $formats0{$self->cardType} . "\",\n";
  $str .= "  \"content\": [" . join(",\n   ", map { $_->toJSON } @{$self->content}) . "],\n";
  $str .= "  \"printings\": [" . join(",\n   ", map { $_->toJSON } @{$self->printings}) . "],\n";
  $str .= "  \"rulings\": [" . join(",\n   ", map { jsonify($_) } @{$self->rulings}) . "]\n";
  $str .= " }";
+ return $str;
+}
+
+sub toXML {
+ my $self = shift;
+ my $str = " <card type=\"" . txt2attr($formats0{$self->cardType}) . "\">\n";
+ $str .= $_->toXML for @{$self->content};
+ $str .= $_->toXML for @{$self->printings};
+ for my $rule (@{$self->rulings}) {
+  $str .= '  <ruling date="' . txt2attr($rule->{date}) . '"';
+  $str .= ' subcard="' . txt2attr($rule->{subcard}) . '"'
+   if exists $rule->{subcard};
+  $str .= '>' . sym2xml($rule->{ruling}) . "</ruling>\n";
+ }
+ $str .= " </card>\n";
  return $str;
 }
 
@@ -105,8 +123,8 @@ sub isNontraditional {
  $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
 }
 
-for my $field (qw< name text pow tough loyalty handMod lifeMod indicator type
- PT HandLife >) {
+for my $field (qw< name text pow tough loyalty hand life indicator type PT
+ HandLife >) {
  eval <<EOT;
   sub $field {
    my \$self = shift;
@@ -176,8 +194,8 @@ my %fields = (
  pow        => 'Power:',
  tough      => 'Tough:',
  loyalty    => 'Loyalty:',
- handMod    => 'Hand:',
- lifeMod    => 'Life:',
+ hand       => 'Hand:',
+ life       => 'Life:',
  PT         => 'P/T:',
 #PT         => 'Pow/Tough:',
  HandLife   => 'H/L:',
@@ -237,7 +255,7 @@ sub toText1 {
  $str .= $self->showField1('text', $width) if $self->text;
  $str .= $self->showField1('PT', $width) if defined $self->pow;
  $str .= $self->showField1('loyalty', $width) if defined $self->loyalty;
- $str .= $self->showField1('HandLife', $width) if defined $self->handMod;
+ $str .= $self->showField1('HandLife', $width) if defined $self->hand;
  $str .= $self->showField1('cardType', $width) if $self->isMultipart;
  $str .= $self->showField1('sets', $width) if $sets;
  return $str;

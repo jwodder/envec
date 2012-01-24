@@ -7,8 +7,8 @@ use EnVec::Card::Multival;
 
 # Fields:
 #  - set - string (required)
-#  - rarity - string or undef
 #  - date - string or undef
+#  - rarity - string or undef
 #  - number - Multival
 #  - artist - Multival
 #  - flavor - Multival
@@ -25,18 +25,18 @@ sub new {
   if !defined $fields{set} || $fields{set} eq '' || ref $fields{set};
  $self->{set} = $fields{set};
 
+ if (!defined $fields{date} || $fields{date} eq '') { $self->{date} = undef }
+ elsif (ref $fields{date}) {
+  carp "EnVec::Card::Printing->new: 'date' field may not be a reference";
+  $self->{date} = undef;
+ } else { $self->{date} = $fields{date} }
+
  if (!defined $fields{rarity} || $fields{rarity} eq '') {
   $self->{rarity} = undef
  } elsif (ref $fields{rarity}) {
   carp "EnVec::Card::Printing->new: 'rarity' field may not be a reference";
   $self->{rarity} = undef;
  } else { $self->{rarity} = $fields{rarity} }
-
- if (!defined $fields{date} || $fields{date} eq '') { $self->{date} = undef }
- elsif (ref $fields{date}) {
-  carp "EnVec::Card::Printing->new: 'date' field may not be a reference";
-  $self->{date} = undef;
- } else { $self->{date} = $fields{date} }
 
  $self->{$_} = new EnVec::Card::Multival $fields{$_} for @multival;
  bless $self, ref $class || $class;
@@ -103,6 +103,18 @@ sub toJSON {
   $str .= ", \"$_\": " . $self->{$_}->toJSON if $self->{$_}->any
  }
  return $str . '}';
+}
+
+sub toXML {
+ my $self = shift;
+ my $str = "  <printing>\n   <set>" . txt2xml($self->{set}) . "</set>\n";
+ $str .= "   <date>" . txt2xml($self->{date}) . "</date>\n"
+  if defined $self->{date};
+ $str .= "   <rarity>" . txt2xml($self->{rarity}) . "</rarity>\n"
+  if defined $self->{rarity};
+ $str .= $self->{$_}->toXML($_, $_ eq 'flavor' || $_ eq 'notes') for @multival;
+ $str .= "  </printing>\n";
+ return $str;
 }
 
 sub effectiveNum {
