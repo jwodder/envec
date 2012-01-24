@@ -12,7 +12,8 @@ our @EXPORT = qw< insertCard joinCards unmungFlip >;
 sub insertCard(\%$) {
  my($db, $card) = @_;
  my $name = $card->name;
- $db->{$name} = exists $db->{$name} ? $db->{$name}->merge($card) : $card;
+ ### $db->{$name} = exists $db->{$name} ? $db->{$name}->merge($card) : $card;
+ $db->{$name} = $card if !exists $db->{$name};
 }
 
 sub joinCards($$$) {

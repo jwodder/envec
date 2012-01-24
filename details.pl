@@ -1,9 +1,24 @@
 #!/usr/bin/perl -w
+
+# Things this script needs to do:
+#  - Tag split, flip, and double-faced cards as such
+#  - Unmung munged flip cards
+#  - For the Ascendant/Essence cycle, remove the mana costs and P/T values from
+#    the bottom halves.
+#  - Convert short set names to long set names
+#  - Merge halves of split cards [done]
+#  - Convert rarities from single characters to full words
+#  - Handle the duplicate printings entries for Invasion-block split cards
+#    [done by joinPrintings]
+#  - Fix Homura's Essence
+#  - Incorporate data/rarities.tsv (with affected rarities changed to the form
+#    "Common (C1)"?)
+#  - Remove italics from flavor text and watermarks [done]
+
 use strict;
 use Getopt::Std;
 use LWP::Simple;
 use EnVec ':all';
-use EnVec::Util 'jsonify';
 use EnVec::Card::Util 'joinCards';
 
 my %opts;
@@ -86,11 +101,12 @@ for my $name (sort keys %cardIDs) {
 
 print $log "Joining split cards...\n";
 for my $left (splitLefts) {  # splitLefts is already sorted.
- my $right = ...
-
+ my $right = alternate $left;
  if (!exists $split{$left} || !exists $split{$right}) {
-  print STDERR ...
-   if exists $split{$left} || exists $split{$right};
+  print STDERR "Split card mismatch: $left was found but $right was not\n"
+   if exists $split{$left};
+  print STDERR "Split card mismatch: $right was found but $left was not\n"
+   if exists $split{$right};
   next;
  }
  if ($first) { $first = 0 }

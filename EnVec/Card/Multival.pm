@@ -71,30 +71,3 @@ sub mapvals {
 }
 
 1;
-
-#sub arrayGet(&$@) {
-# my($merger, $subcard, @vals) = @_;
-# if (!@vals) { undef }
-# elsif (!defined $subcard) {
-#  defined $vals[0] ? $vals[0]
-#   : $merger->(map { defined ? ref ? @$_ : $_ : '' } @vals[1..$#vals])
-# } elsif ($subcard < -1 || $subcard >= $#vals) { undef }
-# else { $vals[$subcard+1] }
-#}
-#
-#sub artist    { arrayGet { join ' // ', @_ } $_[1], @{$_[0]->{artist}} }
-#sub watermark { arrayGet { join ' // ', @_ } $_[1], @{$_[0]->{watermark}} }
-#sub flavor    { arrayGet { join "\n----\n", @_ } $_[1], @{$_[0]->{flavor}} }
-#sub notes     { arrayGet { join "\n----\n", @_ } $_[1], @{$_[0]->{notes}} }
-#
-#sub number {
-# arrayGet {
-#  (my $num = (sort { $a <=> $b } grep !/^$/, @_)[0]) =~ s/[[:alpha:]]+$//;
-#  return $num;
-# } $_[1], @{$_[0]->{number}}
-#}
-#
-#sub multiverseid {
-# arrayGet { (sort { $a <=> $b } grep !/^$/, @_)[0] }
-#  $_[1], @{$_[0]->{multiverseid}}
-#}

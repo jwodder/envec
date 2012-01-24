@@ -4,9 +4,12 @@ use strict;
 use Carp;
 use Storable 'dclone';
 use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
+use EnVec::Card::Multival;
+use EnVec::Card::Printing;
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- mergePrintings joinRulings txt2xml sym2xml >;
+ txt2xml sym2xml joinPrintings sortPrintings joinRulings >;
+ ### mergePrintings
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
@@ -117,47 +120,28 @@ sub sym2xml($) {
  return $str;
 }
 
-sub mergePrintings($$$) {
- my($name, $left, $right) = @_;
- my %merged = %{dclone $left};
- for my $set (keys %$right) {
-  if (!exists $merged{$set}) { $merged{$set} = $right->{$set} }
-  else {
-   if (defined $right->{$set}{rarity}) {
-    if (!defined $merged{$set}{rarity}) {
-     $merged{$set}{rarity} = $right->{$set}{rarity}
-    } elsif ($merged{$set}{rarity} ne $right->{$set}{rarity}) {
-     carp "Conflicting rarities for $name in $set: $merged{$set}{rarity} vs. "
-      . $right->{$set}{rarity}
-    }
-   }
-   my $leftIDs = $merged{$set}{ids} || [];
-   my $rightIDs = $right->{$set}{ids} || [];
-   my @ids = uniq sort @$leftIDs, @$rightIDs;
-   $merged{$set}{ids} = \@ids if @ids;
-  }
- }
- return \%merged;
-}
-
-sub joinRulings($$) {
- my($rules1, $rules2) = @_;
- $rules1 = [] if !defined $rules1;
- $rules2 = [] if !defined $rules2;
- my @rulings;
- loop1: for my $r1 (@$rules1) {
-  for my $i (0..$#$rules2) {
-   if ($r1->{date} eq $rules2->[$i]{date}
-    && $r1->{ruling} eq $rules2->[$i]{ruling}) {
-    push @rulings, { %$r1 };
-    splice @$rules2, $i, 1;
-    next loop1;
-   }
-  }
-  push @rulings, { %$r1, subcard => 0 };
- }
- return @rulings, map { +{ %$_, subcard => 1 } } @$rules2;
-}
+###sub mergePrintings($$$) {
+### my($name, $left, $right) = @_;
+### my %merged = %{dclone $left};
+### for my $set (keys %$right) {
+###  if (!exists $merged{$set}) { $merged{$set} = $right->{$set} }
+###  else {
+###   if (defined $right->{$set}{rarity}) {
+###    if (!defined $merged{$set}{rarity}) {
+###     $merged{$set}{rarity} = $right->{$set}{rarity}
+###    } elsif ($merged{$set}{rarity} ne $right->{$set}{rarity}) {
+###     carp "Conflicting rarities for $name in $set: $merged{$set}{rarity} vs. "
+###      . $right->{$set}{rarity}
+###    }
+###   }
+###   my $leftIDs = $merged{$set}{ids} || [];
+###   my $rightIDs = $right->{$set}{ids} || [];
+###   my @ids = uniq sort @$leftIDs, @$rightIDs;
+###   $merged{$set}{ids} = \@ids if @ids;
+###  }
+### }
+### return \%merged;
+###}
 
 sub joinPrintings($$$) {
  ### FRAGILE ASSUMPTIONS:
@@ -214,5 +198,24 @@ sub sortPrintings(@) {
  } @_
 }
 
-#sub mergeRulings($$)
-#sub sortRulings(@)
+sub joinRulings($$) {
+ my($rules1, $rules2) = @_;
+ $rules1 = [] if !defined $rules1;
+ $rules2 = [] if !defined $rules2;
+ my @rulings;
+ loop1: for my $r1 (@$rules1) {
+  for my $i (0..$#$rules2) {
+   if ($r1->{date} eq $rules2->[$i]{date}
+    && $r1->{ruling} eq $rules2->[$i]{ruling}) {
+    push @rulings, { %$r1 };
+    splice @$rules2, $i, 1;
+    next loop1;
+   }
+  }
+  push @rulings, { %$r1, subcard => 0 };
+ }
+ return @rulings, map { +{ %$_, subcard => 1 } } @$rules2;
+}
+
+###sub mergeRulings($$)
+###sub sortRulings(@)

@@ -8,29 +8,29 @@
   - Try to handle BFM?
 
 - Features:
- - Give EnVec::SplitList functions for getting the alternate components of
-   given halves of multipart cards
- - Give EnVec::SplitList a cardType function
- - Add a means to read EnVec::Card objects from a JSON file one at a time
-   rather than all at once
- - Give dumpArray and dumpHash arguments for dumping to a filehandle
  - Add special handling for leveler cards
  - Give EnVec::Card toXML and fromXML methods
+ - Completely rewrite JSON.pm
+  - Rename fromJSON "fromHash", make it a class method of EnVec::Card, and add
+    a *real* fromJSON method that takes a string of JSON as input
+  - Give dumpArray and dumpHash arguments for dumping to a filehandle
+ - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
+   rather than all at once
+ - Give EnVec::SplitList a cardType function
+ - Give EnVec::SplitList more functions for getting the alternate components of
+   given halves of multipart cards?
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
 
 - Coding:
- - Rewrite the representation of multipart cards to mirror that in mtgcard.dtd
- - Update fromJSON and make it a class method of EnVec::Card
-  - Rename it fromHash and add a *real* fromJSON method that takes a string of
-    JSON as input
- - Give EnVec::Card a toHash method?
+ - Rewrite/update Card->merge and mergePrintings (and then update insertCard)
  - Overload stringification of Multival objects
  - Give EnVec.pm tags for the export lists of each submodule
  - Make EnVec.pm preserve the non-'all' tags of the submodules
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
+ - Give EnVec::Card a toHash method?
  - Runtime type enforcement:
   - Make EnVec::Card only allow valid cardType values
   - Make EnVec::Card::Content prohibit empty names

@@ -6,7 +6,7 @@ use EnVec::Card::Util;
 use Exporter 'import';
 our @EXPORT_OK = qw< loadedParts loadParts joinParts isSplit isFlip isDouble
  splitLefts splitRights flipTops flipBottoms doubleFronts doubleBacks
- splits flips doubles >;
+ splits flips doubles alternate >;
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 our $splitFile  = 'data/split.tsv';
@@ -114,5 +114,13 @@ sub doubleBacks() {loadCheck; return sort keys %revDoub; }
 sub splits() {loadCheck; return %split; }
 sub flips() {loadCheck; return %flip; }
 sub doubles() {loadCheck; return %double; }
+
+sub alternate($) {
+ my $side = shift;
+ for (\%split, \%revSplit, \%flip, \%revFlip, \%double, \%revDoub) {
+  return $_->{$side} if exists $_->{$side}
+ }
+ return undef;
+}
 
 1;
