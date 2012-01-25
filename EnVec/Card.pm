@@ -6,15 +6,9 @@ use Storable 'dclone';
 use EnVec::Card::Content;
 use EnVec::Card::Printing;
 use EnVec::Colors;
-use EnVec::Util;
 use EnVec::Sets ('loadedSets', 'cmpSets');
-
-use constant {
- NORMAL_CARD => 1,
- SPLIT_CARD  => 2,
- FLIP_CARD   => 3,
- DOUBLE_CARD => 4
-};
+use EnVec::SplitList ':const';
+use EnVec::Util;
 
 use Class::Struct cardType => '$', content => '@', printings => '@',
  rulings => '@';

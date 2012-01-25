@@ -38,6 +38,10 @@
   - Make EnVec::Card only allow valid cardType values
   - Make EnVec::Card::Content prohibit empty names
   - Make EnVec::Card::Content automatically convert empty fields to undef
+ - Represent rarities by enums?  At the very least, make their representations
+   consist (e.g., 'Mythic Rare' vs. 'Mythic rare' vs. 'mythic rare' vs.
+   'Mythic' vs. ...) and abstract away the conversions between long rarity
+   names and single characters.
 
 - Rewrite/update listify.pl
 - Rename SplitList.pm to Multipart.pm?

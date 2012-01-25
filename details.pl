@@ -1,28 +1,31 @@
 #!/usr/bin/perl -w
 
 # Things this script needs to do:
-#  - Tag split, flip, and double-faced cards as such
-#  - Unmung munged flip cards
-#  - For the Ascendant/Essence cycle, remove the mana costs and P/T values from
-#    the bottom halves.
-#  - Convert short set names to long set names
+#  - Remove italics from flavor text and watermarks [done]
+#  - Convert short set names to long set names [done]
+#  - Convert rarities from single characters to full words [done]
+#  - Tag split, flip, and double-faced cards as such [done]
+#  - Unmung munged flip cards [done]
 #  - Merge halves of split cards [done]
-#  - Convert rarities from single characters to full words
 #  - Handle the duplicate printings entries for Invasion-block split cards
 #    [done by joinPrintings]
+#  - For the Ascendant/Essence cycle, remove the mana costs and P/T values from
+#    the bottom halves.
 #  - Fix Homura's Essence
 #  - Incorporate data/rarities.tsv (with affected rarities changed to the form
 #    "Common (C1)"?)
-#  - Remove italics from flavor text and watermarks [done]
 
 use strict;
 use Getopt::Std;
 use LWP::Simple;
 use EnVec ':all';
-use EnVec::Card::Util 'joinCards';
+use EnVec::Card::Util;
+
+my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic Rare', L => 'Land', P => 'Promo', S => 'Special');
 
 my %opts;
 getopts('C:S:j:x:l:', \%opts) || exit 2;
+loadSets($opts{S} || 'data/sets.tsv');
 loadParts;
 
 $opts{j} ||= 'out/details.json';
@@ -46,7 +49,6 @@ if (exists $opts{C}) {
  }
  close $in;
 } else {
- loadSets($opts{S} || 'data/sets.tsv');
  for my $set (setsToImport) {
   print $log "Importing $set...\n";
   my $list = get(checklistURL $set);
@@ -82,14 +84,33 @@ for my $name (sort keys %cardIDs) {
   my $details = get(isSplit $name ? detailsURL($id, $name) : detailsURL($id));
   print STDERR "Could not fetch $name/$id\n" and next if !defined $details;
   my $prnt = parseDetails $details;
+  if (isFlip $name) {
+   if (($prnt->text || '') =~ /^----$/) { $prnt = unmungFlip $prnt }
+   else { $prnt->cardType(FLIP_CARD) }
+  } elsif (isDouble $name) { $prnt->cardType(DOUBLE_CARD) }
   if (!defined $card) { $card = $prnt }
   ### else { ensure $card == $prnt } ???
   for (map { $_->multiverseid->all } @{$prnt->printings}) {
    push @ids, $_ and $seen{$_} = 1 if !$seen{$_}
   }
-  # Assume that the printing currently being fetched is the only one that has
-  # an "artist" field.
+  ### Assume that the printing currently being fetched is the only one that has
+  ### an "artist" field: (Try to make this more robust?)
   my($newPrnt) = grep { $_->artist->any } @{$prnt->printings};
+  # Convert set abbreviations to long names:
+  my $set = fromAbbrev($newPrnt->set);
+  if (defined $set) { $newPrnt->set($set) }
+  else {
+   print STDERR "Unknown set abbreviation \"", $newPrnt->set,
+    "\" for $name/$id\n"
+  }
+  # Convert rarity abbreviations to long names:
+  if (defined $newPrnt->rarity) {
+   if (exists $rarities{$newPrnt->rarity}) {
+    $newPrnt->rarity($rarities{$newPrnt->rarity})
+   } else {
+    print STDERR "Unknown rarity \"", $newPrnt->rarity, "\" for $name/$id\n"
+   }
+  }
   $newPrnt->flavor($newPrnt->flavor->mapvals(\&rmitalics));
   $newPrnt->watermark($newPrnt->watermark->mapvals(\&rmitalics));
   push @printings, $newPrnt;

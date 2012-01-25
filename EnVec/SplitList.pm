@@ -4,10 +4,18 @@ use strict;
 use Carp;
 use EnVec::Card::Util;
 use Exporter 'import';
-our @EXPORT_OK = qw< loadedParts loadParts joinParts isSplit isFlip isDouble
- splitLefts splitRights flipTops flipBottoms doubleFronts doubleBacks
- splits flips doubles alternate >;
-our %EXPORT_TAGS = (all => \@EXPORT_OK);
+our @EXPORT_OK = qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD loadedParts
+ loadParts joinParts isSplit isFlip isDouble splitLefts splitRights flipTops
+ flipBottoms doubleFronts doubleBacks splits flips doubles alternate >;
+our %EXPORT_TAGS = (all => \@EXPORT_OK, const => [qw< NORMAL_CARD SPLIT_CARD
+ FLIP_CARD DOUBLE_CARD >]);
+
+use constant {
+ NORMAL_CARD => 1,
+ SPLIT_CARD  => 2,
+ FLIP_CARD   => 3,
+ DOUBLE_CARD => 4
+};
 
 our $splitFile  = 'data/split.tsv';
 our $flipFile   = 'data/flip.tsv';

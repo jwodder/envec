@@ -5,6 +5,7 @@ use strict;
 use Carp;
 use EnVec::Card;
 use EnVec::Card::Split;
+use EnVec::SplitList 'FLIP_CARD';
 use EnVec::Util;
 use Exporter 'import';
 our @EXPORT = qw< insertCard joinCards unmungFlip >;
