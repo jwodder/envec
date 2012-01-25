@@ -1,5 +1,4 @@
 #!/usr/bin/perl -w
-
 # Things this script needs to do:
 #  - Remove italics from flavor text and watermarks [done]
 #  - Convert short set names to long set names [done]
@@ -14,11 +13,11 @@
 #  - Fix Homura's Essence
 #  - Incorporate data/rarities.tsv (with affected rarities changed to the form
 #    "Common (C1)"?)
-
 use strict;
 use Getopt::Std;
 use LWP::Simple;
 use EnVec ':all';
+use EnVec::Util;
 use EnVec::Card::Util;
 
 my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic Rare', L => 'Land', P => 'Promo', S => 'Special');

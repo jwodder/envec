@@ -4,11 +4,10 @@ use warnings;
 use strict;
 use Carp;
 use EnVec::Card;
-use EnVec::Card::Split;
-use EnVec::SplitList 'FLIP_CARD';
+use EnVec::SplitList ':all';
 use EnVec::Util;
 use Exporter 'import';
-our @EXPORT = qw< insertCard joinCards unmungFlip >;
+our @EXPORT = qw< insertCard joinCards unmungFlip joinParts >;
 
 sub insertCard(\%$) {
  my($db, $card) = @_;
@@ -43,4 +42,41 @@ sub unmungFlip($) {
  $flip->content([ $top, $bottom ]);
  $flip->cardType(FLIP_CARD);
  return $flip;
+}
+
+sub joinParts(\%) {
+ # If this function is called when the multipart cards lists haven't been
+ # loaded, it should do nothing.
+ my $cards = shift;
+ for my $a (splitLefts) {
+  my $b = alternate $a;
+  if (exists $cards->{$a} && exists $cards->{$b}) {
+   insertCard(%$cards, joinCards SPLIT_CARD, $cards->{$a}, $cards->{$b});
+   delete $cards->{$a};
+   delete $cards->{$b};
+  }
+ }
+ for my $a (flipTops) {
+  my $b = alternate $a;
+  if (exists $cards->{$a} && exists $cards->{$b}) {
+   $cards->{$b}->cost(undef);
+   insertCard(%$cards, joinCards FLIP_CARD, $cards->{$a}, $cards->{$b});
+   delete $cards->{$a};
+   delete $cards->{$b};
+  } elsif (exists $cards->{$a} && $cards->{$a}->text =~ /\n----\n/) {
+   insertCard(%$cards, unmungFlip($cards->{$a}));
+   # Potential pitfall: If $cards->{$a} isn't actually a flip card (even though
+   # it _should_ be one if its text has ----), it'll get deleted here.
+   delete $cards->{$a};
+  }
+ }
+ for my $a (doubleFronts) {
+  my $b = alternate $a;
+  if (exists $cards->{$a} && exists $cards->{$b}) {
+   insertCard(%$cards, joinCards DOUBLE_CARD, $cards->{$a}, $cards->{$b});
+   delete $cards->{$a};
+   delete $cards->{$b};
+  }
+ }
+ return $cards;
 }

@@ -37,8 +37,8 @@ sub newCard {
   ? [ map { ref eq 'HASH' ? new EnVec::Card::Printing %$_ : $_ }
 	 @{$attrs{printings}} ]
   : [];
- return new $class cardType => NORMAL_CARD, content => [ $content ],
-  printings => $printings, rulings => $attrs{rulings} || [];
+ return $class->new(cardType => NORMAL_CARD, content => [ $content ],
+  printings => $printings, rulings => $attrs{rulings} || []);
 }
 
 sub toJSON {
@@ -125,7 +125,7 @@ for my $field (qw< name text pow tough loyalty hand life indicator type PT
    carp "Card fields of EnVec::Card objects cannot be modified directly" if \@_;
    my \@fields = map { \$_->$field } \@{\$self->content};
    return undef if !grep defined, \@fields;
-   return join \$sep, map { defined ? \$_ : '' } \@fields;
+   return join \$sep, map { defined(\$_) ? \$_ : '' } \@fields;
   }
 EOT
 }
@@ -232,7 +232,7 @@ sub showField1 {
   for (my $i=0; ; $i++) {
    my @txt = map { $_->[$i] } @lines;
    last if !grep defined, @txt;
-   my $line = join $sep, map { defined ? $_ : ' ' x $width } @txt;
+   my $line = join $sep, map { defined($_) ? $_ : ' ' x $width } @txt;
    $line =~ s/\s+$//;
    $text .= sprintf('%-*s', $tagwidth, $i ? $fields{$field} : '') . " $line\n";
   }

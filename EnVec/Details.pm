@@ -7,6 +7,7 @@ use EnVec::Card;
 use EnVec::Card::Printing;
 use EnVec::Card::Util 'joinCards';
 use EnVec::Colors;
+use EnVec::SplitList 'NORMAL_CARD';
 use EnVec::Util;
 
 use Exporter 'import';

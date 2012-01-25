@@ -2,11 +2,10 @@ package EnVec::SplitList;
 use warnings;
 use strict;
 use Carp;
-use EnVec::Card::Util;
 use Exporter 'import';
 our @EXPORT_OK = qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD loadedParts
- loadParts joinParts isSplit isFlip isDouble splitLefts splitRights flipTops
- flipBottoms doubleFronts doubleBacks splits flips doubles alternate >;
+ loadParts isSplit isFlip isDouble splitLefts splitRights flipTops flipBottoms
+ doubleFronts doubleBacks splits flips doubles alternate >;
 our %EXPORT_TAGS = (all => \@EXPORT_OK, const => [qw< NORMAL_CARD SPLIT_CARD
  FLIP_CARD DOUBLE_CARD >]);
 
@@ -61,40 +60,6 @@ sub loadCheck() {  # not for export
   carp "Warning: EnVec::SplitList::loadParts not yet invoked";
   $warned = 1;
  }
-}
-
-sub joinParts(\%) {
- loadCheck;
- my $cards = shift;
- my($a, $b);
- while (($a, $b) = each %split) {
-  if (exists $cards->{$a} && exists $cards->{$b}) {
-   insertCard(%$cards, joinCards SPLIT_CARD, $cards->{$a}, $cards->{$b});
-   delete $cards->{$a};
-   delete $cards->{$b};
-  }
- }
- while (($a, $b) = each %flip) {
-  if (exists $cards->{$a} && exists $cards->{$b}) {
-   $cards->{$b}->cost(undef);
-   insertCard(%$cards, joinCards FLIP_CARD, $cards->{$a}, $cards->{$b});
-   delete $cards->{$a};
-   delete $cards->{$b};
-  } elsif (exists $cards->{$a} && $cards->{$a}->text =~ /\n----\n/) {
-   insertCard(%$cards, unmungFlip($cards->{$a}));
-   # Potential pitfall: If $cards->{$a} isn't actually a flip card (even though
-   # it _should_ be one if its text has ----), it'll get deleted here.
-   delete $cards->{$a};
-  }
- }
- while (($a, $b) = each %double) {
-  if (exists $cards->{$a} && exists $cards->{$b}) {
-   insertCard(%$cards, joinCards DOUBLE_CARD, $cards->{$a}, $cards->{$b});
-   delete $cards->{$a};
-   delete $cards->{$b};
-  }
- }
- return $cards;
 }
 
 sub isSplit($) {

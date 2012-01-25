@@ -6,6 +6,7 @@ use Storable 'dclone';
 use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
 use EnVec::Card::Multival;
 use EnVec::Card::Printing;
+use EnVec::Sets 'loadedSets', 'cmpSets';
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
  txt2xml txt2attr sym2xml joinPrintings sortPrintings joinRulings >;
@@ -192,12 +193,12 @@ sub joinPrintings($$$) {
   $prnt{multiverseid} = $multiverse if defined $multiverse;
   push @joined, new EnVec::Card::Printing %prnt;
  }
- return sortPrintings @joined;
+ return sortPrintings(@joined);
 }
 
 sub sortPrintings(@) {
  sort {
-  (loadedSets ? $a->set cmpSets $b->set : $a->set cmp $b->set)
+  (loadedSets ? cmpSets($a->set, $b->set) : $a->set cmp $b->set)
    || ($a->multiverseid->all)[0] <=> ($b->multiverseid->all)[0]
   ### This needs to handle multiverseid->all being empty or unsorted.
  } @_
