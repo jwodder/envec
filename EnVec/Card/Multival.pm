@@ -10,7 +10,7 @@ package EnVec::Card::Multival;
 use warnings;
 use strict;
 use Carp;
-use EnVec::Util 'jsonify';
+use EnVec::Util;
 
 sub new {
  my($class, $val) = @_;
@@ -30,13 +30,13 @@ sub new {
      else { carp "Elements of sublists must be nonempty strings" }
     }
     if (!@elems) { $undef++ }
-    else {push @$self, [] x $undef, \@elems; $undef = 0; }
+    else {push @$self, ([]) x $undef, \@elems; $undef = 0; }
    } elsif (ref $elem) {
     carp "List elements must be strings, array references, or undef";
     $undef++;
-   } else {push @$self, [] x $undef, $elem; $undef = 0; }
+   } else {push @$self, ([]) x $undef, [ $elem ]; $undef = 0; }
   }
- } elsif (ref $val eq 'EnVec::Card::Multival') { return $val->copy }
+ } elsif (ref $val eq 'EnVec::Card::Multival') { $self = [ @$val ] }
  else {
   carp "Multival constructors must be strings, array references, or undef";
   $self = [];
@@ -56,10 +56,7 @@ sub get {
  return 0 <= $i && $i < @$self ? @{$self->[$i]} : ();
 }
 
-sub copy {
- my $self = shift;
- return $self->new([ @$self ]);
-}
+sub copy {my $self = shift; return $self->new($self); }
 
 sub asArray { [ @{$_[0]} ] }
 

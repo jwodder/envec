@@ -2,6 +2,7 @@ package EnVec::Card::Content;
 use warnings;
 use strict;
 use EnVec::Colors;
+use EnVec::Util;
 
 use Class::Struct name       => '$',
 		  cost       => '$',
@@ -24,7 +25,7 @@ sub toJSON {
  return "{\n" . join(",\n", map {
    my $val = $self->$_();
    defined $val && $val ne '' && !(ref $val eq 'ARRAY' && !@$val)
-    ? "    \"$_\": @{[jsonify $val]}" : ();
+    ? "    \"$_\": @{[jsonify($val)]}" : ();
   } @scalars, @lists) . "\n   }";
 }
 
@@ -38,7 +39,7 @@ sub toXML {
  $str .= "   <type>" . txt2xml($_) . "</type>\n" for @{$self->types};
  $str .= "   <subtype>" . txt2xml($_) . "</subtype>\n" for @{$self->subtypes};
  $str .= "   <text>" . sym2xml($_) . "</text>\n"
-  for split /\n+/, $self->text || '';
+  for split /\n/, $self->text || '';
  for (qw< pow tough loyalty hand life indicator >) {
   $str .= "   <$_>" . txt2xml($self->$_()) . "</$_>\n" if defined $self->$_()
  }

@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
+use LWP::Simple;
 use EnVec qw< loadSets setsToImport checklistURL parseChecklist >;
 
 loadSets(shift || 'data/sets.tsv');

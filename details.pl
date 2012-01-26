@@ -20,6 +20,10 @@ use EnVec ':all';
 use EnVec::Util;
 use EnVec::Card::Util;
 
+use Carp;
+$SIG{__DIE__} = sub { Carp::confess(@_) };
+$SIG{__WARN__} = sub { Carp::cluck(@_) };
+
 my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic Rare', L => 'Land', P => 'Promo', S => 'Special');
 
 my %opts;
@@ -36,6 +40,7 @@ open my $xml, '>', $opts{x} or die "$0: $opts{x}: $!";
 my $log;
 if (!exists $opts{l} || $opts{l} eq '-') { $log = *STDERR }
 else { open $log, '>', $opts{l} or die "$0: $opts{l}: $!" }
+select((select($log), $| = 1)[0]);
 
 my %cardIDs = ();
 if (exists $opts{C}) {
