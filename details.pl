@@ -16,6 +16,7 @@
 use strict;
 use Getopt::Std;
 use LWP::Simple;
+use POSIX 'strftime';
 use EnVec ':all';
 use EnVec::Util;
 use EnVec::Card::Util;
@@ -69,17 +70,14 @@ delete $cardIDs{$_} for flipBottoms, doubleBacks;
 
 print $log "Fetching individual card data...\n";
 print $json "[\n";
-print $xml "<cardlist>\n\n";  ### Include date attribute?
+print $xml "<cardlist date=\"", strftime('%Y-%m-%d', gmtime), "\">\n\n";
 my %split = ();
 my $first = 1;
 
 for my $name (sort keys %cardIDs) {
- if (!isSplit $name) {
-  if ($first) { $first = 0 }
-  else { print $json ",\n\n" }
- }
+ if (!isSplit $name) {if ($first) { $first = 0 } else { print $json ",\n\n" } }
  my @ids = ($cardIDs{$name});
- my %seen = ($cardIDs{$name} => 1);
+ my %seen;
  my $card = undef;
  my @printings = ();
  while (@ids) {
@@ -92,22 +90,32 @@ for my $name (sort keys %cardIDs) {
    if (($prnt->text || '') =~ /^----$/) { $prnt = unmungFlip $prnt }
    else { $prnt->cardType(FLIP_CARD) }
   } elsif (isDouble $name) { $prnt->cardType(DOUBLE_CARD) }
-  if (!defined $card) { $card = $prnt }
-  ### else { ensure $card == $prnt } ???
-  for (map { $_->multiverseid->all } @{$prnt->printings}) {
-   push @ids, $_ and $seen{$_} = 1 if !$seen{$_}
+  $card = $prnt if !defined $card;
+   ### When $card is defined, should this check that it equals $prnt?
+  if (!%seen) {
+   $seen{$id} = 1;
+   my @newIDs;
+   if (isDouble $name) {
+    # As double-faced cards have separate multiverseids for each face, we're
+    # going to assume that if you've seen any IDs for one set, you've seen them
+    # all for that set, and if you haven't seen any for a set, you'll still
+    # only get to see one.
+    my %setIDs;
+    push @{$setIDs{$_->set}}, $_->multiverseid->all for @{$prnt->printings};
+    for my $set (keys %setIDs) {
+     if (grep { $_ eq $id } @{$setIDs{$set}}) { $setIDs{$set} = [] }
+     elsif (@{$setIDs{$set}}) { $setIDs{$set} = [ $setIDs{$set}[0] ] }
+    }
+    @newIDs = map { @$_ } values %setIDs;
+   } else { @newIDs = map { $_->multiverseid->all } @{$prnt->printings} }
+   for (@newIDs) { push @ids, $_ and $seen{$_} = 1 if !$seen{$_} }
   }
   ### Assume that the printing currently being fetched is the only one that has
   ### an "artist" field: (Try to make this more robust?)
   my($newPrnt) = grep { $_->artist->any } @{$prnt->printings};
-  # Convert set abbreviations to long names:
   my $set = fromAbbrev($newPrnt->set);
   if (defined $set) { $newPrnt->set($set) }
-  else {
-   print STDERR "Unknown set abbreviation \"", $newPrnt->set,
-    "\" for $name/$id\n"
-  }
-  # Convert rarity abbreviations to long names:
+  else { print STDERR "Unknown set \"", $newPrnt->set, "\" for $name/$id\n" }
   if (defined $newPrnt->rarity) {
    if (exists $rarities{$newPrnt->rarity}) {
     $newPrnt->rarity($rarities{$newPrnt->rarity})
@@ -136,7 +144,7 @@ for my $left (splitLefts) {  # splitLefts is already sorted.
  }
  if ($first) { $first = 0 }
  else { print $json ",\n\n" }
- my $card = joinCards SPLIT_CARD, $left, $right;
+ my $card = joinCards SPLIT_CARD, $split{$left}, $split{$right};
  print $json $card->toJSON;
  print $xml $card->toXML, "\n";
 }
