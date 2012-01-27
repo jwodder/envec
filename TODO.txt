@@ -3,16 +3,17 @@
  - Handle failures in Get.pm functions appropriately
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
  - Uncards:
-  - Try to handle fractions in Unhinged cards?
-  - Try to handle Erase (Not the Urza's Legacy One)?
-  - Try to handle BFM?
+  - Handle fractions in Unhinged cards
+  - Handle BFM
+  - Make TextSpoiler.pm handle Erase (Not the Urza's Legacy One)
 
 - Features:
  - Add special handling for leveler cards
- - Give EnVec::Card toXML and fromXML methods
+ - Give EnVec::Card a fromXML methods
  - Completely rewrite JSON.pm
   - Rename fromJSON "fromHash", make it a class method of EnVec::Card, and add
     a *real* fromJSON method that takes a string of JSON as input
+  - Give EnVec::Card a toHash method
   - Give dumpArray and dumpHash arguments for dumping to a filehandle
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
@@ -31,7 +32,6 @@
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
- - Give EnVec::Card a toHash method?
  - Make the storage of Content->text fields mirror their representation in
    mtgcard.dtd
  - Runtime type enforcement:
@@ -44,7 +44,7 @@
    names and single characters.
 
 - Rewrite/update listify.pl
-- Rename SplitList.pm to Multipart.pm?
+- Rename SplitList.pm to Multipart.pm
 - Consider just deleting TextSpoiler.pm (and then COPYING)
 - Rename "cardType" to "cardClass" or "class"?
 

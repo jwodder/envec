@@ -2,6 +2,7 @@ package EnVec::Card;
 use warnings;
 use strict;
 use Carp;
+use JSON::Syck;
 use Storable 'dclone';
 use EnVec::Card::Content;
 use EnVec::Card::Printing;
@@ -41,15 +42,36 @@ sub newCard {
   printings => $printings, rulings => $attrs{rulings} || []);
 }
 
+sub fromJSON {
+ my($class, $str) = @_;
+ my $hash = JSON::Syck::Load($str);
+ croak "EnVec::Card->fromJSON: could not parse input\n" if !defined $hash;
+ return $class->fromHash($hash);
+}
+
+###sub fromHash {
+### my($class, $hash) = @_;
+### croak "EnVec::Card->fromHash: argument must be a hash reference\n"
+###  if ref $hash ne 'HASH';
+### $hash->{cardType} = typeEnum($hash->{cardType}, NORMAL_CARD);
+### $hash->{content} = [ map { new EnVec::Card::Content %$_ } @{$hash->content} ];
+###
+###
+###}
+
 sub toJSON {
  my $self = shift;
- my $str = " {\n";
- $str .= "  \"cardType\": \"" . $formats0{$self->cardType} . "\",\n";
- $str .= "  \"content\": [" . join(",\n   ", map { $_->toJSON } @{$self->content}) . "],\n";
- $str .= "  \"printings\": [" . join(",\n   ", map { $_->toJSON } @{$self->printings}) . "],\n";
- $str .= "  \"rulings\": [" . join(",\n   ", map { jsonify($_) } @{$self->rulings}) . "]\n";
- $str .= " }";
- return $str;
+ return " {\n  \"cardType\": \"" . $formats0{$self->cardType} . "\",\n"
+  . "  \"content\": ["
+    . join(', ', map { $_->toJSON } @{$self->content})
+  . "],\n"
+  . "  \"printings\": [\n   "
+    . join(",\n   ", map { $_->toJSON } @{$self->printings})
+  . "\n  ],\n"
+  . "  \"rulings\": [\n   "
+    . join(",\n   ", map { jsonify($_) } @{$self->rulings})
+  . "\n  ]\n"
+  . " }";
 }
 
 sub toXML {
@@ -61,7 +83,7 @@ sub toXML {
   $str .= '  <ruling date="' . txt2attr($rule->{date}) . '"';
   $str .= ' subcard="' . txt2attr($rule->{subcard}) . '"'
    if exists $rule->{subcard};
-  $str .= '>' . sym2xml($rule->{ruling}) . "</ruling>\n";
+  $str .= '>' . txt2xml($rule->{ruling}) . "</ruling>\n";
  }
  $str .= " </card>\n";
  return $str;

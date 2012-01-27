@@ -96,4 +96,14 @@ sub alternate($) {
  return undef;
 }
 
+###sub typeEnum($;$) {
+### my($type, $default) = @_;
+### return $default if !defined $type;
+### if ($type =~ /^\d+$/) {
+###  for (NORMAL_CARD, SPLIT_CARD, FLIP_CARD, DOUBLE_CARD) {
+###   return $_ if $type eq $_
+###  }
+###  return $default;
+### } else {
+
 1;

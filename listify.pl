@@ -19,16 +19,17 @@ my $prelude = $opts{P} && join('', <DATA>);
 my $dir = $opts{d} || 'lists';
 -d $dir or mkdir $dir or die "$0: $dir/: $!";
 
-my %sets = ();
 loadSets;
+my %sets = ();
 $/ = undef;
 for my $card (@{parseJSON <>}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
  for (@{$card->printings}) {
-  die 'Unknown rarity "', $_->rarity, '" for ', $card->name, ' in ', $_->set
-   if !exists $rarities{$_->rarity};
-  push @{$sets{$_->set}}, [ $_->effectiveNum, $rarities{$_->rarity}, $stats ];
+  (my $rarity = $_->rarity) =~ s/ \([CUR]\d+\)$//;
+  die "Unknown rarity \"$rarity\" for ", $card->name, ' in ', $_->set
+   if !exists $rarities{$rarity};
+  push @{$sets{$_->set}}, [ $_->effectiveNum, $rarities{$rarity}, $stats ];
  }
 }
 
