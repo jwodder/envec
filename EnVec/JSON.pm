@@ -34,13 +34,23 @@ sub dumpHash(\%;$$) {  # Should it be ($;$$) instead?
  print $fh "\n}\n";
 }
 
-sub parseJSON($) {  # load from a string
+sub parseJSON($) {  # Load from a string
  my $data = JSON::Syck::Load(shift);
- if (ref $data eq 'ARRAY') { [ map { EnVec::Card->fromJSON($_) } @$data ] }
+ croak "EnVec::JSON::parseJSON: could not parse input\n" if !defined $data;
+ if (ref $data eq 'ARRAY') { [ map { EnVec::Card->fromHashref($_) } @$data ] }
  elsif (ref $data eq 'HASH') {
-  +{ map { $_ => EnVec::Card->fromJSON($data->{$_}) } keys %$data }
+  +{ map { $_ => EnVec::Card->fromHashref($data->{$_}) } keys %$data }
+ } else {
+  croak "EnVec::JSON::parseJSON: root structure must be an array or object\n"
  }
 }
 
-# Load from a filehandle:
-sub loadJSON($) {local $/ = undef; parseJSON readline shift; }
+sub loadJSON(;$) {  # Load from a file (identified by name) or stdin
+ my $file = shift;
+ my $fh;
+ if (defined $file) {
+  open $fh, '<', $file or croak "EnVec::JSON::loadJSON: $file: $!"
+ } else { $fh = *STDIN }
+ local $/ = undef;
+ return parseJSON <$fh>;
+}

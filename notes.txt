@@ -7,6 +7,3 @@ Function naming conventions:
    with "parse"
  - Functions for parsing the contents of a file identified by file name have
    their names prefixed with "load"
-  - There shouldn't be any functions for parsing the contents of a file
-    identified by a filehandle, but loadJSON (et alii?) was apparently written
-    while suffering from temporary insanity

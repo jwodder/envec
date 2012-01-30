@@ -6,7 +6,6 @@ use EnVec::Card;
 use EnVec::Card::Util;
 use EnVec::Colors;
 use EnVec::Util;
-
 use Exporter 'import';
 our @EXPORT_OK = ('parseTextSpoiler', 'loadTextSpoiler');
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
