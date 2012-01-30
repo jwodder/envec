@@ -8,7 +8,7 @@ use EnVec::Card::Content;
 use EnVec::Card::Printing;
 use EnVec::Colors;
 use EnVec::Sets ('loadedSets', 'cmpSets');
-use EnVec::SplitList ':const', 'typeEnum';
+use EnVec::Multipart ':const', 'typeEnum';
 use EnVec::Util;
 
 use Class::Struct cardType => '$', content => '@', printings => '@',

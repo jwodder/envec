@@ -13,8 +13,8 @@
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
  - Give EnVec::Card a fromXML method
- - Give EnVec::SplitList a cardType function
- - Give EnVec::SplitList more functions for getting the alternate components of
+ - Give EnVec::Multipart a cardType function
+ - Give EnVec::Multipart more functions for getting the alternate components of
    given halves of multipart cards?
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
@@ -41,7 +41,6 @@
  - Give EnVec::Card a toHashref method
 
 - Rewrite/update listify.pl
-- Rename SplitList.pm to Multipart.pm
 - Consider just deleting TextSpoiler.pm (and then COPYING)
 - Rename "cardType" to "cardClass" or "class"?
 - Consider deleting EnVec::mergeCards

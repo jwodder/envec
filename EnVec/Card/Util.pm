@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Carp;
 use EnVec::Card;
-use EnVec::SplitList ':all';
+use EnVec::Multipart ':all';
 use EnVec::Util;
 use Exporter 'import';
 our @EXPORT = qw< insertCard joinCards unmungFlip joinParts >;

@@ -1,4 +1,4 @@
-package EnVec::SplitList;
+package EnVec::Multipart;
 use warnings;
 use strict;
 use Carp;
@@ -43,7 +43,7 @@ sub loadParts(;%) {
 
 sub loadPartFile {  # not for export
  my $file = shift;
- open my $in, '<', $file or croak "EnVec::SplitList::loadParts: $file: $!";
+ open my $in, '<', $file or croak "EnVec::Multipart::loadParts: $file: $!";
  my %parts = ();
  while (<$in>) {
   chomp;
@@ -57,7 +57,7 @@ sub loadPartFile {  # not for export
 
 sub loadCheck() {  # not for export
  if (!$loaded && !$warned) {
-  carp "Warning: EnVec::SplitList::loadParts not yet invoked";
+  carp "Warning: EnVec::Multipart::loadParts not yet invoked";
   $warned = 1;
  }
 }
