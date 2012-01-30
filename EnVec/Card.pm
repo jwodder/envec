@@ -255,11 +255,11 @@ sub showField1 {
  } elsif (exists $fields{$field}) {
   $width = int(($width - ($self->parts - 1) * length($sep)) / $self->parts);
   my @lines = map {
-   $_ = $_->$field();
-   $_ = '' if !defined;
-   $_ = join ' ', @$_ if ref eq 'ARRAY';
-   s/—/--/g;
-   [ map { sprintf '%-*s', $width, $_ } wrapLines($_, $width, 2) ];
+   my $val = $_->$field();
+   $val = '' if !defined $val;
+   $val = join ' ', @$val if ref $val eq 'ARRAY';
+   $val =~ s/—/--/g;
+   [ map { sprintf '%-*s', $width, $_ } wrapLines($val, $width, 2) ];
   } @{$self->content};
   my $text = '';
   for (my $i=0; ; $i++) {
@@ -267,7 +267,7 @@ sub showField1 {
    last if !grep defined, @txt;
    my $line = join $sep, map { defined($_) ? $_ : ' ' x $width } @txt;
    $line =~ s/\s+$//;
-   $text .= sprintf('%-*s', $tagwidth, $i ? $fields{$field} : '') . " $line\n";
+   $text .= sprintf('%-*s', $tagwidth, $i ? '' : $fields{$field}) . " $line\n";
   }
   return $text;
  } else { return '' }

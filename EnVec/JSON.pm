@@ -1,6 +1,7 @@
 package EnVec::JSON;
 use warnings;
 use strict;
+use Carp;
 use JSON::Syck;
 use EnVec::Card;
 use EnVec::Util 'jsonify';
