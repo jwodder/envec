@@ -9,14 +9,9 @@
 
 - Features:
  - Add special handling for leveler cards
- - Give EnVec::Card a fromXML methods
- - Completely rewrite JSON.pm
-  - Rename fromJSON "fromHash", make it a class method of EnVec::Card, and add
-    a *real* fromJSON method that takes a string of JSON as input
-  - Give EnVec::Card a toHash method
-  - Give dumpArray and dumpHash arguments for dumping to a filehandle
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
+ - Give EnVec::Card a fromXML method
  - Give EnVec::SplitList a cardType function
  - Give EnVec::SplitList more functions for getting the alternate components of
    given halves of multipart cards?
@@ -42,6 +37,7 @@
    consist (e.g., 'Mythic Rare' vs. 'Mythic rare' vs. 'mythic rare' vs.
    'Mythic' vs. ...) and abstract away the conversions between long rarity
    names and single characters.
+ - Give EnVec::Card a toHashref method
 
 - Rewrite/update listify.pl
 - Rename SplitList.pm to Multipart.pm

@@ -3,30 +3,35 @@ use warnings;
 use strict;
 use JSON::Syck;
 use EnVec::Card;
+use EnVec::Util 'jsonify';
 use Exporter 'import';
-our @EXPORT_OK = qw< dumpArray dumpHash fromJSON parseJSON loadJSON >;
+our @EXPORT_OK = qw< dumpArray dumpHash parseJSON loadJSON >;
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-sub dumpArray(@) {
- ### TODO: Add an optional argument for dumping to a filehandle
- print "[\n";
+sub dumpArray(\@;$) {  # Should it be ($;$) instead?
+ my $array = shift;
+ my $fh = shift || select;
+ print $fh "[\n";
  my $first = 1;
- for (@_) {print ",\n\n" if !$first; print $_->toJSON; $first = 0; }
- print "\n]\n";
-}
-
-sub dumpHash(%) {
- ### TODO: Add an optional argument for dumping to a filehandle
- ### Add an optional argument for turning on sorting?
- my %db = @_;
- print "{\n";
- my $first = 1;
- for (keys %db) {
-  print ",\n\n" if !$first;
-  print ' ', jsonify $_, ': ', $_->toJSON;
+ for (@$array) {
+  print $fh ",\n\n" if !$first;
+  print $fh $_->toJSON;
   $first = 0;
  }
- print "\n}\n";
+ print $fh "\n]\n";
+}
+
+sub dumpHash(\%;$$) {  # Should it be ($;$$) instead?
+ my($hash, $sort, $fh) = @_;
+ $fh ||= select;
+ print $fh "{\n";
+ my $first = 1;
+ for ($sort ? sort keys %$hash : keys %$hash) {
+  print $fh ",\n\n" if !$first;
+  print $fh ' ', jsonify($_), ': ', $hash->{$_}->toJSON;
+  $first = 0;
+ }
+ print $fh "\n}\n";
 }
 
 sub parseJSON($) {  # load from a string
