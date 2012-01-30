@@ -124,4 +124,12 @@ sub effectiveNum {
  else { (sort { $a <=> $b } map {s/[a-z]+$//; $_; } @nums)[0] }
 }
 
+sub fromHashref {
+ my($class, $hashref) = @_;
+ return $hashref->copy if ref $hashref eq 'EnVec::Card::Printing';
+ croak "EnVec::Card::Printing->fromHashref: argument must be a hash reference\n"
+  if ref $hashref ne 'HASH';
+ return $class->new(%$hashref);
+}
+
 1;

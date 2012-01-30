@@ -4,7 +4,7 @@
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
  - Uncards:
   - Handle fractions in Unhinged cards
-  - Handle BFM
+  - Handle BFM and Who/What/When/Where/Why
   - Make TextSpoiler.pm handle Erase (Not the Urza's Legacy One)
 
 - Features:

@@ -22,7 +22,7 @@ use EnVec::Util;
 use EnVec::Card::Util;
 
 use Carp;
-$SIG{__DIE__} = sub { Carp::confess(@_) };
+$SIG{__DIE__}  = sub { Carp::confess(@_) };
 $SIG{__WARN__} = sub { Carp::cluck(@_) };
 
 my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic Rare', L => 'Land', P => 'Promo', S => 'Special');
@@ -87,7 +87,7 @@ for my $name (sort keys %cardIDs) {
   print STDERR "Could not fetch $name/$id\n" and next if !defined $details;
   my $prnt = parseDetails $details;
   if (isFlip $name) {
-   if (($prnt->text || '') =~ /^----$/) { $prnt = unmungFlip $prnt }
+   if (($prnt->text || '') =~ /^----$/m) { $prnt = unmungFlip $prnt }
    else { $prnt->cardType(FLIP_CARD) }
   } elsif (isDouble $name) { $prnt->cardType(DOUBLE_CARD) }
   $card = $prnt if !defined $card;

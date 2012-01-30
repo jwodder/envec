@@ -174,14 +174,18 @@ trim(label) = Artist:
  - The bottom portions of the Ascendant/Essence cards from Saviors of Kamigawa
    have their top halves' mana costs and (in the card details format only) P/T
    listed as their own.
- - The rules text for Rage Extractor represents the generic Phyrexian mana
-   symbol as "p" (without even any braces!).
  - The Eighth & Ninth Edition "box set" cards have their numbers given without
    the leading 'S', thereby overlapping with the normal card numberings for
    those sets.
  - The non-full-art Zendikar lands have their collector's numbers listed
    without the 'a' suffix, thereby overlapping with the full art lands'
    numbers.  [Details pages only?]
+ - [Details format only?] Gatherer has problems with listing the correct
+   artists for split cards that have differing artists for each half (i.e.,
+   Fire // Ice, Illusion // Reality, Life // Death, and Night // Day).
+ - The Dark Ascension update made Budoka Pupil and Cunning Bandit (but not
+   Callow Jushi and Hired Muscle ... yet) even WORSE.
+
 
  - Figure of Destiny
  - Rhys the Redeemed
@@ -198,11 +202,8 @@ trim(label) = Artist:
  - Swirling Spriggan [text only]
  - Lashwrithe [text only]
 
- - B.F.M. (Big Furry Monster)
-
  - Various flavor texts are formatted incorrectly, e.g., those of:
   - Steamflogger Boss
-  - Angus Mackenzie
   - Chub Toad
   - Mesa Chicken
   - Woodland Druid
@@ -233,6 +234,8 @@ trim(label) = Artist:
   - Ember Hauler
   - Dakkon Blackblade (Legends)
   - Withdraw
+  - Firestorm Phoenix
+  - Sudden Impact
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:

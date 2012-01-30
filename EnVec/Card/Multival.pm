@@ -9,7 +9,7 @@
 package EnVec::Card::Multival;
 use warnings;
 use strict;
-use Carp;
+use Carp 'cluck';
 use EnVec::Util;
 
 sub new {
@@ -25,20 +25,20 @@ sub new {
    elsif (ref $elem eq 'ARRAY') {
     my @elems = ();
     for (@$elem) {
-     if (ref) { carp "Elements of sublists may not be references" }
+     if (ref) { cluck "Elements of sublists may not be references" }
      elsif (defined && $_ ne '') { push @elems, $_ }
-     else { carp "Elements of sublists must be nonempty strings" }
+     else { cluck "Elements of sublists must be nonempty strings" }
     }
     if (!@elems) { $undef++ }
     else {push @$self, ([]) x $undef, \@elems; $undef = 0; }
    } elsif (ref $elem) {
-    carp "List elements must be strings, array references, or undef";
+    cluck "List elements must be strings, array references, or undef";
     $undef++;
    } else {push @$self, ([]) x $undef, [ $elem ]; $undef = 0; }
   }
  } elsif (ref $val eq 'EnVec::Card::Multival') { $self = [ @$val ] }
  else {
-  carp "Multival constructors must be strings, array references, or undef";
+  cluck "Multival constructors must be strings, array references, or undef";
   $self = [];
  }
  bless $self, ref $class || $class;

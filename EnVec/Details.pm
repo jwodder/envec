@@ -104,8 +104,10 @@ sub scrapeSection($$) {
  $prnt{number} = simplify rowVal $doc->getElementById("${pre}numberRow");
  $prnt{artist} = simplify rowVal $doc->getElementById("${pre}artistRow");
  $fields{printings} = [
-  (new EnVec::Card::Printing set => $prnt0->set, rarity => $prnt0->rarity,
-			     multiverseid => $prnt0->multiverseid, %prnt),
+  (new EnVec::Card::Printing set => $prnt0->set,
+			     rarity => $prnt0->rarity,
+			     multiverseid => $prnt0->multiverseid,
+			     %prnt),
   expansions $doc->getElementById("${pre}otherSetsValue"),
  ];
  my $rulings = $doc->getElementById("${pre}rulingsContainer");
@@ -114,6 +116,7 @@ sub scrapeSection($$) {
    my $tds = $tr->getElementsByTagName('td');
    next if $tds->length != 2;
    my($date, $ruling) = map { magicContent $_ } @$tds;
+   $ruling =~ s/\r\n?/\n/g;
    push @{$fields{rulings}}, { date => simplify $date, ruling => trim $ruling };
   }
  }

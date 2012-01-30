@@ -8,7 +8,7 @@ use EnVec::Card::Content;
 use EnVec::Card::Printing;
 use EnVec::Colors;
 use EnVec::Sets ('loadedSets', 'cmpSets');
-use EnVec::SplitList ':const';
+use EnVec::SplitList ':const', 'typeEnum';
 use EnVec::Util;
 
 use Class::Struct cardType => '$', content => '@', printings => '@',
@@ -30,34 +30,44 @@ my %formats = (NORMAL_CARD, 'Normal card', SPLIT_CARD, 'Split card',
 
 sub newCard {
  my($class, %attrs) = @_;
- my %cont = ();
+ my %content = ();
  for (qw< name cost text pow tough loyalty hand life indicator supertypes types
-  subtypes >) { $cont{$_} = $attrs{$_} if exists $attrs{$_} }
- my $content = new EnVec::Card::Content %cont;
- my $printings = ref $attrs{printings} eq 'ARRAY'
-  ? [ map { ref eq 'HASH' ? new EnVec::Card::Printing %$_ : $_ }
-	 @{$attrs{printings}} ]
-  : [];
- return $class->new(cardType => NORMAL_CARD, content => [ $content ],
-  printings => $printings, rulings => $attrs{rulings} || []);
+  subtypes >) { $content{$_} = $attrs{$_} if exists $attrs{$_} }
+ return $class->fromHashref({ %attrs, content => [ \%content ] });
 }
 
 sub fromJSON {
  my($class, $str) = @_;
  my $hash = JSON::Syck::Load($str);
  croak "EnVec::Card->fromJSON: could not parse input\n" if !defined $hash;
- return $class->fromHash($hash);
+ return $class->fromHashref($hash);
 }
 
-###sub fromHash {
-### my($class, $hash) = @_;
-### croak "EnVec::Card->fromHash: argument must be a hash reference\n"
-###  if ref $hash ne 'HASH';
-### $hash->{cardType} = typeEnum($hash->{cardType}, NORMAL_CARD);
-### $hash->{content} = [ map { new EnVec::Card::Content %$_ } @{$hash->content} ];
-###
-###
-###}
+sub fromHashref {
+ my($class, $hashref) = @_;
+ return $hashref->copy if ref $hashref eq 'EnVec::Card';
+ croak "EnVec::Card->fromHashref: argument must be a hash reference\n"
+  if ref $hashref ne 'HASH';
+ my %hash = %$hashref;
+ $hash{cardType} = typeEnum($hash{cardType}, NORMAL_CARD);
+ if (ref $hash{content} eq 'ARRAY') {
+  croak "EnVec::Card->fromHashref: 'content' field must be a nonempty array\n"
+   if !@{$hash{content}};
+  $hash{content} = [ map { EnVec::Card::Content->fromHashref($_) }
+			 @{$hash{content}} ];
+ } else {
+  $hash{content} = [ EnVec::Card::Content->fromHashref($hash{content}) ]
+ }
+ $hash{printings} = [] if !defined $hash{printings};
+ croak "EnVec::Card->fromHashref: 'printings' field must be an array or undef\n"
+  if ref $hash{printings} ne 'ARRAY';
+ $hash{printings} = [ map { EnVec::Card::Printing->fromHashref($_) }
+			  @{$hash{printings}} ];
+ $hash{rulings} = [] if !defined $hash{rulings};
+ croak "EnVec::Card->fromHashref: 'rulings' field must be an array or undef\n"
+  if ref $hash{rulings} ne 'ARRAY';
+ return $class->new(%hash);
+}
 
 sub toJSON {
  my $self = shift;
@@ -68,9 +78,10 @@ sub toJSON {
   . "  \"printings\": [\n   "
     . join(",\n   ", map { $_->toJSON } @{$self->printings})
   . "\n  ],\n"
-  . "  \"rulings\": [\n   "
+  . "  \"rulings\": ["
+  . (@{$self->rulings} ? "\n   "
     . join(",\n   ", map { jsonify($_) } @{$self->rulings})
-  . "\n  ]\n"
+  . "\n  " : '') . "]\n"
   . " }";
 }
 

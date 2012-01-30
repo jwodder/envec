@@ -153,4 +153,12 @@ sub equals {
  return 1;
 }
 
+sub fromHashref {
+ my($class, $hashref) = @_;
+ return $hashref->copy if ref $hashref eq 'EnVec::Card::Content';
+ croak "EnVec::Card::Content->fromHashref: argument must be a hash reference\n"
+  if ref $hashref ne 'HASH';
+ return $class->new(%$hashref);
+}
+
 1;

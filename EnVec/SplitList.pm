@@ -5,7 +5,7 @@ use Carp;
 use Exporter 'import';
 our @EXPORT_OK = qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD loadedParts
  loadParts isSplit isFlip isDouble splitLefts splitRights flipTops flipBottoms
- doubleFronts doubleBacks splits flips doubles alternate >;
+ doubleFronts doubleBacks splits flips doubles alternate typeEnum >;
 our %EXPORT_TAGS = (all => \@EXPORT_OK, const => [qw< NORMAL_CARD SPLIT_CARD
  FLIP_CARD DOUBLE_CARD >]);
 
@@ -96,14 +96,19 @@ sub alternate($) {
  return undef;
 }
 
-###sub typeEnum($;$) {
-### my($type, $default) = @_;
-### return $default if !defined $type;
-### if ($type =~ /^\d+$/) {
-###  for (NORMAL_CARD, SPLIT_CARD, FLIP_CARD, DOUBLE_CARD) {
-###   return $_ if $type eq $_
-###  }
-###  return $default;
-### } else {
+sub typeEnum($;$) {
+ my($type, $default) = @_;
+ return $default if !defined $type;
+ if ($type =~ /^\d+$/) {
+  for (NORMAL_CARD, SPLIT_CARD, FLIP_CARD, DOUBLE_CARD) {
+   return $_ if $type == $_
+  }
+  return $default;
+ } elsif ($type =~ /^normal(\b|_)/i) { return NORMAL_CARD }
+ elsif ($type =~ /^split(\b|_)/i) { return SPLIT_CARD }
+ elsif ($type =~ /^flip(\b|_)/i) { return FLIP_CARD }
+ elsif ($type =~ /^double(\b|_)/i) { return DOUBLE_CARD }
+ else { return $default }
+}
 
 1;
