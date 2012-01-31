@@ -211,6 +211,7 @@ trim(label) = Artist:
   - Phosphorescent Feast (Future Sight)
   - Shapeshifter (Antiquities)
   - Aluren
+  - Sacred Nectar
   - A general description of this problem seems to be that italicization is
     only applied to the first line/cardtextbox of each piece of flavor text,
     even though there are some instances where it should be done otherwise.

@@ -57,17 +57,29 @@ sub color {
 
 sub colorID {
  my $self = shift;
- my $colors = colors2bits($self->cost) | colors2bits($self->indicator);
- my $text = $self->text || '';
  # Since Innistrad, cards that formerly said "[This card] is [color]" now have
  # color indicators instead, so there's no need to check for such strings.
+ my $colors = colors2bits($self->cost) | colors2bits($self->indicator);
+ (my $text = $self->text || '') =~ s:\([^()]\)::g;
+ # It is assumed that text is reminder text if \& only if it's enclosed in
+ # parentheses.
+ # Reminder text is supposed to be ignored for the purposes of establishing
+ # color identity, but, as of Dark Ascension, Charmed Pendant and Trinisphere
+ # appear to be the only cards for which this matters.
  $colors |= COLOR_WHITE if $text =~ m:\{(./)?W(/.)?\}:;
  $colors |= COLOR_BLUE  if $text =~ m:\{(./)?U(/.)?\}:;
  $colors |= COLOR_BLACK if $text =~ m:\{(./)?B(/.)?\}:;
  $colors |= COLOR_RED   if $text =~ m:\{(./)?R(/.)?\}:;
  $colors |= COLOR_GREEN if $text =~ m:\{(./)?G(/.)?\}:;
- ### Reminder text has to be ignored somehow.
- ### Do basic land types contribute to color identity?
+ if ($self->isType('Land')) {
+  # Basic land types aren't technically part of color identity, but rule 903.5d
+  # makes them practically a part anyway.
+  $colors |= COLOR_WHITE if $self->isSubtype('Plains');
+  $colors |= COLOR_BLUE  if $self->isSubtype('Island');
+  $colors |= COLOR_BLACK if $self->isSubtype('Swamp');
+  $colors |= COLOR_RED   if $self->isSubtype('Mountain');
+  $colors |= COLOR_GREEN if $self->isSubtype('Forest');
+ }
  return bits2colors $colors;
 }
 

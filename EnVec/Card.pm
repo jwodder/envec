@@ -7,7 +7,7 @@ use Storable 'dclone';
 use EnVec::Card::Content;
 use EnVec::Card::Printing;
 use EnVec::Colors;
-use EnVec::Sets ('loadedSets', 'cmpSets');
+use EnVec::Sets;
 use EnVec::Multipart ':const', 'typeEnum';
 use EnVec::Util;
 
