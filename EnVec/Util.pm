@@ -4,9 +4,6 @@ use strict;
 use Carp;
 use Storable 'dclone';
 use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
-### These create circular references:
-###use EnVec::Card::Multival;
-###use EnVec::Card::Printing;
 use EnVec::Sets 'loadedSets', 'cmpSets';
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes

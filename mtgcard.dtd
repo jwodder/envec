@@ -8,7 +8,7 @@
 <!ELEMENT attr EMPTY>
 <!ATTLIST attr name CDATA #REQUIRED value CDATA "1">
 <!-- Example attrs (all boolean and for cards so far): "nontraditional",
-     "online-only", "uncard", "silver-bordered", "token" -->
+     "online-only", "uncard", "silver-bordered", "token", "oversized" -->
 
 <!ELEMENT card (attr*, content+, printing*, ruling*, format*)>
 <!ATTLIST card type (normal|split|flip|double-faced) "normal">

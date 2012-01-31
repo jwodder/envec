@@ -8,6 +8,7 @@
   - Make TextSpoiler.pm handle Erase (Not the Urza's Legacy One)
 
 - Features:
+ - Make the code (specifically, qty.pl and toText1.pl) faster
  - Implement the rest of the features for details.pl
  - Add special handling for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time

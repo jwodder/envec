@@ -1,14 +1,17 @@
 #!/usr/bin/perl -w
 use strict;
+use open ':encoding(UTF-8)';
 use Encode;
 use Getopt::Std;
-use EnVec ('loadSets', 'parseJSON', 'cmpSets');
+use EnVec ('loadSets', 'loadJSON');
 
 sub chrlength($);
 sub stats($);
 sub maxField($@);
 sub psify($);
 sub showCards(@);
+
+my($nameLen, $typeLen, $costLen, $extraLen);
 
 my %rarities = ('Mythic Rare' => 'Mythic',
  map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
@@ -22,7 +25,7 @@ my $dir = $opts{d} || 'lists';
 loadSets;
 my %sets = ();
 $/ = undef;
-for my $card (@{parseJSON <>}) {
+for my $card (@{loadJSON shift}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
  for (@{$card->printings}) {
@@ -33,7 +36,7 @@ for my $card (@{parseJSON <>}) {
  }
 }
 
-for my $set (sort cmpSets keys %sets) {
+for my $set (keys %sets) {
  (my $file = $set) =~ tr/ "'/_/d;
  $file = "$dir/$file." . ($opts{P} ? 'ps' : 'txt');
  open my $out, '>', $file or die "$0: $file: $!";
@@ -41,24 +44,28 @@ for my $set (sort cmpSets keys %sets) {
  my @cards = map {
   $_->[0] .= '.' if $_->[0];
   $_->[2]{part2} ? ($_, [ '//', '', $_->[2]{part2} ]) : ($_);
- } sort { $a->[0] <=> $b->[0] || $a->[2]{name} cmp $b->[2]{name} }
+ } sort { ($a->[0] || 0) <=> ($b->[0] || 0) || $a->[2]{name} cmp $b->[2]{name} }
   @{$sets{$set}};
- my $nameLen = maxField('nameLen', @cards);
- my $typeLen = maxField('typeLen', @cards);
- my $costLen = maxField('costLen', @cards);
- my $extraLen = maxField('extraLen', @cards);
+ $nameLen = maxField('nameLen', @cards);
+ $typeLen = maxField('typeLen', @cards);
+ $costLen = maxField('costLen', @cards);
+ $extraLen = maxField('extraLen', @cards);
  if ($opts{P}) {
   print $prelude, <<EOT
-/typeStart $nameLen 2 add em mul def
-/extraStart typeStart $typeLen add 2 add em mul def
-/costStart extraStart $extraLen add 2 add em mul def
-/rareStart costStart $costLen add 2 add em mul def
+
+/setname ($set) def
+/typeStart nameStart $nameLen 2 add em mul add def
+/extraStart typeStart $typeLen 2 add em mul add def
+/costStart extraStart $extraLen 2 add em mul add def
+/rareStart costStart $costLen 2 add em mul add def
+
+startPage
 EOT
  } else { print "$set\n" }
  if ($set eq 'Planechase' || $set eq 'Archenemy') {
   my(@special, @normal);
   for (@cards) {
-   if ($_->[4] =~ /^(Plane|(Ongoing )?Scheme)\b/) { push @special, $_ }
+   if ($_->[2]{type} =~ /^(Plane|(Ongoing )?Scheme)\b/) { push @special, $_ }
    else { push @normal, $_ }
   }
   showCards @special;
@@ -69,7 +76,7 @@ EOT
  close $out;
 }
 
-sub chrlength($) { length(decode_utf($_[0], Encode::FB_CROAK)) }
+sub chrlength($) { length(decode_utf8($_[0], Encode::FB_CROAK)) }
 
 sub stats($) {
  my $card = shift;
@@ -100,8 +107,9 @@ sub maxField($@) {
  my $field = shift;
  my $max = 0;
  for (@_) {
-  $max = $_->{$field} if $_->{$field} > $max;
-  $max = $_->{part2}{$field} if $_->{part2} && $_->{part2}{$field} > $max;
+  $max = $_->[2]{$field} if $_->[2]{$field} > $max;
+  $max = $_->[2]{part2}{$field}
+   if $_->[2]{part2} && $_->[2]{part2}{$field} > $max;
  }
  return $max;
 }
@@ -119,6 +127,7 @@ sub psify($) {
  $str =~ s/â/) show (a) (\\303) accent (/g;
  $str =~ s/û/) show (u) (\\303) accent (/g;
  $str =~ s/ö/) show (o) (\\310) accent (/g;
+ $str =~ s/--/\\320/g if $opts{P};
  return "($str) show\n";
 }
 
@@ -131,14 +140,18 @@ sub showCards(@) {
    print 'typeStart y moveto ', psify($card->[2]{type});
    print 'extraStart y moveto ', psify($card->[2]{extra}) if $card->[2]{extra};
    print 'costStart y moveto ';
-   print($2 ? "$2\n" : $3 ? "$3$4\n" : psify($1 || $5))
+   print($2 ? "$2\n" : $3 ? "$3$4\n" : psify(defined($1) ? $1 : $5))
     while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
    print $card->[1], "\n" if $card->[1];
   }
  } else {
-  printf "%4s %-*s  %-*s  %-*s  %-*s  %s\n", $_->[0], $nameLen, $_->[2]{name},
-   $typeLen, $_->[2]{type}, $extraLen, $_->[2]{extra}, $costLen, $_->[2]{cost},
-   $_->[1] for @_
+  printf "%4s %-*s  %-*s  %-*s  %-*s  %s\n",
+   $_->[0] || '',
+   $nameLen, decode_utf8($_->[2]{name}, Encode::FB_CROAK),
+   $typeLen, decode_utf8($_->[2]{type}, Encode::FB_CROAK),
+   $extraLen, $_->[2]{extra},
+   $costLen, $_->[2]{cost}, $_->[1]
+   for @_
  }
 }
 
@@ -161,7 +174,15 @@ __DATA__
 /pageNo 0 def
 /buf 3 string def
 
-/accent { exch dup show gsave stringwidth pop neg 0 rmoveto show grestore } def
+/accent {
+ exch dup show
+ gsave
+ stringwidth pop
+ 1 index stringwidth pop
+ add -2 div 0 moveto
+ show
+ grestore
+} def
 
 /linefeed {
  y 72 lineheight add le { showpage startPage } if
@@ -170,7 +191,7 @@ __DATA__
 
 /startPage {
  /pageNo pageNo 1 add def
- 66 725 moveto ($set) show
+ 66 725 moveto setname show
  /pns pageNo buf cvs def
  546 pns stringwidth pop sub 725 moveto
  pns show
@@ -179,7 +200,7 @@ __DATA__
 } def
 
 /nameStart 72 def
-/showNum { dup stringwidth pop nameStart exch sub y moveto show } def
+/showNum { dup stringwidth pop nameStart exch sub 3 sub y moveto show } def
 
 /setcenter {
  currentpoint
@@ -256,5 +277,3 @@ __DATA__
 /Land     { rareStart y moveto (Land)     show } def
 /Special  { rareStart y moveto (Special)  show } def
 /Promo    { rareStart y moveto (Promo)    show } def
-
-startPage
