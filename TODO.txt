@@ -2,13 +2,9 @@
  - Handle XML::DOM::Lite parse errors
  - Handle failures in Get.pm functions appropriately
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
- - Uncards:
-  - Handle fractions in Unhinged cards
-  - Handle BFM and Who/What/When/Where/Why
-  - Make TextSpoiler.pm handle Erase (Not the Urza's Legacy One)
 
 - Features:
- - Make the code (specifically, qty.pl and toText1.pl) faster
+ - Make the code faster
  - Implement the rest of the features for details.pl
  - Add special handling for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
@@ -20,6 +16,11 @@
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
  - Support fetching & storing format legality information
+ - Handle Uncards, specifically:
+  - BFM
+  - Who/What/When/Where/Why
+  - fractions in Unhinged cards
+  - Erase (Not the Urza's Legacy One) [as handled by TextSpoiler.pm]
 
 - Coding:
  - Rewrite/update Card->merge and mergePrintings (and then update insertCard)

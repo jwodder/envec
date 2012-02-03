@@ -9,6 +9,7 @@ sub chrlength($);
 sub stats($);
 sub maxField($@);
 sub psify($);
+sub texify($);
 sub showCards(@);
 
 my($nameLen, $typeLen, $costLen, $extraLen);
@@ -17,10 +18,20 @@ my %rarities = ('Mythic Rare' => 'Mythic',
  map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
 
 my %opts;
-getopts('Pd:', \%opts) || exit 2;
-my $prelude = $opts{P} && join('', <DATA>);
+getopts('LPd:', \%opts) || exit 2;
+print STDERR "$0: You may specify -L or -P, but not both\n" and exit 2
+ if $opts{L} && $opts{P};
 my $dir = $opts{d} || 'lists';
 -d $dir or mkdir $dir or die "$0: $dir/: $!";
+
+my $prelude = $opts{L} ? <<'EOT' : $opts{P} ? join('', <DATA>) : '';
+\documentclass{article}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{graphicx}
+\newcommand{\img}[1]{\includegraphics[height=2ex]{../../rules/img/#1}}
+\usepackage{longtable}
+\begin{document}
+EOT
 
 loadSets;
 my %sets = ();
@@ -37,7 +48,7 @@ for my $card (@{loadJSON shift}) {
 
 for my $set (keys %sets) {
  (my $file = $set) =~ tr/ "'/_/d;
- $file = "$dir/$file." . ($opts{P} ? 'ps' : 'txt');
+ $file = "$dir/$file." . ($opts{L} ? 'tex' : $opts{P} ? 'ps' : 'txt');
  open my $out, '>', $file or die "$0: $file: $!";
  select $out;
  my @cards = map {
@@ -49,7 +60,13 @@ for my $set (keys %sets) {
  $typeLen = maxField('typeLen', @cards);
  $costLen = maxField('costLen', @cards);
  $extraLen = maxField('extraLen', @cards);
- if ($opts{P}) {
+ if ($opts{L}) {
+  print $prelude, <<EOT
+\\section*{$set}
+\\begin{longtable}[c]{rl|l|l|l|l}
+No. & Name & Type & & Cost & \\\\ \\hline \\endhead
+EOT
+ } elsif ($opts{P}) {
   print $prelude, <<EOT
 /setname ($set) def
 /typeStart nameStart $nameLen 2 add em mul add def
@@ -66,10 +83,13 @@ EOT
    else { push @normal, $_ }
   }
   showCards @special;
-  print($opts{P} ? "linefeed nameStart y moveto (---) show\n" : "---\n");
+  print($opts{L} ? "\\hline\n"
+	: $opts{P} ? "linefeed nameStart y moveto (---) show\n"
+	: "---\n");
   showCards @normal;
  } else { showCards @cards }
- print "showpage\n" if $opts{P};
+ if ($opts{L}) { print "\\end{longtable}\n\\end{document}\n" }
+ elsif ($opts{P}) { print "showpage\n" }
  close $out;
 }
 
@@ -128,8 +148,40 @@ sub psify($) {
  return "($str) show\n";
 }
 
+sub texify($) {
+ my $str = shift;
+ $str =~ s/([{&}])/\\$1/g;
+ $str =~ s/(^|(?<=\s))"/``/g;
+ $str =~ s/(^|(?<=\s))'/``/g;
+ $str =~ s/"/''/g;
+ $str =~ s/’/'/g;
+ $str =~ s/Æ/\\AE{}/g;
+ $str =~ s/à/\\`a/g;
+ $str =~ s/á/\\'a/g;
+ $str =~ s/é/\\'e/g;
+ $str =~ s/í/\\'{\\i}/g;
+ $str =~ s/ú/\\'u/g;
+ $str =~ s/â/\\^a/g;
+ $str =~ s/û/\\^u/g;
+ $str =~ s/ö/\\"o/g;
+ $str =~ s/--/---/g;
+ return $str;
+}
+
 sub showCards(@) {
- if ($opts{P}) {
+ if ($opts{L}) {
+  for my $card (@_) {
+   print $card->[0] if $card->[0];
+   print ' & ', texify($card->[2]{name}), ' & ', texify($card->[2]{type});
+   print ' & ';
+   print texify($card->[2]{extra}) if $card->[2]{extra};
+   print ' & ';
+   print defined($5) ? texify($5)
+    : '\img{' . ($2 ? $2 : $3 ? "$3$4" : $1) . '.pdf}'
+    while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
+   print ' & ', substr($card->[1], 0, 1), "\\\\\n";
+  }
+ } elsif ($opts{P}) {
   for my $card (@_) {
    print "\n", "linefeed\n";
    print '(', $card->[0], ") showNum\n" if $card->[0];
@@ -139,7 +191,7 @@ sub showCards(@) {
    print 'costStart y moveto ';
    print($2 ? "$2\n" : $3 ? "$3$4\n" : psify(defined($1) ? $1 : $5))
     while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
-   print $card->[1], "\n" if $card->[1];
+   print $card->[1], "\n";
   }
  } else {
   printf "%4s %-*s  %-*s  %-*s  %-*s  %s\n",
