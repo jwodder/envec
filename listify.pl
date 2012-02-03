@@ -24,7 +24,6 @@ my $dir = $opts{d} || 'lists';
 
 loadSets;
 my %sets = ();
-$/ = undef;
 for my $card (@{loadJSON shift}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
@@ -52,13 +51,11 @@ for my $set (keys %sets) {
  $extraLen = maxField('extraLen', @cards);
  if ($opts{P}) {
   print $prelude, <<EOT
-
 /setname ($set) def
 /typeStart nameStart $nameLen 2 add em mul add def
 /extraStart typeStart $typeLen 2 add em mul add def
 /costStart extraStart $extraLen 2 add em mul add def
 /rareStart costStart $costLen 2 add em mul add def
-
 startPage
 EOT
  } else { print "$set\n" }
@@ -127,7 +124,7 @@ sub psify($) {
  $str =~ s/â/) show (a) (\\303) accent (/g;
  $str =~ s/û/) show (u) (\\303) accent (/g;
  $str =~ s/ö/) show (o) (\\310) accent (/g;
- $str =~ s/--/\\320/g if $opts{P};
+ $str =~ s/--/\\320/g;
  return "($str) show\n";
 }
 
@@ -135,7 +132,7 @@ sub showCards(@) {
  if ($opts{P}) {
   for my $card (@_) {
    print "\n", "linefeed\n";
-   print '(' . $card->[0] . ") showNum\n" if $card->[0];
+   print '(', $card->[0], ") showNum\n" if $card->[0];
    print 'nameStart y moveto ', psify($card->[2]{name});
    print 'typeStart y moveto ', psify($card->[2]{type});
    print 'extraStart y moveto ', psify($card->[2]{extra}) if $card->[2]{extra};
@@ -149,9 +146,7 @@ sub showCards(@) {
    $_->[0] || '',
    $nameLen, decode_utf8($_->[2]{name}, Encode::FB_CROAK),
    $typeLen, decode_utf8($_->[2]{type}, Encode::FB_CROAK),
-   $extraLen, $_->[2]{extra},
-   $costLen, $_->[2]{cost}, $_->[1]
-   for @_
+   $extraLen, $_->[2]{extra}, $costLen, $_->[2]{cost}, $_->[1] for @_
  }
 }
 

@@ -1,0 +1,15 @@
+Homura's Essence
+Legendary Enchantment
+
+Creatures you control get +2/+2 and have flying and "{R}: This creature gets +1/+0 until end of turn."
+----
+Ichiga, Who Topples Oaks
+Legendary Creature — Spirit
+4/3
+Trample
+Remove a ki counter from Ichiga, Who Topples Oaks: Target creature gets +2/+2 until end of turn.
+----
+Azamuki, Treachery Incarnate
+Legendary Creature — Spirit
+5/2
+Remove a ki counter from Azamuki, Treachery Incarnate: Gain control of target creature until end of turn.

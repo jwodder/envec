@@ -8,9 +8,10 @@
 #  - Merge halves of split cards [done]
 #  - Handle the duplicate printings entries for Invasion-block split cards
 #    [done by joinPrintings]
-#  - For the Ascendant/Essence cycle, remove the mana costs and P/T values from
-#    the bottom halves.
-#  - Fix Homura's Essence
+#  - Fix Homura's Essence and any other flip cards they've messed up recently
+#  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
+#    halves.
+#  - Remove mana costs from the bottom halves of flip cards?
 #  - Incorporate data/rarities.tsv (with affected rarities changed to the form
 #    "Common (C1)"?)
 use strict;
@@ -64,9 +65,9 @@ if (exists $opts{C}) {
  }
 }
 
-print $log scalar(keys %cardIDs), " cards imported\n\n";
-
+print $log scalar(keys %cardIDs), " cards imported\n";
 delete $cardIDs{$_} for flipBottoms, doubleBacks;
+print $log scalar(keys %cardIDs), " cards to fetch\n\n";
 
 print $log "Fetching individual card data...\n";
 print $json "[\n";
