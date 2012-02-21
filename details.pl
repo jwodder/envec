@@ -11,7 +11,9 @@
 #  - Fix Homura's Essence and any other flip cards they've messed up recently
 #  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
 #    halves.
-#  - Remove mana costs from the bottom halves of flip cards?
+#  - Remove mana costs from the bottom halves of flip cards?  (Alternatively,
+#    add an option controlling whether or not to remove them; when they're not
+#    removed, they'll need to be added to munged & butchered flip cards.)
 #  - Incorporate data/rarities.tsv (with affected rarities changed to the form
 #    "Common (C1)"?)
 use strict;
@@ -71,6 +73,8 @@ print $log scalar(keys %cardIDs), " cards to fetch\n\n";
 
 print $log "Fetching individual card data...\n";
 print $json "[\n";
+print $xml '<?xml version="1.0" encoding="UTF-8"?>', "\n";
+#print $xml '<!DOCTYPE cardlist SYSTEM "../../mtgcard.dtd">', "\n";
 print $xml "<cardlist date=\"", strftime('%Y-%m-%d', gmtime), "\">\n\n";
 my %split = ();
 my $first = 1;

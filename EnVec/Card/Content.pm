@@ -64,8 +64,8 @@ sub colorID {
  # It is assumed that text is reminder text if \& only if it's enclosed in
  # parentheses.
  # Reminder text is supposed to be ignored for the purposes of establishing
- # color identity, but, as of Dark Ascension, Charmed Pendant and Trinisphere
- # appear to be the only cards for which this matters.
+ # color identity, though, as of Dark Ascension, Charmed Pendant and
+ # Trinisphere appear to be the only cards for which this makes a difference.
  $colors |= COLOR_WHITE if $text =~ m:\{(./)?W(/.)?\}:;
  $colors |= COLOR_BLUE  if $text =~ m:\{(./)?U(/.)?\}:;
  $colors |= COLOR_BLACK if $text =~ m:\{(./)?B(/.)?\}:;

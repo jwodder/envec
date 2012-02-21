@@ -178,12 +178,12 @@ trim(label) = Artist:
    Fire // Ice, Illusion // Reality, Life // Death, and Night // Day).
  - Various flip cards have problems:
   - Homura's Essence
-  - The bottom portions of the Ascendant/Essence cards have their top halves'
-    mana costs and (in the card details format only) P/T listed as their own.
   - Callow Jushi
   - Hired Muscle
   - The Dark Ascension update made Budoka Pupil and Cunning Bandit (but not
     Callow Jushi and Hired Muscle ... yet) even WORSE.
+  - The bottom portions of the Ascendant/Essence cards have their top halves'
+    mana costs and (in the card details format only) P/T listed as their own.
 
  - Figure of Destiny
  - Rhys the Redeemed

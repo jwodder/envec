@@ -33,7 +33,7 @@ my $prelude = $opts{L} ? <<'EOT' : $opts{P} ? join('', <DATA>) : '';
 \begin{document}
 EOT
 
-loadSets;
+loadSets;  # Is this even necessary?
 my %sets = ();
 for my $card (@{loadJSON shift}) {
  my $stats = stats($card->part1);

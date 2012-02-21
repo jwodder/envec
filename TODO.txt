@@ -16,6 +16,7 @@
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
  - Support fetching & storing format legality information
+ - Fix/improve the PostScript output of listify.pl
  - Handle Uncards, specifically:
   - BFM
   - Who/What/When/Where/Why
@@ -42,7 +43,6 @@
    names and single characters.
  - Give EnVec::Card a toHashref method
 
-- Rewrite/update listify.pl
 - Consider just deleting TextSpoiler.pm (and then COPYING)
 - Rename "cardType" to "cardClass" or "class"?
 - Consider deleting EnVec::mergeCards
@@ -56,7 +56,7 @@
   - Timeshifted cards in Planar Chaos and Future Sight?
   - Promo cards not in Gatherer
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
-    Invasion block)
+    Invasion block, Brothers Yamazaki)
   - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
  - For the multiversion cards in rarities.tsv, give each entry a field for the
    multiverseid and another field for a short description that a mortal can use

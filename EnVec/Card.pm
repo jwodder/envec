@@ -105,6 +105,7 @@ sub colorID { colors2colors join '', map { $_->colorID } @{$_[0]->content} }
 
 sub cmc {
  my $self = shift;
+ return $self->part1->cmc if $self->cardType == FLIP_CARD;
  my $cmc = 0;
  $cmc += $_->cmc for @{$self->content};
  return $cmc;
