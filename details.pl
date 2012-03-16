@@ -16,6 +16,8 @@
 #    removed, they'll need to be added to munged & butchered flip cards.)
 #  - Incorporate data/rarities.tsv (with affected rarities changed to the form
 #    "Common (C1)"?)
+#  - Make sure nothing from data/tokens.txt slipped through
+#  - Somehow handle split cards with differing artists for each half
 use strict;
 use Getopt::Std;
 use LWP::Simple;

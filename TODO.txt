@@ -35,6 +35,7 @@
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
  - Overload stringification of Multival objects?
+ - Consider merging split.tsv, flip.tsv, and double.tsv into one file
 
 - Data & documentation:
  - Add documentation
@@ -65,3 +66,4 @@
    card language, etc.
  - Add a wrapper around parseDetails that downloads and parses a given
    multiverseid?
+ - Incorporate reserved list membership into card data

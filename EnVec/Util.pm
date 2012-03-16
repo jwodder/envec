@@ -133,7 +133,7 @@ sub joinPrintings($$$) {
  ### - The split cards from the Invasion blocks are the only cards that need to
  ###   be joined that have more than one printing per set, and these duplicate
  ###   printings differ only in multiverseid.
- ### - The rarity and date fields of part 1 are always valid for the whole card.
+ ### - The rarity & date fields of part 1 are always valid for the whole card.
  my($name, $prnt1, $prnt2) = @_;
  my(%prnts1, %prnts2);
  push @{$prnts1{$_->set}}, $_ for @$prnt1;
