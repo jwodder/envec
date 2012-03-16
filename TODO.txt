@@ -1,3 +1,6 @@
+- Sanity:
+ - Rename "cardType" to "cardClass" or "class"
+
 - Robustness:
  - Handle XML::DOM::Lite parse errors
  - Handle failures in Get.pm functions appropriately
@@ -23,7 +26,6 @@
   - fractions in Unhinged cards
 
 - Coding:
- - Rewrite/update Card->merge and mergePrintings (and then update insertCard)
  - Overload stringification of Multival objects
  - Give EnVec.pm tags for the export lists of each submodule
  - Make EnVec.pm preserve the non-'all' tags of the submodules
@@ -42,9 +44,6 @@
    names and single characters.
  - Give EnVec::Card a toHashref method
 
-- Rename "cardType" to "cardClass" or "class"
-- Consider deleting EnVec::mergeCards
-
 - Data & documentation:
  - Add documentation
  - Rewrite spoilers.txt so that it makes sense to other people
@@ -62,11 +61,10 @@
  - Add Cockatrice's abbreviations to abbrevs.tsv?
 
 - Ideas for later:
- - Add a function for parsing standard spoilers?
+ - Implement Card->showField1('printings')
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text
  - Add elements to mtgcard.dtd for storing printed text, expansion symbols,
    card language, etc.
- - Implement Card->showField1('printings')
  - Add a wrapper around parseDetails that downloads and parses a given
    multiverseid?

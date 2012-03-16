@@ -1,6 +1,7 @@
 package EnVec;
 use warnings;
 use strict;
+
 #use EnVec::Card;
 use EnVec::Checklist ':all';
 use EnVec::Colors;
@@ -9,6 +10,7 @@ use EnVec::Get ':all';
 use EnVec::JSON ':all';
 use EnVec::Sets ':all';
 use EnVec::Multipart ':all';
+
 use Exporter 'import';
 our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
 		  @EnVec::Colors::EXPORT,
@@ -19,12 +21,3 @@ our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
 		  @{$EnVec::Multipart::EXPORT_TAGS{all}},
 		  'mergeCards');
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
-
-sub mergeCards(\%\%) {
- # The contents of $db2 are merged into $db1.  $db2 is left intact, $db1 is not.
- my($db1, $db2) = @_;
- for (keys %$db2) {
-  if (exists $db1->{$_}) { $db1->{$_} = $db1->{$_}->merge($db2->{$_}) }
-  else { $db1->{$_} = $db2->{$_} }
- }
-}

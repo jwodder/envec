@@ -8,7 +8,6 @@ use EnVec::Sets 'loadedSets', 'cmpSets';
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
  txt2xml txt2attr sym2xml joinPrintings sortPrintings joinRulings >;
- ### mergePrintings
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
@@ -123,29 +122,6 @@ sub sym2xml($) {
  $str =~ s:\{C\}:<chaos/>:g;
  return $str;
 }
-
-###sub mergePrintings($$$) {
-### my($name, $left, $right) = @_;
-### my %merged = %{dclone $left};
-### for my $set (keys %$right) {
-###  if (!exists $merged{$set}) { $merged{$set} = $right->{$set} }
-###  else {
-###   if (defined $right->{$set}{rarity}) {
-###    if (!defined $merged{$set}{rarity}) {
-###     $merged{$set}{rarity} = $right->{$set}{rarity}
-###    } elsif ($merged{$set}{rarity} ne $right->{$set}{rarity}) {
-###     carp "Conflicting rarities for $name in $set: $merged{$set}{rarity} vs. "
-###      . $right->{$set}{rarity}
-###    }
-###   }
-###   my $leftIDs = $merged{$set}{ids} || [];
-###   my $rightIDs = $right->{$set}{ids} || [];
-###   my @ids = uniq sort @$leftIDs, @$rightIDs;
-###   $merged{$set}{ids} = \@ids if @ids;
-###  }
-### }
-### return \%merged;
-###}
 
 sub joinPrintings($$$) {
  ### FRAGILE ASSUMPTIONS:

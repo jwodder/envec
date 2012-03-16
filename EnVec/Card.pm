@@ -117,19 +117,6 @@ sub part1 { $_[0]->content(0) }
 
 sub part2 { $_[0]->content(1) }
 
-###sub merge {  # Neither argument is modified.
-### my($self, $other) = @_;
-### croak 'EnVec::Card::merge: ', $self->name, ': card data mismatch'
-###  if $self->cardType != $other->cardType
-###     || $self->parts != $other->parts
-###     || grep { !$self->content($_)->equals($other->content($_)) }
-###         (0 .. $self->parts-1);
-### my $new = $self->copy;
-### $new->printings(mergePrintings $self->name, $self->printings, $other->printings);
-### $new->rulings(mergeRulings $self->name, $self->rulings, $other->rulings);
-### return $new;
-###}
-
 sub isMultipart { $_[0]->parts > 1 }
 
 sub isNormal { $_[0]->cardType == NORMAL_CARD }

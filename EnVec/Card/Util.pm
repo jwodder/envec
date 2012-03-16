@@ -1,5 +1,4 @@
 package EnVec::Card::Util;
-# This was split apart from EnVec::Util in order to break a circular dependency.
 use warnings;
 use strict;
 use Carp;
@@ -7,14 +6,7 @@ use EnVec::Card;
 use EnVec::Multipart ':all';
 use EnVec::Util;
 use Exporter 'import';
-our @EXPORT = qw< insertCard joinCards unmungFlip joinParts >;
-
-sub insertCard(\%$) {
- my($db, $card) = @_;
- my $name = $card->name;
- ### $db->{$name} = exists $db->{$name} ? $db->{$name}->merge($card) : $card;
- $db->{$name} = $card if !exists $db->{$name};
-}
+our @EXPORT = qw< joinCards unmungFlip >;
 
 sub joinCards($$$) {
  my($format, $part1, $part2) = @_;
@@ -43,41 +35,4 @@ sub unmungFlip($) {
  $flip->content([ $top, $bottom ]);
  $flip->cardType(FLIP_CARD);
  return $flip;
-}
-
-sub joinParts(\%) {
- # If this function is called when the multipart cards lists haven't been
- # loaded, it should do nothing.
- my $cards = shift;
- for my $a (splitLefts) {
-  my $b = alternate $a;
-  if (exists $cards->{$a} && exists $cards->{$b}) {
-   insertCard(%$cards, joinCards SPLIT_CARD, $cards->{$a}, $cards->{$b});
-   delete $cards->{$a};
-   delete $cards->{$b};
-  }
- }
- for my $a (flipTops) {
-  my $b = alternate $a;
-  if (exists $cards->{$a} && exists $cards->{$b}) {
-   $cards->{$b}->cost(undef);
-   insertCard(%$cards, joinCards FLIP_CARD, $cards->{$a}, $cards->{$b});
-   delete $cards->{$a};
-   delete $cards->{$b};
-  } elsif (exists $cards->{$a} && $cards->{$a}->text =~ /\n----\n/) {
-   insertCard(%$cards, unmungFlip($cards->{$a}));
-   # Potential pitfall: If $cards->{$a} isn't actually a flip card (even though
-   # it _should_ be one if its text has ----), it'll get deleted here.
-   delete $cards->{$a};
-  }
- }
- for my $a (doubleFronts) {
-  my $b = alternate $a;
-  if (exists $cards->{$a} && exists $cards->{$b}) {
-   insertCard(%$cards, joinCards DOUBLE_CARD, $cards->{$a}, $cards->{$b});
-   delete $cards->{$a};
-   delete $cards->{$b};
-  }
- }
- return $cards;
 }
