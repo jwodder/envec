@@ -8,7 +8,7 @@ use EnVec::Card::Content;
 use EnVec::Card::Printing;
 use EnVec::Colors;
 use EnVec::Sets;
-use EnVec::Multipart ':const', 'typeEnum';
+use EnVec::Multipart ':const', 'classEnum';
 use EnVec::Util;
 
 use Class::Struct cardClass => '$', content => '@', printings => '@',
@@ -49,7 +49,7 @@ sub fromHashref {
  croak "EnVec::Card->fromHashref: argument must be a hash reference\n"
   if ref $hashref ne 'HASH';
  my %hash = %$hashref;
- $hash{cardClass} = typeEnum($hash{cardClass}, NORMAL_CARD);
+ $hash{cardClass} = classEnum($hash{cardClass}, NORMAL_CARD);
  if (ref $hash{content} eq 'ARRAY') {
   croak "EnVec::Card->fromHashref: 'content' field must be a nonempty array\n"
    if !@{$hash{content}};
