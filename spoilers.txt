@@ -235,6 +235,7 @@ trim(label) = Artist:
   - Withdraw
   - Firestorm Phoenix
   - Sudden Impact
+  - Goblin Lookout
 
  - Cards with flavor text listed in Oracle but not with any actually printed on
    the card:
@@ -242,6 +243,7 @@ trim(label) = Artist:
   - Paladin en-Vec (Tenth Edition)
   - Pariah (Tenth Edition)
   - Dehydration (Tenth Edition)
+  - Primal Rage (Tenth Edition)
 
 - Problems with the text spoilers only:
  - Reminder text and ability words aren't italicized.
