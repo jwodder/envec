@@ -1,5 +1,5 @@
 - Sanity:
- - Rename "cardType" to "cardClass" or "class"
+ - Rename both "cardType" and mtgcard.dtd's "type" to "cardClass"
 
 - Robustness:
  - Handle XML::DOM::Lite parse errors
@@ -46,7 +46,7 @@
 
 - Data & documentation:
  - Add documentation
- - Rewrite spoilers.txt so that it makes sense to other people
+ - Rewrite spoilers/* so that it makes sense to other people
  - Add files to data/ for:
   - The release dates of the different Vanguard card sets
   - The release dates of the various promo cards

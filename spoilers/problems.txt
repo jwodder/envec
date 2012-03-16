@@ -1,0 +1,124 @@
+PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
+- The different faces of double-faced cards have separate multiverseids, even
+  though they lead to the same page!
+- In all formats other than the individual card details pages, entries for the
+  faces of double-faced cards don't give the name of the other face.
+- The rules text of basic lands is just the letter of their mana.
+- The "{10}" in the rules text of Draco and the "{20}" in the rules text of
+  Spawnsire of Ulamog are represented in the text spoilers as "{1}0}" and
+  "{2}0}", respectively, with analogous mixing of mana symbols and "0}" in the
+  standard & individual spoilers.
+- Some (all?) Unglued cards (and Who/What/When/Where/Why in Unhinged) encode
+  mana & tap symbols in rules text incorrectly.  Erroneous symbols include:
+ - ocT - {T}
+ - oW - {W}
+ - oU - {U}
+ - oB - {B}
+ - oR - {R}
+ - oG - {G}
+ - o2 - {2}
+ - o4 - {4}
+ - o7 - {7}
+ - Consecutive botched mana symbols can even be run together without
+   intervening spaces.
+- Rules text that is italicized in print (e.g., ability words, "Sarpadian
+  Empires, Vol. VII", il- and en- creatures) is not italicized in the
+  spoilers.
+- Certain tokens are listed in Gatherer for no good reason (see
+  data/tokens.txt), and their card numbers overlap with those of the real
+  cards in their sets.
+- The Eighth & Ninth Edition "box set" cards have their numbers given without
+  the leading 'S', thereby overlapping with the normal card numberings for
+  those sets.
+- The non-full-art Zendikar lands have their collector's numbers listed
+  without the 'a' suffix, thereby overlapping with the full art lands'
+  numbers.  [Details pages only?]
+- [Details format only?] Gatherer has problems with listing the correct
+  artists for split cards that have differing artists for each half (i.e.,
+  Fire // Ice, Illusion // Reality, Life // Death, and Night // Day).
+- Various flip cards have problems:
+ - Homura's Essence
+ - Callow Jushi
+ - Hired Muscle
+ - The Dark Ascension update made Budoka Pupil and Cunning Bandit (but not
+   Callow Jushi and Hired Muscle ... yet) even WORSE.
+ - The bottom portions of the Ascendant/Essence cards have their top halves'
+   mana costs and (in the card details format only) P/T listed as their own.
+
+- Various flavor texts are formatted incorrectly, e.g., those of:
+ - Steamflogger Boss
+ - Chub Toad
+ - Mesa Chicken
+ - Woodland Druid
+ - Fool's Tome
+ - Phosphorescent Feast (Future Sight)
+ - Shapeshifter (Antiquities)
+ - Aluren
+ - Sacred Nectar
+ - A general description of this problem seems to be that italicization is
+   only applied to the first line/cardtextbox of each piece of flavor text,
+   even though there are some instances where it should be done otherwise.
+
+- Incorrectly transcribed flavor texts:
+ - Steamflogger Boss
+ - Invasion Plans
+ - Pariah (Urza's Saga)
+ - Greed (Legends, Fourth Edition, & Fifth Edition, the last two being solely
+   incorrect formatting)
+ - Squee, Goblin Nabob
+ - Thran Golem (Urza's Destiny)
+ - Phyresis
+ - Whipflare
+ - Medicine Bag
+ - Mishra's Bauble
+ - Venom (The Dark)
+ - Raging Bull
+ - Battle Mastery
+ - Joraga Bard
+ - Ember Hauler
+ - Dakkon Blackblade (Legends)
+ - Withdraw
+ - Firestorm Phoenix
+ - Sudden Impact
+ - Goblin Lookout
+
+- Cards with flavor text listed in Oracle but not with any actually printed on
+  the card:
+ - Shimmering Wings (Tenth Edition)
+ - Paladin en-Vec (Tenth Edition)
+ - Pariah (Tenth Edition)
+ - Dehydration (Tenth Edition)
+ - Primal Rage (Tenth Edition)
+
+- Problems with the text spoilers only:
+ - Reminder text and ability words aren't italicized.
+ - Snow mana is represented as "{S}i}" (except for the first {S} in the text of
+   Frost Raptor, which is simply "{S}i".)
+ - Some Unhinged cards (and possibly others?) run consecutive mana symbols
+   together, e.g., "{1B}" or "{WW}".
+ - The following cards have their names listed incorrectly:
+  - Valor - as "XXValor (Valor)" (Timeshifted printing only)
+  - Call of the Herd - as "XXCall of the Herd (Call of the Herd)" (Timeshifted
+    printing only)
+  - Ærathi Berserker - as "rathi Berserker (Ærathi Berserker)"
+  - Altar of Dementia - as "Altar Of Dementia (Altar of Dementia)"
+  - Knight of Dawn - as "Knight Of Dawn (Knight of Dawn)"
+  - The same problem applies to a lesser degree on the corresponding individual
+    card details pages, where the unparenthesized names are shown in the large
+    heading and the parenthesized names are listed in the "Name:" field.
+ - One or more hybrid mana symbols in the following cards' rules texts are
+   transcribed incorrectly:
+  - Figure of Destiny
+  - Rhys the Redeemed
+  - Rune-Cervin Rider
+  - Crackleburr
+  - Creakwood Ghoul
+  - Evershrike
+  - Mindwrack Liege
+  - Mirror Sheen
+  - Restless Apparition
+  - Stillmoon Cavalier
+  - Foxfire Oak
+  - Suture Spirit
+  - Swirling Spriggan
+  - Lashwrithe
