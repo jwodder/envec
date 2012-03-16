@@ -11,7 +11,7 @@ use EnVec::Sets;
 use EnVec::Multipart ':const', 'typeEnum';
 use EnVec::Util;
 
-use Class::Struct cardType => '$', content => '@', printings => '@',
+use Class::Struct cardClass => '$', content => '@', printings => '@',
  rulings => '@';
 # - Each element of the 'content' list is an EnVec::Card::Content object.
 # - Each element of the 'printings' list is an EnVec::Card::Printing object.
@@ -49,7 +49,7 @@ sub fromHashref {
  croak "EnVec::Card->fromHashref: argument must be a hash reference\n"
   if ref $hashref ne 'HASH';
  my %hash = %$hashref;
- $hash{cardType} = typeEnum($hash{cardType}, NORMAL_CARD);
+ $hash{cardClass} = typeEnum($hash{cardClass}, NORMAL_CARD);
  if (ref $hash{content} eq 'ARRAY') {
   croak "EnVec::Card->fromHashref: 'content' field must be a nonempty array\n"
    if !@{$hash{content}};
@@ -71,7 +71,7 @@ sub fromHashref {
 
 sub toJSON {
  my $self = shift;
- return " {\n  \"cardType\": \"" . $formats0{$self->cardType} . "\",\n"
+ return " {\n  \"cardClass\": \"" . $formats0{$self->cardClass} . "\",\n"
   . "  \"content\": ["
     . join(', ', map { $_->toJSON } @{$self->content})
   . "],\n"
@@ -87,7 +87,8 @@ sub toJSON {
 
 sub toXML {
  my $self = shift;
- my $str = " <card type=\"" . txt2attr($formats0{$self->cardType}) . "\">\n";
+ my $str = " <card cardClass=\"" . txt2attr($formats0{$self->cardClass})
+  . "\">\n";
  $str .= $_->toXML for @{$self->content};
  $str .= $_->toXML for @{$self->printings};
  for my $rule (@{$self->rulings}) {
@@ -105,28 +106,33 @@ sub colorID { colors2colors join '', map { $_->colorID } @{$_[0]->content} }
 
 sub cmc {
  my $self = shift;
- return $self->part1->cmc if $self->cardType == FLIP_CARD;
+ return $self->part1->cmc if $self->cardClass == FLIP_CARD;
  my $cmc = 0;
  $cmc += $_->cmc for @{$self->content};
  return $cmc;
 }
 
-sub parts { scalar @{$_[0]->content} }
-
-sub part1 { $_[0]->content(0) }
-
-sub part2 { $_[0]->content(1) }
-
+sub parts       { scalar @{$_[0]->content} }
+sub part1       { $_[0]->content(0) }
+sub part2       { $_[0]->content(1) }
 sub isMultipart { $_[0]->parts > 1 }
-
-sub isNormal { $_[0]->cardType == NORMAL_CARD }
-sub isSplit  { $_[0]->cardType == SPLIT_CARD }
-sub isFlip   { $_[0]->cardType == FLIP_CARD }
-sub isDouble { $_[0]->cardType == DOUBLE_CARD }
+sub isNormal    { $_[0]->cardClass == NORMAL_CARD }
+sub isSplit     { $_[0]->cardClass == SPLIT_CARD }
+sub isFlip      { $_[0]->cardClass == FLIP_CARD }
+sub isDouble    { $_[0]->cardClass == DOUBLE_CARD }
 
 sub sets { uniq sort map { $_->set } @{$_[0]->printings} }
 
 sub firstSet { EnVec::Sets::firstSet($_[0]->sets) }
+
+sub inSet {
+ my($self, $set) = @_;
+ if (wantarray) { grep { $_->set eq $set } @{$self->printings} }
+ else {
+  for (@{$self->printings}) { return 1 if $_->set eq $set }
+  return '';
+ }
+}
 
 sub hasType {
  my($self, $type) = @_;
@@ -189,10 +195,10 @@ sub isSubtype {
 sub copy {
  my $self = shift;
  # It isn't clear whether Storable::dclone can handle blessed objects, so...
- new EnVec::Card cardType  => $self->cardType,
-		 content   => [ map { $_->copy } @{$self->content} ],
-		 printings => [ map { $_->copy } @{$self->printings} ],
-		 rulings   => dclone $self->rulings;
+ new EnVec::Card cardClass  => $self->cardClass,
+		 content    => [ map { $_->copy } @{$self->content} ],
+		 printings  => [ map { $_->copy } @{$self->printings} ],
+		 rulings    => dclone $self->rulings;
 }
 
 my %fields = (
@@ -200,7 +206,6 @@ my %fields = (
  cost       => 'Cost:',
  cmc        => 'CMC:',
  indicator  => 'Color:',
-#indicator  => 'Indicator:',
  supertypes => 'Super:',
  types      => 'Types:',
  subtypes   => 'Sub:',
@@ -212,9 +217,7 @@ my %fields = (
  hand       => 'Hand:',
  life       => 'Life:',
  PT         => 'P/T:',
-#PT         => 'Pow/Tough:',
  HandLife   => 'H/L:',
-#HandLife   => 'Hand/Life:',
 #printings  => 'Printings:',
 );
 
@@ -230,16 +233,16 @@ sub showField1 {
  if (!defined $field) { return '' }
  elsif ($field eq 'sets') {
   my $text = join ', ', uniq map {
-   my $rare = $_->rarity || 'XXX';
+   my $rare = $_->rarity || 'UNKNOWN';
    $_->set . ' (' . ($shortRares{lc $rare} || $rare) . ')';
   } sortPrintings @{$self->printings};
   my($first, @rest) = wrapLines $text, $width, 2;
   $first = '' if !defined $first;
   return join '', sprintf("%-*s %s\n", $tagwidth, 'Sets:', $first),
    map { (' ' x $tagwidth) . " $_\n" } @rest;
- } elsif ($field eq 'cardType') {
-  return sprintf "%-*s %s\n", $tagwidth, 'Format:', $formats{$self->cardType}
-   ### || $self->cardType
+ } elsif ($field eq 'cardClass') {
+  return sprintf "%-*s %s\n", $tagwidth, 'Format:', $formats{$self->cardClass}
+   ### || $self->cardClass
  } elsif (exists $fields{$field}) {
   $width = int(($width - ($self->parts - 1) * length($sep)) / $self->parts);
   my @lines = map {
@@ -271,18 +274,9 @@ sub toText1 {
  $str .= $self->showField1('PT', $width) if defined $self->pow;
  $str .= $self->showField1('loyalty', $width) if defined $self->loyalty;
  $str .= $self->showField1('HandLife', $width) if defined $self->hand;
- $str .= $self->showField1('cardType', $width) if $self->isMultipart;
+ $str .= $self->showField1('cardClass', $width) if $self->isMultipart;
  $str .= $self->showField1('sets', $width) if $sets;
  return $str;
-}
-
-sub inSet {
- my($self, $set) = @_;
- if (wantarray) { grep { $_->set eq $set } @{$self->printings} }
- else {
-  for (@{$self->printings}) { return 1 if $_->set eq $set }
-  return '';
- }
 }
 
 1;

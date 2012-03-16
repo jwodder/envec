@@ -1,21 +1,19 @@
 package EnVec::Card::Util;
 use warnings;
 use strict;
-use Carp;
-use EnVec::Card;
-use EnVec::Multipart ':all';
 use EnVec::Util;
 use Exporter 'import';
-our @EXPORT = qw< joinCards unmungFlip >;
+our @EXPORT = ('joinCards', 'unmungFlip');
 
 sub joinCards($$$) {
  my($format, $part1, $part2) = @_;
- return new EnVec::Card cardType => $format,
-  content => [@{$part1->content}, @{$part2->content}],
+ return new EnVec::Card
+  cardClass => $format,
+  content   => [ @{$part1->content}, @{$part2->content} ],
   printings => [ joinPrintings $part1->name . ' // ' . $part2->name,
 			       $part1->printings,
 			       $part2->printings ],
-  rulings => [ joinRulings($part1->rulings, $part2->rulings) ];
+  rulings   => [ joinRulings($part1->rulings, $part2->rulings) ];
 }
 
 sub unmungFlip($) {
@@ -33,6 +31,6 @@ sub unmungFlip($) {
  my $top = $flip->part1;
  $top->text($topText);
  $flip->content([ $top, $bottom ]);
- $flip->cardType(FLIP_CARD);
+ $flip->cardClass(FLIP_CARD);
  return $flip;
 }

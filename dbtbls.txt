@@ -17,7 +17,7 @@ POSSIBLE STRUCTURE FOR A SQL DATABASE OF CARDS
    portion; otherwise, it is NULL.
   - Should any effort at all be made at accomodating Unhinged's
     "Who/What/When/Where/Why"?
- - cardType - enum for standard, split, flip, or double-faced
+ - cardClass - enum for normal, split, flip, or double-faced
 
 - "types" table
  - cardID

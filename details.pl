@@ -93,8 +93,8 @@ for my $name (sort keys %cardIDs) {
   my $prnt = parseDetails $details;
   if (isFlip $name) {
    if (($prnt->text || '') =~ /^----$/m) { $prnt = unmungFlip $prnt }
-   else { $prnt->cardType(FLIP_CARD) }
-  } elsif (isDouble $name) { $prnt->cardType(DOUBLE_CARD) }
+   else { $prnt->cardClass(FLIP_CARD) }
+  } elsif (isDouble $name) { $prnt->cardClass(DOUBLE_CARD) }
   $card = $prnt if !defined $card;
    ### When $card is defined, should this check that it equals $prnt?
   if (!%seen) {

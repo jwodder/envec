@@ -1,6 +1,3 @@
-- Sanity:
- - Rename both "cardType" and mtgcard.dtd's "type" to "cardClass"
-
 - Robustness:
  - Handle XML::DOM::Lite parse errors
  - Handle failures in Get.pm functions appropriately
@@ -9,59 +6,59 @@
 - Features:
  - Make the code faster
  - Implement the rest of the features for details.pl
- - Add special handling for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
+ - Add special handling for leveler cards
  - Give EnVec::Card a fromXML method
- - Give EnVec::Multipart a cardType function
+ - Give EnVec::Multipart a cardClass function
  - Give EnVec::Multipart more functions for getting the alternate components of
    given halves of multipart cards?
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
- - Support fetching & storing format legality information
  - Fix/improve the PostScript output of listify.pl
- - Handle Uncards, specifically:
-  - BFM
-  - Who/What/When/Where/Why
-  - fractions in Unhinged cards
 
 - Coding:
- - Overload stringification of Multival objects
+ - Represent rarities by enums?  At the very least, make their representations
+   consistent (e.g., 'Mythic Rare' vs. 'Mythic rare' vs. 'mythic rare' vs.
+   'Mythic' vs. ...) and abstract away the conversions between long rarity
+   names and single characters.
+ - Make the storage of Content->text fields mirror their representation in
+   mtgcard.dtd
+ - Runtime type enforcement:
+  - Make EnVec::Card only allow valid cardClass values
+  - Make EnVec::Card::Content prohibit empty names
+  - Make EnVec::Card::Content automatically convert empty fields to undef
+ - Give EnVec::Card a toHashref method
  - Give EnVec.pm tags for the export lists of each submodule
  - Make EnVec.pm preserve the non-'all' tags of the submodules
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
- - Make the storage of Content->text fields mirror their representation in
-   mtgcard.dtd
- - Runtime type enforcement:
-  - Make EnVec::Card only allow valid cardType values
-  - Make EnVec::Card::Content prohibit empty names
-  - Make EnVec::Card::Content automatically convert empty fields to undef
- - Represent rarities by enums?  At the very least, make their representations
-   consistent (e.g., 'Mythic Rare' vs. 'Mythic rare' vs. 'mythic rare' vs.
-   'Mythic' vs. ...) and abstract away the conversions between long rarity
-   names and single characters.
- - Give EnVec::Card a toHashref method
+ - Overload stringification of Multival objects?
 
 - Data & documentation:
  - Add documentation
  - Rewrite spoilers/* so that it makes sense to other people
+ - For the multiversion cards in rarities.tsv, give each entry a field for the
+   multiverseid and another field for a short description (to become the
+   'notes' field) that a mortal can use to identify the version
  - Add files to data/ for:
-  - The release dates of the different Vanguard card sets
-  - The release dates of the various promo cards
-  - Timeshifted cards in Planar Chaos and Future Sight?
   - Promo cards not in Gatherer
+  - The release dates of the various promo cards
+  - The release dates of the different Vanguard card sets
+  - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
     Invasion block, Brothers Yamazaki)
-  - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
- - For the multiversion cards in rarities.tsv, give each entry a field for the
-   multiverseid and another field for a short description that a mortal can use
-   to identify the version
+  - Timeshifted cards in Planar Chaos and Future Sight?
  - Add Cockatrice's abbreviations to abbrevs.tsv?
 
-- Ideas for later:
+- For later:
  - Implement Card->showField1('printings')
+ - Handle Uncards, specifically:
+  - BFM
+  - Who/What/When/Where/Why
+  - fractions in Unhinged cards
+ - Support fetching & storing format legality information
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text
  - Add elements to mtgcard.dtd for storing printed text, expansion symbols,

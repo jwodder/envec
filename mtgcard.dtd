@@ -7,11 +7,16 @@
 
 <!ELEMENT attr EMPTY>
 <!ATTLIST attr name CDATA #REQUIRED value CDATA "1">
-<!-- Example attrs (all boolean and for cards so far): "nontraditional",
-     "online-only", "uncard", "silver-bordered", "token", "oversized" -->
+<!-- Possible attrs:
+  * nontraditional - boolean, cards only
+  * oversized      - boolean, cards only
+  * online-only    - boolean, cards only
+  * uncard         - boolean, cards only
+  * token          - boolean, cards only
+-->
 
 <!ELEMENT card (attr*, content+, printing*, ruling*, format*)>
-<!ATTLIST card type (normal|split|flip|double-faced) "normal">
+<!ATTLIST card cardClass (normal|split|flip|double-faced) "normal">
 
 <!-- A subcard of a multi-part card (or the entirety of a normal card): -->
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,
