@@ -21,7 +21,6 @@
   - BFM
   - Who/What/When/Where/Why
   - fractions in Unhinged cards
-  - Erase (Not the Urza's Legacy One) [as handled by TextSpoiler.pm]
 
 - Coding:
  - Rewrite/update Card->merge and mergePrintings (and then update insertCard)
@@ -43,8 +42,7 @@
    names and single characters.
  - Give EnVec::Card a toHashref method
 
-- Consider just deleting TextSpoiler.pm (and then COPYING)
-- Rename "cardType" to "cardClass" or "class"?
+- Rename "cardType" to "cardClass" or "class"
 - Consider deleting EnVec::mergeCards
 
 - Data & documentation:

@@ -9,7 +9,6 @@ use EnVec::Get ':all';
 use EnVec::JSON ':all';
 use EnVec::Sets ':all';
 use EnVec::Multipart ':all';
-use EnVec::TextSpoiler ':all';
 use Exporter 'import';
 our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
 		  @EnVec::Colors::EXPORT,
@@ -18,7 +17,6 @@ our @EXPORT_OK = (@{$EnVec::Checklist::EXPORT_TAGS{all}},
 		  @{$EnVec::JSON::EXPORT_TAGS{all}},
 		  @{$EnVec::Sets::EXPORT_TAGS{all}},
 		  @{$EnVec::Multipart::EXPORT_TAGS{all}},
-		  @{$EnVec::TextSpoiler::EXPORT_TAGS{all}},
 		  'mergeCards');
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 

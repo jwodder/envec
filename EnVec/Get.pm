@@ -7,13 +7,13 @@ use LWP::Simple 'getstore';
 
 use Exporter 'import';
 
-our @EXPORT_OK = qw< getURL textSpoilerURL getTextSpoiler checklistURL
- getChecklist stdSpoilerURL getStdSpoiler detailsURL getDetails >;
+our @EXPORT_OK = qw< getURL checklistURL getChecklist stdSpoilerURL
+ getStdSpoiler detailsURL getDetails >;
 
 our %EXPORT_TAGS = (
  all  => \@EXPORT_OK,
- urls => [ qw< textSpoilerURL checklistURL stdSpoilerURL detailsURL > ],
- get  => [ qw< getURL getTextSpoiler getChecklist getStdSpoiler getDetails >]
+ urls => [ qw< checklistURL stdSpoilerURL detailsURL > ],
+ get  => [ qw< getURL getChecklist getStdSpoiler getDetails >]
 );
 
 sub getURL($$) {
@@ -22,13 +22,6 @@ sub getURL($$) {
  #my $res = mirror($url, $file);
  carp "Error fetching URL [$url]: ", status_message($res) if !is_success $res;
  return is_success $res;
-}
-
-sub textSpoilerURL($) { "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&set=[%22$_[0]%22]&special=true" }
-
-sub getTextSpoiler($$) {
- my($set, $file) = @_;
- getURL textSpoilerURL($set), $file;
 }
 
 sub checklistURL($) { "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$_[0]%22]&special=true" }
