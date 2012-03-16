@@ -27,7 +27,7 @@ sub parseDetails($) {
 sub loadDetails($) {
  my $file = shift;
  local $/ = undef;
- open my $in, '<', $file or croak "EnVec::Details::loadDetails: $file: $!";
+ my $in = openR($file, 'EnVec::Details::loadDetails');
  my $str = <$in>;
  close $in;
  return parseDetails($str);

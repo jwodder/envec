@@ -7,7 +7,7 @@ use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
 use EnVec::Sets 'loadedSets', 'cmpSets';
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- txt2xml txt2attr sym2xml joinPrintings sortPrintings joinRulings >;
+ txt2xml txt2attr sym2xml joinPrintings sortPrintings joinRulings openR >;
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
@@ -195,6 +195,15 @@ sub joinRulings($$) {
   push @rulings, { %$r1, subcard => 0 };
  }
  return @rulings, map { +{ %$_, subcard => 1 } } @$rules2;
+}
+
+sub openR($$) {
+ my($file, $func) = shift;
+ if (!defined $file || $file eq '-') { *STDIN }
+ else {
+  open my $fh, '<', $file or croak "$func: $file: $!";
+  return $fh;
+ }
 }
 
 ###sub mergeRulings($$)

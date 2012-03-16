@@ -4,7 +4,7 @@ use strict;
 use Carp;
 use JSON::Syck;
 use EnVec::Card;
-use EnVec::Util 'jsonify';
+use EnVec::Util 'jsonify', 'openR';
 use Exporter 'import';
 our @EXPORT_OK = qw< dumpArray dumpHash parseJSON loadJSON >;
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -48,10 +48,7 @@ sub parseJSON($) {  # Load from a string
 
 sub loadJSON(;$) {  # Load from a file (identified by name) or stdin
  my $file = shift;
- my $fh;
- if (defined $file) {
-  open $fh, '<', $file or croak "EnVec::JSON::loadJSON: $file: $!"
- } else { $fh = *STDIN }
+ my $fh = openR($file, 'EnVec::JSON::loadJSON');
  local $/ = undef;
  return parseJSON <$fh>;
 }

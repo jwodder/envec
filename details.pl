@@ -50,7 +50,7 @@ select((select($log), $| = 1)[0]);
 
 my %cardIDs = ();
 if (exists $opts{C}) {
- open my $in, '<', $opts{C} or die "$0: $opts{C}: $!";
+ my $in = openR($opts{C}, $0);
  while (<$in>) {
   chomp;
   next if /^\s*#/ || /^\s*$/;

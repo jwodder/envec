@@ -2,12 +2,23 @@ package EnVec::Multipart;
 use warnings;
 use strict;
 use Carp;
+use EnVec::Util 'openR';
 use Exporter 'import';
-our @EXPORT_OK = qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD loadedParts
- loadParts isSplit isFlip isDouble splitLefts splitRights flipTops flipBottoms
- doubleFronts doubleBacks splits flips doubles alternate classEnum >;
-our %EXPORT_TAGS = (all => \@EXPORT_OK, const => [qw< NORMAL_CARD SPLIT_CARD
- FLIP_CARD DOUBLE_CARD >]);
+
+our @EXPORT_OK = qw<
+ NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD
+ loadedParts loadParts
+ isSplit isFlip isDouble
+ alternate
+ splitLefts splitRights flipTops flipBottoms doubleFronts doubleBacks
+ splits flips doubles
+ classEnum
+>;
+
+our %EXPORT_TAGS = (
+ all   => \@EXPORT_OK,
+ const => [qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD >]
+);
 
 use constant {
  NORMAL_CARD => 1,
@@ -43,7 +54,7 @@ sub loadParts(;%) {
 
 sub loadPartFile {  # not for export
  my $file = shift;
- open my $in, '<', $file or croak "EnVec::Multipart::loadParts: $file: $!";
+ my $in = openR($file, 'EnVec::Multipart::loadParts');
  my %parts = ();
  while (<$in>) {
   chomp;

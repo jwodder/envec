@@ -3,17 +3,19 @@ use warnings;
 use strict;
 use overload '<>' => 'readCard';
 use Carp;
+use EnVec::Util 'openR';
 
 sub open {
  my($class, $file) = @_;
- my $in;
- if (!defined $file || $file eq '-') {$in = *STDIN; $file = 'STDIN'; }
- else { open $in, '<', $file or croak "EnVec::Reader->open: $file: $!" }
+ my $in = openR($file, 'EnVec::Reader->open');
  local $/ = '[';
  my $first = <$in>;
  croak "EnVec::Reader->open: $file: bad opening"
   if !defined $first || $first !~ /^\s*\[$/;
- bless { filename => $file, fh => $in }, $class;
+ bless {
+  fh => $in,
+  filename => defined($file) ? $file : '-',
+ }, $class;
 }
 
 sub readCard {

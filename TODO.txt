@@ -2,6 +2,7 @@
  - Handle XML::DOM::Lite parse errors
  - Handle failures in Get.pm functions appropriately
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
+ - Make EnVec::Multipart::loadParts check for names appearing more than once
 
 - Features:
  - Make the code faster
@@ -36,6 +37,9 @@
    always sorted?
  - Overload stringification of Multival objects?
  - Consider merging split.tsv, flip.tsv, and double.tsv into one file
+ - Give EnVec::Multipart 'primaries' and 'secondaries' functions (rethink
+   names) for getting all left/top/front and right/bottom/back portions of
+   multipart cards, respectively
 
 - Data & documentation:
  - Add documentation

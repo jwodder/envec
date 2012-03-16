@@ -2,6 +2,7 @@ package EnVec::Sets;
 use warnings;
 use strict;
 use Carp;
+use EnVec::Util 'openR';
 use Exporter 'import';
 our @EXPORT_OK = qw< loadedSets loadSets cmpSets setsToImport allSets setData
  fromAbbrev firstSet >;
@@ -19,9 +20,7 @@ sub loadedSets() { $loaded }
 
 sub loadSets(;$) {
  my $sf = shift || $setFile;
- my $setdat;
- if ($sf eq '-') { $setdat = *STDIN }
- else { open $setdat, '<', $sf or croak "EnVec::Sets::loadSets: $sf: $!" }
+ my $setdat = openR($sf, 'EnVec::Sets::loadSets');
  %sets = ();
  %shorts = ();
  @setList = ();
