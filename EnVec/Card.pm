@@ -6,6 +6,7 @@ use JSON::Syck;
 use Storable 'dclone';
 use EnVec::Card::Content;
 use EnVec::Card::Printing;
+use EnVec::Card::Util 'sortPrintings';
 use EnVec::Colors;
 use EnVec::Sets;
 use EnVec::Multipart ':const', 'classEnum';

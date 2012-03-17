@@ -34,15 +34,15 @@ sub readCard {
    if !/\}$/;
   pos() = 0;  # just making sure
   for (;;) {
-   /\G\{/g        && do {$level++ if !$quoting; next; }
-   /\G\}$/g       && do {$level-- if !$quoting; last; }
-   /\G"/g         && do {$quoting = !$quoting; next; }
-   /\G\\./g       && next;
-   /\G[^{}"\\]+/g && next;
+   /\G\{/gc        && do {$level++ if !$quoting; next; };
+   /\G\}$/gc       && do {$level-- if !$quoting; last; };
+   /\G"/gc         && do {$quoting = !$quoting; next; };
+   /\G\\./gc       && next;
+   /\G[^{}"\\]+/gc && next;
   }
   $buf .= $_;
   if ($level == 0) {
-   $buf =~ s/^\s*,\*//;
+   $buf =~ s/^\s*,\s*//;
    return EnVec::Card->fromJSON($buf);
   }
  }
