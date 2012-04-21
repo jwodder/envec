@@ -3,6 +3,7 @@ use warnings;
 use strict;
 use overload '<>' => 'readCard';
 use Carp;
+use EnVec::Card;
 use EnVec::Util 'openR';
 
 sub open {

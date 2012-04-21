@@ -44,6 +44,7 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   quotations) where it should be done otherwise, and there are some instances
   in which italicized text should be unitalicized (e.g., the name
   "Weatherlight" and the word "compleat").
+- Joven is incorrectly listed as a Common.
 
 - Incorrectly transcribed flavor texts:
  - Steamflogger Boss
@@ -75,6 +76,7 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
  - Pariah (Tenth Edition)
  - Dehydration (Tenth Edition)
  - Primal Rage (Tenth Edition)
+ - Spirit Link (Tenth Edition)
 
 - Problems with the text spoilers only:
  - Reminder text and ability words aren't italicized.

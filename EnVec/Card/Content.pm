@@ -61,7 +61,7 @@ sub colorID {
  # color indicators instead, so there's no need to check for such strings.
  my $colors = colors2bits($self->cost) | colors2bits($self->indicator);
  (my $text = $self->text || '') =~ s:\([^()]\)::g;
- # It is assumed that text is reminder text if \& only if it's enclosed in
+ # It is assumed that text is reminder text if & only if it's enclosed in
  # parentheses.
  # Reminder text is supposed to be ignored for the purposes of establishing
  # color identity, though, as of Dark Ascension, Charmed Pendant and

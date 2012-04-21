@@ -40,6 +40,7 @@
  - Give EnVec::Multipart 'primaries' and 'secondaries' functions (rethink
    names) for getting all left/top/front and right/bottom/back portions of
    multipart cards, respectively
+ - Move all of the code in Get.pm to the few programs that use it?
 
 - Data & documentation:
  - Add documentation
@@ -56,6 +57,7 @@
     Invasion block, Brothers Yamazaki)
   - Timeshifted cards in Planar Chaos and Future Sight?
  - Add Cockatrice's abbreviations to abbrevs.tsv?
+ - Consider deleting dbtbls.txt
 
 - For later:
  - Implement Card->showField1('printings')
