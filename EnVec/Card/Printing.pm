@@ -91,7 +91,12 @@ EOT
 
 sub copy {
  my $self = shift;
- return $self->new(%$self);
+ #return $self->new(%$self);
+ my %dup = (set    => $self->{set},
+	    date   => $self->{date},
+	    rarity => $self->{rarity});
+ $dup{$_} = $self->{$_}->copy for @multival;
+ bless \%dup, ref $self;
 }
 
 sub toJSON {

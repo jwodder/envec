@@ -31,8 +31,6 @@ sub readCard {
    close $self->{fh};
    return $self->{fh} = undef;
   }
-  croak 'EnVec::Reader->readCard: ', $self->{filename}, ': invalid format'
-   if !/\}$/;
   pos() = 0;  # just making sure
   for (;;) {
    /\G\{/gc        && do {$level++ if !$quoting; next; };
@@ -40,6 +38,7 @@ sub readCard {
    /\G"/gc         && do {$quoting = !$quoting; next; };
    /\G\\./gc       && next;
    /\G[^{}"\\]+/gc && next;
+   croak 'EnVec::Reader->readCard: ', $self->{filename}, ': invalid format';
   }
   $buf .= $_;
   if ($level == 0) {
