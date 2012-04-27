@@ -42,7 +42,7 @@ sub parseJSON($) {  # Load from a string
  elsif (ref $data eq 'HASH') {
   +{ map { $_ => EnVec::Card->fromHashref($data->{$_}) } keys %$data }
  } else {
-  croak "EnVec::JSON::parseJSON: root structure must be an array or object\n"
+  croak "EnVec::JSON::parseJSON: root structure must be an array or object"
  }
 }
 

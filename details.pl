@@ -9,13 +9,10 @@
 #  - Handle the duplicate printings entries for Invasion-block split cards
 #    [done by joinPrintings]
 #  - Fix Homura's Essence and any other flip cards they've messed up recently
+#    [done]
 #  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
-#    halves.
-#  - Remove mana costs from the bottom halves of flip cards?  (Alternatively,
-#    add an option controlling whether or not to remove them; when they're not
-#    removed, they'll need to be added to munged & butchered flip cards.)
-#  - Incorporate data/rarities.tsv (with affected rarities changed to the form
-#    "Common (C1)"?)
+#    halves [done]
+#  - Incorporate data/rarities.tsv (adding an "old-rarity" field to Printing.pm)
 #  - Make sure nothing from data/tokens.txt slipped through
 #  - Somehow handle split cards with differing artists for each half
 use strict;
@@ -30,12 +27,26 @@ use Carp;
 $SIG{__DIE__}  = sub { Carp::confess(@_) };
 $SIG{__WARN__} = sub { Carp::cluck(@_) };
 
-my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic Rare', L => 'Land', P => 'Promo', S => 'Special');
+my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare',
+ M => 'Mythic Rare', L => 'Land', P => 'Promo', S => 'Special');
 
 my %opts;
 getopts('C:S:j:x:l:', \%opts) || exit 2;
 loadSets($opts{S} || 'data/sets.tsv');
 loadParts;
+
+my %badflip;
+if (open my $bf, '<', 'data/badflip.txt') {
+ local $/ = "\n----\n";
+ while (<$bf>) {
+  my($name, $type, $pt, @text) = split /\n/;
+  my($supers, $types, $subs) = parseTypes $type;
+  my($pow, $tough) = $pt ? (map { simplify $_ } split m:/:, $pt, 2) : ();
+  $badflip{alternate $name} = new EnVec::Card::Content name => $name,
+   supertypes => $supers, types => $types, subtypes => $subs, pow => $pow,
+   tough => $tough, text => join("\n", @text);
+ }
+}
 
 $opts{j} ||= 'out/details.json';
 open my $json, '>', $opts{j} or die "$0: $opts{j}: $!";
@@ -48,7 +59,7 @@ if (!exists $opts{l} || $opts{l} eq '-') { $log = *STDERR }
 else { open $log, '>', $opts{l} or die "$0: $opts{l}: $!" }
 select((select($log), $| = 1)[0]);
 
-my %cardIDs = ();
+my %cardIDs;
 if (exists $opts{C}) {
  my $in = openR($opts{C}, $0);
  while (<$in>) {
@@ -68,7 +79,6 @@ if (exists $opts{C}) {
   }
  }
 }
-
 print $log scalar(keys %cardIDs), " cards imported\n";
 delete $cardIDs{$_} for flipBottoms, doubleBacks;
 print $log scalar(keys %cardIDs), " cards to fetch\n\n";
@@ -78,15 +88,15 @@ print $json "[\n";
 print $xml '<?xml version="1.0" encoding="UTF-8"?>', "\n";
 #print $xml '<!DOCTYPE cardlist SYSTEM "../../mtgcard.dtd">', "\n";
 print $xml "<cardlist date=\"", strftime('%Y-%m-%d', gmtime), "\">\n\n";
-my %split = ();
-my $first = 1;
 
+my %split;
+my $first = 1;
 for my $name (sort keys %cardIDs) {
  if (!isSplit $name) {if ($first) { $first = 0 } else { print $json ",\n\n" } }
  my @ids = ($cardIDs{$name});
  my %seen;
  my $card = undef;
- my @printings = ();
+ my @printings;
  while (@ids) {
   my $id = shift @ids;
   print $log "$name/$id\n";
@@ -95,7 +105,20 @@ for my $name (sort keys %cardIDs) {
   my $prnt = parseDetails $details;
   if (isFlip $name) {
    if (($prnt->text || '') =~ /^----$/m) { $prnt = unmungFlip $prnt }
-   else { $prnt->cardClass(FLIP_CARD) }
+   else {
+    $prnt->cardClass(FLIP_CARD);
+    # Manually fix some flip card entries that Gatherer just can't seem to get
+    # right:
+    if (!$prnt->isMultipart && exists $badflip{$prnt->part1->name}) {
+     my $part2 = $badflip{$prnt->part1->name};
+     $part2->cost = $prnt->cost;
+     $prnt->content([ $prnt->part1, $part2 ]);
+    }
+    if ($prnt->part1->name =~ /^[^\s,]+, \w+ Ascendant$/) {
+     $prnt->part2->pow(undef);
+     $prnt->part2->tough(undef);
+    }
+   }
   } elsif (isDouble $name) { $prnt->cardClass(DOUBLE_CARD) }
   $card = $prnt if !defined $card;
    ### When $card is defined, should this check that it equals $prnt?

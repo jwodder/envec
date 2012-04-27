@@ -40,9 +40,8 @@ sub toXML {
  $str .= "   <subtype>" . txt2xml($_) . "</subtype>\n" for @{$self->subtypes};
  $str .= "   <text>" . sym2xml($_) . "</text>\n"
   for split /\n/, $self->text || '';
- for (qw< pow tough loyalty hand life indicator >) {
-  $str .= "   <$_>" . txt2xml($self->$_()) . "</$_>\n" if defined $self->$_()
- }
+ $str .= "   <$_>" . txt2xml($self->$_()) . "</$_>\n"
+  for grep { defined $self->$_() } qw< pow tough loyalty hand life indicator >;
  $str .= "  </content>\n";
  return $str;
 }

@@ -31,7 +31,7 @@ sub jsonify($) {
   '{' . join(', ', map { jsonify($_) . ': ' . jsonify($obj->{$_}) } sort keys %$obj) . '}'
  } else {
   $obj =~ s/([\\"])/\\$1/g;
-  $obj =~ s/[\n\r]/\\n/g;
+  $obj =~ s/\r?\n|\r/\\n/g;
   $obj =~ s/\t/\\t/g;
   return '"' . $obj . '"';
  }

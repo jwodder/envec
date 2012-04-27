@@ -88,15 +88,15 @@ sub isDouble($) {
  return exists $double{$_[0]} ? 1 : exists $revDoub{$_[0]} ? 2 : '';
 }
 
-sub splitLefts() {loadCheck; return sort keys %split; }
-sub splitRights() {loadCheck; return sort keys %revSplit; }
-sub flipTops() {loadCheck; return sort keys %flip; }
-sub flipBottoms() {loadCheck; return sort keys %revFlip; }
+sub splitLefts()   {loadCheck; return sort keys %split; }
+sub splitRights()  {loadCheck; return sort keys %revSplit; }
+sub flipTops()     {loadCheck; return sort keys %flip; }
+sub flipBottoms()  {loadCheck; return sort keys %revFlip; }
 sub doubleFronts() {loadCheck; return sort keys %double; }
-sub doubleBacks() {loadCheck; return sort keys %revDoub; }
+sub doubleBacks()  {loadCheck; return sort keys %revDoub; }
 
-sub splits() {loadCheck; return %split; }
-sub flips() {loadCheck; return %flip; }
+sub splits()  {loadCheck; return %split; }
+sub flips()   {loadCheck; return %flip; }
 sub doubles() {loadCheck; return %double; }
 
 sub alternate($) {
