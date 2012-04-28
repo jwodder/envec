@@ -32,7 +32,7 @@ my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare',
 
 my %opts;
 getopts('C:S:j:x:l:', \%opts) || exit 2;
-loadSets($opts{S} || 'data/sets.tsv');
+loadSets($opts{S});
 loadParts;
 
 my %badflip;

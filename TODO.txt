@@ -17,6 +17,8 @@
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
  - Fix/improve the PostScript output of listify.pl
+ - Now that Gatherer has changed {P} to {PW} in the rulings on Planes, should
+   EnVec::Card->toXML use sym2xml for rulings text?
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations
@@ -57,11 +59,11 @@
     Invasion block, Brothers Yamazaki)
   - Timeshifted cards in Planar Chaos and Future Sight?
  - Add Cockatrice's abbreviations to abbrevs.tsv?
- - Consider deleting dbtbls.txt
 
 - For later:
  - Implement Card->showField1('printings')
  - Handle Uncards, specifically:
+  - the botched mana & tab symbols on the Unglued cards
   - BFM
   - Who/What/When/Where/Why
   - fractions in Unhinged cards
