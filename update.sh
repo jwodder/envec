@@ -17,4 +17,11 @@ date +'End: %s'
 
 perl toText1.pl "$dir/details.json" > out/cards2.txt
 
+[ -e out/details0.json ] && diff -u out/details0.json "$dir/details.json" > out/details.json.diff
+[ -e out/details0.xml ] && diff -u out/details0.xml "$dir/details.xml" > out/details.xml.diff
+
+#rm -f out/details0.json out/details0.xml
+#ln -s "$dir/details.json" ...
+#ln -s "$dir/details.xml" ...
+
 ### Regenerate lists.txt too?

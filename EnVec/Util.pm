@@ -74,10 +74,16 @@ sub magicContent($) {
    if ($src =~ /\bchaos\.gif$/) { return '{C}' }
    elsif ($src =~ /\bname=(\w+)\b/) {
     my $sym = uc $1;
-    if ($sym eq 'TAP') { return '{T}' }
+    if ($sym =~ /^([2WUBRG])([WUBRGP])$/) { return "{$1/$2}" }
+    elsif ($sym eq 'TAP') { return '{T}' }
     elsif ($sym eq 'UNTAP') { return '{Q}' }
     elsif ($sym eq 'SNOW') { return '{S}' }
-    elsif ($sym =~ /^([2WUBRG])([WUBRGP])$/) { return "{$1/$2}" }
+    elsif ($sym eq 'INFINITY') { return '{∞}' }  # Mox Lotus
+    elsif ($sym eq '500') { return '{HALFW}' }
+    # It appears that the only fractional mana symbols are half-white (Little
+    # Girl; name=500), half-red (Mons's Goblin Waiters; name=HalfR), and
+    # half-colorless (Flaccify and Cheap Ass; erroneously omitted from the
+    # rules texts).
     else { return "{$sym}" }
    } else { return "[$src]" }
   } else { return join '', map { magicContent($_) } @{$node->childNodes} }
@@ -113,7 +119,7 @@ sub txt2attr($) {
 sub sym2xml($) {
  my $str = txt2xml shift;
  $str =~ s:&lt;(/?i)&gt;:<\L$1>:gi;
- $str =~ s:\{(\d+)\}:<m>$1</m>:g;
+ $str =~ s:\{(\d+|∞)\}:<m>$1</m>:g;
  $str =~ s:\{([WUBRGPXYZSTQ])\}:<$1/>:g;
  $str =~ s:\{([WUBRG])/([WUBRGP])\}:<$1$2/>:g;
  $str =~ s:\{2/([WUBRG])\}:<${1}2/>:g;

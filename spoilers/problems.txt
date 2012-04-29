@@ -8,19 +8,6 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   Spawnsire of Ulamog are represented in the text spoilers as "{1}0}" and
   "{2}0}", respectively, with analogous mixing of mana symbols and "0}" in the
   standard & individual spoilers.
-- Some (all?) Unglued cards (and Who/What/When/Where/Why in Unhinged) encode
-  mana & tap symbols in rules text incorrectly.  Erroneous symbols include:
- - ocT - {T}
- - oW - {W}
- - oU - {U}
- - oB - {B}
- - oR - {R}
- - oG - {G}
- - o2 - {2}
- - o4 - {4}
- - o7 - {7}
- - Consecutive botched mana symbols can even be run together without
-   intervening spaces.
 - Rules text that is italicized in print (e.g., ability words, "Sarpadian
   Empires, Vol. VII", il- and en- creatures) is not italicized in the spoilers.
 - Certain tokens are listed in Gatherer for no good reason (see
@@ -45,6 +32,25 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   in which italicized text should be unitalicized (e.g., the name
   "Weatherlight" and the word "compleat").
 - Joven is incorrectly listed as a Common.
+- Uncards only:
+ - Some (all?) Unglued cards (and Who/What/When/Where/Why in Unhinged) encode
+   mana & tap symbols in rules text incorrectly.  Erroneous symbols include:
+  - ocT - {T}
+  - oW - {W}
+  - oU - {U}
+  - oB - {B}
+  - oR - {R}
+  - oG - {G}
+  - o2 - {2}
+  - o4 - {4}
+  - o7 - {7}
+  - Consecutive botched mana symbols can even be run together without
+    intervening spaces.
+ - [Details only?] The rules texts for Flaccify and Cheap Ass omit the {½}.
+ - The em dashes on Jack-in-the-Mox are omitted from its rules text.
+ - The em dashes in "Gotcha" abilities are omitted.
+ - The em dash in the type line of the alternate text box of Curse of the Fire
+   Penguin is omitted.
 
 - Incorrectly transcribed flavor texts:
  - Steamflogger Boss

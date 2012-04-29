@@ -5,7 +5,7 @@
  - Make EnVec::Multipart::loadParts check for names appearing more than once
 
 - Features:
- - Make the code faster
+ - Make the code faster (especially EnVec::Reader)
  - Implement the rest of the features for details.pl
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
@@ -63,10 +63,13 @@
 - For later:
  - Implement Card->showField1('printings')
  - Handle Uncards, specifically:
-  - the botched mana & tab symbols on the Unglued cards
   - BFM
   - Who/What/When/Where/Why
-  - fractions in Unhinged cards
+  - Curse of the Fire Penguin
+  - Should fractional P/T's be stored as floats rather than as ints with '½'
+    appended?
+  - Little Girl's CMC?
+  - Should mtgcard.dtd support fractional mana symbols?
  - Support fetching & storing format legality information
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text

@@ -76,14 +76,18 @@ sub expansions($) {
 
 sub scrapeSection($$) {
  my($doc, $pre) = @_;
- my %fields = ();
- my %prnt = ();
+ my(%fields, %prnt);
  $fields{name} = simplify rowVal $doc->getElementById("${pre}nameRow");
  $fields{cost} = rowVal $doc->getElementById("${pre}manaRow");
  $fields{cost} =~ s/\s+//g if defined $fields{cost};
  @fields{'supertypes','types','subtypes'}
   = parseTypes rowVal $doc->getElementById("${pre}typeRow");
  $fields{text} = multiline $doc->getElementById("${pre}textRow");
+
+ # Unbotch mana symbols in Unglued cards:
+ $fields{text} =~ s/\bocT\b/{T}/g;
+ $fields{text} =~ s/\bo([WUBRG]|\d+)/{$1}/g;
+
  $prnt{flavor} = multiline $doc->getElementById("${pre}flavorRow");
  $prnt{watermark} = multiline $doc->getElementById("${pre}markRow");
  $fields{indicator}
@@ -92,6 +96,9 @@ sub scrapeSection($$) {
  if ($ptRow) {
   my $label = simplify magicContent((divsByClass $ptRow, 'label')[0]);
   my $pt = simplify rowVal $ptRow;
+  $pt =~ s:\{\^2\}:²:g;  # S.N.O.T.
+  $pt =~ s:\{1/2\}:½:g;
+  # Note that ½s in rules texts (in details mode) are already represented by ½.
   if ($label eq 'P/T:') {
    @fields{'pow','tough'} = ($pt =~ m:^([^/]+?) ?/ ?(.+?)$:)
   } elsif ($label eq 'Loyalty:') { $fields{loyalty} = $pt }
