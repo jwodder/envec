@@ -62,14 +62,14 @@
 
 - For later:
  - Implement Card->showField1('printings')
- - Handle Uncards, specifically:
+ - Better handle Uncards, specifically:
   - BFM
   - Who/What/When/Where/Why
   - Curse of the Fire Penguin
+  - Little Girl's CMC
   - Should fractional P/T's be stored as floats rather than as ints with '½'
     appended?
-  - Little Girl's CMC?
-  - Should mtgcard.dtd support fractional mana symbols?
+  - How should mtgcard.dtd handle fractional mana symbols?
  - Support fetching & storing format legality information
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text

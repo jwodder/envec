@@ -47,7 +47,8 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   - Consecutive botched mana symbols can even be run together without
     intervening spaces.
  - [Details only?] The rules texts for Flaccify and Cheap Ass omit the {½}.
- - The em dashes on Jack-in-the-Mox are omitted from its rules text.
+ - The em dashes on Jack-in-the-Mox and Strategy, Schmategy are omitted from
+   their rules texts.
  - The em dashes in "Gotcha" abilities are omitted.
  - The em dash in the type line of the alternate text box of Curse of the Fire
    Penguin is omitted.
