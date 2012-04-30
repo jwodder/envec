@@ -13,6 +13,8 @@ sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 sub simplify($) {
  my $str = shift;
  return undef if !defined $str;
+ ###$str =~ tr/\xA0/ /;
+  # How much of a difference would the above make?  Is NBSP in \s already?
  $str =~ s/^\s+|\s+$//g;
  $str =~ s/\s+/ /g;
  return $str;
@@ -41,19 +43,23 @@ sub wrapLines($;$$) {
  my $str = shift;
  my $len = shift || 80;
  my $postdent = shift || 0;
- $str =~ s/\s+$//;
+ $str =~ s/\s+\z//;
  map {
-  my @lines = ();
-  while (length > $len && /\s+/) {
-   if (reverse (substr $_, 0, $len + 1) =~ /\s+/) {
-    # Adding one to the length causes a space immediately after the first $len
-    # characters to be taken into account.
-    push @lines, substr $_, 0, $len + 1 - $+[0], ''
-   } else { /\s+/ && push @lines, substr $_, 0, $-[0], '' }
-   s/^\s+//;
-   $_ = (' ' x $postdent) . $_;
+  s/\s+\z//;
+  if ($_ eq '') { ('') }
+  else {
+   my @lines = ();
+   while (length > $len && /\s+/) {
+    if (reverse(substr $_, 0, $len + 1) =~ /\s+/) {
+     # Adding one to the length causes a space immediately after the first $len
+     # characters to be taken into account.
+     push @lines, substr $_, 0, $len + 1 - $+[0], ''
+    } else { /\s+/ && push(@lines, substr $_, 0, $-[0], '') }
+    s/^\s+//;
+    $_ = (' ' x $postdent) . $_;
+   }
+   $_ eq '' ? @lines : (@lines, $_);
   }
-  $_ eq '' ? @lines : (@lines, $_);
  } split /\n/, $str;
 }
 

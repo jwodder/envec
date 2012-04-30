@@ -27,8 +27,10 @@ use Carp;
 $SIG{__DIE__}  = sub { Carp::confess(@_) };
 $SIG{__WARN__} = sub { Carp::cluck(@_) };
 
-my %rarities = (C => 'Common', U => 'Uncommon', R => 'Rare',
- M => 'Mythic Rare', L => 'Land', P => 'Promo', S => 'Special');
+my %rarities = (
+ C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic Rare', L => 'Land',
+ P => 'Promo', S => 'Special'
+);
 
 my %opts;
 getopts('C:S:j:x:l:', \%opts) || exit 2;
@@ -39,6 +41,7 @@ my %badflip;
 if (open my $bf, '<', 'data/badflip.txt') {
  local $/ = "\n----\n";
  while (<$bf>) {
+  chomp;
   my($name, $type, $pt, @text) = split /\n/;
   my($supers, $types, $subs) = parseTypes $type;
   my($pow, $tough) = $pt ? (map { simplify $_ } split m:/:, $pt, 2) : ();
@@ -111,7 +114,7 @@ for my $name (sort keys %cardIDs) {
     # right:
     if (!$prnt->isMultipart && exists $badflip{$prnt->part1->name}) {
      my $part2 = $badflip{$prnt->part1->name};
-     $part2->cost = $prnt->cost;
+     $part2->cost($prnt->cost);
      $prnt->content([ $prnt->part1, $part2 ]);
     }
     if ($prnt->part1->name =~ /^[^\s,]+, \w+ Ascendant$/) {
@@ -157,9 +160,11 @@ for my $name (sort keys %cardIDs) {
   $newPrnt->watermark($newPrnt->watermark->mapvals(\&rmitalics));
   push @printings, $newPrnt;
  }
- $card->printings([ sortPrintings @printings ]);
- if (isSplit $name) { $split{$name} = $card }
- else {print $json $card->toJSON; print $xml $card->toXML, "\n"; }
+ if (defined $card) { # in case no printings can be fetched
+  $card->printings([ sortPrintings @printings ]);
+  if (isSplit $name) { $split{$name} = $card }
+  else {print $json $card->toJSON; print $xml $card->toXML, "\n"; }
+ }
 }
 
 print $log "Joining split cards...\n";

@@ -101,3 +101,5 @@ trim(label) = Artist:
     separate IDs printed on the actual card), with the top/front's number
     ending in 'a' and the bottom/back's ending in 'b'.  However, these suffixes
     are absent in the checklist output format.
+  - B.F.M. is presented similarly to a flip/double-faced card, except that the
+    infixes are "ctl07_" and "ctl08_", respectively.

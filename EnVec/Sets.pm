@@ -10,9 +10,7 @@ our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 our $setFile = 'data/sets.tsv';
 
-my %sets = ();
-my %shorts = ();
-my @setList = ();
+my(%sets, %shorts, @setList);
 my $loaded = 0;
 my $warned = 0;
 
@@ -21,9 +19,7 @@ sub loadedSets() { $loaded }
 sub loadSets(;$) {
  my $sf = shift || $setFile;
  my $setdat = openR($sf, 'EnVec::Sets::loadSets');
- %sets = ();
- %shorts = ();
- @setList = ();
+ (%sets, %shorts, @setList) = ();
  while (<$setdat>) {
   chomp;
   next if /^\s*#/ || /^\s*$/;

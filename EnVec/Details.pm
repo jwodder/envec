@@ -20,8 +20,15 @@ sub parseDetails($) {
  my $doc = Parser->new->parse($str);
  my $pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_';
  if ($doc->getElementById("${pre}nameRow")) { scrapeSection($doc, $pre) }
- else { joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl05_"),
-			       scrapeSection($doc, "${pre}ctl06_") }
+ elsif ($doc->getElementById("${pre}ctl05_nameRow")) {
+  # Flip or double-faced card
+  joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl05_"),
+			 scrapeSection($doc, "${pre}ctl06_")
+ } else {
+  # B.F.M. (Big Furry Monster)
+  joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl07_"),
+			 scrapeSection($doc, "${pre}ctl08_")
+ }
 }
 
 sub loadDetails($) {
@@ -51,8 +58,16 @@ sub rowVal($) {
 sub multiline($) {
  my $row = shift;
  return undef if !$row;
- return join "\n", grep { $_ ne '' } map { trim magicContent $_ }
+ my $txt = join "\n", grep { $_ ne '' }
+  # There are some cards with superfluous empty cardtextboxes inserted into
+  # their rules text for no good reason, and these empty lines should probably
+  # be removed.  On the other hand, preserving empty lines is needed for
+  # B.F.M.'s text to line up.
+  map { trim magicContent $_ }  ### simplify() instead?
   divsByClass((divsByClass $row, 'value')[0], 'cardtextbox');
+ $txt =~ s/[\n\r]+\z//;
+  # Superfluous trailing empty lines should definitely be removed.
+ return $txt;
 }
 
 sub expansions($) {
@@ -83,11 +98,11 @@ sub scrapeSection($$) {
  @fields{'supertypes','types','subtypes'}
   = parseTypes rowVal $doc->getElementById("${pre}typeRow");
  $fields{text} = multiline $doc->getElementById("${pre}textRow");
-
- # Unbotch mana symbols in Unglued cards:
- $fields{text} =~ s/\bocT\b/{T}/g;
- $fields{text} =~ s/\bo([WUBRG]|\d+)/{$1}/g;
-
+ if (defined $fields{text}) {
+  # Unbotch mana symbols in Unglued cards:
+  $fields{text} =~ s/\bocT\b/{T}/g;
+  $fields{text} =~ s/\bo([WUBRG]|\d+)/{$1}/g;
+ }
  $prnt{flavor} = multiline $doc->getElementById("${pre}flavorRow");
  $prnt{watermark} = multiline $doc->getElementById("${pre}markRow");
  $fields{indicator}

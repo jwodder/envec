@@ -52,6 +52,7 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
  - The em dashes in "Gotcha" abilities are omitted.
  - The em dash in the type line of the alternate text box of Curse of the Fire
    Penguin is omitted.
+ - The exclamation points are omitted from the rules text of "Ach! Hans, Run!".
 
 - Incorrectly transcribed flavor texts:
  - Steamflogger Boss

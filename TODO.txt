@@ -63,7 +63,8 @@
 - For later:
  - Implement Card->showField1('printings')
  - Better handle Uncards, specifically:
-  - BFM
+  - BFM (including giving its printings the same treatment by details.pl that
+    DFCs get)
   - Who/What/When/Where/Why
   - Curse of the Fire Penguin
   - Little Girl's CMC

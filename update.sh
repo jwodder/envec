@@ -13,11 +13,11 @@ perl details.pl -S $setfile -C ids.txt -l details.log \
 date +'End: %s'
 perl toText1.pl "out/$dir/details.json" > out/cards2.txt
 
+### Regenerate lists.txt
+
 cd out
 diff -Nu details0.json "$dir/details.json" > details.json.diff
 diff -Nu details0.xml  "$dir/details.xml"  > details.xml.diff
 rm -f details0.json details0.xml
 ln -s "$dir/details.json" details0.json
 ln -s "$dir/details.xml"  details0.xml
-
-### Regenerate lists.txt
