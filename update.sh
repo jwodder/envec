@@ -6,7 +6,7 @@ dir=`date +%Y%m%d`-$currSet
 echo Creating "$dir"
 mkdir -p "out/$dir"
 
-[ -e ids.txt ] || perl uniqIDs.pl $setfile > ids.txt || exit
+[ -e ids.txt ] || perl details.pl -S $setfile -I ids.txt || exit
 date +'Start: %s'
 perl details.pl -S $setfile -C ids.txt -l details.log \
 		-j "out/$dir/details.json" -x "out/$dir/details.xml" || exit

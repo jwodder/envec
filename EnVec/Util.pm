@@ -6,7 +6,7 @@ use Storable 'dclone';
 use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- txt2xml txt2attr sym2xml openR >;
+ txt2xml txt2attr sym2xml openR openW >;
 
 sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
 
@@ -139,6 +139,15 @@ sub openR($$) {
  if (!defined $file || $file eq '-') { *STDIN }
  else {
   open my $fh, '<', $file or croak "$func: $file: $!";
+  return $fh;
+ }
+}
+
+sub openW($$) {
+ my($file, $func) = @_;
+ if (!defined $file || $file eq '-') { *STDOUT }
+ else {
+  open my $fh, '>', $file or croak "$func: $file: $!";
   return $fh;
  }
 }

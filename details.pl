@@ -27,35 +27,18 @@ use Carp;
 $SIG{__DIE__}  = sub { Carp::confess(@_) };
 $SIG{__WARN__} = sub { Carp::cluck(@_) };
 
-my %rarities = (
- C => 'Common', U => 'Uncommon', R => 'Rare', M => 'Mythic Rare', L => 'Land',
- P => 'Promo', S => 'Special'
-);
+my %rarities = (C => 'Common',
+		U => 'Uncommon',
+		R => 'Rare',
+		M => 'Mythic Rare',
+		L => 'Land',
+		P => 'Promo',
+		S => 'Special');
 
 my %opts;
-getopts('C:S:j:x:l:', \%opts) || exit 2;
+getopts('C:S:j:x:l:I:', \%opts) || exit 2;
 loadSets($opts{S});
 loadParts;
-
-my %badflip;
-if (open my $bf, '<', 'data/badflip.txt') {
- local $/ = "\n----\n";
- while (<$bf>) {
-  chomp;
-  my($name, $type, $pt, @text) = split /\n/;
-  my($supers, $types, $subs) = parseTypes $type;
-  my($pow, $tough) = $pt ? (map { simplify $_ } split m:/:, $pt, 2) : ();
-  $badflip{alternate $name} = new EnVec::Card::Content name => $name,
-   supertypes => $supers, types => $types, subtypes => $subs, pow => $pow,
-   tough => $tough, text => join("\n", @text);
- }
-}
-
-$opts{j} ||= 'out/details.json';
-open my $json, '>', $opts{j} or die "$0: $opts{j}: $!";
-
-$opts{x} ||= 'out/details.xml';
-open my $xml, '>', $opts{x} or die "$0: $opts{x}: $!";
 
 my $log;
 if (!exists $opts{l} || $opts{l} eq '-') { $log = *STDERR }
@@ -75,7 +58,7 @@ if (exists $opts{C}) {
 } else {
  for my $set (setsToImport) {
   print $log "Importing $set...\n";
-  my $list = get(checklistURL $set);
+  my $list = get "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$set%22]&special=true";
   print STDERR "Could not fetch $set\n" and next if !defined $list;
   for my $c (parseChecklist $list) {
    $cardIDs{$c->{name}} = $c->{multiverseid} if !exists $cardIDs{$c->{name}}
@@ -86,24 +69,46 @@ print $log scalar(keys %cardIDs), " cards imported\n";
 delete $cardIDs{$_} for flipBottoms, doubleBacks;
 print $log scalar(keys %cardIDs), " cards to fetch\n\n";
 
-print $log "Fetching individual card data...\n";
+if ($opts{I}) {
+ open my $ids, '>', $opts{I} or die "$0: $opts{I}: $!";
+ print $ids "$_\t$cardIDs{$_}\n" for sort keys %cardIDs;
+ exit 0;
+}
+
+my %badflip;
+if (open my $bf, '<', 'data/badflip.txt') {
+ local $/ = "\n----\n";
+ while (<$bf>) {
+  chomp;
+  my($name, $type, $pt, @text) = split /\n/;
+  my($supers, $types, $subs) = parseTypes $type;
+  my($pow, $tough) = $pt ? (map { simplify $_ } split m:/:, $pt, 2) : ();
+  $badflip{alternate $name} = new EnVec::Card::Content name => $name,
+   supertypes => $supers, types => $types, subtypes => $subs, pow => $pow,
+   tough => $tough, text => join("\n", @text);
+ }
+}
+
+my $json = openW($opts{j} || 'out/details.json', $0);
 print $json "[\n";
+
+my $xml  = openW($opts{x} || 'out/details.xml',  $0);
 print $xml '<?xml version="1.0" encoding="UTF-8"?>', "\n";
 #print $xml '<!DOCTYPE cardlist SYSTEM "../../mtgcard.dtd">', "\n";
 print $xml "<cardlist date=\"", strftime('%Y-%m-%d', gmtime), "\">\n\n";
 
+print $log "Fetching individual card data...\n";
 my %split;
 my $first = 1;
 for my $name (sort keys %cardIDs) {
  if (!isSplit $name) {if ($first) { $first = 0 } else { print $json ",\n\n" } }
  my @ids = ($cardIDs{$name});
- my %seen;
- my $card = undef;
- my @printings;
+ my(%seen, $card, @printings);
  while (@ids) {
   my $id = shift @ids;
   print $log "$name/$id\n";
-  my $details = get(isSplit $name ? detailsURL($id, $name) : detailsURL($id));
+  my $url = "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=$id" . (isSplit $name && "&part=$name");
+  my $details = get $url;
   print STDERR "Could not fetch $name/$id\n" and next if !defined $details;
   my $prnt = parseDetails $details;
   if (isFlip $name) {
@@ -186,9 +191,6 @@ for my $left (splitLefts) {  # splitLefts is already sorted.
 
 print $json "\n]\n";
 print $xml "</cardlist>\n";
+print $log "Done.\n";
 
-sub rmitalics {
- my $str = shift;
- $str =~ s:</?i>::gi;
- return $str;
-}
+sub rmitalics {my $str = shift; $str =~ s:</?i>::gi; return $str; }

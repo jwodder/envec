@@ -1,15 +1,15 @@
 - Robustness:
  - Handle XML::DOM::Lite parse errors
- - Handle failures in Get.pm functions appropriately
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
  - Make EnVec::Multipart::loadParts check for names appearing more than once
+ - details.pl should retry failed `get's under certain circumstances
 
 - Features:
  - Make the code faster (especially EnVec::Reader)
  - Implement the rest of the features for details.pl
+ - Add special handling/storage for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
- - Add special handling for leveler cards
  - Give EnVec::Card a fromXML method
  - Give EnVec::Multipart a cardClass function
  - Give EnVec::Multipart more functions for getting the alternate components of
@@ -33,19 +33,17 @@
   - Make EnVec::Card::Content automatically convert empty fields to undef
  - Give EnVec::Card a toHashref method
  - Give EnVec.pm tags for the export lists of each submodule
- - Make EnVec.pm preserve the non-'all' tags of the submodules
+ - Make EnVec.pm preserve the non-'all' tags of submodules
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
- - Overload stringification of Multival objects?
- - Consider merging split.tsv, flip.tsv, and double.tsv into one file
  - Give EnVec::Multipart 'primaries' and 'secondaries' functions (rethink
    names) for getting all left/top/front and right/bottom/back portions of
    multipart cards, respectively
- - Move all of the code in Get.pm to the few programs that use it?
 
 - Data & documentation:
  - Add documentation
+ - Consider merging split.tsv, flip.tsv, and double.tsv into one file
  - Rewrite spoilers/* so that it makes sense to other people
  - For the multiversion cards in rarities.tsv, give each entry a field for the
    multiverseid and another field for a short description (to become the
@@ -79,3 +77,4 @@
  - Add a wrapper around parseDetails that downloads and parses a given
    multiverseid?
  - Incorporate reserved list membership into card data
+ - Overload stringification of Multival objects?
