@@ -12,28 +12,26 @@ use EnVec::Sets;
 use EnVec::Multipart ':const', 'classEnum';
 use EnVec::Util;
 
-use Class::Struct cardClass => '$', content => '@', printings => '@',
- rulings => '@';
-# - Each element of the 'content' list is an EnVec::Card::Content object.
-# - Each element of the 'printings' list is an EnVec::Card::Printing object.
-# - Each element of the 'rulings' list is a hash with the following fields:
-#  - date
-#  - ruling
-#  - subcard - 0 or 1 (optional)
+use Class::Struct cardClass => '$',
+		  content   => '@', # list of EnVec::Card::Content objects
+		  printings => '@', # list of EnVec::Card::Printing objects
+		  rulings   => '@'; # list of hashes with the following fields:
+				    #  - date
+				    #  - ruling
+				    #  - subcard - 0 or 1 (optional)
+
+my %formats = (NORMAL_CARD, 'normal',
+	       SPLIT_CARD,  'split',
+	       FLIP_CARD,   'flip',
+	       DOUBLE_CARD, 'double-faced');
 
 my $sep = ' // ';
 
-my %formats0 = (NORMAL_CARD, 'normal', SPLIT_CARD, 'split', FLIP_CARD, 'flip',
- DOUBLE_CARD, 'double-faced');
-
-my %formats = (NORMAL_CARD, 'Normal card', SPLIT_CARD, 'Split card',
- FLIP_CARD, 'Flip card', DOUBLE_CARD, 'Double-faced card');
-
 sub newCard {
  my($class, %attrs) = @_;
- my %content = ();
- for (qw< name cost text pow tough loyalty hand life indicator supertypes types
-  subtypes >) { $content{$_} = $attrs{$_} if exists $attrs{$_} }
+ my %content = map { $_ => $attrs{$_} } grep { exists $attrs{$_} }
+	       qw< name cost text pow tough loyalty hand life indicator
+		   supertypes types subtypes >;
  return $class->fromHashref({ %attrs, content => [ \%content ] });
 }
 
@@ -72,7 +70,7 @@ sub fromHashref {
 
 sub toJSON {
  my $self = shift;
- return " {\n  \"cardClass\": \"" . $formats0{$self->cardClass} . "\",\n"
+ return " {\n  \"cardClass\": \"" . $formats{$self->cardClass} . "\",\n"
   . "  \"content\": ["
     . join(', ', map { $_->toJSON } @{$self->content})
   . "],\n"
@@ -88,7 +86,7 @@ sub toJSON {
 
 sub toXML {
  my $self = shift;
- my $str = " <card cardClass=\"" . txt2attr($formats0{$self->cardClass})
+ my $str = " <card cardClass=\"" . txt2attr($formats{$self->cardClass})
   . "\">\n";
  $str .= $_->toXML for @{$self->content};
  $str .= $_->toXML for @{$self->printings};
@@ -133,16 +131,6 @@ sub inSet {
   for (@{$self->printings}) { return 1 if $_->set eq $set }
   return '';
  }
-}
-
-sub hasType {
- my($self, $type) = @_;
- $self->isType($type) || $self->isSubtype($type) || $self->isSupertype($type);
-}
-
-sub isNontraditional {
- my $self = shift;
- $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
 }
 
 for my $field (qw< name text pow tough loyalty hand life indicator type PT
@@ -191,6 +179,16 @@ sub isSubtype {
  my($self, $type) = @_;
  for (@{$self->subtypes}) { return 1 if $_ eq $type }
  return '';
+}
+
+sub hasType {
+ my($self, $type) = @_;
+ $self->isType($type) || $self->isSubtype($type) || $self->isSupertype($type);
+}
+
+sub isNontraditional {
+ my $self = shift;
+ $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
 }
 
 sub copy {
@@ -242,7 +240,7 @@ sub showField1 {
   return join '', sprintf("%-*s %s\n", $tagwidth, 'Sets:', $first),
    map { (' ' x $tagwidth) . " $_\n" } @rest;
  } elsif ($field eq 'cardClass') {
-  return sprintf "%-*s %s\n", $tagwidth, 'Format:', $formats{$self->cardClass}
+  sprintf "%-*s %s\n", $tagwidth, 'Format:', ucfirst $formats{$self->cardClass}
    ### || $self->cardClass
  } elsif (exists $fields{$field}) {
   $width = int(($width - ($self->parts - 1) * length($sep)) / $self->parts);
@@ -262,7 +260,7 @@ sub showField1 {
    $text .= sprintf('%-*s', $tagwidth, $i ? '' : $fields{$field}) . " $line\n";
   }
   return $text;
- } else { return '' }
+ } else { '' }
 }
 
 sub toText1 {

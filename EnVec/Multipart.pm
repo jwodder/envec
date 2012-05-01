@@ -8,12 +8,16 @@ use Exporter 'import';
 our @EXPORT_OK = qw<
  NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD
  loadedParts loadParts
- isSplit isFlip isDouble
  alternate
- splitLefts splitRights flipTops flipBottoms doubleFronts doubleBacks
- splits flips doubles
+ isSplit  splits  splitLefts   splitRights
+ isFlip   flips   flipTops     flipBottoms
+ isDouble doubles doubleFronts doubleBacks
  classEnum
 >;
+# Functions used:
+# - details.pl: flipBottoms, doubleBacks, isSplit, isFlip, isDouble, alternate
+# - classEnum, loadParts, loadedParts
+# - :const
 
 our %EXPORT_TAGS = (
  all   => \@EXPORT_OK,
@@ -41,8 +45,7 @@ sub loadParts(;%) {
  my %files = @_;
  # In case the loading croaks inside an eval while having previously loaded:
  (%split, %revSplit, %flip, %revFlip, %double, %revDoub) = ();
- $loaded = 0;
- $warned = 0;
+ $loaded = $warned = 0;
  %split = loadPartFile($files{split} || $splitFile);
  %revSplit = reverse %split;
  %flip = loadPartFile($files{flip} || $flipFile);

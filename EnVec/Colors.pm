@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use Exporter 'import';
 our @EXPORT = qw< COLOR_WHITE COLOR_BLUE COLOR_BLACK COLOR_RED COLOR_GREEN
- colors2bits bits2colors colors2colors parseColors >;
+		  colors2bits bits2colors colors2colors parseColors >;
 
 use constant {
  COLOR_WHITE => 1,

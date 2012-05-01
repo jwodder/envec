@@ -2,8 +2,8 @@ package EnVec::Card::Printing;
 use warnings;
 use strict;
 use Carp;
-use EnVec::Util;
 use EnVec::Card::Multival;
+use EnVec::Util;
 
 # Fields:
 #  - set - string (required)
