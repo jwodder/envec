@@ -43,7 +43,6 @@
 
 - Data & documentation:
  - Add documentation
- - Consider merging split.tsv, flip.tsv, and double.tsv into one file
  - Rewrite spoilers/* so that it makes sense to other people
  - For the multiversion cards in rarities.tsv, give each entry a field for the
    multiverseid and another field for a short description (to become the

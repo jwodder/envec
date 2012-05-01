@@ -4,21 +4,12 @@ use strict;
 use Carp;
 use EnVec::Util 'openR';
 use Exporter 'import';
-
-our @EXPORT_OK = qw<
- NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD
- loadedParts loadParts
- alternate
- isSplit  splits  splitLefts   splitRights
- isFlip   flips   flipTops     flipBottoms
- isDouble doubles doubleFronts doubleBacks
- classEnum
->;
-# Functions used:
-# - details.pl: flipBottoms, doubleBacks, isSplit, isFlip, isDouble, alternate
-# - classEnum, loadParts, loadedParts
-# - :const
-
+our @EXPORT_OK = qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD classEnum
+		     loadedParts loadParts
+		     cardClass isPrimary isSecondary alternate
+		     isSplit   splits  splitLefts   splitRights
+		     isFlip    flips   flipTops     flipBottoms
+		     isDouble  doubles doubleFronts doubleBacks >;
 our %EXPORT_TAGS = (
  all   => \@EXPORT_OK,
  const => [qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD >]
@@ -31,42 +22,38 @@ use constant {
  DOUBLE_CARD => 4
 };
 
-our $splitFile  = 'data/split.tsv';
-our $flipFile   = 'data/flip.tsv';
-our $doubleFile = 'data/double.tsv';
+our $multiFile = 'data/multipart.tsv';
 
-my(%split, %revSplit, %flip, %revFlip, %double, %revDoub);
+my %multipart;
 my $loaded = 0;
 my $warned = 0;
 
 sub loadedParts() { $loaded }
 
-sub loadParts(;%) {
- my %files = @_;
- # In case the loading croaks inside an eval while having previously loaded:
- (%split, %revSplit, %flip, %revFlip, %double, %revDoub) = ();
- $loaded = $warned = 0;
- %split = loadPartFile($files{split} || $splitFile);
- %revSplit = reverse %split;
- %flip = loadPartFile($files{flip} || $flipFile);
- %revFlip = reverse %flip;
- %double = loadPartFile($files{double} || $doubleFile);
- %revDoub = reverse %double;
- $loaded = 1;
-}
-
-sub loadPartFile {  # not for export
- my $file = shift;
- my $in = openR($file, 'EnVec::Multipart::loadParts');
- my %parts = ();
+sub loadParts(;$) {
+ my $infile = shift || $multiFile;
+ my $in = openR($infile, 'EnVec::Multipart::loadParts');
+ %multipart = ();
  while (<$in>) {
   chomp;
   next if /^\s*#/ || /^\s*$/;
-  my($a, $b) = split /\t+/;
-  $parts{$a} = $b;
+  my($a, $b, $enum) = split /\t+/;
+  carp "EnVec::Multipart::loadParts: $infile: line $.: invalid/malformed entry"
+   and next if !defined $enum;
+  my $class = classEnum($enum, undef);
+  if (!defined $class) {
+   carp "EnVec::Multipart::loadParts: $infile: line $.: unknown card class \"$enum\"";
+   next;
+  } elsif ($class == NORMAL_CARD) { next }
+  my $obj = { primary => $a, secondary => $b, cardClass => $class };
+  for ($a, $b) {
+   if (exists $multipart{$_}) {
+    carp "EnVec::Multipart::loadParts: $infile: card name \"$_\" appears more than once"
+   } else { $multipart{$_} = $obj }
+  }
  }
+ $loaded = 1;
  close $in;
- return %parts;
 }
 
 sub loadCheck() {  # not for export
@@ -76,38 +63,50 @@ sub loadCheck() {  # not for export
  }
 }
 
-sub isSplit($) {
+sub cardClass($) {
  loadCheck;
- return exists $split{$_[0]} ? 1 : exists $revSplit{$_[0]} ? 2 : '';
+ return exists $multipart{$_[0]} ? $multipart{$_[0]}{cardClass} : NORMAL_CARD;
 }
 
-sub isFlip($) {
+sub isPrimary($) {
  loadCheck;
- return exists $flip{$_[0]} ? 1 : exists $revFlip{$_[0]} ? 2 : '';
+ return exists $multipart{$_[0]} ? $multipart{$_[0]}{primary} eq $_[0] : 1;
 }
 
-sub isDouble($) {
+sub isSecondary($) {
  loadCheck;
- return exists $double{$_[0]} ? 1 : exists $revDoub{$_[0]} ? 2 : '';
+ return exists $multipart{$_[0]} ? $multipart{$_[0]}{secondary} eq $_[0] : '';
 }
 
-sub splitLefts()   {loadCheck; return sort keys %split; }
-sub splitRights()  {loadCheck; return sort keys %revSplit; }
-sub flipTops()     {loadCheck; return sort keys %flip; }
-sub flipBottoms()  {loadCheck; return sort keys %revFlip; }
-sub doubleFronts() {loadCheck; return sort keys %double; }
-sub doubleBacks()  {loadCheck; return sort keys %revDoub; }
+sub isSplit($)  { cardClass $_[0] == SPLIT_CARD }
+sub isFlip($)   { cardClass $_[0] == FLIP_CARD }
+sub isDouble($) { cardClass $_[0] == DOUBLE_CARD }
 
-sub splits()  {loadCheck; return %split; }
-sub flips()   {loadCheck; return %flip; }
-sub doubles() {loadCheck; return %double; }
+sub multibits($$) {  # not for export
+ loadCheck;
+ my($class, $side) = @_;
+ grep { $multipart{$_}{cardClass} == $class && $multipart{$_}{$side} eq $_ }
+  sort keys %multipart;
+}
+
+sub splitLefts()   { multibits SPLIT_CARD,  'primary' }
+sub splitRights()  { multibits SPLIT_CARD,  'secondary' }
+sub flipTops()     { multibits FLIP_CARD,   'primary' }
+sub flipBottoms()  { multibits FLIP_CARD,   'secondary' }
+sub doubleFronts() { multibits DOUBLE_CARD, 'primary' }
+sub doubleBacks()  { multibits DOUBLE_CARD, 'secondary' }
+
+sub splits()  { map { $multipart{$_} } splitLefts }
+sub flips()   { map { $multipart{$_} } flipTops }
+sub doubles() { map { $multipart{$_} } doubleFronts }
 
 sub alternate($) {
+ loadCheck;
  my $side = shift;
- for (\%split, \%revSplit, \%flip, \%revFlip, \%double, \%revDoub) {
-  return $_->{$side} if exists $_->{$side}
- }
- return undef;
+ if (exists $multipart{$side}) {
+  my $obj = $multipart{$side};
+  return $obj->{$obj->{primary} eq $side ? 'secondary' : 'primary'};
+ } else { return undef }
 }
 
 sub classEnum($;$) {
