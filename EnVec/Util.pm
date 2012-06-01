@@ -14,7 +14,7 @@ sub simplify($) {
  my $str = shift;
  return undef if !defined $str;
  ###$str =~ tr/\xA0/ /;
-  # How much of a difference would the above make?  Is NBSP in \s already?
+ # It seems that the above would only make a difference with rulings.
  $str =~ s/^\s+|\s+$//g;
  $str =~ s/\s+/ /g;
  return $str;

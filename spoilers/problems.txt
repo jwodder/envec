@@ -85,6 +85,7 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
  - Dehydration (Tenth Edition)
  - Primal Rage (Tenth Edition)
  - Spirit Link (Tenth Edition)
+ - Mirri, Cat Warrior (Tenth Edition)
 
 - Problems with the text spoilers only:
  - Reminder text and ability words aren't italicized.

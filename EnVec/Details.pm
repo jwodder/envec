@@ -65,8 +65,7 @@ sub multiline($) {
   # B.F.M.'s text to line up.
   map { trim magicContent $_ }  ### simplify() instead?
   divsByClass((divsByClass $row, 'value')[0], 'cardtextbox');
- $txt =~ s/[\n\r]+\z//;
-  # Superfluous trailing empty lines should definitely be removed.
+ $txt =~ s/[\n\r]+\z//;  # Trailing empty lines should definitely be removed.
  return $txt;
 }
 

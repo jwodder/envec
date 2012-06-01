@@ -13,7 +13,8 @@
 #  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
 #    halves [done]
 #  - Incorporate data/rarities.tsv (adding an "old-rarity" field to Printing.pm)
-#  - Make sure nothing from data/tokens.txt slipped through
+#  - Make sure nothing from data/tokens.txt (primarily the Unglued tokens)
+#    slipped through
 #  - Somehow handle split cards with differing artists for each half
 use strict;
 use Getopt::Std;
@@ -117,7 +118,9 @@ for my $name (sort keys %cardIDs) {
     $prnt->cardClass(FLIP_CARD);
     # Manually fix some flip card entries that Gatherer just can't seem to get
     # right:
-    if (!$prnt->isMultipart && exists $badflip{$prnt->part1->name}) {
+    if (exists $badflip{$prnt->part1->name}) {
+     # Should this not replace part2's that are already present?  If so, how
+     # should Homura's Essence be handled?
      my $part2 = $badflip{$prnt->part1->name};
      $part2->cost($prnt->cost);
      $prnt->content([ $prnt->part1, $part2 ]);
@@ -173,8 +176,8 @@ for my $name (sort keys %cardIDs) {
 }
 
 print $log "Joining split cards...\n";
-for my $left (splitLefts) {  # splitLefts is already sorted.
- my $right = alternate $left;
+for (splits) {
+ my($left, $right) = @{$_}{'primary','secondary'};
  if (!exists $split{$left} || !exists $split{$right}) {
   print STDERR "Split card mismatch: $left was found but $right was not\n"
    if exists $split{$left};

@@ -120,7 +120,7 @@ VAN	Vanguard				1997-07-??	1
 HOP	Planechase				2009-09-04	1
 ARC	Archenemy				2010-06-18	1
 CMD	Magic: The Gathering-Commander		2011-06-17	1
-#???	Planechase (2012 Edition)		2012-06-01	1
+PC2	Planechase 2012 Edition			2012-06-01	1
 
 UG	Unglued					1998-08-17	1
 UNH	Unhinged				2004-11-19	1
@@ -138,6 +138,7 @@ DDF	Duel Decks: Elspeth vs. Tezzeret	2010-09-03	0
 DDG	Duel Decks: Knights vs. Dragons		2011-04-01	0
 DDH	Duel Decks: Ajani vs. Nicol Bolas	2011-09-02	0
 DDI	Duel Decks: Venser vs. Koth		2012-03-30	0
+#???	Duel Decks: Izzet vs. Golgari		2012-09-07	0
 
 DRB	From the Vault: Dragons			2008-08-29	0
 V09	From the Vault: Exiled			2009-08-28	0
