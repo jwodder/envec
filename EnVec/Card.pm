@@ -188,7 +188,8 @@ sub hasType {
 
 sub isNontraditional {
  my $self = shift;
- $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
+ return $self->isType('Vanguard') || $self->isType('Plane')
+     || $self->isType('Phenomenon') || $self->isType('Scheme');
 }
 
 sub copy {

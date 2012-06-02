@@ -53,6 +53,8 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
  - The em dash in the type line of the alternate text box of Curse of the Fire
    Penguin is omitted.
  - The exclamation points are omitted from the rules text of "Ach! Hans, Run!".
+- As of 1 June 2012, instances of the {C} symbol in Planechase 2012 Edition
+  cards are represented as the string "chaos".
 
 - Incorrectly transcribed flavor texts:
  - Steamflogger Boss

@@ -8,14 +8,18 @@ use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
  txt2xml txt2attr sym2xml openR openW >;
 
-sub trim($) {my $str = shift; $str =~ s/^\s+|\s+$//g; return $str; }
-
-sub simplify($) {
+sub trim($) {
  my $str = shift;
  return undef if !defined $str;
- ###$str =~ tr/\xA0/ /;
- # It seems that the above would only make a difference with rulings.
+ $str =~ tr/\xA0/ /;
+  # It seems that the above only makes a difference with rulings.
  $str =~ s/^\s+|\s+$//g;
+ return $str;
+}
+
+sub simplify($) {
+ my $str = trim shift;
+ return undef if !defined $str;
  $str =~ s/\s+/ /g;
  return $str;
 }

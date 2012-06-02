@@ -3,7 +3,7 @@ use strict;
 use open ':encoding(UTF-8)';
 use Encode;
 use Getopt::Std;
-use EnVec ('loadSets', 'loadJSON');
+use EnVec ('loadSets', 'loadJSON', 'allSets');
 
 sub chrlength($);
 sub stats($);
@@ -18,9 +18,11 @@ my %rarities = ('Mythic Rare' => 'Mythic',
  map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
 
 my %opts;
-getopts('LPd:', \%opts) || exit 2;
+getopts('LPd:o:', \%opts) || exit 2;
 print STDERR "$0: You may specify -L or -P, but not both\n" and exit 2
  if $opts{L} && $opts{P};
+print STDERR "$0: Single-file output is not implemented for LaTeX/PostScript\n"
+ and exit 2 if $opts{o} && ($opts{L} || $opts{P});
 my $dir = $opts{d} || 'lists';
 -d $dir or mkdir $dir or die "$0: $dir/: $!";
 
@@ -33,23 +35,28 @@ my $prelude = $opts{L} ? <<'EOT' : $opts{P} ? join('', <DATA>) : '';
 \begin{document}
 EOT
 
-loadSets;  # Is this even necessary?
+loadSets;
 my %sets = ();
 for my $card (@{loadJSON shift}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
  for (@{$card->printings}) {
-  (my $rarity = $_->rarity) =~ s/ \([CUR]\d+\)$//;
+  ###(my $rarity = $_->rarity) =~ s/ \([CUR]\d+\)$//;
+  my $rarity = $_->rarity;
   die "Unknown rarity \"$rarity\" for ", $card->name, ' in ', $_->set
    if !exists $rarities{$rarity};
   push @{$sets{$_->set}}, [ $_->effectiveNum, $rarities{$rarity}, $stats ];
  }
 }
 
-for my $set (keys %sets) {
- (my $file = $set) =~ tr/ "'/_/d;
- $file = "$dir/$file." . ($opts{L} ? 'tex' : $opts{P} ? 'ps' : 'txt');
- open my $out, '>', $file or die "$0: $file: $!";
+my $out;
+open $out, '>', $opts{o} or die "$0: $opts{o}: $!" if $opts{o};
+for my $set (grep { exists $sets{$_} } allSets) {
+ if (!$opts{o}) {
+  (my $file = $set) =~ tr/ "'/_/d;
+  $file = "$dir/$file." . ($opts{L} ? 'tex' : $opts{P} ? 'ps' : 'txt');
+  open $out, '>', $file or die "$0: $file: $!";
+ }
  select $out;
  my @cards = map {
   $_->[0] .= '.' if $_->[0];
@@ -76,11 +83,12 @@ EOT
 startPage
 EOT
  } else { print "$set\n" }
- if ($set eq 'Planechase' || $set eq 'Archenemy') {
+ if ($set =~ /^Planechase( 2012 Edition)?$/ || $set eq 'Archenemy') {
   my(@special, @normal);
   for (@cards) {
-   if ($_->[2]{type} =~ /^(Plane|(Ongoing )?Scheme)\b/) { push @special, $_ }
-   else { push @normal, $_ }
+   if ($_->[2]{type} =~ /^(Plane|Phenomenon|(Ongoing )?Scheme)\b/) {
+    push @special, $_
+   } else { push @normal, $_ }
   }
   showCards @special;
   print($opts{L} ? "\\hline\n"
@@ -90,7 +98,8 @@ EOT
  } else { showCards @cards }
  if ($opts{L}) { print "\\end{longtable}\n\\end{document}\n" }
  elsif ($opts{P}) { print "showpage\n" }
- close $out;
+ elsif ($opts{o}) { print "\n" }
+ close $out if !$opts{o};
 }
 
 sub chrlength($) { length(decode_utf8($_[0], Encode::FB_CROAK)) }
