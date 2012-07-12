@@ -24,7 +24,7 @@ print STDERR "$0: You may specify -L or -P, but not both\n" and exit 2
 print STDERR "$0: Single-file output is not implemented for LaTeX/PostScript\n"
  and exit 2 if $opts{o} && ($opts{L} || $opts{P});
 my $dir = $opts{d} || 'lists';
--d $dir or mkdir $dir or die "$0: $dir/: $!";
+$opts{o} or -d $dir or mkdir $dir or die "$0: $dir/: $!";
 
 my $prelude = $opts{L} ? <<'EOT' : $opts{P} ? join('', <DATA>) : '';
 \documentclass{article}

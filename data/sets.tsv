@@ -2,7 +2,7 @@
 # - The short names are those used in the URLs of the expansion symbols on
 #   Gatherer.  For different short names, see abbrev.tsv.
 # - The long set names are as listed on Gatherer.
-# - Exact release dates are taken from:
+# - Release dates of old sets are taken from:
 #     <http://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets>
 # - The import flags specify which sets to scrape in order to get a list of all
 #   cards with a near-minimum number of HTTP requests.  Sets with a flag of "1"
@@ -26,7 +26,7 @@
 M10	Magic 2010				2009-07-17	1
 M11	Magic 2011				2010-07-16	1
 M12	Magic 2012				2011-07-15	1
-#M13	Magic 2013				2012-07-13	1
+M13	Magic 2013				2012-07-13	1
 
 AN	Arabian Nights				1993-12-??	1
 AQ	Antiquities				1994-03-??	1

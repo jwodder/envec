@@ -100,7 +100,7 @@ sub scrapeSection($$) {
  if (defined $fields{text}) {
   # Unbotch mana symbols in Unglued cards:
   1 while $fields{text} =~ s/\bocT\b/{T}/
-       || $fields{text} =~ s/\bo([WUBRG]|\d+)/{$1}/
+       || $fields{text} =~ s/\bo([WUBRGX]|\d+)/{$1}/
  }
  $prnt{flavor} = multiline $doc->getElementById("${pre}flavorRow");
  $prnt{watermark} = multiline $doc->getElementById("${pre}markRow");
