@@ -11,9 +11,10 @@ our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
 sub trim($) {
  my $str = shift;
  return undef if !defined $str;
- $str =~ tr/\xA0/ /;
-  # It seems that the above only makes a difference with rulings.
  $str =~ s/^\s+|\s+$//g;
+ # I previously made the mistake of trying to delete non-breaking spaces (0xA0)
+ # here; however, the byte 0xA0 occurs in several UTF-8 sequences that appear
+ # in M:TG text, and so this proved to be a bad idea.
  return $str;
 }
 

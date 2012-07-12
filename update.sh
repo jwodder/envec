@@ -2,7 +2,7 @@
 setfile=data/sets.tsv
 currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
 dir=`date +%Y%m%d`-$currSet
-echo Creating "$dir"
+echo Creating "out/$dir"
 mkdir -p "out/$dir"
 
 [ -e ids.txt ] || perl details.pl -S $setfile -I ids.txt || exit
