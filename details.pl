@@ -17,6 +17,7 @@
 #    slipped through
 #  - Somehow handle split cards with differing artists for each half
 use strict;
+use Encode 'encode_utf8', 'is_utf8';
 use Getopt::Std;
 use LWP::Simple;
 use POSIX 'strftime';
@@ -59,7 +60,7 @@ if (exists $opts{C}) {
 } else {
  for my $set (setsToImport) {
   print $log "Importing $set...\n";
-  my $list = get "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$set%22]&special=true";
+  my $list = getURL("http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$set%22]&special=true");
   print STDERR "Could not fetch $set\n" and next if !defined $list;
   for my $c (parseChecklist $list) {
    $cardIDs{$c->{name}} = $c->{multiverseid} if !exists $cardIDs{$c->{name}}
@@ -109,7 +110,7 @@ for my $name (sort keys %cardIDs) {
   my $id = shift @ids;
   print $log "$name/$id\n";
   my $url = "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=$id" . (isSplit $name && "&part=$name");
-  my $details = get $url;
+  my $details = getURL($url);
   print STDERR "Could not fetch $name/$id\n" and next if !defined $details;
   my $prnt = parseDetails $details;
   if (isFlip $name) {
@@ -197,3 +198,9 @@ print $xml "</cardlist>\n";
 print $log "Done.\n";
 
 sub rmitalics {my $str = shift; $str =~ s:</?i>::gi; return $str; }
+
+sub getURL {
+ my $data = get $_[0];
+ $data = encode_utf8 $data if defined $data && is_utf8($data);
+ return $data;
+}

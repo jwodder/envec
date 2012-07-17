@@ -42,6 +42,21 @@
    multipart cards, respectively
  - Make the default datafile paths absolute rather than relative (possibly with
    a way to set the datafile directory at runtime?)
+ - Problem: At some point, LWP::Simple was updated in such a way that 'get' now
+   returns text strings rather than binary strings when fetching pages from
+   Gatherer.  In order to ensure that the code (which assumes byte strings)
+   still works with both versions of LWP::Simple, details.pl now decodes any
+   text strings that 'get' may return.  This is likely inefficient, and some
+   other solution should be sought instead.  Parts of the code for which
+   encoding is relevant:
+  - output
+  - EnVec::Util::trim should not manipulate 0xA0's that occur in byte strings,
+    but it may manipulate those in text strings.
+  - EnVec::Util::parseTypes currently can only match occurrences of U+2014 in
+    UTF-8 byte strings, not in text strings.
+  - In the absence of 'use utf8;', the ² and ½ in Details.pm are byte strings;
+    what effect would this have when matching the enclosing s/// expressions
+    against text strings?
 
 - Data & documentation:
  - Add documentation
