@@ -1,17 +1,5 @@
 #!/usr/bin/perl -w
-# Things this script needs to do:
-#  - Remove italics from flavor text and watermarks [done]
-#  - Convert short set names to long set names [done]
-#  - Convert rarities from single characters to full words [done]
-#  - Tag split, flip, and double-faced cards as such [done]
-#  - Unmung munged flip cards [done]
-#  - Merge halves of split cards [done]
-#  - Handle the duplicate printings entries for Invasion-block split cards
-#    [done by joinPrintings]
-#  - Fix Homura's Essence and any other flip cards they've messed up recently
-#    [done]
-#  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
-#    halves [done]
+# Things this script still needs to do:
 #  - Incorporate data/rarities.tsv (adding an "old-rarity" field to Printing.pm)
 #  - Make sure nothing from data/tokens.txt (primarily the Unglued tokens)
 #    slipped through
@@ -29,6 +17,11 @@ use Carp;
 $SIG{__DIE__}  = sub { Carp::confess(@_) };
 $SIG{__WARN__} = sub { Carp::cluck(@_) };
 
+sub rmitalics($);
+sub getURL($);
+sub ending();
+sub logmsg(@);
+
 my %rarities = (C => 'Common',
 		U => 'Uncommon',
 		R => 'Rare',
@@ -37,15 +30,13 @@ my %rarities = (C => 'Common',
 		P => 'Promo',
 		S => 'Special');
 
-my %opts;
-getopts('C:S:j:x:l:I:', \%opts) || exit 2;
+my(@missed, %opts);
+getopts('C:S:j:x:l:i:I:', \%opts) || exit 2;
 loadSets($opts{S});
 loadParts;
-
-my $log;
-if (!exists $opts{l} || $opts{l} eq '-') { $log = *STDERR }
-else { open $log, '>', $opts{l} or die "$0: $opts{l}: $!" }
-select((select($log), $| = 1)[0]);
+open STDERR, '>', $opts{l} or die "$0: $opts{l}: $!"
+ if exists $opts{l} && $opts{l} ne '-';
+select((select(STDERR), $| = 1)[0]);
 
 my %cardIDs;
 if (exists $opts{C}) {
@@ -59,22 +50,28 @@ if (exists $opts{C}) {
  close $in;
 } else {
  for my $set (setsToImport) {
-  print $log "Importing $set...\n";
-  my $list = getURL("http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$set%22]&special=true");
-  print STDERR "Could not fetch $set\n" and next if !defined $list;
-  for my $c (parseChecklist $list) {
-   $cardIDs{$c->{name}} = $c->{multiverseid} if !exists $cardIDs{$c->{name}}
+  logmsg "FETCHING SET $set";
+  my $list = getURL "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$set%22]&special=true";
+  if (defined $list) {
+   for my $c (parseChecklist $list) {
+    $cardIDs{$c->{name}} = $c->{multiverseid} if !exists $cardIDs{$c->{name}}
+   }
+  } else {
+   logmsg "ERROR: Could not fetch set $set";
+   push @missed, "SET $set";
   }
  }
 }
-print $log scalar(keys %cardIDs), " cards imported\n";
+logmsg "INFO: ", scalar(keys %cardIDs), " card names imported";
 delete $cardIDs{$_} for flipBottoms, doubleBacks;
-print $log scalar(keys %cardIDs), " cards to fetch\n\n";
+logmsg "INFO: ", scalar(keys %cardIDs), " cards to fetch";
 
-if ($opts{I}) {
- open my $ids, '>', $opts{I} or die "$0: $opts{I}: $!";
+if ($opts{i} || $opts{I}) {
+ my $out = $opts{I} || $opts{i};
+ open my $ids, '>', $out or die "$0: $out: $!";
  print $ids "$_\t$cardIDs{$_}\n" for sort keys %cardIDs;
- exit 0;
+ logmsg "INFO: Card IDs written to $out";
+ ending if $opts{I};
 }
 
 my %badflip;
@@ -99,7 +96,7 @@ print $xml '<?xml version="1.0" encoding="UTF-8"?>', "\n";
 #print $xml '<!DOCTYPE cardlist SYSTEM "../../mtgcard.dtd">', "\n";
 print $xml "<cardlist date=\"", strftime('%Y-%m-%d', gmtime), "\">\n\n";
 
-print $log "Fetching individual card data...\n";
+logmsg "INFO: Fetching individual card data...";
 my %split;
 my $first = 1;
 for my $name (sort keys %cardIDs) {
@@ -108,10 +105,14 @@ for my $name (sort keys %cardIDs) {
  my(%seen, $card, @printings);
  while (@ids) {
   my $id = shift @ids;
-  print $log "$name/$id\n";
+  logmsg "FETCHING CARD $name/$id";
   my $url = "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=$id" . (isSplit $name && "&part=$name");
-  my $details = getURL($url);
-  print STDERR "Could not fetch $name/$id\n" and next if !defined $details;
+  my $details = getURL $url;
+  if (!defined $details) {
+   logmsg "ERROR: Could not fetch card $name/$id";
+   push @missed, "CARD $name/$id";
+   next;
+  }
   my $prnt = parseDetails $details;
   if (isFlip $name) {
    if (($prnt->text || '') =~ /^----$/m) { $prnt = unmungFlip $prnt }
@@ -157,12 +158,12 @@ for my $name (sort keys %cardIDs) {
   my($newPrnt) = grep { $_->artist->any } @{$prnt->printings};
   my $set = fromAbbrev($newPrnt->set);
   if (defined $set) { $newPrnt->set($set) }
-  else { print STDERR "Unknown set \"", $newPrnt->set, "\" for $name/$id\n" }
+  else { logmsg "ERROR: Unknown set \"", $newPrnt->set, "\" for $name/$id" }
   if (defined $newPrnt->rarity) {
    if (exists $rarities{$newPrnt->rarity}) {
     $newPrnt->rarity($rarities{$newPrnt->rarity})
    } else {
-    print STDERR "Unknown rarity \"", $newPrnt->rarity, "\" for $name/$id\n"
+    logmsg "ERROR: Unknown rarity \"", $newPrnt->rarity, "\" for $name/$id"
    }
   }
   $newPrnt->flavor($newPrnt->flavor->mapvals(\&rmitalics));
@@ -176,13 +177,13 @@ for my $name (sort keys %cardIDs) {
  }
 }
 
-print $log "Joining split cards...\n";
+logmsg "INFO: Joining split cards...";
 for (splits) {
  my($left, $right) = @{$_}{'primary','secondary'};
  if (!exists $split{$left} || !exists $split{$right}) {
-  print STDERR "Split card mismatch: $left was found but $right was not\n"
+  logmsg "ERROR: Split card mismatch: $left was found but $right was not"
    if exists $split{$left};
-  print STDERR "Split card mismatch: $right was found but $left was not\n"
+  logmsg "ERROR: Split card mismatch: $right was found but $left was not"
    if exists $split{$right};
   next;
  }
@@ -195,12 +196,45 @@ for (splits) {
 
 print $json "\n]\n";
 print $xml "</cardlist>\n";
-print $log "Done.\n";
+ending;
 
-sub rmitalics {my $str = shift; $str =~ s:</?i>::gi; return $str; }
+sub rmitalics($) {my $str = shift; $str =~ s:</?i>::gi; return $str; }
 
-sub getURL {
+sub getURL($) {
  my $data = get $_[0];
  $data = encode_utf8 $data if defined $data && is_utf8($data);
  return $data;
 }
+
+sub ending() {
+ if (@missed) {
+  my $misfile;
+  if (open $misfile, '>', 'missed.txt') {
+   print $misfile "$_\n" for @missed;
+   close $misfile;
+  } else {
+   logmsg "ERROR: Could not write to missed.txt: $!";
+   logmsg "MISSED: $_" for @missed;
+  }
+  logmsg "INFO: Failed to fetch ", scalar(@missed), " item", @missed > 1 && 's';
+  logmsg "DONE";
+  exit 1;
+ } else {logmsg 'DONE'; exit 0; }
+}
+
+sub logmsg(@) { print STDERR time, ' :', @_, "\n" }
+
+__END__
+
+Tasks this script takes care of:
+ - Remove italics from flavor text and watermarks
+ - Convert short set names to long set names
+ - Convert rarities from single characters to full words
+ - Tag split, flip, and double-faced cards as such
+ - Unmung munged flip cards
+ - Merge halves of split cards
+ - Handle the duplicate printings entries for Invasion-block split cards (done
+   by joinPrintings)
+ - Fix Homura's Essence and anything else in badflip.txt
+ - For the Ascendant/Essence cycle, remove the P/T values from the bottom
+   halves

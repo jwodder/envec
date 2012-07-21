@@ -12,6 +12,7 @@ perl details.pl -S $setfile -C ids.txt -l details.log \
 date +'End: %s'
 perl toText1.pl "out/$dir/details.json" > out/cards2.txt
 perl listify.pl -o out/cardlists2.txt "out/$dir/details.json"
+echo '# vim:set nowrap:' >> out/cardlists2.txt
 
 cd out
 diff -Nu details0.json "$dir/details.json" > details.json.diff
