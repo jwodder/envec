@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 use strict;
-use open ':encoding(UTF-8)';
 use Encode;
 use Getopt::Std;
 use EnVec ('loadSets', 'loadJSON', 'allSets');
@@ -203,11 +202,13 @@ sub showCards(@) {
    print $card->[1], "\n";
   }
  } else {
-  printf "%4s %-*s  %-*s  %-*s  %-*s  %s\n",
+  printf "%4s %s  %s  %-*s  %-*s  %s\n",
    $_->[0] || '',
-   $nameLen, decode_utf8($_->[2]{name}, Encode::FB_CROAK),
-   $typeLen, decode_utf8($_->[2]{type}, Encode::FB_CROAK),
-   $extraLen, $_->[2]{extra}, $costLen, $_->[2]{cost}, $_->[1] for @_
+   $_->[2]{name} . ' ' x ($nameLen - $_->[2]{nameLen}),
+   $_->[2]{type} . ' ' x ($typeLen - $_->[2]{typeLen}),
+   $extraLen, $_->[2]{extra},
+   $costLen, $_->[2]{cost},
+   $_->[1] for @_
  }
 }
 

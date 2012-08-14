@@ -74,11 +74,11 @@ sub toJSON {
   . "  \"content\": ["
     . join(', ', map { $_->toJSON } @{$self->content})
   . "],\n"
-  . "  \"printings\": [\n   "
+  . "  \"printings\": [\n     "
     . join("\n   , ", map { $_->toJSON } @{$self->printings})
   . "\n  ],\n"
   . "  \"rulings\": ["
-  . (@{$self->rulings} ? "\n   "
+  . (@{$self->rulings} ? "\n     "
     . join("\n   , ", map { jsonify($_) } @{$self->rulings})
   . "\n  " : '') . "]\n"
   . " }";
