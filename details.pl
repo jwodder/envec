@@ -222,7 +222,7 @@ sub ending() {
  } else {logmsg 'DONE'; exit 0; }
 }
 
-sub logmsg(@) { print STDERR time, ' :', @_, "\n" }
+sub logmsg(@) { print STDERR time, ' ', @_, "\n" }
 
 __END__
 
