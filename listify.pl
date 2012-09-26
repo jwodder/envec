@@ -140,6 +140,7 @@ sub maxField($@) {
 }
 
 sub psify($) {
+ ### Rewrite this to use the "ISOLatin1Encoding" encoding vector in PostScript.
  my $str = shift;
  $str =~ s/([(\\)])/\\$1/g;
  $str =~ s/’/'/g;
