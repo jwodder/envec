@@ -4,8 +4,8 @@ setfile=data/sets.tsv
 currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
 base=`date +%Y%m%d`-$currSet
 
-Ci=-C
-[ -e ids.txt ] || Ci=-i
+Ci=-i
+[ -e ids.txt ] && Ci=-C
 mkdir -p out
 perl details.pl -S $setfile $Ci ids.txt -l details.log \
 		-j "out/$base.json" -x "out/$base.xml" || exit

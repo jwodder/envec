@@ -114,6 +114,7 @@ for my $name (sort keys %cardIDs) {
    next;
   }
   my $prnt = parseDetails $details;
+  ### This needs to detect flip & double-faced cards that are missing parts.
   if (isFlip $name) {
    if (($prnt->text || '') =~ /^----$/m) { $prnt = unmungFlip $prnt }
    else {

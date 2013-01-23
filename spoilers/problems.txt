@@ -47,18 +47,21 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   - Consecutive botched mana symbols can even be run together without
     intervening spaces.
  - [Details only?] The rules texts for Flaccify and Cheap Ass omit the {½}.
- - The em dashes on Jack-in-the-Mox and Strategy, Schmategy are omitted from
-   their rules texts.
- - The em dashes in "Gotcha" abilities are omitted.
- - The em dash in the type line of the alternate text box of Curse of the Fire
-   Penguin is omitted.
+ - The em dashes in the rules texts of the following cards are omitted:
+  - Jack-in-the-Mox
+  - Strategy, Schmategy
+  - Goblin Tutor
+  - Urza's Science Fair Project
+  - [cards with "Gotcha" abilities]
+  - Curse of the Fire Penguin [the em dash in the type line of the alternate
+    text box]
  - The exclamation points are omitted from the rules text of "Ach! Hans, Run!".
  - The {Y} and {Z} are omitted from the mana cost of The Ultimate Nightmare of
    Wizards of the Coast® Customer Service.
 - As of 1 June 2012, instances of the {C} symbol in Planechase 2012 Edition
   cards are represented as the string "chaos".
 
-- Incorrectly transcribed flavor texts:
+- Incorrectly transcribed flavor texts (mostly missing exclamation points):
  - Steamflogger Boss
  - Invasion Plans
  - Pariah (Urza's Saga)
