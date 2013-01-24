@@ -101,7 +101,15 @@ EOT
  close $out if !$opts{o};
 }
 
-sub chrlength($) { length(decode_utf8($_[0], Encode::FB_CROAK)) }
+sub chrlength($) {
+ my $str = shift;
+ # SDF's version of Encode.pm has some sort of bug that causes &decode_utf8 to
+ # overwrite its first argument with (I assume) the argument's trailing
+ # unconvertible characters, even when FB_CROAK is supplied.  Even more
+ # infuriating, passing the return value of &shift directly to &decode_utf8
+ # doesn't protect the argument to &chrlength.
+ return length(decode_utf8($str, Encode::FB_CROAK));
+}
 
 sub stats($) {
  my $card = shift;
