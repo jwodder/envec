@@ -109,6 +109,7 @@ sub chrlength($) {
  # infuriating, passing the return value of &shift directly to &decode_utf8
  # doesn't protect the argument to &chrlength.
  return length(decode_utf8($str, Encode::FB_CROAK));
+ ### Would changing decode_utf8(...) to decode('utf8', ...) solve the problem?
 }
 
 sub stats($) {

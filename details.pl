@@ -199,7 +199,7 @@ print $json "\n]\n";
 print $xml "</cardlist>\n";
 ending;
 
-sub rmitalics($) {my $str = shift; $str =~ s:</?i>::gi; return $str; }
+sub rmitalics($) {my $str = shift; $str =~ s:</?i>::gi; return trim $str; }
 
 sub getURL($) {
  my $data = get $_[0];

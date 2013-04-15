@@ -17,6 +17,7 @@ our %EXPORT_TAGS = (all => \@EXPORT_OK);
 sub parseDetails($) {
  my $str = shift;
  $str =~ s:</i>([^<>]+)</i>:$1:gi;  # Work around italicization farkup
+ $str =~ s/\r\n?/\n/g;
  my $doc = Parser->new->parse($str);
  my $pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_';
  if ($doc->getElementById("${pre}nameRow")) { scrapeSection($doc, $pre) }
@@ -83,7 +84,7 @@ sub expansions($) {
   my($set) = ($src =~ /\bset=(\w+)/);
   my($rarity) = ($src =~ /\brarity=(\w+)/);
   push @expands, new EnVec::Card::Printing set => $set, rarity => $rarity,
-   multiverseid => $id;
+					   multiverseid => $id;
  }
  return @expands;
 }
@@ -137,7 +138,6 @@ sub scrapeSection($$) {
    my $tds = $tr->getElementsByTagName('td');
    next if $tds->length != 2;
    my($date, $ruling) = map { magicContent $_ } @$tds;
-   $ruling =~ s/\r\n?/\n/g;
    push @{$fields{rulings}}, { date => simplify $date, ruling => trim $ruling };
   }
  }

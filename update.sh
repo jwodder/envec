@@ -2,7 +2,7 @@
 # invoke with: nice ./update.sh &
 setfile=data/sets.tsv
 currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
-base=`date +%Y%m%d`-$currSet
+base=`date -u +%Y%m%d`-$currSet
 
 Ci=-i
 [ -e ids.txt ] && Ci=-C
