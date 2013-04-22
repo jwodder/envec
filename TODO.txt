@@ -50,6 +50,7 @@
    other solution should be sought instead.  Parts of the code for which
    encoding is relevant:
   - output
+  - input from data/*
   - EnVec::Util::trim should not manipulate 0xA0's that occur in byte strings,
     but it may manipulate those in text strings.
   - EnVec::Util::parseTypes currently can only match occurrences of U+2014 in
