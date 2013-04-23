@@ -58,6 +58,8 @@
   - In the absence of 'use utf8;', the ² and ½ in Details.pm are byte strings;
     what effect would this have when matching the enclosing s/// expressions
     against text strings?
+ - Should subcard numbering in XML output start from 1 for the first part
+   rather than 0?
 
 - Data & documentation:
  - Add documentation
@@ -74,6 +76,7 @@
     Invasion block, Brothers Yamazaki)
   - Timeshifted cards in Planar Chaos and Future Sight?
  - Add Cockatrice's abbreviations to abbrevs.tsv?
+ - Add a description of the JSON output format
 
 - For later:
  - Implement Card->showField1('printings')

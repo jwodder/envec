@@ -16,11 +16,11 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
 - The Eighth & Ninth Edition "box set" cards have their numbers given without
   the leading 'S', thereby overlapping with the normal card numberings for
   those sets.
-- The non-full-art Zendikar lands have their collector's numbers listed without
-  the 'a' suffix, thereby overlapping with the full art lands' numbers.
-  [Details pages only?]
-- [Details format only?] Gatherer has problems with listing the correct artists
-  for split cards that have differing artists for each half (i.e., Fire // Ice,
+- [Details only?] The non-full-art Zendikar lands have their collector's
+  numbers listed without the 'a' suffix, thereby overlapping with the full art
+  lands' numbers.
+- [Details only?] Gatherer has problems with listing the correct artists for
+  split cards that have differing artists for each half (i.e., Fire // Ice,
   Illusion // Reality, Life // Death, and Night // Day).
 - Various flip cards (the exact set seems to change every update or so) have
   their halves munged together or their bottom halves dropped entirely.
