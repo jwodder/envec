@@ -4,6 +4,8 @@
 #  - Make sure nothing from data/tokens.txt (primarily the Unglued tokens)
 #    slipped through
 #  - Somehow handle split cards with differing artists for each half
+#  - Give B.F.M.'s multiple printings (caused by having two multiverseids) the
+#    same (or similar?) treatment as DFCs get
 use strict;
 use Encode 'encode_utf8', 'is_utf8';
 use Getopt::Std;
@@ -199,7 +201,7 @@ print $json "\n]\n";
 print $xml "</cardlist>\n";
 ending;
 
-sub rmitalics($) {my $str = shift; $str =~ s:</?i>::gi; return trim $str; }
+sub rmitalics($) {my $str = shift; $str =~ s:<i>\s*|\s*</i>::gi; return $str; }
 
 sub getURL($) {
  my $data = get $_[0];

@@ -1,3 +1,5 @@
+- Rename details.pl to envec.pl?
+
 - Robustness:
  - Handle XML::DOM::Lite parse errors
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
@@ -5,8 +7,8 @@
  - details.pl should retry failed `get's under certain circumstances
 
 - Features:
+ - Implement the rest of the features for details.pl (See the top of its source)
  - Make the code faster (especially EnVec::Reader)
- - Implement the rest of the features for details.pl
  - Add special handling/storage for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
@@ -80,7 +82,7 @@
 
 - For later:
  - Implement Card->showField1('printings')
- - Better handle Uncards, specifically:
+ - Better handling of Uncards, specifically:
   - BFM (including giving its printings the same treatment by details.pl that
     DFCs get)
   - Who/What/When/Where/Why

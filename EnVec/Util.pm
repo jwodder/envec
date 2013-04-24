@@ -30,6 +30,7 @@ sub uniq(@) {  # The list must be pre-sorted
  grep { (!defined $prev or $prev ne $_) and ($prev = $_ or 1) } @_;
 }
 
+sub jsonify($);
 sub jsonify($) {
  my $obj = shift;
  if (!defined $obj) { 'null' }
@@ -68,6 +69,7 @@ sub wrapLines($;$$) {
  } split /\n/, $str;
 }
 
+sub magicContent($);
 sub magicContent($) {
  # Like textContent, but better ... for its intended purpose
  # cf. <http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent>

@@ -21,14 +21,14 @@ sub parseDetails($) {
  my $doc = Parser->new->parse($str);
  my $pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_';
  if ($doc->getElementById("${pre}nameRow")) { scrapeSection($doc, $pre) }
- elsif ($doc->getElementById("${pre}ctl05_nameRow")) {
+ elsif ($doc->getElementById("${pre}ctl07_nameRow")) {
   # Flip or double-faced card
-  joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl05_"),
-			 scrapeSection($doc, "${pre}ctl06_")
- } else {
-  # B.F.M. (Big Furry Monster)
   joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl07_"),
 			 scrapeSection($doc, "${pre}ctl08_")
+ } else {
+  # B.F.M. (Big Furry Monster)
+  joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl09_"),
+			 scrapeSection($doc, "${pre}ctl10_")
  }
 }
 

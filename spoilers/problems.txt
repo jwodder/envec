@@ -22,8 +22,8 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
 - [Details only?] Gatherer has problems with listing the correct artists for
   split cards that have differing artists for each half (i.e., Fire // Ice,
   Illusion // Reality, Life // Death, and Night // Day).
-- Various flip cards (the exact set seems to change every update or so) have
-  their halves munged together or their bottom halves dropped entirely.
+- Certain flip cards have their halves munged together or their bottom halves
+  dropped entirely.
 - [Details only] The bottom portions of the Ascendant/Essence cards have their
   top halves' P/T listed as their own.
 - Italicization of flavor text is only ever applied to the first
@@ -58,8 +58,10 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
  - The exclamation points are omitted from the rules text of "Ach! Hans, Run!".
  - The {Y} and {Z} are omitted from the mana cost of The Ultimate Nightmare of
    Wizards of the Coast® Customer Service.
-- As of 1 June 2012, instances of the {C} symbol in Planechase 2012 Edition
+- As of 2012 June 1, instances of the {C} symbol in Planechase 2012 Edition
   cards are represented as the string "chaos".
+- As of 2013 April 23, the split cards from Dragon's Maze do not have their
+  watermarks listed in their details pages.
 
 - Incorrectly transcribed flavor texts (mostly missing exclamation points):
  - Steamflogger Boss
