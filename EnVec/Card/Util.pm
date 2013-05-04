@@ -7,7 +7,7 @@ use EnVec::Sets 'loadedSets', 'cmpSets';
 use EnVec::Util;
 use Exporter 'import';
 our @EXPORT = qw< joinCards unmungFlip joinPrintings sortPrintings
- joinRulings >;
+		  joinRulings >;
 
 sub joinCards($$$) {
  my($format, $part1, $part2) = @_;

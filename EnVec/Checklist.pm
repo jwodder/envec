@@ -3,7 +3,6 @@ use warnings;
 use strict;
 use XML::DOM::Lite 'Parser';
 use EnVec::Util;
-
 use Exporter 'import';
 our @EXPORT_OK = ('parseChecklist', 'loadChecklist');
 our %EXPORT_TAGS = (all => \@EXPORT_OK);

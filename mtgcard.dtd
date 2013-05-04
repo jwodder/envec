@@ -36,29 +36,28 @@
 <!ELEMENT loyalty (#PCDATA)>
 <!ELEMENT hand (#PCDATA)>
 <!ELEMENT life (#PCDATA)>
-<!ELEMENT indicator (#PCDATA)>  <!-- color indicator (as /^W?U?B?R?G?$/?) -->
+<!ELEMENT indicator (#PCDATA)>  <!-- color indicator (as /^W?U?B?R?G?$/) -->
 
 <!ELEMENT printing (set, date?, rarity?, number*, artist+, flavor*, watermark*,
 		    multiverseid*, notes*)>
 <!ELEMENT set (#PCDATA)>
 <!ELEMENT date (#PCDATA)>  <!-- primarily for promo cards -->
 <!ELEMENT rarity (#PCDATA)>
-<!ELEMENT number (#PCDATA)>
-<!ELEMENT artist (#PCDATA)>
-<!ELEMENT flavor %text;>
-<!ELEMENT watermark (#PCDATA)>
-<!ELEMENT multiverseid (#PCDATA)>
-<!ELEMENT notes %text;>
-
 <!-- "subcard" attributes identify which component of a multi-part card is
      being described: 0 for the first part, 1 for the second part, etc. in the
      order that the parts are listed.  A tag without a "subcard" attribute
      describes the card as a whole. -->
+<!ELEMENT number (#PCDATA)>
 <!ATTLIST number subcard CDATA #IMPLIED>
+<!ELEMENT artist (#PCDATA)>
 <!ATTLIST artist subcard CDATA #IMPLIED>
+<!ELEMENT flavor %text;>
 <!ATTLIST flavor subcard CDATA #IMPLIED>
+<!ELEMENT watermark (#PCDATA)>
 <!ATTLIST watermark subcard CDATA #IMPLIED>
+<!ELEMENT multiverseid (#PCDATA)>
 <!ATTLIST multiverseid subcard CDATA #IMPLIED>
+<!ELEMENT notes %text;>
 <!ATTLIST notes subcard CDATA #IMPLIED>
 
 <!ELEMENT ruling %text;>

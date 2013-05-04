@@ -55,9 +55,12 @@ if (exists $opts{C}) {
   logmsg "FETCHING SET $set";
   my $list = getURL "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$set%22]&special=true";
   if (defined $list) {
-   for my $c (parseChecklist $list) {
-    $cardIDs{$c->{name}} = $c->{multiverseid} if !exists $cardIDs{$c->{name}}
-   }
+   my @cards = parseChecklist $list;
+   if (@cards) {
+    for my $c (@cards) {
+     $cardIDs{$c->{name}} = $c->{multiverseid} if !exists $cardIDs{$c->{name}}
+    }
+   } else { logmsg "ERROR: No cards in set $set???" }
   } else {
    logmsg "ERROR: Could not fetch set $set";
    push @missed, "SET $set";
