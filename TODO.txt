@@ -74,8 +74,8 @@
   - The release dates of the various promo cards
   - The release dates of the different Vanguard card sets
   - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
-  - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from the
-    Invasion block, Brothers Yamazaki)
+  - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
+    Planeshift, Brothers Yamazaki, ???)
   - Timeshifted cards in Planar Chaos and Future Sight?
  - Add Cockatrice's abbreviations to abbrevs.tsv?
  - Add a description of the JSON output format
