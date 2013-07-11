@@ -4,8 +4,9 @@
 #  - Make sure nothing from data/tokens.txt (primarily the Unglued tokens)
 #    slipped through
 #  - Somehow handle split cards with differing artists for each half
-#  - Give B.F.M.'s multiple printings (caused by having two multiverseids) the
-#    same (or similar?) treatment as DFCs get
+#  - Give the multiple printing entries for B.F.M. and the split cards in
+#    Invasion and Apocalypse (caused by having two multiverseids each) the same
+#    (or similar?) treatment that DFCs get
 use strict;
 use Encode 'encode_utf8', 'is_utf8';
 use Getopt::Std;
@@ -68,7 +69,7 @@ if (exists $opts{C}) {
  }
 }
 logmsg "INFO: ", scalar(keys %cardIDs), " card names imported";
-delete $cardIDs{$_} for flipBottoms, doubleBacks;
+delete $cardIDs{$_} for splitRights, flipBottoms, doubleBacks;
 logmsg "INFO: ", scalar(keys %cardIDs), " cards to fetch";
 
 if ($opts{i} || $opts{I}) {
@@ -102,16 +103,20 @@ print $xml '<?xml version="1.0" encoding="UTF-8"?>', "\n";
 print $xml "<cardlist date=\"", strftime('%Y-%m-%d', gmtime), "\">\n\n";
 
 logmsg "INFO: Fetching individual card data...";
-my %split;
 my $first = 1;
 for my $name (sort keys %cardIDs) {
- if (!isSplit $name) {if ($first) { $first = 0 } else { print $json ",\n\n" } }
+ if ($first) { $first = 0 }
+ else { print $json ",\n\n" }
  my @ids = ($cardIDs{$name});
  my(%seen, $card, @printings);
  while (@ids) {
   my $id = shift @ids;
   logmsg "FETCHING CARD $name/$id";
   my $url = "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=$id" . (isSplit $name && "&part=$name");
+  # As of 2013 July 10, despite the fact that split cards in Gatherer now have
+  # both halves on a single page like flip & double-faced cards, you still need
+  # to append "&part=$name" to the end of their URLs or else the page may
+  # non-deterministically display the halves in the wrong order.
   my $details = getURL $url;
   if (!defined $details) {
    logmsg "ERROR: Could not fetch card $name/$id";
@@ -120,15 +125,15 @@ for my $name (sort keys %cardIDs) {
   }
   my $prnt = parseDetails $details;
   ### This needs to detect flip & double-faced cards that are missing parts.
-  if (isFlip $name) {
+  if (isSplit $name) { $prnt->cardClass(SPLIT_CARD) }
+  elsif (isFlip $name) {
    if (($prnt->text || '') =~ /^----$/m) { $prnt = unmungFlip $prnt }
    else {
     $prnt->cardClass(FLIP_CARD);
     # Manually fix some flip card entries that Gatherer just can't seem to get
     # right:
     if (exists $badflip{$prnt->part1->name}) {
-     # Should this not replace part2's that are already present?  If so, how
-     # should Homura's Essence be handled?
+     # Should this not replace part2's that are already present?
      my $part2 = $badflip{$prnt->part1->name};
      $part2->cost($prnt->cost);
      $prnt->content([ $prnt->part1, $part2 ]);
@@ -178,26 +183,9 @@ for my $name (sort keys %cardIDs) {
  }
  if (defined $card) { # in case no printings can be fetched
   $card->printings([ sortPrintings @printings ]);
-  if (isSplit $name) { $split{$name} = $card }
-  else {print $json $card->toJSON; print $xml $card->toXML, "\n"; }
+  print $json $card->toJSON;
+  print $xml $card->toXML, "\n";
  }
-}
-
-logmsg "INFO: Joining split cards...";
-for (splits) {
- my($left, $right) = @{$_}{'primary','secondary'};
- if (!exists $split{$left} || !exists $split{$right}) {
-  logmsg "ERROR: Split card mismatch: $left was found but $right was not"
-   if exists $split{$left};
-  logmsg "ERROR: Split card mismatch: $right was found but $left was not"
-   if exists $split{$right};
-  next;
- }
- if ($first) { $first = 0 }
- else { print $json ",\n\n" }
- my $card = joinCards SPLIT_CARD, $split{$left}, $split{$right};
- print $json $card->toJSON;
- print $xml $card->toXML, "\n";
 }
 
 print $json "\n]\n";
@@ -238,9 +226,8 @@ Tasks this script takes care of:
  - Convert rarities from single characters to full words
  - Tag split, flip, and double-faced cards as such
  - Unmung munged flip cards
- - Merge halves of split cards
  - Handle the duplicate printings entries for Invasion-block split cards (done
    by joinPrintings)
- - Fix Homura's Essence and anything else in badflip.txt
+ - Apply the fixes from badflip.txt
  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
    halves
