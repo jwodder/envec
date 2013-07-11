@@ -53,7 +53,7 @@ if (exists $opts{C}) {
 } else {
  for my $set (setsToImport) {
   logmsg "FETCHING SET $set";
-  my $list = getURL "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&set=[%22$set%22]&special=true";
+  my $list = getURL "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&action=advanced&set=[%22$set%22]&special=true";
   if (defined $list) {
    my @cards = parseChecklist $list;
    if (@cards) {
