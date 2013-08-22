@@ -60,8 +60,11 @@
   - In the absence of 'use utf8;', the ² and ½ in Details.pm are byte strings;
     what effect would this have when matching the enclosing s/// expressions
     against text strings?
+ - Make Sets.pm and Multipart.pm use objects for storing & retrieving their
+   respective data rather than file-global variables
  - Should subcard numbering in XML output start from 1 for the first part
    rather than 0?
+ - Rewrite everything in Python?
 
 - Data & documentation:
  - Add documentation

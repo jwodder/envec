@@ -112,6 +112,3 @@ sub joinRulings($$) {
  }
  return @rulings, map { +{ %$_, subcard => 1 } } @$rules2;
 }
-
-###sub mergeRulings($$)
-###sub sortRulings(@)

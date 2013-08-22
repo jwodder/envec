@@ -112,7 +112,7 @@ GTC	Gatecrash				2013-02-01	1
 DGM	Dragon's Maze				2013-05-03	1
 
 #THS	Theros					2013-09-27	1
-#???	Born of the Gods			2014-02-??	1
+#BNG	Born of the Gods			2014-02-07	1
 #???	Journey into Nyx			2014-05-??	1
 
 PPR	Promo set for Gatherer			---		1
@@ -134,6 +134,7 @@ HOP	Planechase				2009-09-04	1
 ARC	Archenemy				2010-06-18	1
 CMD	Magic: The Gathering-Commander		2011-06-17	1
 PC2	Planechase 2012 Edition			2012-06-01	1
+#C13	MTG Commander (2013 Edition)		2013-11-01	1
 
 EVG	Duel Decks: Elves vs. Goblins		2007-11-16	0
 DD2	Duel Decks: Jace vs. Chandra		2008-11-07	0
@@ -153,7 +154,7 @@ V09	From the Vault: Exiled			2009-08-28	0
 V10	From the Vault: Relics			2010-08-27	0
 V11	From the Vault: Legends			2011-08-26	0
 V12	From the Vault: Realms			2012-08-31	0
-#???	From the Vault: Twenty			2013-08-23	0
+V13	From the Vault: Twenty			2013-08-23	0
 
 H09	Premium Deck Series: Slivers		2009-11-20	0
 PD2	Premium Deck Series: Fire and Lightning	2010-11-19	0

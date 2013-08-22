@@ -1,8 +1,4 @@
 Function naming conventions:
- - Combining lists (essentially just concatenating and removing duplicates) of
-   attributes that describe the whole of a card is referred to as "merging"
- - Combining lists of attributes that describe separate subcards of a card is
-   referred to as "joining"
  - Functions for parsing the contents of a string have their names prefixed
    with "parse"
  - Functions for parsing the contents of a file identified by file name have
