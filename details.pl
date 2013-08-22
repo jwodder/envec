@@ -4,9 +4,6 @@
 #  - Make sure nothing from data/tokens.txt (primarily the Unglued tokens)
 #    slipped through
 #  - Somehow handle split cards with differing artists for each half
-#  - Give the multiple printing entries for B.F.M. and the split cards in
-#    Invasion and Apocalypse (caused by having two multiverseids each) the same
-#    (or similar?) treatment that DFCs get
 use strict;
 use Encode 'encode_utf8', 'is_utf8';
 use Getopt::Std;
@@ -149,11 +146,11 @@ for my $name (sort keys %cardIDs) {
   if (!%seen) {
    $seen{$id} = 1;
    my @newIDs;
-   if (isDouble $name) {
-    # As double-faced cards have separate multiverseids for each face, we're
-    # going to assume that if you've seen any IDs for one set, you've seen them
-    # all for that set, and if you haven't seen any for a set, you'll still
-    # only get to see one.
+   if (isSplit $name || isDouble $name || $name eq 'B.F.M. (Big Furry Monster)') {
+    # Split cards, DFCs, and B.F.M. have separate multiverseids for each
+    # component, so here we're going to assume for each such card that if
+    # you've seen any IDs for one set, you've seen them all for that set, and
+    # if you haven't seen any for a set, you'll still only get to see one.
     my %setIDs;
     push @{$setIDs{$_->set}}, $_->multiverseid->all for @{$prnt->printings};
     for my $set (keys %setIDs) {
@@ -226,8 +223,6 @@ Tasks this script takes care of:
  - Convert rarities from single characters to full words
  - Tag split, flip, and double-faced cards as such
  - Unmung munged flip cards
- - Handle the duplicate printings entries for Invasion-block split cards (done
-   by joinPrintings)
  - Apply the fixes from badflip.txt
  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
    halves

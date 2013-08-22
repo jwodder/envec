@@ -22,7 +22,7 @@ sub parseDetails($) {
  my $pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_';
  if ($doc->getElementById("${pre}nameRow")) { scrapeSection($doc, $pre) }
  elsif ($doc->getElementById("${pre}ctl07_nameRow")) {
-  # Flip or double-faced card
+  # Split, flip, or double-faced card
   joinCards NORMAL_CARD, scrapeSection($doc, "${pre}ctl07_"),
 			 scrapeSection($doc, "${pre}ctl08_")
  } else {
