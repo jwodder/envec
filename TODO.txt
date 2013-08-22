@@ -1,4 +1,5 @@
-- Rename details.pl to envec.pl?
+- Rename details.pl to envec.pl or fetch.pl? (or tutor.pl?)
+- Rename update.sh?
 
 - Robustness:
  - Handle XML::DOM::Lite parse errors
@@ -79,15 +80,13 @@
   - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
-  - Timeshifted cards in Planar Chaos and Future Sight?
  - Add Cockatrice's abbreviations to abbrevs.tsv?
  - Add a description of the JSON output format
 
 - For later:
  - Implement Card->showField1('printings')
  - Better handling of Uncards, specifically:
-  - BFM (including giving its printings the same treatment by details.pl that
-    DFCs get)
+  - B.F.M.
   - Who/What/When/Where/Why
   - Curse of the Fire Penguin
   - Little Girl's CMC
