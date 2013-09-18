@@ -7,7 +7,7 @@ base=`date -u +%Y%m%d`-$currSet
 Ci=i
 [ -e ids.txt ] && Ci=C
 mkdir -p out
-perl details.pl -S $setfile -$Ci ids.txt -l details.log \
+perl details.pl -S "$setfile" -$Ci ids.txt -l details.log \
 		-j "out/$base.json" -x "out/$base.xml" || exit
 perl toText1.pl "out/$base.json" > out/cards2.txt
 perl listify.pl -o out/cardlists2.txt "out/$base.json"

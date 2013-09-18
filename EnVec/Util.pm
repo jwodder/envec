@@ -6,7 +6,7 @@ use Storable 'dclone';
 use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
- txt2xml txt2attr sym2xml openR openW >;
+		  txt2xml txt2attr sym2xml openR openW >;
 
 sub trim($) {
  my $str = shift;

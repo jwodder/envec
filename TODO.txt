@@ -102,3 +102,4 @@
    multiverseid?
  - Incorporate reserved list membership into card data
  - Overload stringification of Multival objects?
+ - Make use of all of the unused data/ files
