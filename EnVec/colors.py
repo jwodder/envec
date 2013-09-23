@@ -40,7 +40,7 @@ class Color(object):  # Color should be treated as an immutable type.
 		     G=self.G or other.G)
 
     def __iter__(self):  # This implicitly defines __contains__.
-        if self.W: yield WHITE
+	if self.W: yield WHITE
 	if self.U: yield BLUE
 	if self.B: yield BLACK
 	if self.R: yield RED
