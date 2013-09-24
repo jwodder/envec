@@ -23,10 +23,10 @@ class CardSetDB(object):
     @staticmethod
     def fromFile(infile=None):
 	if infile is None: infile = setFile
-	setdat = openR(infile, 'envec.sets.CardSetDB.fromFile')
+	setdat = openR(infile)
 	self = CardSetDB()
-	self.sets = dict()
-	self.shorts = dict()
+	self.sets = {}
+	self.shorts = {}
 	self.setList = []
 	for line in setdat:
 	    line = chomp(line)

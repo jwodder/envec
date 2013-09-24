@@ -59,6 +59,9 @@ class Color(object):  # Color should be treated as an immutable type.
 
     __int__ = __hash__
 
+    ### TODO: Should the static methods test their arguments for None-ness like
+    ### the Perl version does?
+
     @staticmethod
     def fromHash(bits): return Color(W=bits & 1,
 				     U=bits & 2,
