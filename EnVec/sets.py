@@ -1,3 +1,6 @@
+### TODO: Make CardSetDB objects store the name of the file from which they
+### were constructed
+
 import re
 from warnings import warn
 from envec.util import openR, chomp
@@ -6,16 +9,16 @@ setFile = 'data/sets.tsv'
 setDB = None
 
 class CardSet(object):
-    def __init__(self, name, date, short, _import):
+    def __init__(self, name, date, short, import_):
 	self.name = name
 	self.date = filter(str.isdigit, date)
 	self.short = short
-	self._import = _import
+	self.import_ = import_
 
     def __cmp__(self, other):
 	return cmp(type(self), type(other)) or \
-	       cmp((self.date,  self.name,  self.short,  self._import),
-		   (other.date, other.name, other.short, other._import))
+	       cmp((self.date,  self.name,  self.short,  self.import_),
+		   (other.date, other.name, other.short, other.import_))
 
     def cmpKey(self): return self.date or self.name
 
@@ -32,11 +35,11 @@ class CardSetDB(object):
 	    line = chomp(line)
 	    if line.lstrip() == '' or line.lstrip()[0] == '#':
 		continue
-	    (short, name, date, _import) = re.split(r'\t+', line)
+	    (short, name, date, import_) = re.split(r'\t+', line)
 	    if name in self.sets:
 		warn(infile ++ ': set "' + name + '" appears more than once; second appearance discarded')
 		continue
-	    newSet = CardSet(name, date, short, _import)
+	    newSet = CardSet(name, date, short, import_)
 	    self.sets[name] = newSet
 	    self.setList.append(name)
 	    if short in self.shorts:
@@ -53,7 +56,7 @@ class CardSetDB(object):
     def fromAbbrev(self, short): return self.shorts.get(short, None)
 
     def setsToImport(self):
-	return filter(lambda s: self.sets[s]._import, self.setList)
+	return filter(lambda s: self.sets[s].import_, self.setList)
 
     def cmpKey(self, name):
 	return self.sets[name].cmpKey() if name in self.sets else name
@@ -63,4 +66,6 @@ class CardSetDB(object):
 
     def firstSet(self, xs): return min(xs, key=self.cmpKey)
 
-def loadSets(infile=None): return setDB = CardSetDB.fromFile(infile)
+def loadSets(infile=None):
+    setDB = CardSetDB.fromFile(infile)
+    return setDB
