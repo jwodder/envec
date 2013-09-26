@@ -59,29 +59,26 @@ class Color(object):  # Color should be treated as an immutable type.
 
     __int__ = __hash__
 
-    ### TODO: Should the static methods test their arguments for None-ness like
-    ### the Perl version does?
+    @staticmethod
+    def fromHash(bits):
+	if bits is None: return None
+	return Color(W=bits & 1, U=bits & 2, B=bits & 4, R=bits & 8,
+		     G=bits & 16)
 
     @staticmethod
-    def fromHash(bits): return Color(W=bits & 1,
-				     U=bits & 2,
-				     B=bits & 4,
-				     R=bits & 8,
-				     G=bits & 16)
+    def fromString(txt):
+	if txt is None: return None
+	return Color(W='W' in txt, U='U' in txt, B='B' in txt, R='R' in txt,
+		     G='G' in txt)
 
     @staticmethod
-    def fromString(txt): return Color(W='W' in txt,
-				      U='U' in txt,
-				      B='B' in txt,
-				      R='R' in txt,
-				      G='G' in txt)
-
-    @staticmethod
-    def fromLongString(txt): return Color(W=re.search(r'\bWhite\b', txt, re.I),
-					  U=re.search(r'\bBlue\b',  txt, re.I),
-					  B=re.search(r'\bBlack\b', txt, re.I),
-					  R=re.search(r'\bRed\b',   txt, re.I),
-					  G=re.search(r'\bGreen\b', txt, re.I))
+    def fromLongString(txt):
+	if txt is None: return None
+	return Color(W=re.search(r'\bWhite\b', txt, re.I),
+		     U=re.search(r'\bBlue\b',  txt, re.I),
+		     B=re.search(r'\bBlack\b', txt, re.I),
+		     R=re.search(r'\bRed\b',   txt, re.I),
+		     G=re.search(r'\bGreen\b', txt, re.I))
 
     # Set-like comparison (not a total ordering):
 
