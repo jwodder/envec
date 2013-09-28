@@ -1,6 +1,9 @@
 ### TODO: Make CardSetDB objects store the name of the file from which they
 ### were constructed
 
+### Add a method for getting the number of entries in a CardSetDB (and other
+### deconstructions)?
+
 import re
 from warnings import warn
 from envec.util import openR, chomp

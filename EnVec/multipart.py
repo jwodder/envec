@@ -1,6 +1,9 @@
 ### TODO: Make MultipartDB objects store the name of the file from which they
 ### were constructed
 
+### Add a method for getting the number of entries in a MultipartDB (and other
+### deconstructions)?
+
 import re
 from warnings import warn
 from envec.util import openR, chomp
@@ -15,14 +18,18 @@ multiFile = 'data/multipart.tsv'
 multiDB = None
 
 class MultipartDB(object):
+    def __init__(self, nextMap, prevMap, classMap):
+	self.nextMap = nextMap
+	self.prevMap = prevMap
+	self.classMap = classMap
+
     @classmethod
     def fromFile(cls, infile=None):
 	if infile is None: infile = multiFile
 	fp = openR(infile)
-	self = cls()
-	self.nextMap = {}
-	self.prevMap = {}
-	self.classMap = {}
+	nextMap = {}
+	prevMap = {}
+	classMap = {}
 	lineno = 0
 	for line in fp:
 	    lineno += 1
@@ -37,19 +44,18 @@ class MultipartDB(object):
 	    if cClass is None:
 		warn('%s: line %d: unknown card class %r'
 		      % (infile, lineno, enum))
-		continue
 	    elif cClass == NORMAL_CARD:
-		continue
-	    if a in self.nextMap or a in self.prevMap:
+		pass
+	    elif a in nextMap or a in prevMap:
 		warn('%s: card name %r appears more than once' % (infile, a))
-	    elif b in self.nextMap or b in self.prevMap:
+	    elif b in nextMap or b in prevMap:
 		warn('%s: card name %r appears more than once' % (infile, b))
 	    else:
-		self.nextMap[a] = b
-		self.prevMap[b] = a
-		self.classMap[(a,b)] = cClass
+		nextMap[a] = b
+		prevMap[b] = a
+		classMap[(a,b)] = cClass
 	fp.close()
-	return self
+	return cls(nextMap, prevMap, classMap)
 
     def cardClass(self, name):
 	if name in self.nextMap:
@@ -59,8 +65,7 @@ class MultipartDB(object):
 	else:
 	    return NORMAL_CARD
 
-    def isPrimary(self, name): return name in self.nextMap
-
+    def isPrimary(self,   name): return name in self.nextMap
     def isSecondary(self, name): return name in self.prevMap
 
     def isSplit(self, name):  return self.cardClass(name) == SPLIT_CARD
@@ -101,7 +106,7 @@ class MultipartDB(object):
 	return sorted(ab for (ab,c) in self.classMap.items() if c==DOUBLE_CARD)
 
     def alternate(self, name):
-	if name in self.nextMap: return self.nextMap[name]
+	if   name in self.nextMap: return self.nextMap[name]
 	elif name in self.prevMap: return self.prevMap[name]
 	else: return None
 
@@ -116,6 +121,9 @@ def classEnum(cClass, default=None):
     elif re.search(r'^double(\b|_)', cClass, re.I): return DOUBLE_CARD
     else: return default
 
-def loadParts(infile=None):
+def loadParts(infile=None):  ### Rename "loadMultipartDB"?
     multiDB = MultipartDB.fromFile(infile)
     return multiDB
+
+def getMultipartDB():
+    return MultipartDB({}, {}, {}) if multiDB is None else multiDB
