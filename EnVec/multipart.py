@@ -15,11 +15,11 @@ multiFile = 'data/multipart.tsv'
 multiDB = None
 
 class MultipartDB(object):
-    @staticmethod
-    def fromFile(infile=None):
+    @classmethod
+    def fromFile(cls, infile=None):
 	if infile is None: infile = multiFile
 	fp = openR(infile)
-	self = MultipartDB()
+	self = cls()
 	self.nextMap = {}
 	self.prevMap = {}
 	self.classMap = {}
@@ -27,8 +27,7 @@ class MultipartDB(object):
 	for line in fp:
 	    lineno += 1
 	    line = chomp(line)
-	    if line.lstrip() == '' or line.lstrip()[0] == '#':
-		continue
+	    if line.lstrip()[:1] in ('', '#'): continue
 	    try:
 		(a, b, enum) = re.split(r'\t+', line)
 	    except:
@@ -112,8 +111,8 @@ def classEnum(cClass, default=None):
 	cClass = int(cClass)
 	return cClass if cClass in cardClasses else default
     elif re.search(r'^normal(\b|_)', cClass, re.I): return NORMAL_CARD
-    elif re.search(r'^split(\b|_)', cClass, re.I): return SPLIT_CARD
-    elif re.search(r'^flip(\b|_)', cClass, re.I): return FLIP_CARD
+    elif re.search(r'^split(\b|_)',  cClass, re.I): return SPLIT_CARD
+    elif re.search(r'^flip(\b|_)',   cClass, re.I): return FLIP_CARD
     elif re.search(r'^double(\b|_)', cClass, re.I): return DOUBLE_CARD
     else: return default
 

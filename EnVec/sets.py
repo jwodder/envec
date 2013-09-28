@@ -22,32 +22,37 @@ class CardSet(object):
 
     def cmpKey(self): return self.date or self.name
 
+    def __str__(self): return self.name
+
 class CardSetDB(object):
-    @staticmethod
-    def fromFile(infile=None):
+    def __init__(self, sets, shorts, setList):
+	self.sets = sets
+	self.shorts = shorts
+	self.setList = setList
+
+    @classmethod
+    def fromFile(cls, infile=None):
 	if infile is None: infile = setFile
 	setdat = openR(infile)
-	self = CardSetDB()
-	self.sets = {}
-	self.shorts = {}
-	self.setList = []
+	sets = {}
+	shorts = {}
+	setList = []
 	for line in setdat:
 	    line = chomp(line)
-	    if line.lstrip() == '' or line.lstrip()[0] == '#':
-		continue
+	    if line.lstrip()[:1] in ('', '#'): continue
 	    (short, name, date, import_) = re.split(r'\t+', line)
-	    if name in self.sets:
-		warn(infile ++ ': set "' + name + '" appears more than once; second appearance discarded')
+	    if name in sets:
+		warn('%s: set %r appears more than once; second appearance discarded' % (infile, name))
 		continue
 	    newSet = CardSet(name, date, short, import_)
-	    self.sets[name] = newSet
-	    self.setList.append(name)
-	    if short in self.shorts:
-		warn(infile + ': abbreviation "' + short + '" used more than once; second appearance ignored')
+	    sets[name] = newSet
+	    setList.append(name)
+	    if short in shorts:
+		warn('%s: abbreviation %r used more than once; second appearance ignored' % (infile, short))
 	    else:
-		self.shorts[short] = name
+		shorts[short] = name
 	setdat.close()
-	return self
+	return cls(sets, shorts, setList)
 
     def setData(self, name): return self.sets.get(name, None)
 
@@ -66,6 +71,8 @@ class CardSetDB(object):
 
     def firstSet(self, xs): return min(xs, key=self.cmpKey)
 
-def loadSets(infile=None):
+def loadSets(infile=None):  ### Rename "loadCardSetDB"?
     setDB = CardSetDB.fromFile(infile)
     return setDB
+
+def getCardSetDB(): return CardSetDB({}, {}, []) if setDB is None else setDB

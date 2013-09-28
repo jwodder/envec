@@ -129,4 +129,4 @@ def scrapeSection(doc, pre):
 	    (date, ruling) = map(magicContent, tds)
 	    fields['rulings'].append({"date": simplify(date),
 				      "ruling": trim(ruling)})
-    return Card(**fields)
+    return Card.newCard(**fields)
