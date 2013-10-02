@@ -46,6 +46,7 @@ def scalarField(field):
 	fields = [getattr(c, field) for c in self.content]
 	if all(f is None for f in fields): return None
 	#else: return tuple(fields)
+	#else: return tuple(fields) if len(fields) > 1 else fields[0]
 	else: return sep.join(f or '' for f in fields)
     return property(getter)
 
@@ -122,15 +123,15 @@ class Card(object):
 	return txt
 
     @property
-    def color(self):   return Color(*[c.color()   for c in self.content])
+    def color(self):   return Color(*[c.color   for c in self.content])
 
     @property
-    def colorID(self): return Color(*[c.colorID() for c in self.content])
+    def colorID(self): return Color(*[c.colorID for c in self.content])
 
     @property
     def cmc(self):
-	if self.cardClass == FLIP_CARD: return self.part1.cmc()
-	else: return sum(c.cmc() for c in self.content)
+	if self.cardClass == FLIP_CARD: return self.part1.cmc
+	else: return sum(c.cmc for c in self.content)
 
     @property
     def parts(self): return len(self.content)
@@ -177,9 +178,9 @@ class Card(object):
     @property
     def cost(self):
 	if self.isNormal() or self.isSplit():
-	    return sep.join(c.cost() or '' for c in self.content)
+	    return sep.join(c.cost or '' for c in self.content)
 	else:
-	    return self.part1.cost()
+	    return self.part1.cost
 
     def isSupertype(self, type_): return type_ in self.supertypes()
     def isType(self, type_):      return type_ in self.types()

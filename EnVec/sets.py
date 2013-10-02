@@ -67,14 +67,14 @@ class CardSetDB(object):
 	return filter(lambda s: self.sets[s].import_, self.setList)
 
     def cmpKey(self, name):
-	return self.sets[name].cmpKey() if name in self.sets else name
+	return (self.sets[name].cmpKey() if name in self.sets else name, name)
 
-    def cmpSets(self, a, b):
-	return cmp(self.cmpKey(a), self.cmpKey(b)) or cmp(a,b)
+    def cmpSets(self, a, b): return cmp(self.cmpKey(a), self.cmpKey(b))
 
     def firstSet(self, xs): return min(xs, key=self.cmpKey)
 
 def loadSets(infile=None):  ### Rename "loadCardSetDB"?
+    global setDB
     setDB = CardSetDB.fromFile(infile)
     return setDB
 

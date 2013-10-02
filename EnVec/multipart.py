@@ -122,6 +122,7 @@ def classEnum(cClass, default=None):
     else: return default
 
 def loadParts(infile=None):  ### Rename "loadMultipartDB"?
+    global multiDB
     multiDB = MultipartDB.fromFile(infile)
     return multiDB
 
