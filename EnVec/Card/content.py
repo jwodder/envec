@@ -1,0 +1,139 @@
+import re
+from envec.colors import Color
+from envec.util   import jsonify, txt2xml, sym2xml
+
+class Content(object):
+    __slots__ = ["name", "cost", "text", "pow", "tough", "loyalty", "hand",
+		 "life", "indicator", "supertypes", "types", "subtypes"]
+
+    def __init__(self, name, types, cost=None, supertypes=[], subtypes=[],
+		 text=None, pow=None, tough=None, loyalty=None, hand=None,
+		 life=None, indicator=None):
+	self.name = name
+	self.types = types
+	self.cost = cost
+	self.supertypes = supertypes
+	self.subtypes = subtypes
+	self.text = text
+	self.pow = pow
+	self.tough = tough
+	self.loyalty = loyalty
+	self.hand = hand
+	self.life = life
+	self.indicator = indicator
+
+    def toJSON(self):
+	my attrs = []
+	for attr in self.__slots__:
+	    val = getattr(self, attr)
+	    if val not in (None, '', []):
+		attrs.append('    "%s": %s' % (attr, jsonify(val)))
+	return "{\n" + ",\n".join(attrs) + "\n   }"
+
+    def toXML(self):
+	str = "  <content>\n   <name>" + txt2xml(self.name) + "</name>\n"
+	if self.cost is not None:
+	    str += "   <cost>" + sym2xml(self.cost) + "</cost>\n"
+	for sup in self.supertypes:
+	    str += "   <supertype>" + txt2xml(sup) + "</supertype>\n"
+	for t in self.types:
+	    str += "   <type>" + txt2xml(t) + "</type>\n"
+	for sub in self.subtypes:
+	    str += "   <subtype>" + txt2xml(sub) + "</subtype>\n"
+	for line in (self.text or '').splitlines():
+	    str += "   <text>" + sym2xml(line) + "</text>\n"
+	for attr in "pow tough loyalty hand life indicator".split():
+	    val = getattr(self, attr)
+	    if val is not None:
+		str += "   <%s>%s</%s>\n" % (attr, txt2xml(val), attr)
+	str += "  </content>\n"
+	return str
+
+    @property
+    def color(self):
+	if self.name == 'Ghostfire': return Color()  # special case
+	# Since Innistrad, cards that formerly said "[This card] is [color]"
+	# now have color indicators instead, so there's no need to check for
+	# such strings.
+	return Color.fromString((self.cost or '') + (self.indicator or ''))
+
+    @property
+    def colorID(self):
+	# Since Innistrad, cards that formerly said "[This card] is [color]"
+	# now have color indicators instead, so there's no need to check for
+	# such strings.
+	colors = self.color
+	txt = re.sub(r'\([^()]+\)', '', self.text or '')
+	# It is assumed that text is reminder text if & only if it's enclosed
+	# in parentheses.
+	# Reminder text is supposed to be ignored for the purposes of
+	# establishing color identity, though, as of Dark Ascension, Charmed
+	# Pendant and Trinisphere appear to be the only cards for which this
+	# makes a difference.
+	if re.search(r'\{(./)?W(/.)?\}', txt): colors |= WHITE
+	if re.search(r'\{(./)?U(/.)?\}', txt): colors |= BLUE
+	if re.search(r'\{(./)?B(/.)?\}', txt): colors |= BLACK
+	if re.search(r'\{(./)?R(/.)?\}', txt): colors |= RED
+	if re.search(r'\{(./)?G(/.)?\}', txt): colors |= GREEN
+	if self.isType('Land'):
+	    # Basic land types aren't technically part of color identity, but
+	    # rule 903.5d makes them practically a part anyway.
+	    if self.isSubtype('Plains'):   colors |= WHITE
+	    if self.isSubtype('Island'):   colors |= BLUE
+	    if self.isSubtype('Swamp'):    colors |= BLACK
+	    if self.isSubtype('Mountain'): colors |= RED
+	    if self.isSubtype('Forest'):   colors |= GREEN
+	return colors
+
+    @property
+    def cmc(self):
+	if not self.cost: return 0
+	cost = 0
+	for c in re.split(r'[{}]+', self.cost):
+	    # Splitting on an empty pattern like r'(?=\{)' doesn't work in
+	    # Python.
+	    m = re.search(r'(\d+)', c)
+	    if m: cost += int(m.group(1))
+	    elif any(ch in c for ch in 'WUBRGSwubrgs'): cost += 1
+	     # This weeds out {X}, {Y}, etc.
+	return cost
+
+    @property
+    def type(self): return ' '.join(self.supertypes + self.types +
+				    (['--'] + self.subtypes if self.subtypes
+				     else []))
+
+    def isSupertype(self, type_): return type_ in self.supertypes
+    def isType(self, type_):      return type_ in self.types
+    def isSubtype(self, type_):   return type_ in self.subtypes
+
+    def hasType(self, type_):
+	return self.isType(type_) or self.isSubtype(type_) \
+				  or self.isSupertype(type_)
+
+    def isNontraditional(self):
+	return self.isType('Vanguard')   or self.isType('Plane') \
+	    or self.isType('Phenomenon') or self.isType('Scheme')
+
+    def PT(self):
+	return self.pow +  '/' + self.tough if self.pow  is not None else None
+
+    def HandLife(self):
+	return self.hand + '/' + self.life  if self.hand is not None else None
+
+    def copy(self):
+	dup = {}
+	for attr in self.__slots__:
+	    val = getattr(self, attr)
+	    dup[attr] = val[:] if isinstance(val, list) else val
+	return Content(**dup)
+
+    def __cmp__(self, other):
+	return cmp(type(self), type(other)) or \
+	       cmp(tuple(getattr(self,  attr) for attr in self.__slots__),
+		   tuple(getattr(other, attr) for attr in self.__slots__))
+
+    @classmethod
+    def fromDict(cls, obj):  # called `fromHashref` in the Perl version
+	if isinstance(obj, cls): return obj.copy()
+	else: return cls(**obj)

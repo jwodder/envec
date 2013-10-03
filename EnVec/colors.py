@@ -48,6 +48,8 @@ class Color(object):  # Color should be treated as an immutable type.
 
     def __len__(self): return self.W + self.U + self.B + self.R + self.G
 
+    def isMulticolor(self): return len(self) > 1
+
     def __hash__(self):
 	bits = 0
 	if self.W: bits |= 1

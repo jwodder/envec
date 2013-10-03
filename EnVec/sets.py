@@ -3,6 +3,7 @@
 
 ### Add a method for getting the number of entries in a CardSetDB (and other
 ### deconstructions)?
+###  - Iterating over a CardSetDB should probably give the setList
 
 import re
 from warnings import warn

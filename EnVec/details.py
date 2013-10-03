@@ -13,8 +13,8 @@ from envec.multipart     import NORMAL_CARD
 from envec.util          import magicContent, trim, simplify, parseTypes, openR
 
 def parseDetails(txt) {
+    # Work around italicization farkup:
     txt = re.sub(r'</i>([^<>]+)</i>', r'\1', txt, flags=re.I)
-     # Work around italicization farkup
     txt = re.sub(r'\r\n?', "\n", txt)
     doc = parseString(txt)
     pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_'

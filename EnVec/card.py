@@ -182,9 +182,9 @@ class Card(object):
 	else:
 	    return self.part1.cost
 
-    def isSupertype(self, type_): return type_ in self.supertypes()
-    def isType(self, type_):      return type_ in self.types()
-    def isSubtype(self, type_):   return type_ in self.subtypes()
+    def isSupertype(self, type_): return type_ in self.supertypes
+    def isType(self, type_):      return type_ in self.types
+    def isSubtype(self, type_):   return type_ in self.subtypes
 
     def hasType(self, type_):
 	return self.isType(type_) or self.isSubtype(type_) \
