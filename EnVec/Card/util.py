@@ -18,7 +18,8 @@ def unmungFlip(flip):
     # Should a warning be given if `flip` isn't actually a munged flip card?
     texts = (flip.text or '').split("\n----\n", 1)
     if len(texts) < 2: return flip
-    (name, type_, pt, txt) = texts[1].splitlines()[0,1,2,3:]
+    lines = texts[1].splitlines()
+    (name, type_, pt, txt) = (lines[0], lines[1], lines[2], lines[3:])
     (supers, types, subs) = parseTypes(type_)
     (pow, tough) = map(simplify, pt.split('/', 1)) if pt else (None, None)
     bottom = Content(name=name, cost=flip.cost, supertypes=supers, types=types,
@@ -52,8 +53,8 @@ def joinPrintings(name, prnt1, prnt2):
 	if len(prnts1[set_]) != len(prnts2[set_]):
 	    raise ValueError("printings mismatch for %r in %s: part 1 has %d printings but part 2 has %d" % (name, set_, len(prnts1[set_]), len(prnts2[set_])))
 	if len(prnts1[set_]) > 1:
-	    multiverse = Multival([[sorted(p.multiverseid.all()
-					   for p in prnts1[set_])]])
+	    multiverse = Multival([sorted(p.multiverseid.all()
+					  for p in prnts1[set_])])
 	else:
 	    multiverse = None
 	p1 = prnts1[set_][0]
@@ -88,7 +89,7 @@ def joinRulings(rules1, rules2):
     for r1 in rules1:
 	subcard = True
 	for i in range(len(rules2)):
-	    if r1["date", "ruling"] == rules2[i]["date", "ruling"]:
+	    if (r1["date"], r1["ruling"]) == (rules2[i]["date"], rules2[i]["ruling"]):
 		rulings.append(r1.copy())
 		del rules2[i]
 		subcard = False

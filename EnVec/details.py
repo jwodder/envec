@@ -63,15 +63,15 @@ def expansions(node):
     if not node: return []
     expands = []
     for a in node.getElementsByTagName('a'):
-	id_ = matchGroup(r'\bmultiverseid=(\d+)', a.getAttribute('href'))
-	if id_ is None: continue
+	idval = matchGroup(r'\bmultiverseid=(\d+)', a.getAttribute('href'))
+	if idval is None: continue
 	img = list(a.getElementsByTagName('img'))
 	if not img: continue
 	src = img[0].getAttribute('src')
 	if not src: continue
 	set_ = matchGroup(r'\bset=(\w+)', src)
 	rarity = matchGroup(r'\brarity=(\w+)', src)
-	expands.append(Printing(set_=set_, rarity=rarity, multiverseid=id_))
+	expands.append(Printing(set_=set_, rarity=rarity, multiverseid=idval))
     return expands
 
 def scrapeSection(doc, pre):
@@ -81,8 +81,8 @@ def scrapeSection(doc, pre):
     fields['cost'] = rowVal(doc.getElementById(pre + "manaRow"))
     if fields['cost']:
 	fields['cost'] = filter(lambda c: not c.isspace(), fields['cost'])
-    fields['supertypes', 'types', 'subtypes'] \
-      = parseTypes(rowVal(doc.getElementById(pre + "typeRow")))
+    (fields['supertypes'], fields['types'], fields['subtypes']) \
+     = parseTypes(rowVal(doc.getElementById(pre + "typeRow")))
     fields['text'] = multiline(doc.getElementById(pre + "textRow"))
     if fields['text'] is not None:
 	# Unbotch mana symbols in Unglued cards:
@@ -106,11 +106,12 @@ def scrapeSection(doc, pre):
 	# Note that ½'s in rules texts (in details mode) are already
 	# represented by ½.
 	if label == 'P/T:':
-	    fields['pow','tough'] = re.search(r'^([^/]+?) ?/ ?(.+?)$', pt).groups()
+	    (fields['pow'], fields['tough']) \
+	     = re.search(r'^([^/]+?) ?/ ?(.+?)$', pt).groups()
 	elif label == 'Loyalty:':
 	    fields['loyalty'] = pt
 	elif label == 'Hand/Life:':
-	    fields['hand','life'] = re.search(r'Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)', pt, re.I).groups()
+	    (fields['hand'], fields['life']) = re.search(r'Hand Modifier: ?([-+]?\d+) ?, ?Life Modifier: ?([-+]?\d+)', pt, re.I).groups()
 	else:
 	    warn("Unknown ptRow label for %s: %r" % (fields['name'], label))
     prnt0 = expansions(doc.getElementById(pre + "currentSetSymbol"))[0]

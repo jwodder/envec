@@ -3,27 +3,27 @@ from envec.colors import Color
 from envec.util   import jsonify, txt2xml, sym2xml
 
 class Content(object):
-    __slots__ = ["name", "cost", "text", "pow", "tough", "loyalty", "hand",
-		 "life", "indicator", "supertypes", "types", "subtypes"]
+    __slots__ = ("name", "cost", "text", "pow", "tough", "loyalty", "hand",
+		 "life", "indicator", "supertypes", "types", "subtypes")
 
     def __init__(self, name, types, cost=None, supertypes=[], subtypes=[],
 		 text=None, pow=None, tough=None, loyalty=None, hand=None,
 		 life=None, indicator=None):
-	self.name = name
-	self.types = types
-	self.cost = cost
-	self.supertypes = supertypes
-	self.subtypes = subtypes
-	self.text = text
-	self.pow = pow
-	self.tough = tough
-	self.loyalty = loyalty
-	self.hand = hand
-	self.life = life
-	self.indicator = indicator
+	self.name       = name		# string
+	self.types      = types[:]	# list of strings
+	self.cost       = cost		# string or None
+	self.supertypes = supertypes[:]	# list of strings
+	self.subtypes   = subtypes[:]	# list of strings
+	self.text       = text		# string or None
+	self.pow        = pow		# string or None
+	self.tough      = tough		# string or None
+	self.loyalty    = loyalty	# string or None
+	self.hand       = hand		# string or None
+	self.life       = life		# string or None
+	self.indicator  = indicator	# string or None
 
     def toJSON(self):
-	my attrs = []
+	attrs = []
 	for attr in self.__slots__:
 	    val = getattr(self, attr)
 	    if val not in (None, '', []):
@@ -31,23 +31,23 @@ class Content(object):
 	return "{\n" + ",\n".join(attrs) + "\n   }"
 
     def toXML(self):
-	str = "  <content>\n   <name>" + txt2xml(self.name) + "</name>\n"
+	txt = "  <content>\n   <name>" + txt2xml(self.name) + "</name>\n"
 	if self.cost is not None:
-	    str += "   <cost>" + sym2xml(self.cost) + "</cost>\n"
+	    txt += "   <cost>" + sym2xml(self.cost) + "</cost>\n"
 	for sup in self.supertypes:
-	    str += "   <supertype>" + txt2xml(sup) + "</supertype>\n"
+	    txt += "   <supertype>" + txt2xml(sup) + "</supertype>\n"
 	for t in self.types:
-	    str += "   <type>" + txt2xml(t) + "</type>\n"
+	    txt += "   <type>" + txt2xml(t) + "</type>\n"
 	for sub in self.subtypes:
-	    str += "   <subtype>" + txt2xml(sub) + "</subtype>\n"
+	    txt += "   <subtype>" + txt2xml(sub) + "</subtype>\n"
 	for line in (self.text or '').splitlines():
-	    str += "   <text>" + sym2xml(line) + "</text>\n"
+	    txt += "   <text>" + sym2xml(line) + "</text>\n"
 	for attr in "pow tough loyalty hand life indicator".split():
 	    val = getattr(self, attr)
 	    if val is not None:
-		str += "   <%s>%s</%s>\n" % (attr, txt2xml(val), attr)
-	str += "  </content>\n"
-	return str
+		txt += "   <%s>%s</%s>\n" % (attr, txt2xml(val), attr)
+	txt += "  </content>\n"
+	return txt
 
     @property
     def color(self):

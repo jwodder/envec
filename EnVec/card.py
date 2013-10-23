@@ -53,9 +53,9 @@ def scalarField(field):
 class Card(object):
     def __init__(self, cardClass, content, printings=[], rulings=[]):
 	self.cardClass = cardClass
-	self.content   = content    # list of EnVec::Card::Content objects
-	self.printings = printings  # list of EnVec::Card::Printing objects
-	self.rulings   = rulings
+	self.content   = content[:]    # list of EnVec::Card::Content objects
+	self.printings = printings[:]  # list of EnVec::Card::Printing objects
+	self.rulings   = rulings[:]
 	 # list of dicts with the following fields:
 	 #  - date
 	 #  - ruling

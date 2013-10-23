@@ -3,7 +3,7 @@
 import re
 
 class Color(object):  # Color should be treated as an immutable type.
-    __slots__ = ["W", "U", "B", "R", "G"]
+    __slots__ = ("W", "U", "B", "R", "G")
 
     def __init__(self, *colors, **attrs):
 	self.W = self.U = self.B = self.R = self.G = False
@@ -49,6 +49,10 @@ class Color(object):  # Color should be treated as an immutable type.
     def __len__(self): return self.W + self.U + self.B + self.R + self.G
 
     def isMulticolor(self): return len(self) > 1
+
+    def isMonocolor(self): return len(self) == 1
+
+    def isColorless(self): return len(self) == 0
 
     def __hash__(self):
 	bits = 0

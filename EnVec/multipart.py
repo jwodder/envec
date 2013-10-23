@@ -5,7 +5,7 @@
 ### deconstructions)?
 
 import re
-from warnings import warn
+from warnings   import warn
 from envec.util import openR, chomp
 
 NORMAL_CARD = 1
@@ -14,6 +14,7 @@ FLIP_CARD   = 3
 DOUBLE_CARD = 4
 cardClasses = [NORMAL_CARD, SPLIT_CARD, FLIP_CARD, DOUBLE_CARD]
 
+### Shouldn't these be MultipartDB class variables?
 multiFile = 'data/multipart.tsv'
 multiDB = None
 
@@ -26,12 +27,11 @@ class MultipartDB(object):
     @classmethod
     def fromFile(cls, infile=None):
 	if infile is None: infile = multiFile
-	fp = openR(infile)
 	nextMap = {}
 	prevMap = {}
 	classMap = {}
 	lineno = 0
-	for line in fp:
+	for line in openR(infile):
 	    lineno += 1
 	    line = chomp(line)
 	    if line.lstrip()[:1] in ('', '#'): continue
@@ -54,7 +54,6 @@ class MultipartDB(object):
 		nextMap[a] = b
 		prevMap[b] = a
 		classMap[(a,b)] = cClass
-	fp.close()
 	return cls(nextMap, prevMap, classMap)
 
     def cardClass(self, name):
@@ -121,6 +120,7 @@ def classEnum(cClass, default=None):
     elif re.search(r'^double(\b|_)', cClass, re.I): return DOUBLE_CARD
     else: return default
 
+### Shouldn't the below two functions be MultipartDB class methods?
 def loadParts(infile=None):  ### Rename "loadMultipartDB"?
     global multiDB
     multiDB = MultipartDB.fromFile(infile)

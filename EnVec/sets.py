@@ -6,9 +6,10 @@
 ###  - Iterating over a CardSetDB should probably give the setList
 
 import re
-from warnings import warn
+from warnings   import warn
 from envec.util import openR, chomp
 
+### Shouldn't these be CardSetDB class variables?
 setFile = 'data/sets.tsv'
 setDB = None
 
@@ -37,11 +38,10 @@ class CardSetDB(object):
     @classmethod
     def fromFile(cls, infile=None):
 	if infile is None: infile = setFile
-	setdat = openR(infile)
 	sets = {}
 	shorts = {}
 	setList = []
-	for line in setdat:
+	for line in openR(infile):
 	    line = chomp(line)
 	    if line.lstrip()[:1] in ('', '#'): continue
 	    (short, name, date, import_) = re.split(r'\t+', line)
@@ -55,7 +55,6 @@ class CardSetDB(object):
 		warn('%s: abbreviation %r used more than once; second appearance ignored' % (infile, short))
 	    else:
 		shorts[short] = name
-	setdat.close()
 	return cls(sets, shorts, setList)
 
     def setData(self, name): return self.sets.get(name, None)
@@ -74,6 +73,7 @@ class CardSetDB(object):
 
     def firstSet(self, xs): return min(xs, key=self.cmpKey)
 
+### Shouldn't the below two functions be CardSetDB class methods?
 def loadSets(infile=None):  ### Rename "loadCardSetDB"?
     global setDB
     setDB = CardSetDB.fromFile(infile)
