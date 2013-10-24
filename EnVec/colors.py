@@ -1,9 +1,8 @@
-### TODO: Implement __and__, __xor__, __sub__, and __invert__.
-
+import operator
 import re
 
 class Color(object):  # Color should be treated as an immutable type.
-    __slots__ = ("W", "U", "B", "R", "G")
+    __slots__ = ('W', 'U', 'B', 'R', 'G')
 
     def __init__(self, *colors, **attrs):
 	self.W = self.U = self.B = self.R = self.G = False
@@ -16,6 +15,15 @@ class Color(object):  # Color should be treated as an immutable type.
 	    if p is not None:
 		setattr(self, prop, bool(p))
 
+    def flags(self):
+	return (self.W, self.U, self.B, self.R, self.G)
+	#return tuple(map(bool, (self.W, self.U, self.B, self.R, self.G)))
+	#return tuple(bool(getattr(self, p)) for p in self.__slots__)
+
+    @classmethod
+    def fromFlags(cls, flags):
+	return cls(W=flags[0], U=flags[1], B=flags[2], R=flags[3], G=flags[4])
+
     def __repr__(self):
 	colors = []
 	if self.W: colors.append('WHITE')
@@ -26,18 +34,23 @@ class Color(object):  # Color should be treated as an immutable type.
 	return 'Color(' + ', '.join(colors) + ')'
 
     def __str__(self):
-	txt = ''
-	for p in self.__slots__:
-	    if getattr(self, p):
-		txt += p
-	return txt
+	return ''.join(p for p in self.__slots__ if getattr(self, p))
 
     def __or__(self, other):
-	return Color(W=self.W or other.W,
-		     U=self.U or other.U,
-		     B=self.B or other.B,
-		     R=self.R or other.R,
-		     G=self.G or other.G)
+	return self.fromFlags(map(operator.or_,  self.flags(), other.flags()))
+
+    def __and__(self, other):
+	return self.fromFlags(map(operator.and_, self.flags(), other.flags()))
+
+    def __xor__(self, other):
+	return self.fromFlags(map(operator.xor,  self.flags(), other.flags()))
+
+    def __sub__(self, other):
+	return self.fromFlags(c and not d for (c,d) in zip(self.flags(),
+							   other.flags()))
+
+    def __invert__(self):
+	return self.fromFlags(map(operator.not_, self.flags()))
 
     def __iter__(self):  # This implicitly defines __contains__.
 	if self.W: yield WHITE
@@ -46,13 +59,13 @@ class Color(object):  # Color should be treated as an immutable type.
 	if self.R: yield RED
 	if self.G: yield GREEN
 
-    def __len__(self): return self.W + self.U + self.B + self.R + self.G
+    def __len__(self): return sum(self.flags())
 
     def isMulticolor(self): return len(self) > 1
 
     def isMonocolor(self): return len(self) == 1
 
-    def isColorless(self): return len(self) == 0
+    def isColorless(self): return not any(self.flags())
 
     def __hash__(self):
 	bits = 0
@@ -65,42 +78,42 @@ class Color(object):  # Color should be treated as an immutable type.
 
     __int__ = __hash__
 
-    @staticmethod
-    def fromHash(bits):
+    @classmethod
+    def fromHash(cls, bits):
 	if bits is None: return None
-	return Color(W=bits & 1, U=bits & 2, B=bits & 4, R=bits & 8,
-		     G=bits & 16)
+	return cls(W=bits & 1, U=bits & 2, B=bits & 4, R=bits & 8, G=bits & 16)
 
-    @staticmethod
-    def fromString(txt):
+    @classmethod
+    def fromString(cls, txt):
 	if txt is None: return None
-	return Color(W='W' in txt, U='U' in txt, B='B' in txt, R='R' in txt,
-		     G='G' in txt)
+	return cls(W='W' in txt, U='U' in txt, B='B' in txt, R='R' in txt,
+		   G='G' in txt)
 
-    @staticmethod
-    def fromLongString(txt):
+    @classmethod
+    def fromLongString(cls, txt):
 	if txt is None: return None
-	return Color(W=re.search(r'\bWhite\b', txt, re.I),
-		     U=re.search(r'\bBlue\b',  txt, re.I),
-		     B=re.search(r'\bBlack\b', txt, re.I),
-		     R=re.search(r'\bRed\b',   txt, re.I),
-		     G=re.search(r'\bGreen\b', txt, re.I))
+	return cls(W=re.search(r'\bWhite\b', txt, re.I),
+		   U=re.search(r'\bBlue\b',  txt, re.I),
+		   B=re.search(r'\bBlack\b', txt, re.I),
+		   R=re.search(r'\bRed\b',   txt, re.I),
+		   G=re.search(r'\bGreen\b', txt, re.I))
 
     # Set-like comparison (not a total ordering):
 
     def __lt__(self, other): return self <= other and not (self == other)
 
     def __le__(self, other):
-	return type(self) <= type(other) and \
-	    all(getattr(self, p) <= getattr(other, p) for p in self.__slots__)
+	return type(self) <  type(other) or \
+	      (type(self) <= type(other) and \
+	       all(map(operator.le, self.flags(), other.flags())))
 
     def __eq__(self, other):
 	return type(self) == type(other) and \
-	    all(getattr(self, p) == getattr(other, p) for p in self.__slots__)
+	       all(map(operator.eq, self.flags(), other.flags()))
 
     def __ne__(self, other): return not (self == other)
     def __ge__(self, other): return other <= self
-    def __gt__(self, other): return other < self
+    def __gt__(self, other): return other <  self
 
 COLORLESS = Color()
 WHITE     = Color(W=True)
