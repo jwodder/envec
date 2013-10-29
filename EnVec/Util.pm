@@ -2,7 +2,6 @@ package EnVec::Util;
 use warnings;
 use strict;
 use Carp;
-use Storable 'dclone';
 use XML::DOM::Lite ('TEXT_NODE', 'ELEMENT_NODE');
 use Exporter 'import';
 our @EXPORT = qw< trim simplify uniq jsonify wrapLines magicContent parseTypes
@@ -106,7 +105,7 @@ sub magicContent($) {
 sub parseTypes($) {
  my($type, $sub) = split / ?— ?| -+ /, simplify $_[0], 2;
   # The first "hyphen" above is U+2014.
- return [], [ $1 ], [ $3 || $sub ] if $type =~ /^(Summon|Enchant)( (.+))?$/i;
+ return [], [ $1 ], [ $2 || $sub ] if $type =~ /^(Summon|Enchant)(?: (.+))?$/i;
  my @sublist = $type eq 'Plane' ? ($sub) : split(' ', $sub || '');
   # Assume that Plane cards never have supertypes or other card types.
  my @typelist = split ' ', $type;

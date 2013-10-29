@@ -159,8 +159,9 @@ EOT
 sub cost {
  my $self = shift;
  carp "Card fields of EnVec::Card objects cannot be modified directly" if @_;
- if ($self->isSplit) { join $sep, map { $_->cost || '' } @{$self->content} }
- else { $self->part1->cost }
+ if ($self->isNormal || $self->isSplit) {
+  join $sep, map { $_->cost || '' } @{$self->content}
+ } else { $self->part1->cost }
 }
 
 sub isSupertype {
@@ -229,7 +230,6 @@ our $tagwidth = 8;
 sub showField1 {
  my($self, $field, $width) = @_;
  $width = ($width || 79) - $tagwidth - 1;
- my($tag, $text);
  if (!defined $field) { return '' }
  elsif ($field eq 'sets') {
   my $text = join ', ', uniq map {

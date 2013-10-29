@@ -59,7 +59,7 @@ sub colorID {
  # Since Innistrad, cards that formerly said "[This card] is [color]" now have
  # color indicators instead, so there's no need to check for such strings.
  my $colors = colors2bits($self->cost) | colors2bits($self->indicator);
- (my $text = $self->text || '') =~ s:\([^()]\)::g;
+ (my $text = $self->text || '') =~ s:\([^()]+\)::g;
  # It is assumed that text is reminder text if & only if it's enclosed in
  # parentheses.
  # Reminder text is supposed to be ignored for the purposes of establishing
@@ -124,7 +124,8 @@ sub hasType {
 
 sub isNontraditional {
  my $self = shift;
- $self->isType('Vanguard') || $self->isType('Plane') || $self->isType('Scheme');
+ return $self->isType('Vanguard') || $self->isType('Plane')
+     || $self->isType('Phenomenon') || $self->isType('Scheme');
 }
 
 sub PT {

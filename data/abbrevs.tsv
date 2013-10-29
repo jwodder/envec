@@ -88,7 +88,7 @@ Avacyn Restored				AVR	AVR	avr
 Return to Ravnica			RTR	RTR	rtr
 Gatecrash				GTC	GTC	gtc
 Dragon's Maze				DGM	DGM	dgm
-Theros					THS	THS	???
+Theros					THS	THS	ths
 #Born of the Gods			BNG	BNG	???
 #Journey into Nyx			???	???	???
 
@@ -105,7 +105,7 @@ Planechase				HOP	HOP	pch
 Archenemy				ARC	ARC	arc
 Magic: The Gathering-Commander		CMD	CMD	cmd
 Planechase 2012 Edition			PC2	PC2	pc2
-#MTG Commander (2013 Edition)		C13	C13	???
+Commander 2013 Edition			C13	C13	???
 
 Unglued					UG	UGL	ug
 Unhinged				UNH	UNH	uh
@@ -128,6 +128,7 @@ Duel Decks: Venser vs. Koth		DDI	DDI	ddi
 Duel Decks: Izzet vs. Golgari		DDJ	DDJ	ddj
 Duel Decks: Sorin vs. Tibalt		DDK	DDK	ddk
 Duel Decks: Heroes vs. Monsters		DDL	DDL	ddl
+#Duel Decks: Jace vs. Vraska		???	???	???
 
 From the Vault: Dragons			DRB	DRB	fvd
 From the Vault: Exiled			V09	V09	fve
@@ -144,3 +145,4 @@ Masters Edition				MED	MED	med
 Masters Edition II			ME2	ME2	me2
 Masters Edition III			ME3	ME3	me3
 Masters Edition IV			ME4	ME4	me4
+#Vintage Masters			???	???	???

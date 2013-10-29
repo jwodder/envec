@@ -134,7 +134,7 @@ HOP	Planechase				2009-09-04	1
 ARC	Archenemy				2010-06-18	1
 CMD	Magic: The Gathering-Commander		2011-06-17	1
 PC2	Planechase 2012 Edition			2012-06-01	1
-#C13	MTG Commander (2013 Edition)		2013-11-01	1
+C13	Commander 2013 Edition			2013-11-01	1
 
 EVG	Duel Decks: Elves vs. Goblins		2007-11-16	0
 DD2	Duel Decks: Jace vs. Chandra		2008-11-07	0
@@ -148,6 +148,7 @@ DDI	Duel Decks: Venser vs. Koth		2012-03-30	0
 DDJ	Duel Decks: Izzet vs. Golgari		2012-09-07	0
 DDK	Duel Decks: Sorin vs. Tibalt		2013-03-15	0
 DDL	Duel Decks: Heroes vs. Monsters		2013-09-06	0
+#???	Duel Decks: Jace vs. Vraska		2014-03-14	0
 
 DRB	From the Vault: Dragons			2008-08-29	0
 V09	From the Vault: Exiled			2009-08-28	0
@@ -167,3 +168,4 @@ MED	Masters Edition				2007-09-10	0
 ME2	Masters Edition II			2008-09-22	0
 ME3	Masters Edition III			2009-09-07	0
 ME4	Masters Edition IV			2011-01-10	0
+#???	Vintage Masters				2014-06-16	0

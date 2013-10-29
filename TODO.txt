@@ -6,6 +6,8 @@
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
  - Make EnVec::Multipart::loadParts check for names appearing more than once
  - details.pl should retry failed `get's under certain circumstances
+ - EnVec::Sets::loadSets should check that each entry has the right number of
+   fields; cf. EnVec::Multipart::loadParts
 
 - Features:
  - Implement the rest of the features for details.pl (See the top of its source)
@@ -14,14 +16,10 @@
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
  - Give EnVec::Card a fromXML method
- - Give EnVec::Multipart a cardClass function
- - Give EnVec::Multipart more functions for getting the alternate components of
-   given halves of multipart cards?
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
  - Fix/improve the PostScript output of listify.pl
- - Now that Gatherer has changed {P} to {PW} in the rulings on Planes, should
-   EnVec::Card->toXML use sym2xml for rulings text?
+ - Give EnVec::Card::Content a "devotion" method?
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations
@@ -43,6 +41,7 @@
  - Give EnVec::Multipart 'primaries' and 'secondaries' functions (rethink
    names) for getting all left/top/front and right/bottom/back portions of
    multipart cards, respectively
+ - Give EnVec::Multipart an isMultipart function
  - Make the default datafile paths absolute rather than relative (possibly with
    a way to set the datafile directory at runtime?)
  - Problem: At some point, LWP::Simple was updated in such a way that 'get' now
@@ -63,9 +62,18 @@
     against text strings?
  - Make Sets.pm and Multipart.pm use objects for storing & retrieving their
    respective data rather than file-global variables
- - Should subcard numbering in XML output start from 1 for the first part
-   rather than 0?
+ - Should subcard numbering in XML output (and internal rulings representation,
+   et alii?) start from 1 for the first part rather than 0?
  - Rewrite everything in Python?
+ - Rethink the Multival->get method
+ - Be more consistent with which classes have a copy() method and which can be
+   copied by passing an instance to the constructor
+ - Eliminate EnVec::Card::Content->isNontraditional?
+ - Make the fromHashref methods no longer support construction from a
+   pre-existing instance?
+ - Give Content and Printing (and Multival?) a fromJSON method each?
+ - Eliminate EnVec::Card->newCard?
+ - Move %formats from Card.pm to Multipart.pm?
 
 - Data & documentation:
  - Add documentation
@@ -93,6 +101,7 @@
   - Should fractional P/T's be stored as floats rather than as ints with '½'
     appended?
   - How should mtgcard.dtd handle fractional mana symbols?
+  - Give all Uncards an attribute marking them as such?
  - Support fetching & storing format legality information
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text
@@ -103,3 +112,6 @@
  - Incorporate reserved list membership into card data
  - Overload stringification of Multival objects?
  - Make use of all of the unused data/ files
+ - Store information on which sets/cards are foiled (and which are all-foil) ?
+ - Add a column to sets.tsv for Modern eligibility
+ - Add a column to sets.tsv for border color (black, white, or silver)
