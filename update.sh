@@ -13,10 +13,3 @@ perl toText1.pl "out/$base.json" > out/cards2.txt
 perl listify.pl -o out/cardlists2.txt "out/$base.json"
 echo '# vim:set nowrap:' >> out/cardlists2.txt
 chmod -w "out/$base.json" "out/$base.xml" out/cards2.txt out/cardlists2.txt
-
-#cd out
-#diff -Nu details.json "$base.json" > details.json.diff
-#diff -Nu details.xml  "$base.xml"  > details.xml.diff
-#rm -f details.json details.xml
-#ln -s "$base.json" details.json
-#ln -s "$base.xml"  details.xml

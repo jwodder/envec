@@ -118,6 +118,7 @@ for my $name (sort keys %cardIDs) {
   if (!defined $details) {
    logmsg "ERROR: Could not fetch card $name/$id";
    push @missed, "CARD $name/$id";
+   $first = 1;  # to suppress extra commas
    next;
   }
   my $prnt = parseDetails $details;
