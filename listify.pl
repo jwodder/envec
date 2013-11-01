@@ -35,7 +35,7 @@ my $prelude = $opts{L} ? <<'EOT' : $opts{P} ? join('', <DATA>) : '';
 EOT
 
 loadSets;
-my %sets = ();
+my %sets;
 for my $card (@{loadJSON shift}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
@@ -149,21 +149,19 @@ sub maxField($@) {
 }
 
 sub psify($) {
- ### TODO: Rewrite this to use the "ISOLatin1Encoding" encoding vector in
- ### PostScript.
  my $str = shift;
  $str =~ s/([(\\)])/\\$1/g;
  $str =~ s/’/'/g;
- $str =~ s/Æ/\\341/g;
- $str =~ s/à/) show (a) (\\301) accent (/g;
- $str =~ s/á/) show (a) (\\302) accent (/g;
- $str =~ s/é/) show (e) (\\302) accent (/g;
- $str =~ s/í/) show (\\365) (\\302) accent (/g;
- $str =~ s/ú/) show (u) (\\302) accent (/g;
- $str =~ s/â/) show (a) (\\303) accent (/g;
- $str =~ s/û/) show (u) (\\303) accent (/g;
- $str =~ s/ö/) show (o) (\\310) accent (/g;
- $str =~ s/--/\\320/g;
+ $str =~ s/Æ/\\306/g;
+ $str =~ s/à/\\340/g;
+ $str =~ s/á/\\341/g;
+ $str =~ s/é/\\351/g;
+ $str =~ s/í/\\355/g;
+ $str =~ s/ú/\\372/g;
+ $str =~ s/â/\\342/g;
+ $str =~ s/û/\\373/g;
+ $str =~ s/ö/\\366/g;
+ #$str =~ s/--/\\320/g;  # \320 is the StandardEncoding value for U+2014
  return "($str) show\n";
 }
 
@@ -226,13 +224,20 @@ sub showCards(@) {
 __DATA__
 %!PS-Adobe-3.0
 
+/mkLatin1 {  % old font, new name -- new font
+ exch dup length dict begin
+ { 1 index /FID ne { def } { pop pop } ifelse } forall 
+ /Encoding ISOLatin1Encoding def 
+ currentdict end definefont
+} def
+
 %/fontsize 10 def
 %/lineheight 12 def
-%/Monaco findfont fontsize scalefont setfont
+%/Monaco findfont /Monaco-Latin1 mkLatin1 fontsize scalefont setfont
 
 /fontsize 8 def
 /lineheight 10 def
-/Times-Roman findfont fontsize scalefont setfont
+/Times-Roman findfont /Times-Roman-Latin1 mkLatin1 fontsize scalefont setfont
 
 /em (M) stringwidth pop def
 
