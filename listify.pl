@@ -42,7 +42,8 @@ for my $card (@{loadJSON shift}) {
   my $rarity = $_->rarity;
   die "Unknown rarity \"$rarity\" for ", $card->name, ' in ', $_->set
    if !exists $rarities{$rarity};
-  push @{$sets{$_->set}}, [ $_->effectiveNum, $rarities{$rarity}, $stats ];
+  push @{$sets{$_->set}}, { %$stats, num    => $_->effectiveNum,
+				     rarity => $rarities{$rarity} };
  }
 }
 
@@ -55,14 +56,14 @@ for my $set (grep { exists $sets{$_} } allSets) {
   open $out, '>', $file or die "$0: $file: $!";
  }
  my @cards = map {
-  $_->[0] .= '.' if $_->[0];
-  $_->[2]{part2} ? ($_, [ '//', '', $_->[2]{part2} ]) : ($_);
- } sort { ($a->[0] || 0) <=> ($b->[0] || 0) || $a->[2]{name} cmp $b->[2]{name} }
+  $_->{num} .= '.' if $_->{num};
+  $_->{part2} ? ($_, { %{$_->{part2}}, num => '//', rarity => '' }) : ($_);
+ } sort { ($a->{num} || 0) <=> ($b->{num} || 0) || $a->{name} cmp $b->{name} }
   @{$sets{$set}};
  if ($set =~ /^Planechase( 2012 Edition)?$/ || $set eq 'Archenemy') {
   my(@special, @normal);
   for (@cards) {
-   if ($_->[2]{type} =~ /^(Plane|Phenomenon|(Ongoing )?Scheme)\b/) {
+   if ($_->{type} =~ /^(Plane|Phenomenon|(Ongoing )?Scheme)\b/) {
     push @special, $_
    } else { push @normal, $_ }
   }
@@ -73,13 +74,11 @@ for my $set (grep { exists $sets{$_} } allSets) {
 
 sub chrlength($) {
  my $str = shift;
- # SDF's version of Encode.pm has some sort of bug that causes &decode_utf8 to
- # overwrite its first argument with (I assume) the argument's trailing
- # unconvertible characters, even when FB_CROAK is supplied.  Even more
- # infuriating, passing the return value of &shift directly to &decode_utf8
- # doesn't protect the argument to &chrlength.
+ # Certain versions of Encode.pm modify the first argument to `decode_utf8` and
+ # second argument to `decode` even when FB_CROAK is the last argument.  Thus,
+ # the argument to `chrlength` needs to be copied into a temporary variable
+ # before passing it to either.
  return length(decode_utf8($str, Encode::FB_CROAK));
- ### Would changing decode_utf8(...) to decode('utf8', ...) solve the problem?
 }
 
 sub stats($) {
@@ -89,14 +88,13 @@ sub stats($) {
  my $cost = $card->cost || '--';
  $cost .= ' [' . $card->indicator . ']' if $card->indicator;
  my $extra = $card->PT || $card->loyalty || $card->HandLife || '';
- my $costLen = length $cost;
  return {
   name     => $name,
   nameLen  => chrlength $name,
   type     => $type,
   typeLen  => chrlength $type,
   cost     => $cost,
-  costLen  => $costLen,
+  costLen  => length $cost,
   extra    => $extra,
   extraLen => length $extra,
  };
@@ -111,6 +109,7 @@ sub showLaTeXSet($$@) {
 \\usepackage{graphicx}
 \\newcommand{\\img}[1]{\\includegraphics[height=2ex]{../../rules/img/#1}}
 \\usepackage{longtable}
+\\usepackage{textcomp}
 \\begin{document}
 \\section*{$set}
 \\begin{longtable}[c]{rl|l|l|l|l}
@@ -118,15 +117,15 @@ No. & Name & Type & & Cost & \\\\ \\hline \\endhead
 EOT
  for my $card (@_) {
   print $out "\\hline\n" and next if !defined $card;
-  print $out $card->[0] if $card->[0];
-  print $out ' & ', texify($card->[2]{name}), ' & ', texify($card->[2]{type});
+  print $out $card->{num} if $card->{num};
+  print $out ' & ', texify($card->{name}), ' & ', texify($card->{type});
   print $out ' & ';
-  print $out texify($card->[2]{extra}) if $card->[2]{extra};
+  print $out texify($card->{extra}) if $card->{extra};
   print $out ' & ';
   print $out defined($5) ? texify($5)
 			 : '\img{' . ($2 ? $2 : $3 ? "$3$4" : $1) . '.pdf}'
-   while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
-  print $out ' & ', substr($card->[1], 0, 1), "\\\\\n";
+   while $card->{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
+  print $out ' & ', substr($card->{rarity}, 0, 1), "\\\\\n";
  }
  print $out "\\end{longtable}\n\\end{document}\n";
 }
@@ -148,6 +147,9 @@ sub texify($) {
  $str =~ s/û/\\^u/g;
  $str =~ s/ö/\\"o/g;
  $str =~ s/--/---/g;
+ $str =~ s/®/\\textsuperscript{\\textregistered}/g;
+ $str =~ s/½/\\textonehalf/g;  # needs package textcomp
+ $str =~ s/²/\${}^2\$/g;
  return $str;
 }
 
@@ -158,10 +160,10 @@ sub showPSSet($$@) {
  my $costLen = 0;
  for my $card (@_) {
   if (defined $card) {
-   print $out " [ (", $card->[0] || '', ") ", psify($card->[2]{name}), ' ',
-    psify($card->[2]{type}), ' ', psify($card->[2]{extra} || ''), " { ";
+   print $out " [ (", $card->{num} || '', ") ", psify($card->{name}), ' ',
+    psify($card->{type}), ' ', psify($card->{extra} || ''), " { ";
    my $clen = 0;
-   while ($card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g) {
+   while ($card->{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g) {
     if ($2) {print $out "$2 "; $clen++; }
     elsif ($3) {print $out "$3$4 "; $clen++; }
     else {
@@ -172,7 +174,7 @@ sub showPSSet($$@) {
    }
    print $out "} ";
    $costLen = $clen if $clen > $costLen;
-   print $out '/', $card->[1] || 'nop', " ]\n";
+   print $out '/', $card->{rarity} || 'nop', " ]\n";
   } else { print $out " [ () (---) () () {} /nop ]\n" }
  }
  print $out <<EOT;
@@ -216,12 +218,12 @@ sub showTextSet($$@) {
  for (@_) {
   if (defined) {
    printf $out "%4s %s  %s  %-*s  %-*s  %s\n",
-    $_->[0] || '',
-    $_->[2]{name} . ' ' x ($nameLen - $_->[2]{nameLen}),
-    $_->[2]{type} . ' ' x ($typeLen - $_->[2]{typeLen}),
-    $extraLen, $_->[2]{extra},
-    $costLen, $_->[2]{cost},
-    $_->[1]
+    $_->{num} || '',
+    $_->{name} . ' ' x ($nameLen - $_->{nameLen}),
+    $_->{type} . ' ' x ($typeLen - $_->{typeLen}),
+    $extraLen, $_->{extra},
+    $costLen, $_->{cost},
+    $_->{rarity}
   } else { print $out "---\n" }
  }
  print $out "\n" if $opts{o};
@@ -230,11 +232,7 @@ sub showTextSet($$@) {
 sub maxField($@) {
  my $field = shift;
  my $max = 0;
- for (@_) {
-  $max = $_->[2]{$field} if $_->[2]{$field} > $max;
-  $max = $_->[2]{part2}{$field}
-   if $_->[2]{part2} && $_->[2]{part2}{$field} > $max;
- }
+ for (@_) { $max = $_->{$field} if defined && $_->{$field} > $max }
  return $max;
 }
 

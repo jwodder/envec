@@ -8,6 +8,8 @@
  - details.pl should retry failed `get's under certain circumstances
  - EnVec::Sets::loadSets should check that each entry has the right number of
    fields; cf. EnVec::Multipart::loadParts
+ - Make listify.pl's references to external images for \img work for other
+   people
 
 - Features:
  - Implement the rest of the features for details.pl (See the top of its source)
