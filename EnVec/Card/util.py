@@ -82,22 +82,21 @@ def sortPrintings(xs):
     ### This needs to handle p.multiverseid.all() being empty or unsorted.
 
 def joinRulings(rules1, rules2):
+    # This assumes that the rulings in `rules1` and `rules2` only have 'date'
+    # and 'ruling' fields.
     if rules1 is None: rules1 = []
     if rules2 is None: rules2 = []
     # The above two lines are unnecessary in the Python version, right?
     rulings = []
     for r1 in rules1:
-	subcard = True
-	for i in range(len(rules2)):
-	    if (r1["date"], r1["ruling"]) == (rules2[i]["date"], rules2[i]["ruling"]):
-		rulings.append(r1.copy())
-		del rules2[i]
-		subcard = False
-		break
-	if subcard:
+	try:
+	    rules2.remove(r1)
+	except ValueError:
 	    r1b = r1.copy()
 	    r1b["subcard"] = 0
 	    rulings.append(r1b)
+	else:
+	    rulings.append(r1.copy())
     for r2 in rules2:
 	r2b = r2.copy()
 	r2b["subcard"] = 1
