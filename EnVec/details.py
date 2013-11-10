@@ -71,7 +71,7 @@ def expansions(node):
 	if not src: continue
 	set_ = matchGroup(r'\bset=(\w+)', src)
 	rarity = matchGroup(r'\brarity=(\w+)', src)
-	expands.append(Printing(set_=set_, rarity=rarity, multiverseid=idval))
+	expands.append(Printing(set=set_, rarity=rarity, multiverseid=idval))
     return expands
 
 def scrapeSection(doc, pre):
@@ -118,7 +118,7 @@ def scrapeSection(doc, pre):
     prnt['number'] = simplify(rowVal(doc.getElementById(pre + "numberRow")))
     prnt['artist'] = simplify(rowVal(doc.getElementById(pre + "artistRow")))
     fields['printings'] = \
-     [Printing(set_=prnt0.set_, rarity=prnt0.rarity,
+     [Printing(set=prnt0.set_, rarity=prnt0.rarity,
 	       multiverseid=prnt0.multiverseid, **prnt)] \
      + expansions(doc.getElementById(pre + "otherSetsValue"))
     rulings = doc.getElementById(pre + "rulingsContainer")

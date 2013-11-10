@@ -21,9 +21,9 @@ class Printing(object):
 		 "_multiverseid", # Multival
 		 "_notes")        # Multival
 
-    def __init__(self, set_, date=None, rarity=None, number=None, artist=None,
+    def __init__(self, set, date=None, rarity=None, number=None, artist=None,
 		 flavor=None, watermark=None, multiverseid=None, notes=None):
-	self.set = set_
+	self.set = set
 	self.date = date
 	self.rarity = rarity
 	self._number = Multival(number)

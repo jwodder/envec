@@ -148,11 +148,11 @@ class Card(object):
     def isFlip(self):      return self.cardClass == FLIP_CARD
     def isDouble(self):    return self.cardClass == DOUBLE_CARD
 
-    def sets(self): return list(set(p.set_ for p in self.printings))
+    def sets(self): return list(set(p.set for p in self.printings))
 
     def firstSet(self): return getCardSetDB().firstSet(self.sets())
 
-    def inSet(self, set_): return [p for p in self.printings if p.set_ == set_]
+    def inSet(self, set_): return [p for p in self.printings if p.set == set_]
 
     name      = scalarField("name")
     text      = scalarField("text")
@@ -208,7 +208,7 @@ class Card(object):
 	elif field == 'sets':
 	    def showPrnt(prnt):
 		rare = prnt.rarity or 'UNKNOWN'
-		return prnt.set_ \
+		return prnt.set \
 		     + ' (' + shortRares.get(rare.lower(), rare) + ')'
 	    text = ', '.join(uniq(map(showPrnt, sortPrintings(self.printings))))
 	    lines = wrapLines(text, width, 2)

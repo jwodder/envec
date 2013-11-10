@@ -43,8 +43,8 @@ def joinPrintings(name, prnt1, prnt2):
     ###   card.
     prnts1 = {}
     prnts2 = {}
-    for p in prnt1: prnts1.get(p.set_, []).append(p)
-    for p in prnt2: prnts2.get(p.set_, []).append(p)
+    for p in prnt1: prnts1.get(p.set, []).append(p)
+    for p in prnt2: prnts2.get(p.set, []).append(p)
     joined = []
     for set_ in prnts1.iterkeys():
 	if set_ not in prnts2:
@@ -78,7 +78,7 @@ def joinPrintings(name, prnt1, prnt2):
 
 def sortPrintings(xs):
     setDB = getCardSetDB()
-    return sorted(xs, key=lambda p: (setDB.cmpKey(p.set_), p.multiverseid.all()[0]))
+    return sorted(xs, key=lambda p: (setDB.cmpKey(p.set), p.multiverseid.all()[0]))
     ### This needs to handle p.multiverseid.all() being empty or unsorted.
 
 def joinRulings(rules1, rules2):
