@@ -125,7 +125,8 @@ class Content(object):
 	dup = {}
 	for attr in self.__slots__:
 	    val = getattr(self, attr)
-	    dup[attr] = val[:] if isinstance(val, list) else val
+	    #dup[attr] = val[:] if isinstance(val, list) else val
+	    dup[attr] = val
 	return Content(**dup)
 
     def __cmp__(self, other):

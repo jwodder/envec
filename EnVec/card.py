@@ -82,7 +82,7 @@ class Card(object):
     def fromDict(cls, obj):  # called `fromHashref` in the Perl version
 	if isinstance(obj, cls): return obj.copy()
 	cardClass = classEnum(obj.get("cardClass"), NORMAL_CARD)
-	content = obj.get("content")
+	content = obj["content"]
 	if isinstance(content, list):
 	    if not content:
 		raise ValueError("'content' field must be a nonempty list")
