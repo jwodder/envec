@@ -8,12 +8,6 @@ import re
 from warnings   import warn
 from envec.util import openR, chomp
 
-NORMAL_CARD = 1
-SPLIT_CARD  = 2
-FLIP_CARD   = 3
-DOUBLE_CARD = 4
-cardClasses = [NORMAL_CARD, SPLIT_CARD, FLIP_CARD, DOUBLE_CARD]
-
 ### Shouldn't these be MultipartDB class variables?
 multiFile = 'data/multipart.tsv'
 multiDB = None
@@ -40,11 +34,11 @@ class MultipartDB(object):
 	    except:
 		warn(infile ++ ': line ' + lineno + ': invalid/malformed entry')
 		continue
-	    cClass = classEnum(enum)
+	    cClass = CardClass.toEnum(enum)
 	    if cClass is None:
 		warn('%s: line %d: unknown card class %r'
 		      % (infile, lineno, enum))
-	    elif cClass == NORMAL_CARD:
+	    elif cClass == CardClass.NORMAL_CARD:
 		pass
 	    elif a in nextMap or a in prevMap:
 		warn('%s: card name %r appears more than once' % (infile, a))
@@ -58,67 +52,87 @@ class MultipartDB(object):
 
     def cardClass(self, name):
 	if name in self.nextMap:
-	    return self.classMap.get((name, self.nextMap[name]), NORMAL_CARD)
+	    return self.classMap.get((name, self.nextMap[name]), CardClass.NORMAL_CARD)
 	elif name in self.prevMap:
-	    return self.classMap.get((self.prevMap[name], name), NORMAL_CARD)
+	    return self.classMap.get((self.prevMap[name], name), CardClass.NORMAL_CARD)
 	else:
-	    return NORMAL_CARD
+	    return CardClass.NORMAL_CARD
 
     def isPrimary(self,   name): return name in self.nextMap
     def isSecondary(self, name): return name in self.prevMap
 
-    def isSplit(self, name):  return self.cardClass(name) == SPLIT_CARD
-    def isFlip(self, name):   return self.cardClass(name) == FLIP_CARD
-    def isDouble(self, name): return self.cardClass(name) == DOUBLE_CARD
+    def isSplit(self, name):  return self.cardClass(name) == CardClass.SPLIT_CARD
+    def isFlip(self, name):   return self.cardClass(name) == CardClass.FLIP_CARD
+    def isDouble(self, name): return self.cardClass(name) == CardClass.DOUBLE_CARD
 
     def splitLefts(self):
 	return sorted(a for ((a,b),c) in self.classMap.items()
-			if c == SPLIT_CARD)
+			if c == CardClass.SPLIT_CARD)
 
     def splitRights(self):
 	return sorted(b for ((a,b),c) in self.classMap.items()
-			if c == SPLIT_CARD)
+			if c == CardClass.SPLIT_CARD)
 
     def flipTops(self):
 	return sorted(a for ((a,b),c) in self.classMap.items()
-			if c == FLIP_CARD)
+			if c == CardClass.FLIP_CARD)
 
     def flipBottoms(self):
 	return sorted(b for ((a,b),c) in self.classMap.items()
-			if c == FLIP_CARD)
+			if c == CardClass.FLIP_CARD)
 
     def doubleFronts(self):
 	return sorted(a for ((a,b),c) in self.classMap.items()
-			if c == DOUBLE_CARD)
+			if c == CardClass.DOUBLE_CARD)
 
     def doubleBacks(self):
 	return sorted(b for ((a,b),c) in self.classMap.items()
-			if c == DOUBLE_CARD)
+			if c == CardClass.DOUBLE_CARD)
 
     def splits(self):
-	return sorted(ab for (ab,c) in self.classMap.items() if c == SPLIT_CARD)
+	return sorted(ab for (ab,c) in self.classMap.items()
+				    if c == CardClass.SPLIT_CARD)
 
     def flips(self):
-	return sorted(ab for (ab,c) in self.classMap.items() if c == FLIP_CARD)
+	return sorted(ab for (ab,c) in self.classMap.items()
+				    if c == CardClass.FLIP_CARD)
 
     def doubles(self):
-	return sorted(ab for (ab,c) in self.classMap.items() if c==DOUBLE_CARD)
+	return sorted(ab for (ab,c) in self.classMap.items()
+				    if c == CardClass.DOUBLE_CARD)
 
     def alternate(self, name):
 	if   name in self.nextMap: return self.nextMap[name]
 	elif name in self.prevMap: return self.prevMap[name]
 	else: return None
 
-def classEnum(cClass, default=None):
-    if cClass is None: return default
-    elif cClass.isdigit():
-	cClass = int(cClass)
-	return cClass if cClass in cardClasses else default
-    elif re.search(r'^normal(\b|_)', cClass, re.I): return NORMAL_CARD
-    elif re.search(r'^split(\b|_)',  cClass, re.I): return SPLIT_CARD
-    elif re.search(r'^flip(\b|_)',   cClass, re.I): return FLIP_CARD
-    elif re.search(r'^double(\b|_)', cClass, re.I): return DOUBLE_CARD
-    else: return default
+class CardClass(object):
+    NORMAL_CARD = 'normal'
+    SPLIT_CARD  = 'split'
+    FLIP_CARD   = 'flip'
+    DOUBLE_CARD = 'double-faced'
+
+    cardClasses = [CardClass.NORMAL_CARD, CardClass.SPLIT_CARD,
+		   CardClass.FLIP_CARD,   CardClass.DOUBLE_CARD]
+
+    @staticmethod
+    def toEnum(cClass, default=None):
+	if cClass is None: return default
+	elif cClass.isdigit():
+	    # for compatibility with old representation
+	    cClass = int(cClass)
+	    return CardClass.cardClasses[cClass-1] if 1 <= cClass <= 4
+						   else default
+	elif re.search(r'^normal(\b|_)', cClass, re.I):
+	    return CardClass.NORMAL_CARD
+	elif re.search(r'^split(\b|_)',  cClass, re.I):
+	    return CardClass.SPLIT_CARD
+	elif re.search(r'^flip(\b|_)',   cClass, re.I):
+	    return CardClass.FLIP_CARD
+	elif re.search(r'^double(\b|_)', cClass, re.I):
+	    return CardClass.DOUBLE_CARD
+	else:
+	    return default
 
 ### Shouldn't the below two functions be MultipartDB class methods?
 def loadParts(infile=None):  ### Rename "loadMultipartDB"?

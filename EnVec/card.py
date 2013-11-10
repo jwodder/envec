@@ -4,14 +4,9 @@ from envec.card.content  import Content
 from envec.card.printing import Printing
 from envec.card.util     import sortPrintings
 from envec.colors        import Color
-from envec.multipart     import NORMAL_CARD, SPLIT_CARD, FLIP_CARD, DOUBLE_CARD, classEnum
+from envec.multipart     import CardClass
 from envec.sets          import getCardSetDB
 from envec.util          import uniq, wrapLines, jsonify, txt2attr, txt2xml
-
-formats = {NORMAL_CARD: 'normal',
-	   SPLIT_CARD:  'split',
-	   FLIP_CARD:   'flip',
-	   DOUBLE_CARD: 'double-faced'}
 
 sep = ' // '
 
@@ -81,7 +76,7 @@ class Card(object):
     @classmethod
     def fromDict(cls, obj):  # called `fromHashref` in the Perl version
 	if isinstance(obj, cls): return obj.copy()
-	cardClass = classEnum(obj.get("cardClass"), NORMAL_CARD)
+	cardClass = CardClass.toEnum(obj.get("cardClass"), CardClass.NORMAL_CARD)
 	content = obj["content"]
 	if isinstance(content, list):
 	    if not content:
@@ -97,7 +92,7 @@ class Card(object):
 	return cls(cardClass, content, printings, rulings)
 
     def toJSON(self):
-	return ' {\n  "cardClass": "' + formats[self.cardClass] + '",\n' \
+	return ' {\n  "cardClass": "' + str(self.cardClass) + '",\n' \
 	 + '  "content": [' \
 	 + ', '.join(c.toJSON() for c in self.content) \
 	 + '],\n' \
@@ -111,7 +106,7 @@ class Card(object):
 	 + ' }'
 
     def toXML(self):
-	txt = ' <card cardClass="' + txt2attr(formats[self.cardClass]) + '">\n'
+	txt = ' <card cardClass="' + txt2attr(str(self.cardClass)) + '">\n'
 	for c in self.content:   txt += c.toXML()
 	for p in self.printings: txt += p.toXML()
 	for rule in self.rulings:
@@ -130,7 +125,7 @@ class Card(object):
 
     @property
     def cmc(self):
-	if self.cardClass == FLIP_CARD: return self.part1.cmc
+	if self.cardClass == CardClass.FLIP_CARD: return self.part1.cmc
 	else: return sum(c.cmc for c in self.content)
 
     @property
@@ -143,10 +138,10 @@ class Card(object):
     def part2(self): return self.content[1] if len(self.content) > 1 else None
 
     def isMultipart(self): return self.parts > 1
-    def isNormal(self):    return self.cardClass == NORMAL_CARD
-    def isSplit(self):     return self.cardClass == SPLIT_CARD
-    def isFlip(self):      return self.cardClass == FLIP_CARD
-    def isDouble(self):    return self.cardClass == DOUBLE_CARD
+    def isNormal(self):    return self.cardClass == CardClass.NORMAL_CARD
+    def isSplit(self):     return self.cardClass == CardClass.SPLIT_CARD
+    def isFlip(self):      return self.cardClass == CardClass.FLIP_CARD
+    def isDouble(self):    return self.cardClass == CardClass.DOUBLE_CARD
 
     def sets(self): return list(set(p.set for p in self.printings))
 
@@ -217,7 +212,7 @@ class Card(object):
 			 + [' ' * Card.tagwidth + ' ' + r + "\n" for r in rest])
 	elif field == 'cardClass':
 	    return "%-*s %s\n" % (Card.tagwidth, 'Format:',
-		formats.get(self.cardClass, str(self.cardClass)).title())
+				  str(self.cardClass).title())
 	elif field in fields:
 	    width = (width - (self.parts - 1) * len(sep)) // self.parts
 	    def lineify(c):

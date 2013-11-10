@@ -2,7 +2,7 @@ from envec.card          import Card
 from envec.card.content  import Content
 from envec.card.multival import Multival
 from envec.card.printing import Printing
-from envec.multipart     import FLIP_CARD
+from envec.multipart     import CardClass
 from envec.sets          import getCardSetDB
 from envec.util          import parseTypes, simplify
 
@@ -26,7 +26,7 @@ def unmungFlip(flip):
 		     subtypes=subs, pow=pow, tough=tough, text="\n".join(txt))
     top = flip.part1
     top.text = texts[0]
-    return Card(cardClass=FLIP_CARD, content=[top, bottom],
+    return Card(cardClass=CardClass.FLIP_CARD, content=[top, bottom],
 		printings=flip.printings, rulings=flip.rulings)
 
 def joinPrintings(name, prnt1, prnt2):

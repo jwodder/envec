@@ -9,7 +9,7 @@ from envec.card          import Card
 from envec.card.printing import Printing
 from envec.card.util     import joinCards
 from envec.colors        import Color
-from envec.multipart     import NORMAL_CARD
+from envec.multipart     import CardClass
 from envec.util          import magicContent, trim, simplify, parseTypes, openR
 
 def parseDetails(txt) {
@@ -21,12 +21,14 @@ def parseDetails(txt) {
     if doc.getElementById(pre + "nameRow"): return scrapeSection(doc, pre)
     elif doc.getElementById(pre + "ctl07_nameRow"):
 	# Split, flip, or double-faced card
-	return joinCards(NORMAL_CARD, scrapeSection(doc, pre + "ctl07_"),
-				      scrapeSection(doc, pre + "ctl08_"))
+	return joinCards(CardClass.NORMAL_CARD,
+			 scrapeSection(doc, pre + "ctl07_"),
+			 scrapeSection(doc, pre + "ctl08_"))
     else:
 	# B.F.M. (Big Furry Monster)
-	return joinCards(NORMAL_CARD, scrapeSection(doc, pre + "ctl09_"),
-				      scrapeSection(doc, pre + "ctl10_"))
+	return joinCards(CardClass.NORMAL_CARD,
+			 scrapeSection(doc, pre + "ctl09_"),
+			 scrapeSection(doc, pre + "ctl10_"))
 
 def loadDetails(filename):
     fp = openR(filename)
