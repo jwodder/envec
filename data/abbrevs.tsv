@@ -25,6 +25,7 @@ Magic 2011				M11	M11	m11
 Magic 2012				M12	M12	m12
 Magic 2013				M13	M13	m13
 Magic 2014 Core Set			M14	M14	m14
+#Magic 2015 Core Set			M15	M15	???
 
 Arabian Nights				AN	ARN	an
 Antiquities				AQ	ATQ	aq
@@ -89,8 +90,8 @@ Return to Ravnica			RTR	RTR	rtr
 Gatecrash				GTC	GTC	gtc
 Dragon's Maze				DGM	DGM	dgm
 Theros					THS	THS	ths
-#Born of the Gods			BNG	BNG	???
-#Journey into Nyx			???	???	???
+Born of the Gods			BNG	BNG	bng
+#Journey into Nyx			JOU	JOU	???
 
 Promo set for Gatherer			PPR	???	---
 
@@ -105,7 +106,7 @@ Planechase				HOP	HOP	pch
 Archenemy				ARC	ARC	arc
 Magic: The Gathering-Commander		CMD	CMD	cmd
 Planechase 2012 Edition			PC2	PC2	pc2
-Commander 2013 Edition			C13	C13	???
+Commander 2013 Edition			C13	C13	c13
 
 Unglued					UG	UGL	ug
 Unhinged				UNH	UNH	uh

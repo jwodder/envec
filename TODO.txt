@@ -22,6 +22,7 @@
    line-wrapping
  - Fix/improve the PostScript output of listify.pl
  - Give EnVec::Card::Content a "devotion" method?
+ - Add checkboxes to the output of listify.pl (but only if a flag is given?)
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations
@@ -30,10 +31,11 @@
    names and single characters.
  - Make the storage of Content->text fields mirror their representation in
    mtgcard.dtd
- - Runtime type enforcement:
+ - Runtime type enforcement?
   - Make EnVec::Card only allow valid cardClass values
   - Make EnVec::Card::Content prohibit empty names
   - Make EnVec::Card::Content automatically convert empty fields to undef
+  - Abandon all runtime type enforcement (starting with Printing.pm) ?
  - Give EnVec::Card a toHashref method
  - Give EnVec.pm tags for the export lists of each submodule
  - Make EnVec.pm preserve the non-'all' tags of submodules
@@ -76,6 +78,8 @@
  - Give Content and Printing (and Multival?) a fromJSON method each?
  - Eliminate EnVec::Card->newCard?
  - Move %formats from Card.pm to Multipart.pm?
+ - Should "oversized" or "nontraditional" be a card class?
+ - Move the use of &rmitalics from details.pl to Details.pm?
 
 - Data & documentation:
  - Add documentation
@@ -97,6 +101,7 @@
  - Implement Card->showField1('printings')
  - Better handling of Uncards, specifically:
   - B.F.M.
+   - Give it its own card class?
   - Who/What/When/Where/Why
   - Curse of the Fire Penguin
   - Little Girl's CMC
@@ -111,9 +116,11 @@
    card language, etc.
  - Add a wrapper around parseDetails that downloads and parses a given
    multiverseid?
+ - Make the bulk of details.pl into a library function?
  - Incorporate reserved list membership into card data
  - Overload stringification of Multival objects?
  - Make use of all of the unused data/ files
  - Store information on which sets/cards are foiled (and which are all-foil) ?
  - Add a column to sets.tsv for Modern eligibility
  - Add a column to sets.tsv for border color (black, white, or silver)
+  - Give EnVec::Card an isSilver/isUncard method

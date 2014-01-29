@@ -28,6 +28,7 @@ M11	Magic 2011				2010-07-16	1
 M12	Magic 2012				2011-07-15	1
 M13	Magic 2013				2012-07-13	1
 M14	Magic 2014 Core Set			2013-07-19	1
+#M15	Magic 2015 Core Set			2014-07-18	1
 
 AN	Arabian Nights				1993-12-??	1
 AQ	Antiquities				1994-03-??	1
@@ -112,8 +113,8 @@ GTC	Gatecrash				2013-02-01	1
 DGM	Dragon's Maze				2013-05-03	1
 
 THS	Theros					2013-09-27	1
-#BNG	Born of the Gods			2014-02-07	1
-#???	Journey into Nyx			2014-05-??	1
+BNG	Born of the Gods			2014-02-07	1
+#JOU	Journey into Nyx			2014-05-02	1
 
 PPR	Promo set for Gatherer			---		1
 
@@ -128,6 +129,7 @@ BR	Battle Royale Box Set			1999-11-12	0
 BD	Beatdown Box Set			2000-10-??	0
 CM1	Commander's Arsenal			2012-11-02	0
 MMA	Modern Masters				2013-06-07	0
+#???	Modern Event Deck			2014-05-30	?
 
 VAN	Vanguard				1997-07-??	1
 HOP	Planechase				2009-09-04	1
