@@ -114,7 +114,7 @@ DGM	Dragon's Maze				2013-05-03	1
 
 THS	Theros					2013-09-27	1
 BNG	Born of the Gods			2014-02-07	1
-#JOU	Journey into Nyx			2014-05-02	1
+JOU	Journey into Nyx			2014-05-02	1
 
 PPR	Promo set for Gatherer			---		1
 
@@ -137,6 +137,7 @@ ARC	Archenemy				2010-06-18	1
 CMD	Magic: The Gathering-Commander		2011-06-17	1
 PC2	Planechase 2012 Edition			2012-06-01	1
 C13	Commander 2013 Edition			2013-11-01	1
+#CNS	Magic: The Gathering-Conspiracy		2014-06-06	1
 
 EVG	Duel Decks: Elves vs. Goblins		2007-11-16	0
 DD2	Duel Decks: Jace vs. Chandra		2008-11-07	0
@@ -150,7 +151,8 @@ DDI	Duel Decks: Venser vs. Koth		2012-03-30	0
 DDJ	Duel Decks: Izzet vs. Golgari		2012-09-07	0
 DDK	Duel Decks: Sorin vs. Tibalt		2013-03-15	0
 DDL	Duel Decks: Heroes vs. Monsters		2013-09-06	0
-#???	Duel Decks: Jace vs. Vraska		2014-03-14	0
+DDM	Duel Decks: Jace vs. Vraska		2014-03-14	0
+#DDN	Duel Decks: Speed vs. Cunning		2014-09-05	0
 
 DRB	From the Vault: Dragons			2008-08-29	0
 V09	From the Vault: Exiled			2009-08-28	0
@@ -158,6 +160,7 @@ V10	From the Vault: Relics			2010-08-27	0
 V11	From the Vault: Legends			2011-08-26	0
 V12	From the Vault: Realms			2012-08-31	0
 V13	From the Vault: Twenty			2013-08-23	0
+#???	From the Vault: Annihilation		2014-08-22	0
 
 H09	Premium Deck Series: Slivers		2009-11-20	0
 PD2	Premium Deck Series: Fire and Lightning	2010-11-19	0

@@ -95,6 +95,7 @@
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
  - Add Cockatrice's abbreviations to abbrevs.tsv?
+ - Add Twitter hashtags to abbrevs.tsv?
  - Add a description of the JSON output format
 
 - For later:
@@ -117,9 +118,9 @@
  - Add a wrapper around parseDetails that downloads and parses a given
    multiverseid?
  - Make the bulk of details.pl into a library function?
- - Incorporate reserved list membership into card data
  - Overload stringification of Multival objects?
  - Make use of all of the unused data/ files
+  - Incorporate reserved list membership into card data
  - Store information on which sets/cards are foiled (and which are all-foil) ?
  - Add a column to sets.tsv for Modern eligibility
  - Add a column to sets.tsv for border color (black, white, or silver)
