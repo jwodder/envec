@@ -76,6 +76,7 @@ class Card(object):
     @classmethod
     def fromDict(cls, obj):  # called `fromHashref` in the Perl version
 	if isinstance(obj, cls): return obj.copy()
+	### TODO: Move all of these transformations to __init__?
 	cardClass = CardClass.toEnum(obj.get("cardClass"), CardClass.NORMAL_CARD)
 	content = obj["content"]
 	if isinstance(content, list):
@@ -189,10 +190,10 @@ class Card(object):
 	return self.isType('Vanguard')   or self.isType('Plane') \
 	    or self.isType('Phenomenon') or self.isType('Scheme')
 
-    def copy(self): return Card(self.cardClass,
-				[c.copy() for c in self.content],
-				[p.copy() for p in self.printings],
-				[r.copy() for r in self.rulings])
+    def copy(self): return self.__class__(self.cardClass,
+					  [c.copy() for c in self.content],
+					  [p.copy() for p in self.printings],
+					  [r.copy() for r in self.rulings])
 
     tagwidth = 8  # may be modified externally
 
@@ -225,7 +226,7 @@ class Card(object):
 		line = sep.join(s or ' ' * width for s in ls).rstrip()
 		return "%-*s %s\n" % (Card.tagwidth, tag or '', line)
 	    lines = map(lineify, self.content)
-	    return ''.join(map(joining([fields[field]], *lines)))
+	    return ''.join(map(joining, [fields[field]], *lines))
 	else: return ''
 
     def toText1(self, width=None, showSets=False):

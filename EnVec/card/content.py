@@ -127,7 +127,7 @@ class Content(object):
 	    val = getattr(self, attr)
 	    #dup[attr] = val[:] if isinstance(val, list) else val
 	    dup[attr] = val
-	return Content(**dup)
+	return self.__class__(**dup)
 
     def __cmp__(self, other):
 	return cmp(type(self), type(other)) or \

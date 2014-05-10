@@ -44,7 +44,7 @@ class Printing(object):
 	dup = {}
 	for attr in self.__slots__:
 	    dup[attr] = getattr(self, attr)
-	return Printing(**dup)
+	return self.__class__(**dup)
 
     def toJSON(self):
 	txt = '{"set": ' + jsonify(self.set)
