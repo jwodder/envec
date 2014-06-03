@@ -1,5 +1,5 @@
-- Rename details.pl to envec.pl or fetch.pl? (or tutor.pl?)
-- Rename update.sh?
+- Rename details.pl to tutor.pl?
+- Rename update.sh to fetch.sh?
 - Make the primary task of the library be reading & querying of JSON & XML card
   databases?
  - Should all of the scraping-specific code be moved out of EnVec/ and/or
@@ -29,6 +29,7 @@
  - Add checkboxes to the output of listify.pl (but only if a flag is given?)
  - Eliminate (or at least comment out) the "badflip" provisions now that
    they're not (currently) needed?
+ - Give update.sh an -o option for setting the output directory
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations

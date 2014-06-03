@@ -1,15 +1,21 @@
 #!/bin/sh
 # invoke with: nice ./update.sh &
+outdir=out
 setfile=data/sets.tsv
 currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
 base=`date -u +%Y%m%d`-$currSet
 
 Ci=i
 [ -e ids.txt ] && Ci=C
-mkdir -p out
+
+mkdir -p $outdir
 perl details.pl -S "$setfile" -$Ci ids.txt -l details.log \
-		-j "out/$base.json" -x "out/$base.xml" || exit
-perl toText1.pl "out/$base.json" > out/cards2.txt
-perl listify.pl -o out/cardlists2.txt "out/$base.json"
-echo '# vim:set nowrap:' >> out/cardlists2.txt
-chmod -w "out/$base.json" "out/$base.xml" out/cards2.txt out/cardlists2.txt
+		-j "$outdir/$base.json" -x "$outdir/$base.xml" || exit
+
+perl toText1.pl "$outdir/$base.json" > "$outdir/cards2.txt"
+
+perl listify.pl -o $outdir/cardlists2.txt "$outdir/$base.json"
+echo '# vim:set nowrap:' >> "$outdir/cardlists2.txt"
+
+chmod -w "$outdir/$base.json" "$outdir/$base.xml"
+chmod -w "$outdir/cards2.txt" "$outdir/cardlists2.txt"
