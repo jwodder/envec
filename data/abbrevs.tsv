@@ -6,6 +6,7 @@
 #   <http://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets>, which
 #   are/were apparently used internally by Wizards for some purposes
 # - abbreviations used by magiccards.info
+# - Twitter hashtags (incomplete)
 
 # Long set names are as listed on Gatherer.
 
@@ -25,7 +26,7 @@ Magic 2011				M11	M11	m11
 Magic 2012				M12	M12	m12
 Magic 2013				M13	M13	m13
 Magic 2014 Core Set			M14	M14	m14
-#Magic 2015 Core Set			M15	M15	???
+#Magic 2015 Core Set			M15	M15	???	MTGM15
 
 Arabian Nights				AN	ARN	an
 Antiquities				AQ	ATQ	aq
@@ -92,6 +93,7 @@ Dragon's Maze				DGM	DGM	dgm
 Theros					THS	THS	ths
 Born of the Gods			BNG	BNG	bng
 Journey into Nyx			JOU	JOU	jou
+#Khans of Tarkir			KTK	KTK	???	MTGKTK
 
 Promo set for Gatherer			PPR	???	---
 
@@ -107,7 +109,7 @@ Archenemy				ARC	ARC	arc
 Magic: The Gathering-Commander		CMD	CMD	cmd
 Planechase 2012 Edition			PC2	PC2	pc2
 Commander 2013 Edition			C13	C13	c13
-#Magic: The Gathering-Conspiracy	CNS	CNS	???
+Magic: The Gathering—Conspiracy		CNS	CNS	???	MTGCNS
 
 Unglued					UG	UGL	ug
 Unhinged				UNH	UNH	uh
@@ -117,6 +119,7 @@ Battle Royale Box Set			BR	BRB	br
 Beatdown Box Set			BD	BTD	bd
 Commander's Arsenal			CM1	CM1	cma
 Modern Masters				MMA	MMA	mma
+Modern Event Deck 2014			MD1	MD1	???	---
 
 Duel Decks: Elves vs. Goblins		EVG	EVG	evg
 Duel Decks: Jace vs. Chandra		DD2	DD2	jvc
@@ -130,7 +133,7 @@ Duel Decks: Venser vs. Koth		DDI	DDI	ddi
 Duel Decks: Izzet vs. Golgari		DDJ	DDJ	ddj
 Duel Decks: Sorin vs. Tibalt		DDK	DDK	ddk
 Duel Decks: Heroes vs. Monsters		DDL	DDL	ddl
-Duel Decks: Jace vs. Vraska		DDM	DDM	???
+Duel Decks: Jace vs. Vraska		DDM	DDM	???	MTGJVV
 #Duel Decks: Speed vs. Cunning		DDN	DDN	???
 
 From the Vault: Dragons			DRB	DRB	fvd
@@ -149,4 +152,4 @@ Masters Edition				MED	MED	med
 Masters Edition II			ME2	ME2	me2
 Masters Edition III			ME3	ME3	me3
 Masters Edition IV			ME4	ME4	me4
-#Vintage Masters			???	???	???
+#Vintage Masters			???	???	???	MTGOVM

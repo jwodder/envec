@@ -23,6 +23,8 @@
  - Fix/improve the PostScript output of listify.pl
  - Give EnVec::Card::Content a "devotion" method?
  - Add checkboxes to the output of listify.pl (but only if a flag is given?)
+ - Eliminate (or at least comment out) the "badflip" provisions now that
+   they're not (currently) needed?
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations
