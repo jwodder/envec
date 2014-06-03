@@ -1,5 +1,9 @@
 - Rename details.pl to envec.pl or fetch.pl? (or tutor.pl?)
 - Rename update.sh?
+- Make the primary task of the library be reading & querying of JSON & XML card
+  databases?
+ - Should all of the scraping-specific code be moved out of EnVec/ and/or
+   hidden from the library user by default?
 
 - Robustness:
  - Handle XML::DOM::Lite parse errors
@@ -127,3 +131,9 @@
  - Add a column to sets.tsv for Modern eligibility
  - Add a column to sets.tsv for border color (black, white, or silver)
   - Give EnVec::Card an isSilver/isUncard method
+
+Reminder about function naming conventions:
+ - Functions for parsing the contents of a string should have their names
+   prefixed with "parse"
+ - Functions for parsing the contents of a file identified by file name should
+   have their names prefixed with "load"
