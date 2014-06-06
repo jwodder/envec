@@ -1,21 +1,21 @@
 #!/bin/sh
 # invoke with: nice ./fetch.sh &
-outdir=out
+dir=fetched
 setfile=data/sets.tsv
 currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
 base=`date -u +%Y%m%d`-$currSet
 
 Ci=i
-[ -e ids.txt ] && Ci=C
+[ -e "$dir/ids.txt" ] && Ci=C
 
-mkdir -p $outdir
-perl tutor.pl -S "$setfile" -$Ci ids.txt -l tutor.log \
-	      -j "$outdir/$base.json" -x "$outdir/$base.xml" || exit
+mkdir -p $dir
+perl tutor.pl -S "$setfile" -$Ci "$dir/ids.txt" -l "$dir/tutor.log" \
+	      -j "$dir/$base.json" -x "$dir/$base.xml" || exit
 
-perl toText1.pl "$outdir/$base.json" > "$outdir/cards2.txt"
+perl toText1.pl "$dir/$base.json" > "$dir/cards2.txt"
 
-perl listify.pl -o $outdir/cardlists2.txt "$outdir/$base.json"
-echo '# vim:set nowrap:' >> "$outdir/cardlists2.txt"
+perl listify.pl -o "$dir/cardlists2.txt" "$dir/$base.json"
+echo '# vim:set nowrap:' >> "$dir/cardlists2.txt"
 
-chmod -w "$outdir/$base.json" "$outdir/$base.xml"
-chmod -w "$outdir/cards2.txt" "$outdir/cardlists2.txt"
+chmod -w "$dir/$base.json" "$dir/$base.xml"
+chmod -w "$dir/cards2.txt" "$dir/cardlists2.txt"

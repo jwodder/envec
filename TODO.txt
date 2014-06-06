@@ -28,6 +28,7 @@
  - Eliminate (or at least comment out) the "badflip" provisions now that
    they're not (currently) needed?
  - Give fetch.sh an -o option for setting the output directory
+ - Give fetch.sh an option for specifying a pre-existing ID file
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations
