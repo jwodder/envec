@@ -46,7 +46,7 @@ Also, for those who still don't get the reference: [Oracle _en_-Vec][3].
 
 - `TODO.txt` — an overly large file
 
-- `data/` — data files used by the library, `details.pl`, and/or nothing
+- `data/` — data files used by the library, `tutor.pl`, and/or nothing
     - `abbrevs.tsv` — table of various systems of M:TG set abbreviations
     - `badflip.txt` — formerly contained missing text that Gatherer omitted
       from certain flip cards; currently not needed
@@ -57,8 +57,8 @@ Also, for those who still don't get the reference: [Oracle _en_-Vec][3].
       rather than C/U/R/M)
     - `reserved.txt` — the reserved list
     - `sets.tsv` — a table of M:TG sets with their short & long Gatherer names,
-      release dates, and flags for controlling whether `details.pl` should
-      fetch their checklists
+      release dates, and flags for controlling whether `tutor.pl` should fetch
+      their checklists
     - `shifted-fut.txt` — list of "Timeshifted"/"future-shifted" cards from
       Future Sight
     - `shifted-pc.tsv` — table of "Timeshifted" cards from Planar Chaos and
@@ -66,13 +66,13 @@ Also, for those who still don't get the reference: [Oracle _en_-Vec][3].
     - `tokens.txt` — names of known creature tokens that have ended up in
       Gatherer for some reason
 
-- `details.pl` — a Perl script that scrapes Gatherer and creates JSON and XML
-  databases of all of the cards
+- `fetch.sh` — a wrapper around `tutor.pl`, `toText1.pl`, and `listify.pl` for
+  performing them all together nicely
 
 - `listify.pl` — a Perl script for converting a JSON card database into plain
   text, LaTeX, and PostScript card checklists
 
-- `mtgcard.dtd` — the DTD for `details.pl`'s XML output format
+- `mtgcard.dtd` — the DTD for `tutor.pl`'s XML output format
 
 - `spoilers/` — crude descriptions of how card data is represented on Gatherer
     - `check.txt` — Gatherer's checklist output format
@@ -83,8 +83,8 @@ Also, for those who still don't get the reference: [Oracle _en_-Vec][3].
 - `toText1.pl` — a Perl script for converting a JSON card database into a
   nice-looking text spoiler file
 
-- `update.sh` — a wrapper around `details.pl`, `toText1.pl`, and `listify.pl`
-  for performing them all together nicely
+- `tutor.pl` — a Perl script that scrapes Gatherer and creates JSON and XML
+  databases of all of the cards
 
 [1]: http://search.cpan.org/~rhundt/XML-DOM-Lite-0.15/
 [2]: https://rt.cpan.org/Public/Bug/Display.html?id=73337

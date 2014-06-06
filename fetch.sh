@@ -1,5 +1,5 @@
 #!/bin/sh
-# invoke with: nice ./update.sh &
+# invoke with: nice ./fetch.sh &
 outdir=out
 setfile=data/sets.tsv
 currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
@@ -9,8 +9,8 @@ Ci=i
 [ -e ids.txt ] && Ci=C
 
 mkdir -p $outdir
-perl details.pl -S "$setfile" -$Ci ids.txt -l details.log \
-		-j "$outdir/$base.json" -x "$outdir/$base.xml" || exit
+perl tutor.pl -S "$setfile" -$Ci ids.txt -l tutor.log \
+	      -j "$outdir/$base.json" -x "$outdir/$base.xml" || exit
 
 perl toText1.pl "$outdir/$base.json" > "$outdir/cards2.txt"
 
