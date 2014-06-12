@@ -91,8 +91,8 @@ trim(label) = Artist:
 
  - For split, flip, and double-faced cards, all of the relevant IDs for the
    top/front component (including the IDs of the containing <td>s and rulings
-   blocks) insert "ctl07_" before the last "word", and the IDs for the
-   bottom/back component insert "ctl08_" before the last word.  A parser can
+   blocks) insert "ctl03_" before the last "word", and the IDs for the
+   bottom/back component insert "ctl04_" before the last word.  A parser can
    test whether a card is multipart by first checking for the existence of,
    e.g., "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow", and iff
    no such element is found, the card is multipart.
@@ -102,4 +102,4 @@ trim(label) = Artist:
     right/bottom/back's ending in 'b'.  However, these suffixes are absent in
     the checklist output format.
   - B.F.M. is presented similarly to a flip/double-faced card, except that the
-    infixes are "ctl09_" and "ctl10_", respectively.
+    infixes are "ctl05_" and "ctl06_", respectively.
