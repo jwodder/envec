@@ -28,7 +28,8 @@ my %rarities = (C => 'Common',
 		M => 'Mythic Rare',
 		L => 'Land',
 		P => 'Promo',
-		S => 'Special');
+		S => 'Special',
+		B => 'Bonus');
 
 my(@missed, %opts);
 getopts('C:S:j:x:l:i:I:', \%opts) || exit 2;

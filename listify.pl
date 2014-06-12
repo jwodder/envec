@@ -14,7 +14,7 @@ sub showTextSet($$@);
 sub maxField($@);
 
 my %rarities = ('Mythic Rare' => 'Mythic',
- map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
+ map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo Bonus >);
 
 my %opts;
 getopts('LPd:o:', \%opts) || exit 2;
@@ -357,6 +357,7 @@ __DATA__
 /Land     { rareStart y moveto (Land)     show } def
 /Special  { rareStart y moveto (Special)  show } def
 /Promo    { rareStart y moveto (Promo)    show } def
+/Bonus    { rareStart y moveto (Bonus)    show } def
 /nop { } def
 
 /showSet {

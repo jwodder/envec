@@ -117,6 +117,8 @@
   - How should mtgcard.dtd handle fractional mana symbols?
   - Give all Uncards an attribute marking them as such?
  - Support fetching & storing format legality information
+  - Note that Gatherer has been known to be out of date regarding Commander
+    format legality
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text
  - Add elements to mtgcard.dtd for storing printed text, expansion symbols,
