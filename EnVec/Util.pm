@@ -83,7 +83,7 @@ sub magicContent($) {
    '<i>' . join('', map { magicContent($_) } @{$node->childNodes}) . '</i>'
   } elsif ($node->nodeName eq 'img') {
    my $src = $node->getAttribute('src') || '';
-   if ($src =~ /\bchaos\.gif$/) { return '{C}' }
+   if ($src =~ /\bchaos\.(gif|png)$/) { return '{C}' }
    elsif ($src =~ /\bname=(\w+)\b/) {
     my $sym = uc $1;
     if ($sym =~ /^([2WUBRG])([WUBRGP])$/) { return "{$1/$2}" }
