@@ -134,8 +134,11 @@
   - Incorporate reserved list membership into card data
  - Store information on which sets/cards are foiled (and which are all-foil) ?
  - Add a column to sets.tsv for Modern eligibility
+ - Add a column to sets.tsv for whether a set is an expansion, core set, or
+   other
  - Add a column to sets.tsv for border color (black, white, or silver)
   - Give EnVec::Card an isSilver/isUncard method
+ - Store card data in actual SQL databases rather than flat JSON/XML files?
 
 Reminder about function naming conventions:
  - Functions for parsing the contents of a string should have their names
