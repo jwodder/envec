@@ -106,6 +106,7 @@ class MultipartDB(object):
 	elif name in self.prevMap: return self.prevMap[name]
 	else: return None
 
+
 class CardClass(object):
     NORMAL_CARD = 'normal'
     SPLIT_CARD  = 'split'

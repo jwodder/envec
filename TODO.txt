@@ -65,7 +65,7 @@
    respective data rather than file-global variables
  - Should subcard numbering in XML output start from 1 for the first part
    rather than 0?
- - Rewrite everything in Python?
+ - Use the `csv` module to parse sets.tsv and multipart.tsv? 
 
 - Data & documentation:
  - Add documentation

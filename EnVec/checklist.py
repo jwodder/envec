@@ -7,6 +7,7 @@ def parseChecklist(txt): return walkChecklist(parseString(txt))
 def loadChecklist(fileish): return walkChecklist(parse(fileish))
 
 def walkChecklist(doc):
+    ### TODO: Make this use `yield`?
     cards = []
     for table in doc.getElementsByTagName('table'):
 	tblClass = table.getAttribute('class')

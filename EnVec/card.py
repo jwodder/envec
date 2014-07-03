@@ -11,23 +11,23 @@ from envec.util          import uniq, wrapLines, jsonify, txt2attr, txt2xml
 sep = ' // '
 
 fields = {
- "name":       'Name:',
- "cost":       'Cost:',
- "cmc":        'CMC:',
- "indicator":  'Color:',
- "supertypes": 'Super:',
- "types":      'Types:',
- "subtypes":   'Sub:',
- "type":       'Type:',
- "text":       'Text:',
- "pow":        'Power:',
- "tough":      'Tough:',
- "loyalty":    'Loyalty:',
- "hand":       'Hand:',
- "life":       'Life:',
- "PT":         'P/T:',
- "HandLife":   'H/L:',
-#"printings":  'Printings:',
+    "name":       'Name:',
+    "cost":       'Cost:',
+    "cmc":        'CMC:',
+    "indicator":  'Color:',
+    "supertypes": 'Super:',
+    "types":      'Types:',
+    "subtypes":   'Sub:',
+    "type":       'Type:',
+    "text":       'Text:',
+    "pow":        'Power:',
+    "tough":      'Tough:',
+    "loyalty":    'Loyalty:',
+    "hand":       'Hand:',
+    "life":       'Life:',
+    "PT":         'P/T:',
+    "HandLife":   'H/L:',
+   #"printings":  'Printings:',
 }
 
 shortRares = {"common":      'C',
@@ -48,8 +48,8 @@ def scalarField(field):
 class Card(object):
     def __init__(self, cardClass, content, printings=[], rulings=[]):
 	self.cardClass = cardClass
-	self.content   = content[:]    # list of EnVec::Card::Content objects
-	self.printings = printings[:]  # list of EnVec::Card::Printing objects
+	self.content   = content[:]    # list of envec.card.content objects
+	self.printings = printings[:]  # list of envec.card.printing objects
 	self.rulings   = rulings[:]
 	 # list of dicts with the following fields:
 	 #  - date
