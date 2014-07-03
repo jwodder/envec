@@ -18,7 +18,6 @@
 
 - Features:
  - Implement the rest of the features for tutor.pl (See the top of its source)
- - Make the code faster (especially EnVec::Reader)
  - Add special handling/storage for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once

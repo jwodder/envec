@@ -36,9 +36,6 @@ Also, for those who still don't get the reference: [Oracle _en_-Vec][3].
       & from JSON
     - `Multipart.pm` — functions for reading the contents of
       `data/multipart.tsv`
-    - `Reader.pm` — a failed (i.e., slow) attempt at an incremental JSON parser
-      for card databases
-    - `Reader2.pm` — an also-slow alternative to `Reader.pm`
     - `Sets.pm` — functions for reading the contents of `data/sets.tsv`
     - `Util.pm` — internal utility functions
 
