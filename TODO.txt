@@ -18,7 +18,6 @@
 
 - Features:
  - Implement the rest of the features for tutor.pl (See the top of its source)
- - Make the code faster (especially EnVec::Reader)
  - Add special handling/storage for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
@@ -104,10 +103,11 @@
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
  - Add Cockatrice's abbreviations to abbrevs.tsv?
- - Add Twitter hashtags to abbrevs.tsv?
+ - Add Twitter hashtags to abbrevs.tsv
  - Add a description of the JSON output format
 
 - For later:
+ - Make use of all of the unused data/ files
  - Implement Card->showField1('printings')
  - Better handling of Uncards, specifically:
   - B.F.M.
@@ -130,14 +130,12 @@
    multiverseid?
  - Make the bulk of tutor.pl into a library function?
  - Overload stringification of Multival objects?
- - Make use of all of the unused data/ files
-  - Incorporate reserved list membership into card data
  - Store information on which sets/cards are foiled (and which are all-foil) ?
- - Add a column to sets.tsv for Modern eligibility
- - Add a column to sets.tsv for whether a set is an expansion, core set, or
-   other
- - Add a column to sets.tsv for border color (black, white, or silver)
-  - Give EnVec::Card an isSilver/isUncard method
+ - Add columns to sets.tsv for:
+  - whether a set is an expansion, core set, or other
+  - Modern eligibility?
+  - border color (black, white, or silver)
+   - Give EnVec::Card an isSilver/isUncard method
  - Store card data in actual SQL databases rather than flat JSON/XML files?
 
 Reminder about function naming conventions:

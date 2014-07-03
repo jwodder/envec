@@ -7,7 +7,6 @@ use EnVec::Checklist ':all';
 use EnVec::Colors;
 use EnVec::Details ':all';
 use EnVec::JSON ':all';
-use EnVec::Reader;
 use EnVec::Sets ':all';
 use EnVec::Multipart ':all';
 
