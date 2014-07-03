@@ -1,27 +1,37 @@
-- Rename details.pl to envec.pl or fetch.pl? (or tutor.pl?)
-- Rename update.sh?
+- Make the primary task of the library be reading & querying of JSON & XML card
+  databases?
+ - Should all of the scraping-specific code be moved out of EnVec/ and/or
+   hidden from the library user by default?
 
 - Robustness:
  - Handle XML::DOM::Lite parse errors
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
  - Make EnVec::Multipart::loadParts check for names appearing more than once
- - details.pl should retry failed `get's under certain circumstances
+ - tutor.pl should retry failed `get's under certain circumstances
+ - EnVec::Sets::loadSets should check that each entry has the right number of
+   fields; cf. EnVec::Multipart::loadParts
+ - Make listify.pl's references to external images for \img work for other
+   people
+ - Try to make Details.pm adapt on its own to Gatherer's constant changes of
+   the "ctlXX" substring in the IDs on multipart card pages so that I don't
+   have to update the code every time
 
 - Features:
- - Implement the rest of the features for details.pl (See the top of its source)
+ - Implement the rest of the features for tutor.pl (See the top of its source)
  - Make the code faster (especially EnVec::Reader)
  - Add special handling/storage for leveler cards
  - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
    rather than all at once
  - Give EnVec::Card a fromXML method
- - Give EnVec::Multipart a cardClass function
- - Give EnVec::Multipart more functions for getting the alternate components of
-   given halves of multipart cards?
  - EnVec::Card->showField1 should treat a negative width as disabling
    line-wrapping
  - Fix/improve the PostScript output of listify.pl
- - Now that Gatherer has changed {P} to {PW} in the rulings on Planes, should
-   EnVec::Card->toXML use sym2xml for rulings text?
+ - Give EnVec::Card::Content a "devotion" method?
+ - Add checkboxes to the output of listify.pl (but only if a flag is given?)
+ - Eliminate (or at least comment out) the "badflip" provisions now that
+   they're not (currently) needed?
+ - Give fetch.sh an -o option for setting the output directory
+ - Give fetch.sh an option for specifying a pre-existing ID file
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations
@@ -30,10 +40,11 @@
    names and single characters.
  - Make the storage of Content->text fields mirror their representation in
    mtgcard.dtd
- - Runtime type enforcement:
+ - Runtime type enforcement?
   - Make EnVec::Card only allow valid cardClass values
   - Make EnVec::Card::Content prohibit empty names
   - Make EnVec::Card::Content automatically convert empty fields to undef
+  - Abandon all runtime type enforcement (starting with Printing.pm) ?
  - Give EnVec::Card a toHashref method
  - Give EnVec.pm tags for the export lists of each submodule
  - Make EnVec.pm preserve the non-'all' tags of submodules
@@ -43,12 +54,13 @@
  - Give EnVec::Multipart 'primaries' and 'secondaries' functions (rethink
    names) for getting all left/top/front and right/bottom/back portions of
    multipart cards, respectively
+ - Give EnVec::Multipart an isMultipart function
  - Make the default datafile paths absolute rather than relative (possibly with
    a way to set the datafile directory at runtime?)
  - Problem: At some point, LWP::Simple was updated in such a way that 'get' now
    returns text strings rather than binary strings when fetching pages from
    Gatherer.  In order to ensure that the code (which assumes byte strings)
-   still works with both versions of LWP::Simple, details.pl now decodes any
+   still works with both versions of LWP::Simple, tutor.pl now decodes any
    text strings that 'get' may return.  This is likely inefficient, and some
    other solution should be sought instead.  Parts of the code for which
    encoding is relevant:
@@ -63,8 +75,19 @@
     against text strings?
  - Make Sets.pm and Multipart.pm use objects for storing & retrieving their
    respective data rather than file-global variables
- - Should subcard numbering in XML output start from 1 for the first part
-   rather than 0?
+ - Should subcard numbering in XML output (and internal rulings representation,
+   et alii?) start from 1 for the first part rather than 0?
+ - Rethink the Multival->get method
+ - Be more consistent with which classes have a copy() method and which can be
+   copied by passing an instance to the constructor
+ - Eliminate EnVec::Card::Content->isNontraditional?
+ - Make the fromHashref methods no longer support construction from a
+   pre-existing instance?
+ - Give Content and Printing (and Multival?) a fromJSON method each?
+ - Eliminate EnVec::Card->newCard?
+ - Move %formats from Card.pm to Multipart.pm?
+ - Should "oversized" or "nontraditional" be a card class?
+ - Move the use of &rmitalics from tutor.pl to Details.pm?
  - Use the `csv` module to parse sets.tsv and multipart.tsv? 
 
 - Data & documentation:
@@ -81,25 +104,44 @@
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
  - Add Cockatrice's abbreviations to abbrevs.tsv?
+ - Add Twitter hashtags to abbrevs.tsv?
  - Add a description of the JSON output format
 
 - For later:
  - Implement Card->showField1('printings')
  - Better handling of Uncards, specifically:
   - B.F.M.
+   - Give it its own card class?
   - Who/What/When/Where/Why
   - Curse of the Fire Penguin
   - Little Girl's CMC
   - Should fractional P/T's be stored as floats rather than as ints with '½'
     appended?
   - How should mtgcard.dtd handle fractional mana symbols?
+  - Give all Uncards an attribute marking them as such?
  - Support fetching & storing format legality information
+  - Note that Gatherer has been known to be out of date regarding Commander
+    format legality
  - Add a function for parsing an individual card page for printed (rather than
    Oracle) text
  - Add elements to mtgcard.dtd for storing printed text, expansion symbols,
    card language, etc.
  - Add a wrapper around parseDetails that downloads and parses a given
    multiverseid?
- - Incorporate reserved list membership into card data
+ - Make the bulk of tutor.pl into a library function?
  - Overload stringification of Multival objects?
  - Make use of all of the unused data/ files
+  - Incorporate reserved list membership into card data
+ - Store information on which sets/cards are foiled (and which are all-foil) ?
+ - Add a column to sets.tsv for Modern eligibility
+ - Add a column to sets.tsv for whether a set is an expansion, core set, or
+   other
+ - Add a column to sets.tsv for border color (black, white, or silver)
+  - Give EnVec::Card an isSilver/isUncard method
+ - Store card data in actual SQL databases rather than flat JSON/XML files?
+
+Reminder about function naming conventions:
+ - Functions for parsing the contents of a string should have their names
+   prefixed with "parse"
+ - Functions for parsing the contents of a file identified by file name should
+   have their names prefixed with "load"

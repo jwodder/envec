@@ -6,15 +6,15 @@ use EnVec ('loadSets', 'loadJSON', 'allSets');
 
 sub chrlength($);
 sub stats($);
-sub maxField($@);
-sub psify($);
+sub showLaTeXSet($$@);
 sub texify($);
-sub showCards(@);
-
-my($nameLen, $typeLen, $costLen, $extraLen);
+sub showPSSet($$@);
+sub psify($);
+sub showTextSet($$@);
+sub maxField($@);
 
 my %rarities = ('Mythic Rare' => 'Mythic',
- map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo >);
+ map { $_ => $_ } qw< Common Uncommon Rare Land Special Promo Bonus >);
 
 my %opts;
 getopts('LPd:o:', \%opts) || exit 2;
@@ -25,17 +25,15 @@ print STDERR "$0: Single-file output is not implemented for LaTeX/PostScript\n"
 my $dir = $opts{d} || 'lists';
 $opts{o} or -d $dir or mkdir $dir or die "$0: $dir/: $!";
 
-my $prelude = $opts{L} ? <<'EOT' : $opts{P} ? join('', <DATA>) : '';
-\documentclass{article}
-\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
-\usepackage{graphicx}
-\newcommand{\img}[1]{\includegraphics[height=2ex]{../../rules/img/#1}}
-\usepackage{longtable}
-\begin{document}
-EOT
+my($ext, $prelude, $showSet);
+if ($opts{L}) {
+ ($ext, $prelude, $showSet) = ('tex', '', \&showLaTeXSet)
+} elsif ($opts{P}) {
+ ($ext, $prelude, $showSet) = ('ps', join('', <DATA>), \&showPSSet)
+} else { ($ext, $prelude, $showSet) = ('txt', '', \&showTextSet) }
 
 loadSets;
-my %sets = ();
+my %sets;
 for my $card (@{loadJSON shift}) {
  my $stats = stats($card->part1);
  $stats->{part2} = stats($card->part2) if $card->isMultipart;
@@ -44,7 +42,8 @@ for my $card (@{loadJSON shift}) {
   my $rarity = $_->rarity;
   die "Unknown rarity \"$rarity\" for ", $card->name, ' in ', $_->set
    if !exists $rarities{$rarity};
-  push @{$sets{$_->set}}, [ $_->effectiveNum, $rarities{$rarity}, $stats ];
+  push @{$sets{$_->set}}, { %$stats, num    => $_->effectiveNum,
+				     rarity => $rarities{$rarity} };
  }
 }
 
@@ -53,63 +52,33 @@ open $out, '>', $opts{o} or die "$0: $opts{o}: $!" if $opts{o};
 for my $set (grep { exists $sets{$_} } allSets) {
  if (!$opts{o}) {
   (my $file = $set) =~ tr/ "'/_/d;
-  $file = "$dir/$file." . ($opts{L} ? 'tex' : $opts{P} ? 'ps' : 'txt');
+  $file = "$dir/$file.$ext";
   open $out, '>', $file or die "$0: $file: $!";
  }
- select $out;
  my @cards = map {
-  $_->[0] .= '.' if $_->[0];
-  $_->[2]{part2} ? ($_, [ '//', '', $_->[2]{part2} ]) : ($_);
- } sort { ($a->[0] || 0) <=> ($b->[0] || 0) || $a->[2]{name} cmp $b->[2]{name} }
+  $_->{num} .= '.' if $_->{num};
+  $_->{part2} ? ($_, { %{$_->{part2}}, num => '//', rarity => '' }) : ($_);
+ } sort { ($a->{num} || 0) <=> ($b->{num} || 0) || $a->{name} cmp $b->{name} }
   @{$sets{$set}};
- $nameLen = maxField('nameLen', @cards);
- $typeLen = maxField('typeLen', @cards);
- $costLen = maxField('costLen', @cards);
- $extraLen = maxField('extraLen', @cards);
- if ($opts{L}) {
-  print $prelude, <<EOT
-\\section*{$set}
-\\begin{longtable}[c]{rl|l|l|l|l}
-No. & Name & Type & & Cost & \\\\ \\hline \\endhead
-EOT
- } elsif ($opts{P}) {
-  print $prelude, <<EOT
-/setname ($set) def
-/typeStart nameStart $nameLen 2 add em mul add def
-/extraStart typeStart $typeLen 2 add em mul add def
-/costStart extraStart $extraLen 2 add em mul add def
-/rareStart costStart $costLen 2 add em mul add def
-startPage
-EOT
- } else { print "$set\n" }
  if ($set =~ /^Planechase( 2012 Edition)?$/ || $set eq 'Archenemy') {
   my(@special, @normal);
   for (@cards) {
-   if ($_->[2]{type} =~ /^(Plane|Phenomenon|(Ongoing )?Scheme)\b/) {
+   if ($_->{type} =~ /^(Plane|Phenomenon|(Ongoing )?Scheme)\b/) {
     push @special, $_
    } else { push @normal, $_ }
   }
-  showCards @special;
-  print($opts{L} ? "\\hline\n"
-	: $opts{P} ? "linefeed nameStart y moveto (---) show\n"
-	: "---\n");
-  showCards @normal;
- } else { showCards @cards }
- if ($opts{L}) { print "\\end{longtable}\n\\end{document}\n" }
- elsif ($opts{P}) { print "showpage\n" }
- elsif ($opts{o}) { print "\n" }
+  $showSet->($set, $out, @special, undef, @normal);
+ } else { $showSet->($set, $out, @cards) }
  close $out if !$opts{o};
 }
 
 sub chrlength($) {
  my $str = shift;
- # SDF's version of Encode.pm has some sort of bug that causes &decode_utf8 to
- # overwrite its first argument with (I assume) the argument's trailing
- # unconvertible characters, even when FB_CROAK is supplied.  Even more
- # infuriating, passing the return value of &shift directly to &decode_utf8
- # doesn't protect the argument to &chrlength.
+ # Certain versions of Encode.pm modify the first argument to `decode_utf8` and
+ # second argument to `decode` even when FB_CROAK is the last argument.  Thus,
+ # the argument to `chrlength` needs to be copied into a temporary variable
+ # before passing it to either.
  return length(decode_utf8($str, Encode::FB_CROAK));
- ### Would changing decode_utf8(...) to decode('utf8', ...) solve the problem?
 }
 
 sub stats($) {
@@ -119,51 +88,46 @@ sub stats($) {
  my $cost = $card->cost || '--';
  $cost .= ' [' . $card->indicator . ']' if $card->indicator;
  my $extra = $card->PT || $card->loyalty || $card->HandLife || '';
- my $costLen = length $cost;
- if ($opts{P}) {
-  (my $cost2 = $cost) =~ s/\{[^\d{}]+\}/./g;
-  $cost2 =~ s/\{(\d+)\}/$1/g;
-  $costLen = length $cost2;
- }
  return {
   name     => $name,
   nameLen  => chrlength $name,
   type     => $type,
   typeLen  => chrlength $type,
   cost     => $cost,
-  costLen  => $costLen,
+  costLen  => length $cost,
   extra    => $extra,
   extraLen => length $extra,
  };
 }
 
-sub maxField($@) {
- my $field = shift;
- my $max = 0;
- for (@_) {
-  $max = $_->[2]{$field} if $_->[2]{$field} > $max;
-  $max = $_->[2]{part2}{$field}
-   if $_->[2]{part2} && $_->[2]{part2}{$field} > $max;
+sub showLaTeXSet($$@) {
+ my $set = shift;
+ my $out = shift;
+ print $out <<EOT;
+\\documentclass{article}
+\\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\\usepackage{graphicx}
+\\newcommand{\\img}[1]{\\includegraphics[height=2ex]{../../rules/img/#1}}
+\\usepackage{longtable}
+\\usepackage{textcomp}
+\\begin{document}
+\\section*{$set}
+\\begin{longtable}[c]{rl|l|l|l|l}
+No. & Name & Type & & Cost & \\\\ \\hline \\endhead
+EOT
+ for my $card (@_) {
+  print $out "\\hline\n" and next if !defined $card;
+  print $out $card->{num} if $card->{num};
+  print $out ' & ', texify($card->{name}), ' & ', texify($card->{type});
+  print $out ' & ';
+  print $out texify($card->{extra}) if $card->{extra};
+  print $out ' & ';
+  print $out defined($5) ? texify($5)
+			 : '\img{' . ($2 ? $2 : $3 ? "$3$4" : $1) . '.pdf}'
+   while $card->{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
+  print $out ' & ', substr($card->{rarity}, 0, 1), "\\\\\n";
  }
- return $max;
-}
-
-sub psify($) {
- ### Rewrite this to use the "ISOLatin1Encoding" encoding vector in PostScript.
- my $str = shift;
- $str =~ s/([(\\)])/\\$1/g;
- $str =~ s/’/'/g;
- $str =~ s/Æ/\\341/g;
- $str =~ s/à/) show (a) (\\301) accent (/g;
- $str =~ s/á/) show (a) (\\302) accent (/g;
- $str =~ s/é/) show (e) (\\302) accent (/g;
- $str =~ s/í/) show (\\365) (\\302) accent (/g;
- $str =~ s/ú/) show (u) (\\302) accent (/g;
- $str =~ s/â/) show (a) (\\303) accent (/g;
- $str =~ s/û/) show (u) (\\303) accent (/g;
- $str =~ s/ö/) show (o) (\\310) accent (/g;
- $str =~ s/--/\\320/g;
- return "($str) show\n";
+ print $out "\\end{longtable}\n\\end{document}\n";
 }
 
 sub texify($) {
@@ -183,55 +147,112 @@ sub texify($) {
  $str =~ s/û/\\^u/g;
  $str =~ s/ö/\\"o/g;
  $str =~ s/--/---/g;
+ $str =~ s/®/\\textsuperscript{\\textregistered}/g;
+ $str =~ s/½/\\textonehalf/g;  # needs package textcomp
+ $str =~ s/²/\${}^2\$/g;
  return $str;
 }
 
-sub showCards(@) {
- if ($opts{L}) {
-  for my $card (@_) {
-   print $card->[0] if $card->[0];
-   print ' & ', texify($card->[2]{name}), ' & ', texify($card->[2]{type});
-   print ' & ';
-   print texify($card->[2]{extra}) if $card->[2]{extra};
-   print ' & ';
-   print defined($5) ? texify($5)
-    : '\img{' . ($2 ? $2 : $3 ? "$3$4" : $1) . '.pdf}'
-    while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
-   print ' & ', substr($card->[1], 0, 1), "\\\\\n";
-  }
- } elsif ($opts{P}) {
-  for my $card (@_) {
-   print "\n", "linefeed\n";
-   print '(', $card->[0], ") showNum\n" if $card->[0];
-   print 'nameStart y moveto ', psify($card->[2]{name});
-   print 'typeStart y moveto ', psify($card->[2]{type});
-   print 'extraStart y moveto ', psify($card->[2]{extra}) if $card->[2]{extra};
-   print 'costStart y moveto ';
-   print($2 ? "$2\n" : $3 ? "$3$4\n" : psify(defined($1) ? $1 : $5))
-    while $card->[2]{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g;
-   print $card->[1], "\n";
-  }
- } else {
-  printf "%4s %s  %s  %-*s  %-*s  %s\n",
-   $_->[0] || '',
-   $_->[2]{name} . ' ' x ($nameLen - $_->[2]{nameLen}),
-   $_->[2]{type} . ' ' x ($typeLen - $_->[2]{typeLen}),
-   $extraLen, $_->[2]{extra},
-   $costLen, $_->[2]{cost},
-   $_->[1] for @_
+sub showPSSet($$@) {
+ my $set = shift;
+ my $out = shift;
+ print $out $prelude, "/setData [\n";
+ my $costLen = 0;
+ for my $card (@_) {
+  if (defined $card) {
+   print $out " [ (", $card->{num} || '', ") ", psify($card->{name}), ' ',
+    psify($card->{type}), ' ', psify($card->{extra} || ''), " { ";
+   my $clen = 0;
+   while ($card->{cost} =~ /\G(?:\{(\d+)\}|\{(\D)\}|\{(.)\/(.)\}|([^{}]+))/g) {
+    if ($2) {print $out "$2 "; $clen++; }
+    elsif ($3) {print $out "$3$4 "; $clen++; }
+    else {
+     my $txt = defined($1) ? $1 : $5;
+     print $out psify($txt), " show ";
+     $clen += length $txt;
+    }
+   }
+   print $out "} ";
+   $costLen = $clen if $clen > $costLen;
+   print $out '/', $card->{rarity} || 'nop', " ]\n";
+  } else { print $out " [ () (---) () () {} /nop ]\n" }
  }
+ print $out <<EOT;
+] def
+/setname ($set) def
+/costLen $costLen circRad mul 2 mul def
+showSet
+showpage
+EOT
+}
+
+sub psify($) {
+ my $str = shift;
+ $str =~ s/([(\\)])/\\$1/g;
+ $str =~ s/’/'/g;
+ $str =~ s/Æ/\\306/g;
+ $str =~ s/à/\\340/g;
+ $str =~ s/á/\\341/g;
+ $str =~ s/é/\\351/g;
+ $str =~ s/í/\\355/g;
+ $str =~ s/ú/\\372/g;
+ $str =~ s/â/\\342/g;
+ $str =~ s/û/\\373/g;
+ $str =~ s/ö/\\366/g;
+ #$str =~ s/--/\\320/g;  # \320 is the StandardEncoding value for U+2014
+ $str =~ s/--/-/g;
+ $str =~ s/®/\\256/g;
+ $str =~ s/½/\\275/g;
+ $str =~ s/²/\\262/g;
+ return "($str)";
+}
+
+sub showTextSet($$@) {
+ my $set = shift;
+ my $out = shift;
+ my $nameLen = maxField('nameLen', @_);
+ my $typeLen = maxField('typeLen', @_);
+ my $costLen = maxField('costLen', @_);
+ my $extraLen = maxField('extraLen', @_);
+ print $out "$set\n";
+ for (@_) {
+  if (defined) {
+   printf $out "%4s %s  %s  %-*s  %-*s  %s\n",
+    $_->{num} || '',
+    $_->{name} . ' ' x ($nameLen - $_->{nameLen}),
+    $_->{type} . ' ' x ($typeLen - $_->{typeLen}),
+    $extraLen, $_->{extra},
+    $costLen, $_->{cost},
+    $_->{rarity}
+  } else { print $out "---\n" }
+ }
+ print $out "\n" if $opts{o};
+}
+
+sub maxField($@) {
+ my $field = shift;
+ my $max = 0;
+ for (@_) { $max = $_->{$field} if defined && $_->{$field} > $max }
+ return $max;
 }
 
 __DATA__
 %!PS-Adobe-3.0
 
+/mkLatin1 {  % old font, new name -- new font
+ exch dup length dict begin
+ { 1 index /FID ne { def } { pop pop } ifelse } forall
+ /Encoding ISOLatin1Encoding def
+ currentdict end definefont
+} def
+
 %/fontsize 10 def
 %/lineheight 12 def
-%/Monaco findfont fontsize scalefont setfont
+%/Monaco findfont /Monaco-Latin1 mkLatin1 fontsize scalefont setfont
 
 /fontsize 8 def
 /lineheight 10 def
-/Times-Roman findfont fontsize scalefont setfont
+/Times-Roman findfont /Times-Roman-Latin1 mkLatin1 fontsize scalefont setfont
 
 /em (M) stringwidth pop def
 
@@ -240,16 +261,6 @@ __DATA__
 
 /pageNo 0 def
 /buf 3 string def
-
-/accent {
- exch dup show
- gsave
- stringwidth pop
- 1 index stringwidth pop
- add -2 div 0 moveto
- show
- grestore
-} def
 
 /linefeed {
  y 72 lineheight add le { showpage startPage } if
@@ -290,6 +301,8 @@ __DATA__
 /R { 1 0 0 disc } def
 /G { 0 1 0 disc } def
 /X { (X) show } def
+/Y { (Y) show } def
+/Z { (Z) show } def
 
 /hybrid {
  gsave
@@ -344,3 +357,36 @@ __DATA__
 /Land     { rareStart y moveto (Land)     show } def
 /Special  { rareStart y moveto (Special)  show } def
 /Promo    { rareStart y moveto (Promo)    show } def
+/Bonus    { rareStart y moveto (Bonus)    show } def
+/nop { } def
+
+/showSet {
+ /nameLen 0 def
+ /typeLen 0 def
+ /extraLen 0 def
+ setData {
+  aload pop pop pop
+  stringwidth pop dup extraLen gt { /extraLen exch def } { pop } ifelse
+  stringwidth pop dup typeLen  gt { /typeLen  exch def } { pop } ifelse
+  stringwidth pop dup nameLen  gt { /nameLen  exch def } { pop } ifelse
+  pop
+ } forall
+ /typeStart  nameStart  nameLen  2 em mul add add def
+ /extraStart typeStart  typeLen  2 em mul add add def
+ /costStart  extraStart extraLen 2 em mul add add def
+ /rareStart  costStart  costLen  2 em mul add add def
+ startPage
+ setData {
+  % [ number name type extra { cost } rarity ]
+  linefeed
+  dup 0 get showNum
+  dup 1 get nameStart y moveto show
+  dup 2 get typeStart y moveto show
+  dup 3 get extraStart y moveto show
+  dup 4 get costStart y moveto exec
+  5 get cvx exec
+ } forall
+} def
+
+% [ number name type extra { cost } rarity ]
+% The Perl code defines: setData, setname, costLen

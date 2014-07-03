@@ -28,7 +28,8 @@ my %rarities = (C => 'Common',
 		M => 'Mythic Rare',
 		L => 'Land',
 		P => 'Promo',
-		S => 'Special');
+		S => 'Special',
+		B => 'Bonus');
 
 my(@missed, %opts);
 getopts('C:S:j:x:l:i:I:', \%opts) || exit 2;
@@ -118,6 +119,7 @@ for my $name (sort keys %cardIDs) {
   if (!defined $details) {
    logmsg "ERROR: Could not fetch card $name/$id";
    push @missed, "CARD $name/$id";
+   $first = 1;  # to suppress extra commas
    next;
   }
   my $prnt = parseDetails $details;

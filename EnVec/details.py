@@ -19,16 +19,16 @@ def parseDetails(txt) {
     doc = parseString(txt)
     pre = 'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_'
     if doc.getElementById(pre + "nameRow"): return scrapeSection(doc, pre)
-    elif doc.getElementById(pre + "ctl07_nameRow"):
+    elif doc.getElementById(pre + "ctl03_nameRow"):
 	# Split, flip, or double-faced card
 	return joinCards(CardClass.NORMAL_CARD,
-			 scrapeSection(doc, pre + "ctl07_"),
-			 scrapeSection(doc, pre + "ctl08_"))
+			 scrapeSection(doc, pre + "ctl03_"),
+			 scrapeSection(doc, pre + "ctl04_"))
     else:
 	# B.F.M. (Big Furry Monster)
 	return joinCards(CardClass.NORMAL_CARD,
-			 scrapeSection(doc, pre + "ctl09_"),
-			 scrapeSection(doc, pre + "ctl10_"))
+			 scrapeSection(doc, pre + "ctl05_"),
+			 scrapeSection(doc, pre + "ctl06_"))
 
 def loadDetails(filename):
     fp = openR(filename)

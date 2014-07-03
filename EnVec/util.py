@@ -66,7 +66,7 @@ def magicContent(node):
 		# Waiters; name=HalfR), and half-colorless (Flaccify and Cheap
 		# Ass; erroneously omitted from the rules texts).
 		else: return '{' + sym + '}'
-	    elif re.search(r'\bchaos\.gif$', src): return '{C}'
+	    elif re.search(r'\bchaos\.(gif|png)$', src): return '{C}'
 	    else: return '[' + src + ']'
 	else: return ''.join(map(magicContent, node.childNodes))
 ### else: ???

@@ -4,10 +4,9 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
 - In all formats other than the individual card details pages, entries for the
   faces of double-faced cards don't give the name of the other face.
 - The rules text of basic lands is just the letter of their mana.
-- The "{10}" in the rules text of Draco and the "{20}" in the rules text of
-  Spawnsire of Ulamog are represented in the text spoilers as "{1}0}" and
-  "{2}0}", respectively, with analogous mixing of mana symbols and "0}" in the
-  standard & individual spoilers.
+- The "{10}" in the rules texts of Draco & Colossus of Akros and the "{20}" in
+  the rules text of Spawnsire of Ulamog are represented as "{1}0" and "{2}0",
+  respectively.
 - Rules text that is italicized in print (e.g., ability words, "Sarpadian
   Empires, Vol. VII", il- and en- creatures) is not italicized in the spoilers.
 - Certain tokens are listed in Gatherer for no good reason (see
