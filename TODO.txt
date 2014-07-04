@@ -1,3 +1,5 @@
+PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
+
 - Make the primary task of the library be reading & querying of JSON & XML card
   databases?
  - Should all of the scraping-specific code be moved out of EnVec/ and/or
@@ -31,6 +33,7 @@
    they're not (currently) needed?
  - Give fetch.sh an -o option for setting the output directory
  - Give fetch.sh an option for specifying a pre-existing ID file
+ - Give the classes `toDict` methods?
 
 - Coding:
  - Represent rarities by enums?  At the very least, make their representations
@@ -88,6 +91,7 @@
  - Should "oversized" or "nontraditional" be a card class?
  - Move the use of &rmitalics from tutor.pl to Details.pm?
  - Use the `csv` module to parse sets.tsv and multipart.tsv? 
+ - Rename the `toJSON` methods "toPrettyJSON"?
 
 - Data & documentation:
  - Add documentation

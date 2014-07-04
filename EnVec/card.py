@@ -70,7 +70,7 @@ class Card(object):
 
     @classmethod
     def fromJSON(cls, txt):
-	obj = json.loads(txt) # This throws an exception on parse errors, right?
+	obj = json.loads(txt)  # This throws an exception on parse errors
 	return cls.fromDict(obj)
 
     @classmethod
