@@ -93,11 +93,13 @@ if (open my $bf, '<', 'data/badflip.txt') {
 }
 
 my $json = openW($opts{j} || 'out/details.json', $0);
+select((select($json), $| = 1)[0]);
 print $json "[\n";
 
 my $xml  = openW($opts{x} || 'out/details.xml',  $0);
+select((select($xml), $| = 1)[0]);
 print $xml '<?xml version="1.0" encoding="UTF-8"?>', "\n";
-#print $xml '<!DOCTYPE cardlist SYSTEM "../../mtgcard.dtd">', "\n";
+#print $xml '<!DOCTYPE cardlist SYSTEM "mtgcard.dtd">', "\n";
 print $xml "<cardlist date=\"", strftime('%Y-%m-%d', gmtime), "\">\n\n";
 
 logmsg "INFO: Fetching individual card data...";
@@ -123,7 +125,8 @@ for my $name (sort keys %cardIDs) {
    next;
   }
   my $prnt = parseDetails $details;
-  ### This needs to detect flip & double-faced cards that are missing parts.
+  ### TODO: This needs to detect flip & double-faced cards that are missing
+  ### parts.
   if (isSplit $name) { $prnt->cardClass(SPLIT_CARD) }
   elsif (isFlip $name) {
    if (($prnt->text || '') =~ /^----$/m) { $prnt = unmungFlip $prnt }
@@ -132,7 +135,7 @@ for my $name (sort keys %cardIDs) {
     # Manually fix some flip card entries that Gatherer just can't seem to get
     # right:
     if (exists $badflip{$prnt->part1->name}) {
-     # Should this not replace part2's that are already present?
+     ### Should this not replace part2's that are already present?
      my $part2 = $badflip{$prnt->part1->name};
      $part2->cost($prnt->cost);
      $prnt->content([ $prnt->part1, $part2 ]);

@@ -137,6 +137,7 @@
   - border color (black, white, or silver)
    - Give EnVec::Card an isSilver/isUncard method
   - whether a set is online-only
+  - maximum collector's number? (only worth noting for Unhinged and M15)
  - Store card data in actual SQL databases rather than flat JSON/XML files
 
 Reminder about function naming conventions:
