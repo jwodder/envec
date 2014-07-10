@@ -136,7 +136,8 @@
   - Modern eligibility?
   - border color (black, white, or silver)
    - Give EnVec::Card an isSilver/isUncard method
- - Store card data in actual SQL databases rather than flat JSON/XML files?
+  - whether a set is online-only
+ - Store card data in actual SQL databases rather than flat JSON/XML files
 
 Reminder about function naming conventions:
  - Functions for parsing the contents of a string should have their names

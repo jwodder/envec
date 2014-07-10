@@ -4,7 +4,7 @@ use strict;
 use Carp;
 use JSON::Syck;
 use EnVec::Card;
-use EnVec::Util 'jsonify', 'openR';
+use EnVec::Util 'openR';
 use Exporter 'import';
 our @EXPORT_OK = qw< dumpArray parseJSON loadJSON >;
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
