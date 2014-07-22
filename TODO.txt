@@ -92,6 +92,9 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
  - Move the use of &rmitalics from tutor.pl to Details.pm?
  - Use the `csv` module to parse sets.tsv and multipart.tsv? 
  - Rename the `toJSON` methods "toPrettyJSON"?
+ - Make most of the classes subclasses of `namedtuple`s? (requires Python
+   v.2.6+)
+ - Make multival store tuples instead of lists?
 
 - Data & documentation:
  - Add documentation

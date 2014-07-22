@@ -6,27 +6,27 @@ class Content(object):
     __slots__ = ("name", "cost", "text", "pow", "tough", "loyalty", "hand",
 		 "life", "indicator", "supertypes", "types", "subtypes")
 
-    def __init__(self, name, types, cost=None, supertypes=[], subtypes=[],
+    def __init__(self, name, types, cost=None, supertypes=(), subtypes=(),
 		 text=None, pow=None, tough=None, loyalty=None, hand=None,
 		 life=None, indicator=None):
-	self.name       = name		# string
-	self.types      = types[:]	# list of strings
-	self.cost       = cost		# string or None
-	self.supertypes = supertypes[:]	# list of strings
-	self.subtypes   = subtypes[:]	# list of strings
-	self.text       = text		# string or None
-	self.pow        = pow		# string or None
-	self.tough      = tough		# string or None
-	self.loyalty    = loyalty	# string or None
-	self.hand       = hand		# string or None
-	self.life       = life		# string or None
-	self.indicator  = indicator	# string or None
+	self.name       = name			# string
+	self.types      = tuple(types)		# tuple of strings
+	self.cost       = cost			# string or None
+	self.supertypes = tuple(supertypes)	# tuple of strings
+	self.subtypes   = tuple(subtypes)	# tuple of strings
+	self.text       = text			# string or None
+	self.pow        = pow			# string or None
+	self.tough      = tough			# string or None
+	self.loyalty    = loyalty		# string or None
+	self.hand       = hand			# string or None
+	self.life       = life			# string or None
+	self.indicator  = indicator		# string or None
 
     def toJSON(self):
 	attrs = []
 	for attr in self.__slots__:
 	    val = getattr(self, attr)
-	    if val not in (None, '', []):
+	    if val not in (None, '', ()):
 		attrs.append('    "%s": %s' % (attr, jsonify(val)))
 	return "{\n" + ",\n".join(attrs) + "\n   }"
 
@@ -98,8 +98,8 @@ class Content(object):
 
     @property
     def type(self): return ' '.join(self.supertypes + self.types +
-				    (['--'] + self.subtypes if self.subtypes
-				     else []))
+				    (('--',) + self.subtypes if self.subtypes
+				     else ()))
 
     def isSupertype(self, type_): return type_ in self.supertypes
     def isType(self, type_):      return type_ in self.types
@@ -120,12 +120,8 @@ class Content(object):
 	return self.hand + '/' + self.life  if self.hand is not None else None
 
     def copy(self):
-	dup = {}
-	for attr in self.__slots__:
-	    val = getattr(self, attr)
-	    #dup[attr] = val[:] if isinstance(val, list) else val
-	    dup[attr] = val
-	return self.__class__(**dup)
+	return self.__class__(**((attr, getattr(self, attr))
+				 for attr in self.__slots__))
 
     def __cmp__(self, other):
 	return cmp(type(self), type(other)) or \

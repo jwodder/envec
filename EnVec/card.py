@@ -46,12 +46,12 @@ def scalarField(field):
     return property(getter)
 
 class Card(object):
-    def __init__(self, cardClass, content, printings=[], rulings=[]):
+    def __init__(self, cardClass, content, printings=(), rulings=()):
 	self.cardClass = cardClass
-	self.content   = content[:]    # list of envec.card.content objects
-	self.printings = printings[:]  # list of envec.card.printing objects
-	self.rulings   = rulings[:]
-	 # list of dicts with the following fields:
+	self.content   = tuple(content)   # tuple of envec.card.content objects
+	self.printings = tuple(printings) # tuple of envec.card.printing objects
+	self.rulings   = tuple(rulings)
+	 # tuple of dicts with the following fields:
 	 #  - date
 	 #  - ruling
 	 #  - subcard - 0 or 1 (optional)
@@ -60,9 +60,9 @@ class Card(object):
     @classmethod
     def newCard(cls, **attrs):
 	content = {}
-	for field in ["name", "cost", "text", "pow", "tough", "loyalty",
+	for field in ("name", "cost", "text", "pow", "tough", "loyalty",
 		      "hand", "life", "indicator", "supertypes", "types",
-		      "subtypes"]:
+		      "subtypes"):
 	    if field in attrs:
 		content[field] = attrs[field]
 	attrs2 = attrs.copy()
@@ -80,17 +80,17 @@ class Card(object):
 	### TODO: Move all of these transformations to __init__?
 	cardClass = CardClass.toEnum(obj.get("cardClass"), CardClass.NORMAL_CARD)
 	content = obj["content"]
-	if isinstance(content, list):
+	if isinstance(content, (list, tuple)):
 	    if not content:
 		raise ValueError("'content' field must be a nonempty list")
 	    content = map(Content.fromDict, content)
 	else:
 	    content = [Content.fromDict(content)]
-	printings = map(Printing.fromDict, obj.get("printings", []))
-	rulings = obj.get("rulings", [])
-	#if rulings is None: rulings = []
-	#if not isinstance(rulings, list):
-	#    raise TypeError("'rulings' field must be a list")
+	printings = map(Printing.fromDict, obj.get("printings", ()))
+	rulings = obj.get("rulings", ())
+	#if rulings is None: rulings = ()
+	#if not isinstance(rulings, (list, tuple)):
+	#    raise TypeError("'rulings' field must be a tuple")
 	return cls(cardClass, content, printings, rulings)
 
     def toJSON(self):
@@ -145,7 +145,7 @@ class Card(object):
     def isFlip(self):      return self.cardClass == CardClass.FLIP_CARD
     def isDouble(self):    return self.cardClass == CardClass.DOUBLE_CARD
 
-    def sets(self): return list(set(p.set for p in self.printings))
+    def sets(self): return tuple(set(p.set for p in self.printings))
 
     def firstSet(self): return getCardSetDB().firstSet(self.sets())
 
@@ -165,13 +165,13 @@ class Card(object):
     baseText  = scalarField("baseText")
 
     @property
-    def supertypes(self): return [t for c in self.content for t in c.supertypes]
+    def supertypes(self): return (t for c in self.content for t in c.supertypes)
 
     @property
-    def types(self): return [t for c in self.content for t in c.types]
+    def types(self): return (t for c in self.content for t in c.types)
 
     @property
-    def subtypes(self): return [t for c in self.content for t in c.subtypes]
+    def subtypes(self): return (t for c in self.content for t in c.subtypes)
 
     @property
     def cost(self):
@@ -221,7 +221,7 @@ class Card(object):
 	    def lineify(c):
 		val = getattr(self, field)
 		if val is None: val = ''
-		elif isinstance(val, list): val = ' '.join(val)
+		elif isinstance(val, (list, tuple)): val = ' '.join(val)
 		val = val.replace('—', '--')
 		return ['%-*s' % (width, s) for s in wrapLines(val, width, 2)]
 	    def joining(tag, *ls):

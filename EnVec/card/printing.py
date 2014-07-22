@@ -41,10 +41,8 @@ class Printing(object):
     notes        = multivalProp("_notes")
 
     def copy(self):
-	dup = {}
-	for attr in self.__slots__:
-	    dup[attr] = getattr(self, attr)
-	return self.__class__(**dup)
+	return self.__class__(**((attr, getattr(self, attr))
+				 for attr in self.__slots__))
 
     def toJSON(self):
 	txt = '{"set": ' + jsonify(self.set)
