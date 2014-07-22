@@ -55,6 +55,7 @@ class Card(object):
 	 #  - date
 	 #  - ruling
 	 #  - subcard - 0 or 1 (optional)
+	 # TODO: Create a `namedtuple` Rulings class?
 
     @classmethod
     def newCard(cls, **attrs):
@@ -161,6 +162,7 @@ class Card(object):
     type      = scalarField("type")
     PT        = scalarField("PT")
     HandLife  = scalarField("HandLife")
+    baseText  = scalarField("baseText")
 
     @property
     def supertypes(self): return [t for c in self.content for t in c.supertypes]

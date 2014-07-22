@@ -1,6 +1,6 @@
 import re
 from envec.colors import Color
-from envec.util   import jsonify, txt2xml, sym2xml
+from envec.util   import jsonify, txt2xml, sym2xml, trim
 
 class Content(object):
     __slots__ = ("name", "cost", "text", "pow", "tough", "loyalty", "hand",
@@ -63,11 +63,9 @@ class Content(object):
 	# now have color indicators instead, so there's no need to check for
 	# such strings.
 	colors = self.color
-	txt = re.sub(r'\([^()]+\)', '', self.text or '')
-	# It is assumed that text is reminder text if & only if it's enclosed
-	# in parentheses.
+	txt = self.baseText or ''
 	# Reminder text is supposed to be ignored for the purposes of
-	# establishing color identity, though, as of Dark Ascension, Charmed
+	# establishing color identity, though (as of Dark Ascension) Charmed
 	# Pendant and Trinisphere appear to be the only cards for which this
 	# makes a difference.
 	if re.search(r'\{(./)?W(/.)?\}', txt): colors |= WHITE
@@ -138,3 +136,11 @@ class Content(object):
     def fromDict(cls, obj):  # called `fromHashref` in the Perl version
 	if isinstance(obj, cls): return obj.copy()
 	else: return cls(**obj)
+
+    def baseText(self):  # Returns rules text without reminder text
+	if self.text is None:
+	    return None
+	txt = re.sub(r'\([^()]+\)', '', self.text)
+	# It is assumed that text is reminder text if & only if it's enclosed
+	# in parentheses.
+	return '\n'.join(filter(None, map(trim, txt.splitlines())))

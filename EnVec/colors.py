@@ -115,6 +115,7 @@ class Color(object):  # Color should be treated as an immutable type.
     def __ge__(self, other): return other <= self
     def __gt__(self, other): return other <  self
 
+
 COLORLESS = Color()
 WHITE     = Color(W=True)
 BLUE      = Color(U=True)
