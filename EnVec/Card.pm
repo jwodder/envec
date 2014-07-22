@@ -134,7 +134,7 @@ sub inSet {
 }
 
 for my $field (qw< name text pow tough loyalty hand life indicator type PT
- HandLife >) {
+ HandLife baseText >) {
  eval <<EOT;
   sub $field {
    my \$self = shift;

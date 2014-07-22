@@ -59,11 +59,9 @@ sub colorID {
  # Since Innistrad, cards that formerly said "[This card] is [color]" now have
  # color indicators instead, so there's no need to check for such strings.
  my $colors = colors2bits($self->cost) | colors2bits($self->indicator);
- (my $text = $self->text || '') =~ s:\([^()]+\)::g;
- # It is assumed that text is reminder text if & only if it's enclosed in
- # parentheses.
+ my $text = $self->baseText || '';
  # Reminder text is supposed to be ignored for the purposes of establishing
- # color identity, though, as of Dark Ascension, Charmed Pendant and
+ # color identity, though (as of Dark Ascension) Charmed Pendant and
  # Trinisphere appear to be the only cards for which this makes a difference.
  $colors |= COLOR_WHITE if $text =~ m:\{(./)?W(/.)?\}:;
  $colors |= COLOR_BLUE  if $text =~ m:\{(./)?U(/.)?\}:;
@@ -171,6 +169,16 @@ sub fromHashref {
  croak "EnVec::Card::Content->fromHashref: argument must be a hash reference\n"
   if ref $hashref ne 'HASH';
  return $class->new(%$hashref);
+}
+
+sub baseText {  # Returns rules text without reminder text
+ my $self = shift;
+ my $text = $self->text;
+ return undef if !defined $text;
+ $text =~ s/\([^()]+\)//g;
+ # It is assumed that text is reminder text if & only if it's enclosed in
+ # parentheses.
+ return join "\n", grep { $_ ne '' } map { trim $_ } split /\n/, $text;
 }
 
 1;
