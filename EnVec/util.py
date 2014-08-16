@@ -14,7 +14,8 @@ def uniq(xs): return [k for k,_ in itertools.groupby(xs)]
 
 def jsonify(obj):
     if obj is None: return 'null'
-    elif isinstance(obj, list): return '[' + ', '.join(map(jsonify, obj)) + ']'
+    elif isinstance(obj, (list, tuple)):
+	return '[' + ', '.join(map(jsonify, obj)) + ']'
     elif isinstance(obj, dict):
 	return '{' + ', '.join(jsonify(k) + ': ' + jsonify(obj[k])
 			       for k in sorted(obj.keys())) + '}'

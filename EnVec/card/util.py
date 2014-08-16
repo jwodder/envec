@@ -39,8 +39,7 @@ def joinPrintings(name, prnt1, prnt2):
     ### - The split cards from the Invasion blocks are the only cards that need
     ###   to be joined that have more than one printing per set, and these
     ###   duplicate printings differ only in multiverseid.
-    ### - The rarity & date fields of part 1 are always valid for the whole
-    ###   card.
+    ### - The rarity field of part 1 is always valid for the whole card.
     prnts1 = {}
     prnts2 = {}
     for p in prnt1: prnts1.get(p.set, []).append(p)
@@ -59,7 +58,7 @@ def joinPrintings(name, prnt1, prnt2):
 	    multiverse = None
 	p1 = prnts1[set_][0]
 	p2 = prnts2[set_][0]
-	prnt = {"set": set_, "rarity": p1.rarity, "date": p1.date}
+	prnt = {"set": set_, "rarity": p1.rarity}
 	for field in ["number", "artist", "flavor", "watermark", "multiverseid",
 		      "notes"]:
 	    val1 = getattr(p1, field).get()

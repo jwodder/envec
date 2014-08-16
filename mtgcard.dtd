@@ -38,10 +38,9 @@
 <!ELEMENT life (#PCDATA)>
 <!ELEMENT indicator (#PCDATA)>  <!-- color indicator (as /^W?U?B?R?G?$/) -->
 
-<!ELEMENT printing (set, date?, rarity?, number*, artist+, flavor*, watermark*,
+<!ELEMENT printing (set, rarity?, number*, artist+, flavor*, watermark*,
 		    multiverseid*, notes*)>
 <!ELEMENT set (#PCDATA)>
-<!ELEMENT date (#PCDATA)>  <!-- primarily for promo cards -->
 <!ELEMENT rarity (#PCDATA)>
 <!-- "subcard" attributes identify which component of a multi-part card is
      being described: 0 for the first part, 1 for the second part, etc. in the

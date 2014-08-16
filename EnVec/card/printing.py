@@ -12,7 +12,6 @@ def multivalProp(field):
 
 class Printing(object):
     __slots__ = ("set",           # str (required)
-		 "date",          # str or None
 		 "rarity",        # str or None
 		 "_number",       # Multival
 		 "_artist",       # Multival
@@ -21,10 +20,9 @@ class Printing(object):
 		 "_multiverseid", # Multival
 		 "_notes")        # Multival
 
-    def __init__(self, set, date=None, rarity=None, number=None, artist=None,
-		 flavor=None, watermark=None, multiverseid=None, notes=None):
+    def __init__(self, set, rarity=None, number=None, artist=None, flavor=None,
+		 watermark=None, multiverseid=None, notes=None):
 	self.set = set
-	self.date = date
 	self.rarity = rarity
 	self._number = Multival(number)
 	self._artist = Multival(artist)
@@ -46,7 +44,6 @@ class Printing(object):
 
     def toJSON(self):
 	txt = '{"set": ' + jsonify(self.set)
-	if self.date: txt += ', "date": ' + jsonify(self.date)
 	if self.rarity: txt += ', "rarity": ' + jsonify(self.rarity)
 	for attr in multival:
 	    val = getattr(self, attr)
@@ -56,7 +53,6 @@ class Printing(object):
 
     def toXML(self):
 	txt = "  <printing>\n   <set>" + txt2xml(self.set) + "</set>\n"
-	if self.date: txt += "   <date>" + txt2xml(self.date) + "</date>\n"
 	if self.rarity:
 	    txt += "   <rarity>" + txt2xml(self.rarity) + "</rarity>\n"
 	for attr in multival:
