@@ -26,7 +26,7 @@ Magic 2011				M11	M11	m11	MTGM11
 Magic 2012				M12	M12	m12	MTGM12
 Magic 2013				M13	M13	m13	MTGM13
 Magic 2014 Core Set			M14	M14	m14	MTGM14
-Magic 2015 Core Set			M15	M15	???	MTGM15
+Magic 2015 Core Set			M15	M15	m15	MTGM15
 
 Arabian Nights				AN	ARN	an	---
 Antiquities				AQ	ATQ	aq	---
@@ -111,6 +111,7 @@ Planechase 2012 Edition			PC2	PC2	pc2
 Commander's Arsenal			CM1	CM1	cma	MTGCMA
 Commander 2013 Edition			C13	C13	c13	MTGC13
 Magic: The Gathering—Conspiracy		CNS	CNS	cns	MTGCNS
+#Magic: The Gathering—Commander (2014)	C14	C14	???	MTGC14
 
 Unglued					UG	UGL	ug	---
 Unhinged				UNH	UNH	uh	---
@@ -136,6 +137,7 @@ Duel Decks: Heroes vs. Monsters		DDL	DDL	ddl	MTGHVM
  # code as "HVM".
 Duel Decks: Jace vs. Vraska		DDM	DDM	???	MTGJVV
 #Duel Decks: Speed vs. Cunning		DDN	DDN	???
+#Duel Decks: Anthology			DD3	DD3	???	MTGAnth
 
 From the Vault: Dragons			DRB	DRB	fvd
 From the Vault: Exiled			V09	V09	fve

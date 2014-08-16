@@ -7,7 +7,6 @@ use EnVec::Util;
 
 # Fields:
 #  - set - string (required)
-#  - date - string or undef
 #  - rarity - string or undef
 #  - number - Multival
 #  - artist - Multival
@@ -24,12 +23,6 @@ sub new {
  croak "EnVec::Card::Printing->new: 'set' field must be a nonempty string"
   if !defined $fields{set} || $fields{set} eq '' || ref $fields{set};
  $self->{set} = $fields{set};
-
- if (!defined $fields{date} || $fields{date} eq '') { $self->{date} = undef }
- elsif (ref $fields{date}) {
-  carp "EnVec::Card::Printing->new: 'date' field may not be a reference";
-  $self->{date} = undef;
- } else { $self->{date} = $fields{date} }
 
  if (!defined $fields{rarity} || $fields{rarity} eq '') {
   $self->{rarity} = undef
@@ -66,19 +59,6 @@ sub rarity {
  return $self->{rarity};
 }
 
-sub date {
- my $self = shift;
- if (@_) {
-  my $new = shift;
-  if (!defined $new || $new eq '') { $self->{date} = undef }
-  elsif (ref $new) {
-   carp "EnVec::Card::Printing->date: field may not be a reference";
-   $self->{date} = undef;
-  } else { $self->{date} = $new }
- }
- return $self->{date};
-}
-
 for my $field (@multival) {
  eval <<EOT;
   sub $field {
@@ -92,9 +72,7 @@ EOT
 sub copy {
  my $self = shift;
  #return $self->new(%$self);
- my %dup = (set    => $self->{set},
-	    date   => $self->{date},
-	    rarity => $self->{rarity});
+ my %dup = (set => $self->{set}, rarity => $self->{rarity});
  $dup{$_} = $self->{$_}->copy for @multival;
  bless \%dup, ref $self;
 }
@@ -102,7 +80,6 @@ sub copy {
 sub toJSON {
  my $self = shift;
  my $str = '{"set": ' . jsonify($self->{set});
- $str .= ', "date": ' . jsonify($self->{date}) if defined $self->{date};
  $str .= ', "rarity": ' . jsonify($self->{rarity}) if defined $self->{rarity};
  for (@multival) {
   $str .= ", \"$_\": " . $self->{$_}->toJSON if $self->{$_}->any
@@ -113,8 +90,6 @@ sub toJSON {
 sub toXML {
  my $self = shift;
  my $str = "  <printing>\n   <set>" . txt2xml($self->{set}) . "</set>\n";
- $str .= "   <date>" . txt2xml($self->{date}) . "</date>\n"
-  if defined $self->{date};
  $str .= "   <rarity>" . txt2xml($self->{rarity}) . "</rarity>\n"
   if defined $self->{rarity};
  $str .= $self->{$_}->toXML($_, $_ eq 'flavor' || $_ eq 'notes') for @multival;

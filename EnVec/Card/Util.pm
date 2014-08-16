@@ -49,7 +49,7 @@ sub joinPrintings($$$) {
  ### - The split cards from the Invasion blocks are the only cards that need to
  ###   be joined that have more than one printing per set, and these duplicate
  ###   printings differ only in multiverseid.
- ### - The rarity & date fields of part 1 are always valid for the whole card.
+ ### - The rarity field of part 1 is always valid for the whole card.
  my($name, $prnt1, $prnt2) = @_;
  my(%prnts1, %prnts2);
  push @{$prnts1{$_->set}}, $_ for @$prnt1;
@@ -67,7 +67,7 @@ sub joinPrintings($$$) {
    if @{$prnts1{$set}} > 1;
   my $p1 = $prnts1{$set}[0];
   my $p2 = $prnts2{$set}[0];
-  my %prnt = (set => $set, rarity => $p1->rarity, date => $p1->date);
+  my %prnt = (set => $set, rarity => $p1->rarity);
   for my $field (qw< number artist flavor watermark multiverseid notes >) {
    my($val1) = $p1->$field->get;
    my($val2) = $p2->$field->get;
