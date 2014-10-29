@@ -61,10 +61,11 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
    Wizards of the Coast® Customer Service.
 - Instances of the {C} symbol in Planechase 2012 Edition cards are represented
   as the string "chaos".
-- The split cards from Dragon's Maze do not have their watermarks listed in
-  their details pages.
-- The "sealed" cards from Conspiracy do not have their watermarks listed in
-  their details pages.
+- The following cards do not have their watermarks listed in their details
+  pages:
+ - the split cards from Dragon's Maze
+ - the "sealed" cards from Conspiracy
+ - the Khans of Tarkir "preprints" in Duel Decks: Speed vs. Cunning
 
 - Incorrectly transcribed flavor texts (mostly missing exclamation points):
  - Steamflogger Boss
