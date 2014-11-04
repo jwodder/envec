@@ -103,6 +103,7 @@
  - Add Cockatrice's abbreviations to abbrevs.tsv?
  - Add Twitter hashtags to abbrevs.tsv
  - Add a description of the JSON output format
+ - Merge abbrevs.tsv into sets.tsv?
 
 - For later:
  - Make use of all of the unused data/ files
