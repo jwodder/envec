@@ -56,7 +56,6 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
  - Give EnVec::Multipart 'primaries' and 'secondaries' functions (rethink
    names) for getting all left/top/front and right/bottom/back portions of
    multipart cards, respectively
- - Give EnVec::Multipart an isMultipart function
  - Make the default datafile paths absolute rather than relative (possibly with
    a way to set the datafile directory at runtime?)
  - Problem: At some point, LWP::Simple was updated in such a way that 'get' now

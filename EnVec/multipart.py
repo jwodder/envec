@@ -64,6 +64,7 @@ class MultipartDB(object):
     def isSplit(self, name):  return self.cardClass(name) == CardClass.SPLIT_CARD
     def isFlip(self, name):   return self.cardClass(name) == CardClass.FLIP_CARD
     def isDouble(self, name): return self.cardClass(name) == CardClass.DOUBLE_CARD
+    def isMultipart(self, name): return self.cardClass(name) != CardClass.NORMAL_CARD
 
     def splitLefts(self):
 	return sorted(a for ((a,b),c) in self.classMap.items()
