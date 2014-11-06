@@ -6,7 +6,7 @@ use EnVec::Util 'openR';
 use Exporter 'import';
 our @EXPORT_OK = qw< NORMAL_CARD SPLIT_CARD FLIP_CARD DOUBLE_CARD classEnum
 		     loadedParts loadParts
-		     cardClass isPrimary isSecondary alternate
+		     cardClass isPrimary isSecondary alternate isMultipart
 		     isSplit   splits  splitLefts   splitRights
 		     isFlip    flips   flipTops     flipBottoms
 		     isDouble  doubles doubleFronts doubleBacks >;
@@ -81,6 +81,8 @@ sub isSecondary($) {
 sub isSplit($)  { cardClass $_[0] == SPLIT_CARD }
 sub isFlip($)   { cardClass $_[0] == FLIP_CARD }
 sub isDouble($) { cardClass $_[0] == DOUBLE_CARD }
+
+sub isMultipart($) { cardClass $_[0] != NORMAL_CARD }
 
 sub multibits($$) {  # not for export
  loadCheck;
