@@ -14,9 +14,8 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
    fields; cf. EnVec::Multipart::loadParts
  - Make listify.pl's references to external images for \img work for other
    people
- - Try to make Details.pm adapt on its own to Gatherer's constant changes of
-   the "ctlXX" substring in the IDs on multipart card pages so that I don't
-   have to update the code every time
+ - Improve Details.pm's attempt to adapt to Gatherer's constant changes of the
+   "ctlXX" substring in the IDs on multipart card pages
 
 - Features:
  - Implement the rest of the features for tutor.pl (See the top of its source)
@@ -31,8 +30,6 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
  - Add checkboxes to the output of listify.pl (but only if a flag is given?)
  - Eliminate (or at least comment out) the "badflip" provisions now that
    they're not (currently) needed?
- - Give fetch.sh an -o option for setting the output directory
- - Give fetch.sh an option for specifying a pre-existing ID file
  - Give the classes `toDict` methods?
 
 - Coding:
@@ -109,10 +106,12 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
  - Add Cockatrice's abbreviations to abbrevs.tsv?
- - Add Twitter hashtags to abbrevs.tsv?
+ - Add Twitter hashtags to abbrevs.tsv
  - Add a description of the JSON output format
+ - Merge abbrevs.tsv into sets.tsv?
 
 - For later:
+ - Make use of all of the unused data/ files
  - Implement Card->showField1('printings')
  - Better handling of Uncards, specifically:
   - B.F.M.
@@ -135,15 +134,15 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
    multiverseid?
  - Make the bulk of tutor.pl into a library function?
  - Overload stringification of Multival objects?
- - Make use of all of the unused data/ files
-  - Incorporate reserved list membership into card data
  - Store information on which sets/cards are foiled (and which are all-foil) ?
- - Add a column to sets.tsv for Modern eligibility
- - Add a column to sets.tsv for whether a set is an expansion, core set, or
-   other
- - Add a column to sets.tsv for border color (black, white, or silver)
-  - Give EnVec::Card an isSilver/isUncard method
- - Store card data in actual SQL databases rather than flat JSON/XML files?
+ - Add columns to sets.tsv for:
+  - whether a set is an expansion, core set, or other
+  - Modern eligibility?
+  - border color (black, white, or silver)
+   - Give EnVec::Card an isSilver/isUncard method
+  - whether a set is online-only
+  - maximum collector's number? (only worth noting for Unhinged and M15)
+ - Store card data in actual SQL databases rather than flat JSON/XML files
 
 Reminder about function naming conventions:
  - Functions for parsing the contents of a string should have their names

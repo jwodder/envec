@@ -89,17 +89,20 @@ trim(label) = Artist:
     second containing the text of the ruling.  Cards which have no rulings do
     not seem to have this <div>.
 
- - For split, flip, and double-faced cards, all of the relevant IDs for the
-   top/front component (including the IDs of the containing <td>s and rulings
-   blocks) insert "ctl03_" before the last "word", and the IDs for the
-   bottom/back component insert "ctl04_" before the last word.  A parser can
-   test whether a card is multipart by first checking for the existence of,
-   e.g., "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow", and iff
-   no such element is found, the card is multipart.
+ - For split, flip, and double-faced cards, and also for B.F.M., all of the
+   relevant IDs for the top/front component (including the IDs of the
+   containing <td>s and rulings blocks) insert "ctlXX_" before the last "word",
+   and the IDs for the bottom/back component insert "ctlYY_" before the last
+   word, where XX and YY are two consecutive %02d integers.  The integers used
+   are the same throughout Gatherer (except for B.F.M., which gets its own pair
+   of integers), though they tend to change every few months.  As far as I am
+   aware, the integers are never more than 10.
+  - A parser can test whether a card is multipart by first checking for the
+    existence of, e.g.,
+    "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow", and iff no
+    such element is found, the card is multipart.
   - Note that each part of a multipart card is given its own collector's number
     in Gatherer (but only double-faced cards have separate IDs printed on the
     actual card), with the left/top/front's number ending in 'a' and the
     right/bottom/back's ending in 'b'.  However, these suffixes are absent in
     the checklist output format.
-  - B.F.M. is presented similarly to a flip/double-faced card, except that the
-    infixes are "ctl05_" and "ctl06_", respectively.

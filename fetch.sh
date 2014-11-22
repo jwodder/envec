@@ -1,16 +1,46 @@
-#!/bin/sh
+#!/bin/bash
 # Recommended invocation: nice ./fetch.sh &
+#
+# Options:
+#  -b base - Use `base` as the basename of the JSON & XML output files instead
+#            of the current date and most recent set abbreviation
+#  -i ids - Write card IDs to (or, if it already exists, read card IDs from)
+#           `ids` instead of `ids.txt` in the output directory
+#  -o dir - Place output files in `dir` instead of `fetched/`
+#
+# Optional command-line argument: the setfile
+
 dir=fetched
-setfile=data/sets.tsv
-currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
-base=`date -u +%Y%m%d`-$currSet
+args=`getopt b:i:o: $*` || {
+ echo "Usage: $0 [-b base] [-i ids] [-o dir] [setfile]";
+ exit 2;
+}
+set -- $args
+for i
+do case "$1" in
+ -o) dir="$2";  shift; shift;;
+ -b) base="$2"; shift; shift;;
+ -i) ids="$2";  shift; shift;;
+ --) shift; break;;
+esac done
 
+if [ -n "$1" ]
+then setfile="$1"
+else setfile=data/sets.tsv
+fi
+
+if [ -z "$base" ]
+then currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
+     base=`date -u +%Y%m%d`-$currSet
+fi
+
+[ -z "$ids" ] && ids="$dir/ids.txt"
 Ci=i
-[ -e "$dir/ids.txt" ] && Ci=C
+[ -e "$ids" ] && Ci=C
 
-mkdir -p $dir
+mkdir -p "$dir"
 perl tutor.pl -S "$setfile" \
-	      -$Ci "$dir/ids.txt" \
+	      -$Ci "$ids" \
 	      -l "$dir/tutor.log" \
 	      -j "$dir/$base.json" \
 	      -x "$dir/$base.xml" || exit
