@@ -92,11 +92,11 @@ if (open my $bf, '<', 'data/badflip.txt') {
  }
 }
 
-my $json = openW($opts{j} || 'out/details.json', $0);
+my $json = openW($opts{j} || 'details.json', $0);
 select((select($json), $| = 1)[0]);
 print $json "[\n";
 
-my $xml  = openW($opts{x} || 'out/details.xml',  $0);
+my $xml = openW($opts{x} || 'details.xml', $0);
 select((select($xml), $| = 1)[0]);
 print $xml '<?xml version="1.0" encoding="UTF-8"?>', "\n";
 #print $xml '<!DOCTYPE cardlist SYSTEM "mtgcard.dtd">', "\n";

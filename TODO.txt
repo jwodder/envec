@@ -12,9 +12,8 @@
    fields; cf. EnVec::Multipart::loadParts
  - Make listify.pl's references to external images for \img work for other
    people
- - Try to make Details.pm adapt on its own to Gatherer's constant changes of
-   the "ctlXX" substring in the IDs on multipart card pages so that I don't
-   have to update the code every time
+ - Improve Details.pm's attempt to adapt to Gatherer's constant changes of the
+   "ctlXX" substring in the IDs on multipart card pages
 
 - Features:
  - Implement the rest of the features for tutor.pl (See the top of its source)
