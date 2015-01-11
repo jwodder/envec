@@ -14,7 +14,7 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
    fields; cf. EnVec::Multipart::loadParts
  - Make listify.pl's references to external images for \img work for other
    people
- - Improve Details.pm's attempt to adapt to Gatherer's constant changes of the
+ - Improve details.py's attempt to adapt to Gatherer's constant changes of the
    "ctlXX" substring in the IDs on multipart card pages
 
 - Features:

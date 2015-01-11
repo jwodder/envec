@@ -8,10 +8,10 @@ from envec.util          import parseTypes, simplify
 
 def joinCards(format, part1, part2):
     return Card(cardClass=format,
-		content= part1.content + part2.content,
-		printings = joinPrintings(part1.name + ' // ' + part2.name,
-					  part1.printings, part2.printings),
-		rulings = joinRulings(part1.rulings, part2.rulings))
+                content= part1.content + part2.content,
+                printings = joinPrintings(part1.name + ' // ' + part2.name,
+                                          part1.printings, part2.printings),
+                rulings = joinRulings(part1.rulings, part2.rulings))
 
 def unmungFlip(flip):
     if flip.isMultipart(): return flip
@@ -23,11 +23,11 @@ def unmungFlip(flip):
     (supers, types, subs) = parseTypes(type_)
     (pow, tough) = map(simplify, pt.split('/', 1)) if pt else (None, None)
     bottom = Content(name=name, cost=flip.cost, supertypes=supers, types=types,
-		     subtypes=subs, pow=pow, tough=tough, text="\n".join(txt))
+                     subtypes=subs, pow=pow, tough=tough, text="\n".join(txt))
     top = flip.part1
     top.text = texts[0]
     return Card(cardClass=CardClass.FLIP_CARD, content=[top, bottom],
-		printings=flip.printings, rulings=flip.rulings)
+                printings=flip.printings, rulings=flip.rulings)
 
 def joinPrintings(name, prnt1, prnt2):
     ### FRAGILE ASSUMPTIONS:
@@ -46,33 +46,33 @@ def joinPrintings(name, prnt1, prnt2):
     for p in prnt2: prnts2.get(p.set, []).append(p)
     joined = []
     for set_ in prnts1.iterkeys():
-	if set_ not in prnts2:
-	    raise ValueError("set mismatch for %r: part 1 has a printing in %s but part 2 does not" % (name, set_))
-	### Should I also check for sets that part 2 has but part 1 doesn't?
-	if len(prnts1[set_]) != len(prnts2[set_]):
-	    raise ValueError("printings mismatch for %r in %s: part 1 has %d printings but part 2 has %d" % (name, set_, len(prnts1[set_]), len(prnts2[set_])))
-	if len(prnts1[set_]) > 1:
-	    multiverse = Multival([sorted(p.multiverseid.all()
-					  for p in prnts1[set_])])
-	else:
-	    multiverse = None
-	p1 = prnts1[set_][0]
-	p2 = prnts2[set_][0]
-	prnt = {"set": set_, "rarity": p1.rarity}
-	for field in ["number", "artist", "flavor", "watermark", "multiverseid",
-		      "notes"]:
-	    val1 = getattr(p1, field).get()
-	    val1 = val1[0] if val1 else None
-	    val2 = getattr(p2, field).get()
-	    val2 = val2[0] if val2 else None
-	    if val1 is not None or val2 is not None:
-		if val1 is None: valM = [[], [], [val2]]
-		elif val2 is None: valM = [[], [val1]]
-		elif val1 != val2: valM = [[], [val1], [val2]]
-		else: valM = getattr(p1, field)
-	    prnt[field] = Multival(valM)
-	if multiverse is not None: prnt["multiverseid"] = multiverse
-	joined.append(Printing(**prnt))
+        if set_ not in prnts2:
+            raise ValueError("set mismatch for %r: part 1 has a printing in %s but part 2 does not" % (name, set_))
+        ### Should I also check for sets that part 2 has but part 1 doesn't?
+        if len(prnts1[set_]) != len(prnts2[set_]):
+            raise ValueError("printings mismatch for %r in %s: part 1 has %d printings but part 2 has %d" % (name, set_, len(prnts1[set_]), len(prnts2[set_])))
+        if len(prnts1[set_]) > 1:
+            multiverse = Multival([sorted(p.multiverseid.all()
+                                          for p in prnts1[set_])])
+        else:
+            multiverse = None
+        p1 = prnts1[set_][0]
+        p2 = prnts2[set_][0]
+        prnt = {"set": set_, "rarity": p1.rarity}
+        for field in ["number", "artist", "flavor", "watermark", "multiverseid",
+                      "notes"]:
+            val1 = getattr(p1, field).get()
+            val1 = val1[0] if val1 else None
+            val2 = getattr(p2, field).get()
+            val2 = val2[0] if val2 else None
+            if val1 is not None or val2 is not None:
+                if val1 is None: valM = [[], [], [val2]]
+                elif val2 is None: valM = [[], [val1]]
+                elif val1 != val2: valM = [[], [val1], [val2]]
+                else: valM = getattr(p1, field)
+            prnt[field] = Multival(valM)
+        if multiverse is not None: prnt["multiverseid"] = multiverse
+        joined.append(Printing(**prnt))
     return sortPrintings(joined)
 
 def sortPrintings(xs):
@@ -88,16 +88,16 @@ def joinRulings(rules1, rules2):
     # The above two lines are unnecessary in the Python version, right?
     rulings = []
     for r1 in rules1:
-	try:
-	    rules2.remove(r1)
-	except ValueError:
-	    r1b = r1.copy()
-	    r1b["subcard"] = 0
-	    rulings.append(r1b)
-	else:
-	    rulings.append(r1.copy())
+        try:
+            rules2.remove(r1)
+        except ValueError:
+            r1b = r1.copy()
+            r1b["subcard"] = 0
+            rulings.append(r1b)
+        else:
+            rulings.append(r1.copy())
     for r2 in rules2:
-	r2b = r2.copy()
-	r2b["subcard"] = 1
-	rulings.append(r2b)
+        r2b = r2.copy()
+        r2b["subcard"] = 1
+        rulings.append(r2b)
     return rulings

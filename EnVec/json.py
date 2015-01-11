@@ -8,22 +8,22 @@ def dumpArray(array, fh=None):
     fh.write("[\n")
     first = True
     for c in array:
-	if first: fh.write(",\n\n")
-	fh.write(c.toJSON())
-	first = False
+        if first: fh.write(",\n\n")
+        fh.write(c.toJSON())
+        first = False
     fh.write("\n]\n")
 
 def parseJSON(s):  # Load from a string
     data = json.loads(s)
     if isinstance(data, list):
-	return map(Card.fromDict, data)
+        return map(Card.fromDict, data)
     else:
-	raise ValueError('Root JSON structure must be an array')
+        raise ValueError('Root JSON structure must be an array')
 
 def loadJSON(fname=None):  # Load from a file (identified by name) or stdin
     fh = openR(fname)
     data = json.load(fh)
     if isinstance(data, list):
-	return map(Card.fromDict, data)
+        return map(Card.fromDict, data)
     else:
-	raise ValueError('Root JSON structure must be an array')
+        raise ValueError('Root JSON structure must be an array')
