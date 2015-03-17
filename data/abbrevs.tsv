@@ -96,9 +96,11 @@ Born of the Gods			BNG	BNG	bng	MTGBNG
 Journey into Nyx			JOU	JOU	jou	MTGJOU
 Khans of Tarkir				KTK	KTK	ktk	MTGKTK
 Fate Reforged				FRF	FRF	frf	MTGFRF
-#Dragons of Tarkir			DTK	DTK	???	MTGDTK
+Dragons of Tarkir			DTK	DTK	???	MTGDTK
+#Battle for Zendikar			BFZ	BFZ	???	MTGBFZ
 
 Promo set for Gatherer			PPR	???	---	---
+Ugin's Fate promos			FRF_UGIN	FRF_UGIN	???	---
 
 Portal					PO	POR	po	---
 Portal Second Age			P2	P02	po2	---
@@ -167,3 +169,4 @@ Masters Edition II			ME2	ME2	me2
 Masters Edition III			ME3	ME3	me3
 Masters Edition IV			ME4	ME4	me4	---
 Vintage Masters				VMA	VMA	vma	MTGOVM
+#Tempest Remastered			TPR	TPR	???	MTGTPR

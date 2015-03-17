@@ -119,9 +119,12 @@ JOU	Journey into Nyx			2014-05-02	1
 
 KTK	Khans of Tarkir				2014-09-26	1
 FRF	Fate Reforged				2015-01-23	1
-#DTK	Dragons of Tarkir			2015-03-27	1
+DTK	Dragons of Tarkir			2015-03-27	1
+
+#BFZ	Battle for Zendikar			2015-10-02	1
 
 PPR	Promo set for Gatherer			---		1
+FRF_UGIN	Ugin's Fate promos		2015-01-17	0
 
 PO	Portal					1997-06-??	1
 P2	Portal Second Age			1998-06-??	1
@@ -188,3 +191,4 @@ ME2	Masters Edition II			2008-09-22	0
 ME3	Masters Edition III			2009-09-07	0
 ME4	Masters Edition IV			2011-01-10	0
 VMA	Vintage Masters				2014-06-16	0
+#???	Tempest Remastered			2015-05-06	0
