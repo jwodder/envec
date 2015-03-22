@@ -24,19 +24,15 @@ do case "$1" in
  --) shift; break;;
 esac done
 
-if [ -n "$1" ]
-then setfile="$1"
-else setfile=data/sets.tsv
-fi
+setfile="${1:-data/sets.tsv}"
 
 if [ -z "$base" ]
 then currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
      base=`date -u +%Y%m%d`-$currSet
 fi
 
-[ -z "$ids" ] && ids="$dir/ids.txt"
 Ci=i
-[ -e "$ids" ] && Ci=C
+[ -e "${ids:=$dir/ids.txt}" ] && Ci=C
 
 mkdir -p "$dir"
 perl tutor.pl -S "$setfile" \
