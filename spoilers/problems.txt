@@ -32,6 +32,7 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   "Weatherlight" and the word "compleat").
  - The lack of italicization past the first line is due to the lines in
    question being enclosed in the invalid HTML "</i>...</i>".
+ - The first part was fixed by 2015-04-27.
 - Joven is incorrectly listed as a Common.
 - Uncards only:
  - Some (all?) Unglued cards (and Who/What/When/Where/Why in Unhinged) encode
