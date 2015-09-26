@@ -119,12 +119,14 @@ JOU	Journey into Nyx			2014-05-02	1
 
 KTK	Khans of Tarkir				2014-09-26	1
 FRF	Fate Reforged				2015-01-23	1
+FRF_UGIN	Ugin's Fate promos		2015-01-17	0
 DTK	Dragons of Tarkir			2015-03-27	1
 
-#BFZ	Battle for Zendikar			2015-10-02	1
+BFZ	Battle for Zendikar			2015-10-02	1
+EXP	Zendikar Expedition			2015-10-02	0
+#OGW	Oath of the Gatewatch			2016-01-22	1
 
 PPR	Promo set for Gatherer			---		1
-FRF_UGIN	Ugin's Fate promos		2015-01-17	0
 
 PO	Portal					1997-06-??	1
 P2	Portal Second Age			1998-06-??	1
@@ -169,7 +171,7 @@ DD3_JVC	Duel Decks Anthology, Jace vs. Chandra	2014-12-05	0
 DD3_DVD	Duel Decks Anthology, Divine vs. Demonic	2014-12-05	0
 DD3_GVL	Duel Decks Anthology, Garruk vs. Liliana	2014-12-05	0
 DDO	Duel Decks: Elspeth vs. Kiora		2015-02-27	0
-#???	Duel Decks: Zendikar vs. Eldrazi	2015-08-28	0
+DDP	Duel Decks: Zendikar vs. Eldrazi	2015-08-28	0
 
 DRB	From the Vault: Dragons			2008-08-29	0
 V09	From the Vault: Exiled			2009-08-28	0

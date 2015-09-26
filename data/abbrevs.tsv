@@ -97,7 +97,9 @@ Journey into Nyx			JOU	JOU	jou	MTGJOU
 Khans of Tarkir				KTK	KTK	ktk	MTGKTK
 Fate Reforged				FRF	FRF	frf	MTGFRF
 Dragons of Tarkir			DTK	DTK	dtk	MTGDTK
-#Battle for Zendikar			BFZ	BFZ	???	MTGBFZ
+Battle for Zendikar			BFZ	BFZ	???	MTGBFZ
+Zendikar Expedition			EXP	EXP	???	---
+#Oath of the Gatewatch			OGW	OGW	???	MTGOGW
 
 Promo set for Gatherer			PPR	???	---	---
 Ugin's Fate promos			FRF_UGIN	FRF_UGIN	???	---
@@ -150,7 +152,7 @@ Duel Decks Anthology, Jace vs. Chandra	DD3_JVC	DD3_JVC	ddajvc	---
 Duel Decks Anthology, Divine vs. Demonic	DD3_DVD	DD3_DVD	ddadvd	---
 Duel Decks Anthology, Garruk vs. Liliana	DD3_GVL	DD3_GVL	ddagvl	---
 Duel Decks: Elspeth vs. Kiora		DDO	DDO	ddo	MTGEVK
-#Duel Decks: Zendikar vs. Eldrazi	???	???	???	MTGZVE
+Duel Decks: Zendikar vs. Eldrazi	DDP	DDP	???	MTGZVE
 
 From the Vault: Dragons			DRB	DRB	fvd
 From the Vault: Exiled			V09	V09	fve
