@@ -7,6 +7,20 @@
  - Should all of the scraping-specific code be moved out of EnVec/ and/or
    hidden from the library user by default?
 
+- Write a JSON schema for sets.json
+- Test if checklist.py currently works
+- Try converting checklist.py to SAX
+- Since the xml.sax modules don't support HTML entities like &copy;, and it's
+  likely xml.dom.minidom doesn't support them either, I might have to switch
+  to HTMLParser
+ - Use `lxml.html` <https://pypi.python.org/pypi/lxml/> instead?
+- Use `logging` module in tutor.py
+- Use `namedtuple`s
+- Instead of Multivals, make Printing objects store lists of
+  "ComponentPrinting" (or something) objects, with special handling for
+  multiverseids
+- Add a "Rarity" class
+
 - Robustness:
  - Handle XML::DOM::Lite parse errors
  - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
@@ -88,7 +102,6 @@
  - Move %formats from Card.pm to Multipart.pm?
  - Should "oversized" or "nontraditional" be a card class?
  - Move the use of &rmitalics from tutor.pl to Details.pm?
- - Use the `csv` module to parse sets.tsv and multipart.tsv? 
  - Rename the `toJSON` methods "toPrettyJSON"?
  - Make most of the classes `namedtuple`s
  - Make multival store tuples instead of lists?
@@ -106,10 +119,9 @@
   - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
- - Add Cockatrice's abbreviations to abbrevs.tsv?
- - Add Twitter hashtags to abbrevs.tsv
+ - Add Cockatrice's abbreviations to sets.json?
+ - Add the rest of the Twitter hashtags to sets.json
  - Add a description of the JSON output format
- - Merge abbrevs.tsv into sets.tsv?
 
 - For later:
  - Make use of all of the unused data/ files
@@ -136,13 +148,14 @@
  - Make the bulk of tutor.pl into a library function?
  - Overload stringification of Multival objects?
  - Store information on which sets/cards are foiled (and which are all-foil) ?
- - Add columns to sets.tsv for:
+ - Add fields to sets.json for:
   - whether a set is an expansion, core set, or other
   - Modern eligibility?
   - border color (black, white, or silver)
    - Give EnVec::Card an isSilver/isUncard method
   - whether a set is online-only
   - maximum collector's number? (only worth noting for Unhinged and M15)
+  - printed abbreviation (M15+)
  - Store card data in actual SQL databases rather than flat JSON/XML files
 
 Reminder about function naming conventions:
