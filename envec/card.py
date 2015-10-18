@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
-from .card.content  import Content
-from .card.printing import Printing
-from .card.util     import sortPrintings
-from .color         import Color
-from .multipart     import CardClass
-from .cardset       import getCardSetDB
-from ._util         import uniq, wrapLines, jsonify, txt2attr, txt2xml
+from .content   import Content
+from .printing  import Printing
+from ._cardutil import sortPrintings
+from .color     import Color
+from .multipart import CardClass
+from .cardset   import getCardSetDB
+from ._util     import uniq, wrapLines, jsonify, txt2attr, txt2xml
 
 sep = ' // '
 

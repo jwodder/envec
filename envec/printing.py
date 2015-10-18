@@ -1,7 +1,7 @@
 from string    import ascii_lowercase
 from warnings  import warn
 from .multival import Multival
-from .._util   import jsonify, txt2xml
+from ._util    import jsonify, txt2xml
 
 multival = "number artist flavor watermark multiverseid notes".split()
 
