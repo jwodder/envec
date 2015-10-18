@@ -20,6 +20,7 @@
   "ComponentPrinting" (or something) objects, with special handling for
   multiverseids
 - Add a "Rarity" class
+- Make card.content.color support devoid
 
 - Robustness:
  - Handle XML::DOM::Lite parse errors

@@ -8,7 +8,7 @@ from xml.dom.minidom import parseString
 from .card          import Card
 from .card.printing import Printing
 from .card.util     import joinCards
-from .colors        import Color
+from .color         import Color
 from .multipart     import CardClass
 from ._util         import magicContent, trim, simplify, parseTypes, openR
 

@@ -3,7 +3,7 @@ import json
 from .card.content  import Content
 from .card.printing import Printing
 from .card.util     import sortPrintings
-from .colors        import Color
+from .color         import Color
 from .multipart     import CardClass
 from .sets          import getCardSetDB
 from ._util         import uniq, wrapLines, jsonify, txt2attr, txt2xml
@@ -120,10 +120,10 @@ class Card(object):
         return txt
 
     @property
-    def color(self):   return Color(*[c.color   for c in self.content])
+    def color(self):   return Color.union(*[c.color   for c in self.content])
 
     @property
-    def colorID(self): return Color(*[c.colorID for c in self.content])
+    def colorID(self): return Color.union(*[c.colorID for c in self.content])
 
     @property
     def cmc(self):
