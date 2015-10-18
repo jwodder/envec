@@ -1,0 +1,392 @@
+{
+    "double_faced_cards": [
+        {
+            "back": "Werewolf Ransacker",
+            "front": "Afflicted Deserter"
+        },
+        {
+            "back": "Lord of Lineage",
+            "front": "Bloodline Keeper"
+        },
+        {
+            "back": "Chalice of Death",
+            "front": "Chalice of Life"
+        },
+        {
+            "back": "Markov's Servant",
+            "front": "Chosen of Markov"
+        },
+        {
+            "back": "Homicidal Brute",
+            "front": "Civilized Scholar"
+        },
+        {
+            "back": "Unholy Fiend",
+            "front": "Cloistered Youth"
+        },
+        {
+            "back": "Nightfall Predator",
+            "front": "Daybreak Ranger"
+        },
+        {
+            "back": "Insectile Aberration",
+            "front": "Delver of Secrets"
+        },
+        {
+            "back": "Withengar Unbound",
+            "front": "Elbrus, the Binding Blade"
+        },
+        {
+            "back": "Garruk, the Veil-Cursed",
+            "front": "Garruk Relentless"
+        },
+        {
+            "back": "Gatstaf Howler",
+            "front": "Gatstaf Shepherd"
+        },
+        {
+            "back": "Krallenhorde Wantons",
+            "front": "Grizzled Outcasts"
+        },
+        {
+            "back": "Bane of Hanweir",
+            "front": "Hanweir Watchkeep"
+        },
+        {
+            "back": "Hinterland Scourge",
+            "front": "Hinterland Hermit"
+        },
+        {
+            "back": "Ravager of the Fells",
+            "front": "Huntmaster of the Fells"
+        },
+        {
+            "back": "Wildblood Pack",
+            "front": "Instigator Gang"
+        },
+        {
+            "back": "Terror of Kruin Pass",
+            "front": "Kruin Outlaw"
+        },
+        {
+            "back": "Silverpelt Werewolf",
+            "front": "Lambholt Elder"
+        },
+        {
+            "back": "Unhallowed Cathar",
+            "front": "Loyal Cathar"
+        },
+        {
+            "back": "Ludevic's Abomination",
+            "front": "Ludevic's Test Subject"
+        },
+        {
+            "back": "Howlpack Alpha",
+            "front": "Mayor of Avabruck"
+        },
+        {
+            "back": "Tovolar's Magehunter",
+            "front": "Mondronen Shaman"
+        },
+        {
+            "back": "Archdemon of Greed",
+            "front": "Ravenous Demon"
+        },
+        {
+            "back": "Merciless Predator",
+            "front": "Reckless Waif"
+        },
+        {
+            "back": "Moonscarred Werewolf",
+            "front": "Scorned Villager"
+        },
+        {
+            "back": "Stalking Vampire",
+            "front": "Screeching Bat"
+        },
+        {
+            "back": "Ghastly Haunting",
+            "front": "Soul Seizer"
+        },
+        {
+            "back": "Thraben Militia",
+            "front": "Thraben Sentry"
+        },
+        {
+            "back": "Rampaging Werewolf",
+            "front": "Tormented Pariah"
+        },
+        {
+            "back": "Ulvenwald Primordials",
+            "front": "Ulvenwald Mystics"
+        },
+        {
+            "back": "Ironfang",
+            "front": "Village Ironsmith"
+        },
+        {
+            "back": "Howlpack of Estwald",
+            "front": "Villagers of Estwald"
+        },
+        {
+            "back": "Krallenhorde Killer",
+            "front": "Wolfbitten Captive"
+        },
+        {
+            "back": "Chandra, Roaring Flame",
+            "front": "Chandra, Fire of Kaladesh"
+        },
+        {
+            "back": "Gideon, Battle-Forged",
+            "front": "Kytheon, Hero of Akros"
+        },
+        {
+            "back": "Jace, Telepath Unbound",
+            "front": "Jace, Vryn's Prodigy"
+        },
+        {
+            "back": "Liliana, Defiant Necromancer",
+            "front": "Liliana, Heretical Healer"
+        },
+        {
+            "back": "Nissa, Sage Animist",
+            "front": "Nissa, Vastwood Seer"
+        }
+    ],
+    "flip_cards": [
+        {
+            "bottom": "Tok-Tok, Volcano Born",
+            "top": "Akki Lavarunner"
+        },
+        {
+            "bottom": "Dokai, Weaver of Life",
+            "top": "Budoka Gardener"
+        },
+        {
+            "bottom": "Ichiga, Who Topples Oaks",
+            "top": "Budoka Pupil"
+        },
+        {
+            "bottom": "Kenzo the Hardhearted",
+            "top": "Bushi Tenderfoot"
+        },
+        {
+            "bottom": "Jaraku the Interloper",
+            "top": "Callow Jushi"
+        },
+        {
+            "bottom": "Azamuki, Treachery Incarnate",
+            "top": "Cunning Bandit"
+        },
+        {
+            "bottom": "Erayo's Essence",
+            "top": "Erayo, Soratami Ascendant"
+        },
+        {
+            "bottom": "Kaiso, Memory of Loyalty",
+            "top": "Faithful Squire"
+        },
+        {
+            "bottom": "Scarmaker",
+            "top": "Hired Muscle"
+        },
+        {
+            "bottom": "Homura's Essence",
+            "top": "Homura, Human Ascendant"
+        },
+        {
+            "bottom": "Goka the Unjust",
+            "top": "Initiate of Blood"
+        },
+        {
+            "bottom": "Tomoya the Revealer",
+            "top": "Jushi Apprentice"
+        },
+        {
+            "bottom": "Autumn-Tail, Kitsune Sage",
+            "top": "Kitsune Mystic"
+        },
+        {
+            "bottom": "Kuon's Essence",
+            "top": "Kuon, Ogre Ascendant"
+        },
+        {
+            "bottom": "Nighteyes the Desecrator",
+            "top": "Nezumi Graverobber"
+        },
+        {
+            "bottom": "Stabwhisker the Odious",
+            "top": "Nezumi Shortfang"
+        },
+        {
+            "bottom": "Shidako, Broodmistress",
+            "top": "Orochi Eggwatcher"
+        },
+        {
+            "bottom": "Rune-Tail's Essence",
+            "top": "Rune-Tail, Kitsune Ascendant"
+        },
+        {
+            "bottom": "Sasaya's Essence",
+            "top": "Sasaya, Orochi Ascendant"
+        },
+        {
+            "bottom": "Tobita, Master of Winds",
+            "top": "Student of Elements"
+        }
+    ],
+    "split_cards": [
+        {
+            "left": "Alive",
+            "right": "Well"
+        },
+        {
+            "left": "Armed",
+            "right": "Dangerous"
+        },
+        {
+            "left": "Assault",
+            "right": "Battery"
+        },
+        {
+            "left": "Beck",
+            "right": "Call"
+        },
+        {
+            "left": "Boom",
+            "right": "Bust"
+        },
+        {
+            "left": "Bound",
+            "right": "Determined"
+        },
+        {
+            "left": "Breaking",
+            "right": "Entering"
+        },
+        {
+            "left": "Catch",
+            "right": "Release"
+        },
+        {
+            "left": "Crime",
+            "right": "Punishment"
+        },
+        {
+            "left": "Dead",
+            "right": "Gone"
+        },
+        {
+            "left": "Down",
+            "right": "Dirty"
+        },
+        {
+            "left": "Far",
+            "right": "Away"
+        },
+        {
+            "left": "Fire",
+            "right": "Ice"
+        },
+        {
+            "left": "Flesh",
+            "right": "Blood"
+        },
+        {
+            "left": "Give",
+            "right": "Take"
+        },
+        {
+            "left": "Hide",
+            "right": "Seek"
+        },
+        {
+            "left": "Hit",
+            "right": "Run"
+        },
+        {
+            "left": "Illusion",
+            "right": "Reality"
+        },
+        {
+            "left": "Life",
+            "right": "Death"
+        },
+        {
+            "left": "Night",
+            "right": "Day"
+        },
+        {
+            "left": "Odds",
+            "right": "Ends"
+        },
+        {
+            "left": "Order",
+            "right": "Chaos"
+        },
+        {
+            "left": "Pain",
+            "right": "Suffering"
+        },
+        {
+            "left": "Profit",
+            "right": "Loss"
+        },
+        {
+            "left": "Protect",
+            "right": "Serve"
+        },
+        {
+            "left": "Pure",
+            "right": "Simple"
+        },
+        {
+            "left": "Ready",
+            "right": "Willing"
+        },
+        {
+            "left": "Research",
+            "right": "Development"
+        },
+        {
+            "left": "Rise",
+            "right": "Fall"
+        },
+        {
+            "left": "Rough",
+            "right": "Tumble"
+        },
+        {
+            "left": "Spite",
+            "right": "Malice"
+        },
+        {
+            "left": "Stand",
+            "right": "Deliver"
+        },
+        {
+            "left": "Supply",
+            "right": "Demand"
+        },
+        {
+            "left": "Toil",
+            "right": "Trouble"
+        },
+        {
+            "left": "Trial",
+            "right": "Error"
+        },
+        {
+            "left": "Turn",
+            "right": "Burn"
+        },
+        {
+            "left": "Wax",
+            "right": "Wane"
+        },
+        {
+            "left": "Wear",
+            "right": "Tear"
+        }
+    ]
+}
