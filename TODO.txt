@@ -1,3 +1,5 @@
+- Everything is broken because checklists are now paginated.  Deal with this.
+
 - Make the primary task of the library be reading & querying of JSON & XML card
   databases?
  - Should all of the scraping-specific code be moved out of EnVec/ and/or
