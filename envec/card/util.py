@@ -3,7 +3,7 @@ from .content   import Content
 from .multival  import Multival
 from .printing  import Printing
 from .multipart import CardClass
-from ..sets     import getCardSetDB
+from ..cardset  import getCardSetDB
 from .._util    import parseTypes, simplify
 
 def joinCards(format, part1, part2):

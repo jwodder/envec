@@ -5,7 +5,7 @@ from .card.printing import Printing
 from .card.util     import sortPrintings
 from .color         import Color
 from .multipart     import CardClass
-from .sets          import getCardSetDB
+from .cardset       import getCardSetDB
 from ._util         import uniq, wrapLines, jsonify, txt2attr, txt2xml
 
 sep = ' // '
