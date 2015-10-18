@@ -3,7 +3,7 @@ import itertools
 import re
 import sys
 import textwrap
-from xml.dom import Node
+from   xml.dom import Node
 
 def trim(txt): return None if txt is None else txt.strip()
 
@@ -34,10 +34,9 @@ def wrapLines(txt, length=80, postdent=0):
         line = line.rstrip()
         if line == '': lines.append('')
         else: lines.extend(textwrap.wrap(line, length,
-                                         subsequent_indent= ' ' * postdent,
+                                         subsequent_indent=' ' * postdent,
                                          break_long_words=False,
                                          break_on_hyphens=False))
-                                # `break_on_hyphens` was added in Python v.2.6.
     return lines
 
 def magicContent(node):

@@ -122,3 +122,4 @@ BLUE      = Color(U=True)
 BLACK     = Color(B=True)
 RED       = Color(R=True)
 GREEN     = Color(G=True)
+### Add constants for each color combination?
