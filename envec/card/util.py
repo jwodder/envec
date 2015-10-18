@@ -1,10 +1,10 @@
-from envec.card          import Card
-from envec.card.content  import Content
-from envec.card.multival import Multival
-from envec.card.printing import Printing
-from envec.multipart     import CardClass
-from envec.sets          import getCardSetDB
-from envec.util          import parseTypes, simplify
+from ..card     import Card
+from .content   import Content
+from .multival  import Multival
+from .printing  import Printing
+from .multipart import CardClass
+from ..sets     import getCardSetDB
+from .._util    import parseTypes, simplify
 
 def joinCards(format, part1, part2):
     return Card(cardClass=format,

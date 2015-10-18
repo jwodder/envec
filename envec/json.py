@@ -1,7 +1,7 @@
 import json
 import sys
-from envec.card import Card
-from envec.util import openR
+from .card  import Card
+from ._util import openR
 
 def dumpArray(array, fh=None):
     if fh is None: fh = sys.stdout

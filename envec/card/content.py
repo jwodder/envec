@@ -1,6 +1,6 @@
 import re
-from envec.colors import Color
-from envec.util   import jsonify, txt2xml, sym2xml, trim
+from ..colors import Color
+from .._util  import jsonify, txt2xml, sym2xml, trim
 
 class Content(object):
     __slots__ = ("name", "cost", "text", "pow", "tough", "loyalty", "hand",

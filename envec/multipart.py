@@ -5,8 +5,8 @@
 ### deconstructions)?
 
 import re
-from warnings   import warn
-from envec.util import openR, chomp
+from warnings import warn
+from ._util   import openR, chomp
 
 ### Shouldn't these be MultipartDB class variables?
 multiFile = 'data/multipart.tsv'

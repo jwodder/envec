@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
-from envec.card.content  import Content
-from envec.card.printing import Printing
-from envec.card.util     import sortPrintings
-from envec.colors        import Color
-from envec.multipart     import CardClass
-from envec.sets          import getCardSetDB
-from envec.util          import uniq, wrapLines, jsonify, txt2attr, txt2xml
+from .card.content  import Content
+from .card.printing import Printing
+from .card.util     import sortPrintings
+from .colors        import Color
+from .multipart     import CardClass
+from .sets          import getCardSetDB
+from ._util         import uniq, wrapLines, jsonify, txt2attr, txt2xml
 
 sep = ' // '
 

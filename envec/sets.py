@@ -6,8 +6,8 @@
 ###  - Iterating over a CardSetDB should probably give the setList
 
 import re
-from warnings   import warn
-from envec.util import openR, chomp
+from warnings import warn
+from ._util   import openR, chomp
 
 ### Shouldn't these be CardSetDB class variables?
 setFile = 'data/sets.tsv'

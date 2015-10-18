@@ -1,6 +1,6 @@
 import re
 from xml.dom.minidom import parse, parseString
-from envec.util import simplify, magicContent
+from ._util import simplify, magicContent
 
 def parseChecklist(txt): return walkChecklist(parseString(txt))
 

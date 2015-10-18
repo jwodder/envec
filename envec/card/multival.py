@@ -7,7 +7,7 @@
 # None of these lists should ever contain empty strings, None, or non-string
 # values.
 
-from envec.util import jsonify, sym2xml, txt2xml
+from .._util import jsonify, sym2xml, txt2xml
 
 class Multival(object):
     def __init__(self, val):

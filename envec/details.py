@@ -5,12 +5,12 @@ import re
 from warnings import warn
 from xml.dom.minidom import parseString
 
-from envec.card          import Card
-from envec.card.printing import Printing
-from envec.card.util     import joinCards
-from envec.colors        import Color
-from envec.multipart     import CardClass
-from envec.util          import magicContent, trim, simplify, parseTypes, openR
+from .card          import Card
+from .card.printing import Printing
+from .card.util     import joinCards
+from .colors        import Color
+from .multipart     import CardClass
+from ._util         import magicContent, trim, simplify, parseTypes, openR
 
 def parseDetails(txt):
     # Work around italicization farkup:
