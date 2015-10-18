@@ -116,10 +116,10 @@ class Color(object):  # Color should be treated as an immutable type.
     def __gt__(self, other): return other <  self
 
 
-COLORLESS = Color()
-WHITE     = Color(W=True)
-BLUE      = Color(U=True)
-BLACK     = Color(B=True)
-RED       = Color(R=True)
-GREEN     = Color(G=True)
+Color.COLORLESS = Color()
+Color.WHITE     = Color(W=True)
+Color.BLUE      = Color(U=True)
+Color.BLACK     = Color(B=True)
+Color.RED       = Color(R=True)
+Color.GREEN     = Color(G=True)
 ### Add constants for each color combination?

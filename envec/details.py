@@ -12,7 +12,7 @@ from envec.colors        import Color
 from envec.multipart     import CardClass
 from envec.util          import magicContent, trim, simplify, parseTypes, openR
 
-def parseDetails(txt) {
+def parseDetails(txt):
     # Work around italicization farkup:
     txt = re.sub(r'</i>([^<>]+)</i>', r'\1', txt, flags=re.I)
     txt = re.sub(r'\r\n?', "\n", txt)

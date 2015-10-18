@@ -1,6 +1,6 @@
+- Convert everything to Python.
 - Everything is broken because checklists are now paginated.  Deal with this.
-
-PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
+- Problem: The json module returns strings as `unicode` objects.  Handle this.
 
 - Make the primary task of the library be reading & querying of JSON & XML card
   databases?
@@ -90,8 +90,7 @@ PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
  - Move the use of &rmitalics from tutor.pl to Details.pm?
  - Use the `csv` module to parse sets.tsv and multipart.tsv? 
  - Rename the `toJSON` methods "toPrettyJSON"?
- - Make most of the classes subclasses of `namedtuple`s? (requires Python
-   v.2.6+)
+ - Make most of the classes `namedtuple`s
  - Make multival store tuples instead of lists?
 
 - Data & documentation:
