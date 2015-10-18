@@ -1,3 +1,5 @@
+- Everything is broken because checklists are now paginated.  Deal with this.
+
 PROBLEM: The json module returns strings as `unicode` objects.  Handle this.
 
 - Make the primary task of the library be reading & querying of JSON & XML card
