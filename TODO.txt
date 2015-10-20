@@ -19,7 +19,6 @@
 - Instead of Multivals, make Printing objects store lists of
   "ComponentPrinting" (or something) objects, with special handling for
   multiverseids
-- Add a "Rarity" class
 - Make card.content.color support devoid
 
 - Robustness:
@@ -50,10 +49,6 @@
  - Give the classes `toDict` methods?
 
 - Coding:
- - Represent rarities by enums?  At the very least, make their representations
-   consistent (e.g., 'Mythic Rare' vs. 'Mythic rare' vs. 'mythic rare' vs.
-   'Mythic' vs. ...) and abstract away the conversions between long rarity
-   names and single characters.
  - Make the storage of Content->text fields mirror their representation in
    mtgcard.dtd
  - Runtime type enforcement?
