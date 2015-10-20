@@ -43,11 +43,11 @@ class CardSet(object):
 class CardSetDB(object):
     ### Add a `__contains__` method?
 
-    DEFAULT_SETFILE = 'data/sets.json'
+    DEFAULT_DATAFILE = 'data/sets.json'
 
     def __init__(self, infile=None):
         if infile is None:
-            infile = open(self.DEFAULT_SETFILE)
+            infile = open(self.DEFAULT_DATAFILE)
         with infile:
             self.sets = [CardSet(**d) for d in json.load(infile)]
         self.sourcefile = infile.name

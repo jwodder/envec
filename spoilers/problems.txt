@@ -67,6 +67,7 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
  - the split cards from Dragon's Maze
  - the "sealed" cards from Conspiracy
  - the Khans of Tarkir "preprints" in Duel Decks: Speed vs. Cunning
+- The Magic Origins Planeswalkers do not have their color indicators listed.
 
 - Incorrectly transcribed flavor texts (mostly missing exclamation points):
  - Steamflogger Boss

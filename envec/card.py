@@ -78,7 +78,7 @@ class Card(object):
     def fromDict(cls, obj):  # called `fromHashref` in the Perl version
         if isinstance(obj, cls): return obj.copy()
         ### TODO: Move all of these transformations to __init__?
-        cardClass = CardClass.toEnum(obj.get("cardClass"), CardClass.NORMAL_CARD)
+        cardClass = CardClass[obj.get("cardClass", "normal")]
         content = obj["content"]
         if isinstance(content, (list, tuple)):
             if not content:

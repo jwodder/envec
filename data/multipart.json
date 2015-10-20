@@ -1,392 +1,392 @@
 {
-    "double_faced_cards": [
+    "double_faced": [
         {
-            "back": "Werewolf Ransacker",
-            "front": "Afflicted Deserter"
+            "primary": "Afflicted Deserter",
+            "secondary": "Werewolf Ransacker"
         },
         {
-            "back": "Lord of Lineage",
-            "front": "Bloodline Keeper"
+            "primary": "Bloodline Keeper",
+            "secondary": "Lord of Lineage"
         },
         {
-            "back": "Chalice of Death",
-            "front": "Chalice of Life"
+            "primary": "Chalice of Life",
+            "secondary": "Chalice of Death"
         },
         {
-            "back": "Markov's Servant",
-            "front": "Chosen of Markov"
+            "primary": "Chosen of Markov",
+            "secondary": "Markov's Servant"
         },
         {
-            "back": "Homicidal Brute",
-            "front": "Civilized Scholar"
+            "primary": "Civilized Scholar",
+            "secondary": "Homicidal Brute"
         },
         {
-            "back": "Unholy Fiend",
-            "front": "Cloistered Youth"
+            "primary": "Cloistered Youth",
+            "secondary": "Unholy Fiend"
         },
         {
-            "back": "Nightfall Predator",
-            "front": "Daybreak Ranger"
+            "primary": "Daybreak Ranger",
+            "secondary": "Nightfall Predator"
         },
         {
-            "back": "Insectile Aberration",
-            "front": "Delver of Secrets"
+            "primary": "Delver of Secrets",
+            "secondary": "Insectile Aberration"
         },
         {
-            "back": "Withengar Unbound",
-            "front": "Elbrus, the Binding Blade"
+            "primary": "Elbrus, the Binding Blade",
+            "secondary": "Withengar Unbound"
         },
         {
-            "back": "Garruk, the Veil-Cursed",
-            "front": "Garruk Relentless"
+            "primary": "Garruk Relentless",
+            "secondary": "Garruk, the Veil-Cursed"
         },
         {
-            "back": "Gatstaf Howler",
-            "front": "Gatstaf Shepherd"
+            "primary": "Gatstaf Shepherd",
+            "secondary": "Gatstaf Howler"
         },
         {
-            "back": "Krallenhorde Wantons",
-            "front": "Grizzled Outcasts"
+            "primary": "Grizzled Outcasts",
+            "secondary": "Krallenhorde Wantons"
         },
         {
-            "back": "Bane of Hanweir",
-            "front": "Hanweir Watchkeep"
+            "primary": "Hanweir Watchkeep",
+            "secondary": "Bane of Hanweir"
         },
         {
-            "back": "Hinterland Scourge",
-            "front": "Hinterland Hermit"
+            "primary": "Hinterland Hermit",
+            "secondary": "Hinterland Scourge"
         },
         {
-            "back": "Ravager of the Fells",
-            "front": "Huntmaster of the Fells"
+            "primary": "Huntmaster of the Fells",
+            "secondary": "Ravager of the Fells"
         },
         {
-            "back": "Wildblood Pack",
-            "front": "Instigator Gang"
+            "primary": "Instigator Gang",
+            "secondary": "Wildblood Pack"
         },
         {
-            "back": "Terror of Kruin Pass",
-            "front": "Kruin Outlaw"
+            "primary": "Kruin Outlaw",
+            "secondary": "Terror of Kruin Pass"
         },
         {
-            "back": "Silverpelt Werewolf",
-            "front": "Lambholt Elder"
+            "primary": "Lambholt Elder",
+            "secondary": "Silverpelt Werewolf"
         },
         {
-            "back": "Unhallowed Cathar",
-            "front": "Loyal Cathar"
+            "primary": "Loyal Cathar",
+            "secondary": "Unhallowed Cathar"
         },
         {
-            "back": "Ludevic's Abomination",
-            "front": "Ludevic's Test Subject"
+            "primary": "Ludevic's Test Subject",
+            "secondary": "Ludevic's Abomination"
         },
         {
-            "back": "Howlpack Alpha",
-            "front": "Mayor of Avabruck"
+            "primary": "Mayor of Avabruck",
+            "secondary": "Howlpack Alpha"
         },
         {
-            "back": "Tovolar's Magehunter",
-            "front": "Mondronen Shaman"
+            "primary": "Mondronen Shaman",
+            "secondary": "Tovolar's Magehunter"
         },
         {
-            "back": "Archdemon of Greed",
-            "front": "Ravenous Demon"
+            "primary": "Ravenous Demon",
+            "secondary": "Archdemon of Greed"
         },
         {
-            "back": "Merciless Predator",
-            "front": "Reckless Waif"
+            "primary": "Reckless Waif",
+            "secondary": "Merciless Predator"
         },
         {
-            "back": "Moonscarred Werewolf",
-            "front": "Scorned Villager"
+            "primary": "Scorned Villager",
+            "secondary": "Moonscarred Werewolf"
         },
         {
-            "back": "Stalking Vampire",
-            "front": "Screeching Bat"
+            "primary": "Screeching Bat",
+            "secondary": "Stalking Vampire"
         },
         {
-            "back": "Ghastly Haunting",
-            "front": "Soul Seizer"
+            "primary": "Soul Seizer",
+            "secondary": "Ghastly Haunting"
         },
         {
-            "back": "Thraben Militia",
-            "front": "Thraben Sentry"
+            "primary": "Thraben Sentry",
+            "secondary": "Thraben Militia"
         },
         {
-            "back": "Rampaging Werewolf",
-            "front": "Tormented Pariah"
+            "primary": "Tormented Pariah",
+            "secondary": "Rampaging Werewolf"
         },
         {
-            "back": "Ulvenwald Primordials",
-            "front": "Ulvenwald Mystics"
+            "primary": "Ulvenwald Mystics",
+            "secondary": "Ulvenwald Primordials"
         },
         {
-            "back": "Ironfang",
-            "front": "Village Ironsmith"
+            "primary": "Village Ironsmith",
+            "secondary": "Ironfang"
         },
         {
-            "back": "Howlpack of Estwald",
-            "front": "Villagers of Estwald"
+            "primary": "Villagers of Estwald",
+            "secondary": "Howlpack of Estwald"
         },
         {
-            "back": "Krallenhorde Killer",
-            "front": "Wolfbitten Captive"
+            "primary": "Wolfbitten Captive",
+            "secondary": "Krallenhorde Killer"
         },
         {
-            "back": "Chandra, Roaring Flame",
-            "front": "Chandra, Fire of Kaladesh"
+            "primary": "Chandra, Fire of Kaladesh",
+            "secondary": "Chandra, Roaring Flame"
         },
         {
-            "back": "Gideon, Battle-Forged",
-            "front": "Kytheon, Hero of Akros"
+            "primary": "Kytheon, Hero of Akros",
+            "secondary": "Gideon, Battle-Forged"
         },
         {
-            "back": "Jace, Telepath Unbound",
-            "front": "Jace, Vryn's Prodigy"
+            "primary": "Jace, Vryn's Prodigy",
+            "secondary": "Jace, Telepath Unbound"
         },
         {
-            "back": "Liliana, Defiant Necromancer",
-            "front": "Liliana, Heretical Healer"
+            "primary": "Liliana, Heretical Healer",
+            "secondary": "Liliana, Defiant Necromancer"
         },
         {
-            "back": "Nissa, Sage Animist",
-            "front": "Nissa, Vastwood Seer"
+            "primary": "Nissa, Vastwood Seer",
+            "secondary": "Nissa, Sage Animist"
         }
     ],
-    "flip_cards": [
+    "flip": [
         {
-            "bottom": "Tok-Tok, Volcano Born",
-            "top": "Akki Lavarunner"
+            "primary": "Akki Lavarunner",
+            "secondary": "Tok-Tok, Volcano Born"
         },
         {
-            "bottom": "Dokai, Weaver of Life",
-            "top": "Budoka Gardener"
+            "primary": "Budoka Gardener",
+            "secondary": "Dokai, Weaver of Life"
         },
         {
-            "bottom": "Ichiga, Who Topples Oaks",
-            "top": "Budoka Pupil"
+            "primary": "Budoka Pupil",
+            "secondary": "Ichiga, Who Topples Oaks"
         },
         {
-            "bottom": "Kenzo the Hardhearted",
-            "top": "Bushi Tenderfoot"
+            "primary": "Bushi Tenderfoot",
+            "secondary": "Kenzo the Hardhearted"
         },
         {
-            "bottom": "Jaraku the Interloper",
-            "top": "Callow Jushi"
+            "primary": "Callow Jushi",
+            "secondary": "Jaraku the Interloper"
         },
         {
-            "bottom": "Azamuki, Treachery Incarnate",
-            "top": "Cunning Bandit"
+            "primary": "Cunning Bandit",
+            "secondary": "Azamuki, Treachery Incarnate"
         },
         {
-            "bottom": "Erayo's Essence",
-            "top": "Erayo, Soratami Ascendant"
+            "primary": "Erayo, Soratami Ascendant",
+            "secondary": "Erayo's Essence"
         },
         {
-            "bottom": "Kaiso, Memory of Loyalty",
-            "top": "Faithful Squire"
+            "primary": "Faithful Squire",
+            "secondary": "Kaiso, Memory of Loyalty"
         },
         {
-            "bottom": "Scarmaker",
-            "top": "Hired Muscle"
+            "primary": "Hired Muscle",
+            "secondary": "Scarmaker"
         },
         {
-            "bottom": "Homura's Essence",
-            "top": "Homura, Human Ascendant"
+            "primary": "Homura, Human Ascendant",
+            "secondary": "Homura's Essence"
         },
         {
-            "bottom": "Goka the Unjust",
-            "top": "Initiate of Blood"
+            "primary": "Initiate of Blood",
+            "secondary": "Goka the Unjust"
         },
         {
-            "bottom": "Tomoya the Revealer",
-            "top": "Jushi Apprentice"
+            "primary": "Jushi Apprentice",
+            "secondary": "Tomoya the Revealer"
         },
         {
-            "bottom": "Autumn-Tail, Kitsune Sage",
-            "top": "Kitsune Mystic"
+            "primary": "Kitsune Mystic",
+            "secondary": "Autumn-Tail, Kitsune Sage"
         },
         {
-            "bottom": "Kuon's Essence",
-            "top": "Kuon, Ogre Ascendant"
+            "primary": "Kuon, Ogre Ascendant",
+            "secondary": "Kuon's Essence"
         },
         {
-            "bottom": "Nighteyes the Desecrator",
-            "top": "Nezumi Graverobber"
+            "primary": "Nezumi Graverobber",
+            "secondary": "Nighteyes the Desecrator"
         },
         {
-            "bottom": "Stabwhisker the Odious",
-            "top": "Nezumi Shortfang"
+            "primary": "Nezumi Shortfang",
+            "secondary": "Stabwhisker the Odious"
         },
         {
-            "bottom": "Shidako, Broodmistress",
-            "top": "Orochi Eggwatcher"
+            "primary": "Orochi Eggwatcher",
+            "secondary": "Shidako, Broodmistress"
         },
         {
-            "bottom": "Rune-Tail's Essence",
-            "top": "Rune-Tail, Kitsune Ascendant"
+            "primary": "Rune-Tail, Kitsune Ascendant",
+            "secondary": "Rune-Tail's Essence"
         },
         {
-            "bottom": "Sasaya's Essence",
-            "top": "Sasaya, Orochi Ascendant"
+            "primary": "Sasaya, Orochi Ascendant",
+            "secondary": "Sasaya's Essence"
         },
         {
-            "bottom": "Tobita, Master of Winds",
-            "top": "Student of Elements"
+            "primary": "Student of Elements",
+            "secondary": "Tobita, Master of Winds"
         }
     ],
-    "split_cards": [
+    "split": [
         {
-            "left": "Alive",
-            "right": "Well"
+            "primary": "Alive",
+            "secondary": "Well"
         },
         {
-            "left": "Armed",
-            "right": "Dangerous"
+            "primary": "Armed",
+            "secondary": "Dangerous"
         },
         {
-            "left": "Assault",
-            "right": "Battery"
+            "primary": "Assault",
+            "secondary": "Battery"
         },
         {
-            "left": "Beck",
-            "right": "Call"
+            "primary": "Beck",
+            "secondary": "Call"
         },
         {
-            "left": "Boom",
-            "right": "Bust"
+            "primary": "Boom",
+            "secondary": "Bust"
         },
         {
-            "left": "Bound",
-            "right": "Determined"
+            "primary": "Bound",
+            "secondary": "Determined"
         },
         {
-            "left": "Breaking",
-            "right": "Entering"
+            "primary": "Breaking",
+            "secondary": "Entering"
         },
         {
-            "left": "Catch",
-            "right": "Release"
+            "primary": "Catch",
+            "secondary": "Release"
         },
         {
-            "left": "Crime",
-            "right": "Punishment"
+            "primary": "Crime",
+            "secondary": "Punishment"
         },
         {
-            "left": "Dead",
-            "right": "Gone"
+            "primary": "Dead",
+            "secondary": "Gone"
         },
         {
-            "left": "Down",
-            "right": "Dirty"
+            "primary": "Down",
+            "secondary": "Dirty"
         },
         {
-            "left": "Far",
-            "right": "Away"
+            "primary": "Far",
+            "secondary": "Away"
         },
         {
-            "left": "Fire",
-            "right": "Ice"
+            "primary": "Fire",
+            "secondary": "Ice"
         },
         {
-            "left": "Flesh",
-            "right": "Blood"
+            "primary": "Flesh",
+            "secondary": "Blood"
         },
         {
-            "left": "Give",
-            "right": "Take"
+            "primary": "Give",
+            "secondary": "Take"
         },
         {
-            "left": "Hide",
-            "right": "Seek"
+            "primary": "Hide",
+            "secondary": "Seek"
         },
         {
-            "left": "Hit",
-            "right": "Run"
+            "primary": "Hit",
+            "secondary": "Run"
         },
         {
-            "left": "Illusion",
-            "right": "Reality"
+            "primary": "Illusion",
+            "secondary": "Reality"
         },
         {
-            "left": "Life",
-            "right": "Death"
+            "primary": "Life",
+            "secondary": "Death"
         },
         {
-            "left": "Night",
-            "right": "Day"
+            "primary": "Night",
+            "secondary": "Day"
         },
         {
-            "left": "Odds",
-            "right": "Ends"
+            "primary": "Odds",
+            "secondary": "Ends"
         },
         {
-            "left": "Order",
-            "right": "Chaos"
+            "primary": "Order",
+            "secondary": "Chaos"
         },
         {
-            "left": "Pain",
-            "right": "Suffering"
+            "primary": "Pain",
+            "secondary": "Suffering"
         },
         {
-            "left": "Profit",
-            "right": "Loss"
+            "primary": "Profit",
+            "secondary": "Loss"
         },
         {
-            "left": "Protect",
-            "right": "Serve"
+            "primary": "Protect",
+            "secondary": "Serve"
         },
         {
-            "left": "Pure",
-            "right": "Simple"
+            "primary": "Pure",
+            "secondary": "Simple"
         },
         {
-            "left": "Ready",
-            "right": "Willing"
+            "primary": "Ready",
+            "secondary": "Willing"
         },
         {
-            "left": "Research",
-            "right": "Development"
+            "primary": "Research",
+            "secondary": "Development"
         },
         {
-            "left": "Rise",
-            "right": "Fall"
+            "primary": "Rise",
+            "secondary": "Fall"
         },
         {
-            "left": "Rough",
-            "right": "Tumble"
+            "primary": "Rough",
+            "secondary": "Tumble"
         },
         {
-            "left": "Spite",
-            "right": "Malice"
+            "primary": "Spite",
+            "secondary": "Malice"
         },
         {
-            "left": "Stand",
-            "right": "Deliver"
+            "primary": "Stand",
+            "secondary": "Deliver"
         },
         {
-            "left": "Supply",
-            "right": "Demand"
+            "primary": "Supply",
+            "secondary": "Demand"
         },
         {
-            "left": "Toil",
-            "right": "Trouble"
+            "primary": "Toil",
+            "secondary": "Trouble"
         },
         {
-            "left": "Trial",
-            "right": "Error"
+            "primary": "Trial",
+            "secondary": "Error"
         },
         {
-            "left": "Turn",
-            "right": "Burn"
+            "primary": "Turn",
+            "secondary": "Burn"
         },
         {
-            "left": "Wax",
-            "right": "Wane"
+            "primary": "Wax",
+            "secondary": "Wane"
         },
         {
-            "left": "Wear",
-            "right": "Tear"
+            "primary": "Wear",
+            "secondary": "Tear"
         }
     ]
 }

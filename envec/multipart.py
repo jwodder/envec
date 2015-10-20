@@ -1,146 +1,87 @@
-### TODO: Make MultipartDB objects store the name of the file from which they
-### were constructed
+### Give multipart entries their own class?
 
-### Add a method for getting the number of entries in a MultipartDB (and other
-### deconstructions)?
+import json
+from   warnings import warn
+from   enum     import Enum
+from   six      import itervalues
 
-import re
-from warnings import warn
-from ._util   import openR, chomp
-
-### Shouldn't these be MultipartDB class variables?
-multiFile = 'data/multipart.tsv'
-multiDB = None
+CardClass = Enum('CardClass', 'normal split flip double_faced')
 
 class MultipartDB(object):
-    def __init__(self, nextMap, prevMap, classMap):
-        self.nextMap = nextMap
-        self.prevMap = prevMap
-        self.classMap = classMap
+    DEFAULT_DATAFILE = 'data/multipart.json'
 
-    @classmethod
-    def fromFile(cls, infile=None):
-        if infile is None: infile = multiFile
-        nextMap = {}
-        prevMap = {}
-        classMap = {}
-        lineno = 0
-        for line in openR(infile):
-            lineno += 1
-            line = chomp(line)
-            if line.lstrip()[:1] in ('', '#'): continue
-            try:
-                (a, b, enum) = re.split(r'\t+', line)
-            except:
-                warn(infile ++ ': line ' + lineno + ': invalid/malformed entry')
+    def __init__(self, infile=None):
+        if infile is None:
+            infile = open(self.DEFAULT_DATAFILE)
+        with infile:
+            data = json.load(infile)
+        self.sourcefile = infile.name
+        self.byName = {}
+        self.byClass = {}
+        for cclass in CardClass:
+            if cclass == CardClass.normal:
                 continue
-            cClass = CardClass.toEnum(enum)
-            if cClass is None:
-                warn('%s: line %d: unknown card class %r'
-                      % (infile, lineno, enum))
-            elif cClass == CardClass.NORMAL_CARD:
-                pass
-            elif a in nextMap or a in prevMap:
-                warn('%s: card name %r appears more than once' % (infile, a))
-            elif b in nextMap or b in prevMap:
-                warn('%s: card name %r appears more than once' % (infile, b))
-            else:
-                nextMap[a] = b
-                prevMap[b] = a
-                classMap[(a,b)] = cClass
-        return cls(nextMap, prevMap, classMap)
+            classed = data.get(cclass.name, [])
+            self.byClass[cclass] = classed
+            for entry in classed:
+                entry["cardClass"] = cclass
+                for name in (entry["primary"], entry["secondary"]):
+                    if name in self.byName:
+                        warn('%s: name appears more than once in multipart'
+                             ' file; subsequent appearance ignored' % (name,))
+                    else:
+                        self.byName[name] = entry
 
     def cardClass(self, name):
-        if name in self.nextMap:
-            return self.classMap.get((name, self.nextMap[name]), CardClass.NORMAL_CARD)
-        elif name in self.prevMap:
-            return self.classMap.get((self.prevMap[name], name), CardClass.NORMAL_CARD)
+        try:
+            entry = self.byName[name]
+        except KeyError:
+            return CardClass.normal
         else:
-            return CardClass.NORMAL_CARD
+            return entry["cardClass"]
 
-    def isPrimary(self,   name): return name in self.nextMap
-    def isSecondary(self, name): return name in self.prevMap
+    def isPrimary(self, name):
+        try:
+            return self.byName[name]["primary"] == name
+        except KeyError:
+            return False
 
-    def isSplit(self, name):  return self.cardClass(name) == CardClass.SPLIT_CARD
-    def isFlip(self, name):   return self.cardClass(name) == CardClass.FLIP_CARD
-    def isDouble(self, name): return self.cardClass(name) == CardClass.DOUBLE_CARD
-    def isMultipart(self, name): return self.cardClass(name) != CardClass.NORMAL_CARD
+    def isSecondary(self, name):
+        try:
+            return self.byName[name]["secondary"] == name
+        except KeyError:
+            return False
 
-    def splitLefts(self):
-        return sorted(a for ((a,b),c) in self.classMap.items()
-                        if c == CardClass.SPLIT_CARD)
+    def isSplit(self, name):
+        return self.cardClass(name) == CardClass.split
 
-    def splitRights(self):
-        return sorted(b for ((a,b),c) in self.classMap.items()
-                        if c == CardClass.SPLIT_CARD)
+    def isFlip(self, name):
+        return self.cardClass(name) == CardClass.flip
 
-    def flipTops(self):
-        return sorted(a for ((a,b),c) in self.classMap.items()
-                        if c == CardClass.FLIP_CARD)
+    def isDouble(self, name):
+        return self.cardClass(name) == CardClass.double_faced
 
-    def flipBottoms(self):
-        return sorted(b for ((a,b),c) in self.classMap.items()
-                        if c == CardClass.FLIP_CARD)
+    def isMultipart(self, name):
+        return self.cardClass(name) != CardClass.normal
 
-    def doubleFronts(self):
-        return sorted(a for ((a,b),c) in self.classMap.items()
-                        if c == CardClass.DOUBLE_CARD)
+    def primaries(self):
+        for entry in self:
+            yield entry["primary"]
 
-    def doubleBacks(self):
-        return sorted(b for ((a,b),c) in self.classMap.items()
-                        if c == CardClass.DOUBLE_CARD)
-
-    def splits(self):
-        return sorted(ab for (ab,c) in self.classMap.items()
-                                    if c == CardClass.SPLIT_CARD)
-
-    def flips(self):
-        return sorted(ab for (ab,c) in self.classMap.items()
-                                    if c == CardClass.FLIP_CARD)
-
-    def doubles(self):
-        return sorted(ab for (ab,c) in self.classMap.items()
-                                    if c == CardClass.DOUBLE_CARD)
+    def secondaries(self):
+        for entry in self:
+            yield entry["secondary"]
 
     def alternate(self, name):
-        if   name in self.nextMap: return self.nextMap[name]
-        elif name in self.prevMap: return self.prevMap[name]
-        else: return None
-
-
-class CardClass(object):
-    NORMAL_CARD = 'normal'
-    SPLIT_CARD  = 'split'
-    FLIP_CARD   = 'flip'
-    DOUBLE_CARD = 'double-faced'
-
-    cardClasses = [CardClass.NORMAL_CARD, CardClass.SPLIT_CARD,
-                   CardClass.FLIP_CARD,   CardClass.DOUBLE_CARD]
-
-    @staticmethod
-    def toEnum(cClass, default=None):
-        if cClass is None: return default
-        elif cClass.isdigit():
-            # for compatibility with old representation
-            cClass = int(cClass)
-            return CardClass.cardClasses[cClass-1] if 1 <= cClass <= 4
-                                                   else default
-        elif re.search(r'^normal(\b|_)', cClass, re.I):
-            return CardClass.NORMAL_CARD
-        elif re.search(r'^split(\b|_)',  cClass, re.I):
-            return CardClass.SPLIT_CARD
-        elif re.search(r'^flip(\b|_)',   cClass, re.I):
-            return CardClass.FLIP_CARD
-        elif re.search(r'^double(\b|_)', cClass, re.I):
-            return CardClass.DOUBLE_CARD
+        try:
+            entry = self.byName[name]
+        except KeyError:
+            return None
         else:
-            return default
+            return entry["secondary" if entry["primary"] == name else "primary"]
 
-### Shouldn't the below two functions be MultipartDB class methods?
-def loadParts(infile=None):  ### Rename "loadMultipartDB"?
-    global multiDB
-    multiDB = MultipartDB.fromFile(infile)
-    return multiDB
+    def __iter__(self):
+        return itertools.chain.from_iterable(itervalues(self.byClass))
 
-def getMultipartDB():
-    return MultipartDB({}, {}, {}) if multiDB is None else multiDB
+    def __len__(self):
+        return sum(map(len, itervalues(self.byClass)))

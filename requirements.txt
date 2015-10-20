@@ -3,3 +3,4 @@
 # Python 3.4+ only.
 
 six
+enum34
