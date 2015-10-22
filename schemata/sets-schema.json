@@ -1,0 +1,100 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "array",
+    "description": "A list of _Magic: The Gathering_ card sets",
+    "definitions": {
+        "nullstr": {
+            "oneOf": [{"type": "string"}, {"type": "null"}]
+        }
+    },
+    "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+            "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The set name as listed on Gatherer (where applicable)"
+            },
+            "release_date": {
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$"
+                    },
+                    {"type": "null"}
+                ],
+                "default": null
+            },
+            "fetch": {
+                "type": "boolean",
+                "default": false,
+                "description": "whether fetching the list of cards in the set is necessary for acquiring the name of every card"
+            },
+            "abbreviations": {
+                "type": "object",
+                "properties": {
+                    "Gatherer": {
+                        "oneOf": [{"type": "string"}, {"type": "null"}],
+                        "description": "Set abbreviation used in the URLs of expansion symbols on Gatherer; null iff the set is not in Gatherer"
+                    },
+                    "askwizards-20040812": {
+                        "oneOf": [{"type": "string"}, {"type": "null"}],
+                        "description": "Set code listed in the 2004-08-12 Ask Wizards entry at <http://archive.wizards.com/Magic/magazine/article.aspx?x=mtgcom/askwizards/0804>; null iff the set is not in this list"
+                    },
+                    "magiccards.info": {"$ref": "#/definitions/nullstr"},
+                    "Twitter": {
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "pattern": "^#[0-9]*[A-Za-z][A-Za-z0-9]*$"
+                            },
+                            {"type": "null"}
+                        ],
+                        "description": "Official Twitter hashtag (including leading '#') promoted by Wizards for the set's release; null iff there was no such hashtag"
+                    }
+                },
+                "additionalProperties": {"$ref": "#/definitions/nullstr"}
+            },
+            "type": {
+                "enum": [
+                    "expansion",
+                    "core set",
+                    "Duel Decks",
+                    "Premium Deck Series",
+                    "From the Vault",
+                    "Magic Online",
+                    "box set",
+                    "Un-set",
+                    "reprint set",
+                    "starter set",
+                    "casual supplement"
+                ]
+            },
+            "block": {"type": "string"},
+            "modern": {
+                "type": "boolean",
+                "description": "whether inclusion in this set is sufficient to make a card Modern-legal"
+            },
+            "border": {
+                "enum": ["black", "white", "silver", "gold"],
+                "description": "The color of the borders of (the majority of) the cards in the set"
+            },
+            "notes": {
+                "type": "array",
+                "items": {"type": "string"}
+            }
+        },
+        "additionalProperties": true,
+        "dependencies": {
+            "block": {
+                "required": ["type"],
+                "properties": {
+                    "type": {
+                        "enum": ["expansion"]
+                    }
+                }
+            }
+        }
+    }
+}

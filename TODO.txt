@@ -7,7 +7,6 @@
  - Should all of the scraping-specific code be moved out of EnVec/ and/or
    hidden from the library user by default?
 
-- Write a JSON schema for sets.json
 - Test if checklist.py currently works
 - Try converting checklist.py to SAX
 - Since the xml.sax modules don't support HTML entities like &copy;, and it's
@@ -47,6 +46,7 @@
  - Eliminate (or at least comment out) the "badflip" provisions now that
    they're not (currently) needed?
  - Give the classes `toDict` methods?
+ - Give EnVec::Card an isSilver/isUncard method
 
 - Coding:
  - Make the storage of Content->text fields mirror their representation in
@@ -113,6 +113,7 @@
   - The release dates of the various promo cards
   - The release dates of the different Vanguard card sets
   - The Anthologies, Deckmasters, & Duels of the Planeswalkers (et alii?) sets
+    and any other sets not in Gatherer
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
  - Add Cockatrice's abbreviations to sets.json?
@@ -143,15 +144,14 @@
    multiverseid?
  - Make the bulk of tutor.pl into a library function?
  - Overload stringification of Multival objects?
- - Store information on which sets/cards are foiled (and which are all-foil) ?
  - Add fields to sets.json for:
-  - whether a set is an expansion, core set, or other
-  - Modern eligibility?
-  - border color (black, white, or silver)
-   - Give EnVec::Card an isSilver/isUncard method
-  - whether a set is online-only
+  - whether a set is online-only?
   - maximum collector's number? (only worth noting for Unhinged and M15)
   - printed abbreviation (M15+)
+  - "promotional" (boolean)
+  - "codename" (used during development; see <http://archive.wizards.com/Magic/magazine/article.aspx?x=mtgcom/daily/mr33>, among other sources)
+  - whether the set had foil/premium cards, no foil cards, or only foil cards
+  - dates of prereleases etc.?
  - Store card data in actual SQL databases rather than flat JSON/XML files
 
 Reminder about function naming conventions:
