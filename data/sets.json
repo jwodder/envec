@@ -10,7 +10,6 @@
         "name": "Limited Edition Alpha",
         "release_date": "1993-08-05"
     },
-
     {
         "abbreviations": {
             "Gatherer": "2E",
@@ -22,196 +21,6 @@
         "name": "Limited Edition Beta",
         "release_date": "1993-10"
     },
-
-    {
-        "abbreviations": {
-            "Gatherer": "2U",
-            "askwizards-20040812": "2ED",
-            "magiccards.info": "un",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Unlimited Edition",
-        "release_date": "1993-12"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "3E",
-            "askwizards-20040812": "3ED",
-            "magiccards.info": "rv",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Revised Edition",
-        "release_date": "1994-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "4E",
-            "askwizards-20040812": "4ED",
-            "magiccards.info": "4e",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Fourth Edition",
-        "release_date": "1995-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "5E",
-            "askwizards-20040812": "5ED",
-            "magiccards.info": "5e",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Fifth Edition",
-        "release_date": "1997-03-24"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "6E",
-            "askwizards-20040812": "6ED",
-            "magiccards.info": "6e",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Classic Sixth Edition",
-        "release_date": "1999-04-28"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "7E",
-            "askwizards-20040812": "7ED",
-            "magiccards.info": "7e",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Seventh Edition",
-        "release_date": "2001-04-11"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "8ED",
-            "askwizards-20040812": "8ED",
-            "magiccards.info": "8e",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Eighth Edition",
-        "release_date": "2003-07-28"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "9ED",
-            "askwizards-20040812": "9ED",
-            "magiccards.info": "9e"
-        },
-        "fetch": false,
-        "name": "Ninth Edition",
-        "release_date": "2005-07-29"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "10E",
-            "askwizards-20040812": null,
-            "magiccards.info": "10e"
-        },
-        "fetch": false,
-        "name": "Tenth Edition",
-        "release_date": "2007-07-14"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "M10",
-            "askwizards-20040812": null,
-            "magiccards.info": "m10"
-        },
-        "fetch": true,
-        "name": "Magic 2010",
-        "release_date": "2009-07-17"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "M11",
-            "askwizards-20040812": null,
-            "magiccards.info": "m11",
-            "Twitter": "#MTGM11"
-        },
-        "fetch": true,
-        "name": "Magic 2011",
-        "release_date": "2010-07-16"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "M12",
-            "askwizards-20040812": null,
-            "magiccards.info": "m12",
-            "Twitter": "#MTGM12"
-        },
-        "fetch": true,
-        "name": "Magic 2012",
-        "release_date": "2011-07-15"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "M13",
-            "askwizards-20040812": null,
-            "magiccards.info": "m13",
-            "Twitter": "#MTGM13"
-        },
-        "fetch": true,
-        "name": "Magic 2013",
-        "release_date": "2012-07-13"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "M14",
-            "askwizards-20040812": null,
-            "magiccards.info": "m14",
-            "Twitter": "#MTGM14"
-        },
-        "fetch": true,
-        "name": "Magic 2014 Core Set",
-        "release_date": "2013-07-19"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "M15",
-            "askwizards-20040812": null,
-            "magiccards.info": "m15",
-            "Twitter": "#MTGM15"
-        },
-        "fetch": true,
-        "name": "Magic 2015 Core Set",
-        "release_date": "2014-07-18"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ORI",
-            "askwizards-20040812": null,
-            "magiccards.info": "ori",
-            "Twitter": "#MTGORIGINS"
-        },
-        "fetch": true,
-        "name": "Magic Origins",
-        "release_date": "2015-07-17"
-    },
-
     {
         "abbreviations": {
             "Gatherer": "AN",
@@ -223,7 +32,17 @@
         "name": "Arabian Nights",
         "release_date": "1993-12"
     },
-
+    {
+        "abbreviations": {
+            "Gatherer": "2U",
+            "askwizards-20040812": "2ED",
+            "magiccards.info": "un",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Unlimited Edition",
+        "release_date": "1993-12"
+    },
     {
         "abbreviations": {
             "Gatherer": "AQ",
@@ -235,7 +54,17 @@
         "name": "Antiquities",
         "release_date": "1994-03"
     },
-
+    {
+        "abbreviations": {
+            "Gatherer": "3E",
+            "askwizards-20040812": "3ED",
+            "magiccards.info": "rv",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Revised Edition",
+        "release_date": "1994-04"
+    },
     {
         "abbreviations": {
             "Gatherer": "LE",
@@ -247,7 +76,6 @@
         "name": "Legends",
         "release_date": "1994-06"
     },
-
     {
         "abbreviations": {
             "Gatherer": "DK",
@@ -259,7 +87,6 @@
         "name": "The Dark",
         "release_date": "1994-08"
     },
-
     {
         "abbreviations": {
             "Gatherer": "FE",
@@ -271,7 +98,17 @@
         "name": "Fallen Empires",
         "release_date": "1994-11"
     },
-
+    {
+        "abbreviations": {
+            "Gatherer": "4E",
+            "askwizards-20040812": "4ED",
+            "magiccards.info": "4e",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Fourth Edition",
+        "release_date": "1995-04"
+    },
     {
         "abbreviations": {
             "Gatherer": "IA",
@@ -283,855 +120,6 @@
         "name": "Ice Age",
         "release_date": "1995-06"
     },
-
-    {
-        "abbreviations": {
-            "Gatherer": "HM",
-            "askwizards-20040812": "HML",
-            "magiccards.info": "hl",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Homelands",
-        "release_date": "1995-10"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "AL",
-            "askwizards-20040812": "ALL",
-            "magiccards.info": "ai",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Alliances",
-        "release_date": "1996-06-10"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "MI",
-            "askwizards-20040812": "MIR",
-            "magiccards.info": "mr",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Mirage",
-        "release_date": "1996-10-07"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "VI",
-            "askwizards-20040812": "VIS",
-            "magiccards.info": "vi",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Visions",
-        "release_date": "1997-02-03"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "WL",
-            "askwizards-20040812": "WTH",
-            "magiccards.info": "wl",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Weatherlight",
-        "release_date": "1997-06-09"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "TE",
-            "askwizards-20040812": "TMP",
-            "magiccards.info": "tp",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Tempest",
-        "release_date": "1997-10-13"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ST",
-            "askwizards-20040812": "STH",
-            "magiccards.info": "sh",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Stronghold",
-        "release_date": "1998-03-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "EX",
-            "askwizards-20040812": "EXO",
-            "magiccards.info": "ex",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Exodus",
-        "release_date": "1998-06-15"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "UZ",
-            "askwizards-20040812": "USG",
-            "magiccards.info": "us",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Urza's Saga",
-        "release_date": "1998-10-12"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "GU",
-            "askwizards-20040812": "ULG",
-            "magiccards.info": "ul",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Urza's Legacy",
-        "release_date": "1999-02-15"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "CG",
-            "askwizards-20040812": "UDS",
-            "magiccards.info": "ud",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Urza's Destiny",
-        "release_date": "1999-06-07"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "MM",
-            "askwizards-20040812": "MMQ",
-            "magiccards.info": "mm",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Mercadian Masques",
-        "release_date": "1999-10-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "NE",
-            "askwizards-20040812": "NMS",
-            "magiccards.info": "ne",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Nemesis",
-        "release_date": "2000-02-14"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "PR",
-            "askwizards-20040812": "PCY",
-            "magiccards.info": "pr",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Prophecy",
-        "release_date": "2000-06-05"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "IN",
-            "askwizards-20040812": "INV",
-            "magiccards.info": "in",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Invasion",
-        "release_date": "2000-10-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "PS",
-            "askwizards-20040812": "PLS",
-            "magiccards.info": "ps",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Planeshift",
-        "release_date": "2001-02-05"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "AP",
-            "askwizards-20040812": "APC",
-            "magiccards.info": "ap",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Apocalypse",
-        "release_date": "2001-06-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "OD",
-            "askwizards-20040812": "ODY",
-            "magiccards.info": "od",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Odyssey",
-        "release_date": "2001-10-01"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "TOR",
-            "askwizards-20040812": "TOR",
-            "magiccards.info": "tr",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Torment",
-        "release_date": "2002-02-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "JUD",
-            "askwizards-20040812": "JUD",
-            "magiccards.info": "ju",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Judgment",
-        "release_date": "2002-05-27"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ONS",
-            "askwizards-20040812": "ONS",
-            "magiccards.info": "on",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Onslaught",
-        "release_date": "2002-10-07"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "LGN",
-            "askwizards-20040812": "LGN",
-            "magiccards.info": "le",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Legions",
-        "release_date": "2003-02-03"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "SCG",
-            "askwizards-20040812": "SCG",
-            "magiccards.info": "sc",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Scourge",
-        "release_date": "2003-05-26"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "MRD",
-            "askwizards-20040812": "MRD",
-            "magiccards.info": "mi",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Mirrodin",
-        "release_date": "2003-10-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "DST",
-            "askwizards-20040812": "DST",
-            "magiccards.info": "ds",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Darksteel",
-        "release_date": "2004-02-06"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "5DN",
-            "askwizards-20040812": "5DN",
-            "magiccards.info": "5dn",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Fifth Dawn",
-        "release_date": "2004-06-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "CHK",
-            "askwizards-20040812": "CHK",
-            "magiccards.info": "chk",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Champions of Kamigawa",
-        "release_date": "2004-10-01"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "BOK",
-            "askwizards-20040812": "BOK",
-            "magiccards.info": "bok",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Betrayers of Kamigawa",
-        "release_date": "2005-02-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "SOK",
-            "askwizards-20040812": "SOK",
-            "magiccards.info": "sok",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Saviors of Kamigawa",
-        "release_date": "2005-06-03"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "RAV",
-            "askwizards-20040812": null,
-            "magiccards.info": "rav",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Ravnica: City of Guilds",
-        "release_date": "2005-10-07"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "GPT",
-            "askwizards-20040812": null,
-            "magiccards.info": "gp",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Guildpact",
-        "release_date": "2006-02-03"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "DIS",
-            "askwizards-20040812": null,
-            "magiccards.info": "di"
-        },
-        "fetch": true,
-        "name": "Dissension",
-        "release_date": "2006-05-05"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "CSP",
-            "askwizards-20040812": null,
-            "magiccards.info": "cs"
-        },
-        "fetch": true,
-        "name": "Coldsnap",
-        "release_date": "2006-07-21"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "TSP",
-            "askwizards-20040812": null,
-            "magiccards.info": "ts"
-        },
-        "fetch": true,
-        "name": "Time Spiral",
-        "release_date": "2006-10-06"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "TSB",
-            "askwizards-20040812": null,
-            "magiccards.info": "tsts"
-        },
-        "fetch": false,
-        "name": "Time Spiral \"Timeshifted\"",
-        "release_date": "2006-10-06"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "PLC",
-            "askwizards-20040812": null,
-            "magiccards.info": "pc"
-        },
-        "fetch": true,
-        "name": "Planar Chaos",
-        "release_date": "2007-02-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "FUT",
-            "askwizards-20040812": null,
-            "magiccards.info": "fut"
-        },
-        "fetch": true,
-        "name": "Future Sight",
-        "release_date": "2007-05-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "LRW",
-            "askwizards-20040812": null,
-            "magiccards.info": "lw"
-        },
-        "fetch": true,
-        "name": "Lorwyn",
-        "release_date": "2007-10-12"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "MOR",
-            "askwizards-20040812": null,
-            "magiccards.info": "mt"
-        },
-        "fetch": true,
-        "name": "Morningtide",
-        "release_date": "2008-02-01"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "SHM",
-            "askwizards-20040812": null,
-            "magiccards.info": "shm"
-        },
-        "fetch": true,
-        "name": "Shadowmoor",
-        "release_date": "2008-05-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "EVE",
-            "askwizards-20040812": null,
-            "magiccards.info": "eve"
-        },
-        "fetch": true,
-        "name": "Eventide",
-        "release_date": "2008-07-25"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ALA",
-            "askwizards-20040812": null,
-            "magiccards.info": "ala"
-        },
-        "fetch": true,
-        "name": "Shards of Alara",
-        "release_date": "2008-10-03"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "CON",
-            "askwizards-20040812": null,
-            "magiccards.info": "cfx"
-        },
-        "fetch": true,
-        "name": "Conflux",
-        "release_date": "2009-02-06"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ARB",
-            "askwizards-20040812": null,
-            "magiccards.info": "arb"
-        },
-        "fetch": true,
-        "name": "Alara Reborn",
-        "release_date": "2009-04-30"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ZEN",
-            "askwizards-20040812": null,
-            "magiccards.info": "zen",
-            "Twitter": "#MTGZEN"
-        },
-        "fetch": true,
-        "name": "Zendikar",
-        "release_date": "2009-10-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "WWK",
-            "askwizards-20040812": null,
-            "magiccards.info": "wwk",
-            "Twitter": "#MTGWWK"
-        },
-        "fetch": true,
-        "name": "Worldwake",
-        "release_date": "2010-02-05"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ROE",
-            "askwizards-20040812": null,
-            "magiccards.info": "roe",
-            "Twitter": "#MTGROE"
-        },
-        "fetch": true,
-        "name": "Rise of the Eldrazi",
-        "release_date": "2010-04-23"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "SOM",
-            "askwizards-20040812": null,
-            "magiccards.info": "som",
-            "Twitter": "#MTGSOM"
-        },
-        "fetch": true,
-        "name": "Scars of Mirrodin",
-        "release_date": "2010-10-01"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "MBS",
-            "askwizards-20040812": null,
-            "magiccards.info": "mbs",
-            "Twitter": "#MTGMBS"
-        },
-        "fetch": true,
-        "name": "Mirrodin Besieged",
-        "release_date": "2011-02-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "NPH",
-            "askwizards-20040812": null,
-            "magiccards.info": "nph",
-            "Twitter": "#MTGNPH"
-        },
-        "fetch": true,
-        "name": "New Phyrexia",
-        "release_date": "2011-05-13"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ISD",
-            "askwizards-20040812": null,
-            "magiccards.info": "isd",
-            "Twitter": "#MTGINN"
-        },
-        "fetch": true,
-        "name": "Innistrad",
-        "release_date": "2011-09-30"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "DKA",
-            "askwizards-20040812": null,
-            "magiccards.info": "dka",
-            "Twitter": "#MTGDKA"
-        },
-        "fetch": true,
-        "name": "Dark Ascension",
-        "release_date": "2012-02-03"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "AVR",
-            "askwizards-20040812": null,
-            "magiccards.info": "avr",
-            "Twitter": "#MTGAVR"
-        },
-        "fetch": true,
-        "name": "Avacyn Restored",
-        "release_date": "2012-05-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "RTR",
-            "askwizards-20040812": null,
-            "magiccards.info": "rtr",
-            "Twitter": "#MTGRTR"
-        },
-        "fetch": true,
-        "name": "Return to Ravnica",
-        "release_date": "2012-10-05"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "GTC",
-            "askwizards-20040812": null,
-            "magiccards.info": "gtc",
-            "Twitter": "#MTGGTC"
-        },
-        "fetch": true,
-        "name": "Gatecrash",
-        "release_date": "2013-02-01"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "DGM",
-            "askwizards-20040812": null,
-            "magiccards.info": "dgm",
-            "Twitter": "#MTGDGM"
-        },
-        "fetch": true,
-        "name": "Dragon's Maze",
-        "release_date": "2013-05-03"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "THS",
-            "askwizards-20040812": null,
-            "magiccards.info": "ths",
-            "Twitter": "#MTGTHS"
-        },
-        "fetch": true,
-        "name": "Theros",
-        "release_date": "2013-09-27"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "BNG",
-            "askwizards-20040812": null,
-            "magiccards.info": "bng",
-            "Twitter": "#MTGBNG"
-        },
-        "fetch": true,
-        "name": "Born of the Gods",
-        "release_date": "2014-02-07"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "JOU",
-            "askwizards-20040812": null,
-            "magiccards.info": "jou",
-            "Twitter": "#MTGJOU"
-        },
-        "fetch": true,
-        "name": "Journey into Nyx",
-        "release_date": "2014-05-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "KTK",
-            "askwizards-20040812": null,
-            "magiccards.info": "ktk",
-            "Twitter": "#MTGKTK"
-        },
-        "fetch": true,
-        "name": "Khans of Tarkir",
-        "release_date": "2014-09-26"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "FRF",
-            "askwizards-20040812": null,
-            "magiccards.info": "frf",
-            "Twitter": "#MTGFRF"
-        },
-        "fetch": true,
-        "name": "Fate Reforged",
-        "release_date": "2015-01-23"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "FRF_UGIN",
-            "askwizards-20040812": null,
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Ugin's Fate promos",
-        "release_date": "2015-01-17"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "DTK",
-            "askwizards-20040812": null,
-            "magiccards.info": "dtk",
-            "Twitter": "#MTGDTK"
-        },
-        "fetch": true,
-        "name": "Dragons of Tarkir",
-        "release_date": "2015-03-27"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "BFZ",
-            "askwizards-20040812": null,
-            "magiccards.info": "bfz",
-            "Twitter": "#MTGBFZ"
-        },
-        "fetch": true,
-        "name": "Battle for Zendikar",
-        "release_date": "2015-10-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "EXP",
-            "askwizards-20040812": null,
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Zendikar Expedition",
-        "release_date": "2015-10-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "OGW",
-            "askwizards-20040812": null,
-            "Twitter": "#MTGOGW"
-        },
-        "fetch": true,
-        "name": "Oath of the Gatewatch",
-        "release_date": "2016-01-22"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "PPR",
-            "askwizards-20040812": null,
-            "magiccards.info": null,
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Promo set for Gatherer",
-        "release_date": null
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "PO",
-            "askwizards-20040812": "POR",
-            "magiccards.info": "po",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Portal",
-        "release_date": "1997-06"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "P2",
-            "askwizards-20040812": "P02",
-            "magiccards.info": "po2",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Portal Second Age",
-        "release_date": "1998-06"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "PK",
-            "askwizards-20040812": "PTK",
-            "magiccards.info": "p3k",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Portal Three Kingdoms",
-        "release_date": "1999-05"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "P3",
-            "askwizards-20040812": "S99",
-            "magiccards.info": "st",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Starter 1999",
-        "release_date": "1999-07"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "P4",
-            "askwizards-20040812": "S00",
-            "magiccards.info": "st2k",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Starter 2000",
-        "release_date": "2000-07"
-    },
-
     {
         "abbreviations": {
             "Gatherer": "CH",
@@ -1143,55 +131,83 @@
         "name": "Chronicles",
         "release_date": "1995-07"
     },
-
     {
         "abbreviations": {
-            "Gatherer": "BR",
-            "askwizards-20040812": "BRB",
-            "magiccards.info": "br",
+            "Gatherer": "HM",
+            "askwizards-20040812": "HML",
+            "magiccards.info": "hl",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Homelands",
+        "release_date": "1995-10"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "AL",
+            "askwizards-20040812": "ALL",
+            "magiccards.info": "ai",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Alliances",
+        "release_date": "1996-06-10"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "MI",
+            "askwizards-20040812": "MIR",
+            "magiccards.info": "mr",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Mirage",
+        "release_date": "1996-10-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "VI",
+            "askwizards-20040812": "VIS",
+            "magiccards.info": "vi",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Visions",
+        "release_date": "1997-02-03"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "5E",
+            "askwizards-20040812": "5ED",
+            "magiccards.info": "5e",
             "Twitter": null
         },
         "fetch": false,
-        "name": "Battle Royale Box Set",
-        "release_date": "1999-11-12"
+        "name": "Fifth Edition",
+        "release_date": "1997-03-24"
     },
-
     {
         "abbreviations": {
-            "Gatherer": "BD",
-            "askwizards-20040812": "BTD",
-            "magiccards.info": "bd",
+            "Gatherer": "PO",
+            "askwizards-20040812": "POR",
+            "magiccards.info": "po",
             "Twitter": null
         },
-        "fetch": false,
-        "name": "Beatdown Box Set",
-        "release_date": "2000-10"
+        "fetch": true,
+        "name": "Portal",
+        "release_date": "1997-06"
     },
-
     {
         "abbreviations": {
-            "Gatherer": "MMA",
-            "askwizards-20040812": null,
-            "magiccards.info": "mma",
-            "Twitter": "#MTGMMA"
+            "Gatherer": "WL",
+            "askwizards-20040812": "WTH",
+            "magiccards.info": "wl",
+            "Twitter": null
         },
-        "fetch": false,
-        "name": "Modern Masters",
-        "release_date": "2013-06-07"
+        "fetch": true,
+        "name": "Weatherlight",
+        "release_date": "1997-06-09"
     },
-
-    {
-        "abbreviations": {
-            "Gatherer": "MM2",
-            "askwizards-20040812": null,
-            "magiccards.info": "mm2",
-            "Twitter": "#MTGMM2015"
-        },
-        "fetch": false,
-        "name": "Modern Masters 2015 Edition",
-        "release_date": "2015-05-22"
-    },
-
     {
         "abbreviations": {
             "Gatherer": "VAN",
@@ -1203,105 +219,512 @@
         "name": "Vanguard",
         "release_date": "1997-07"
     },
-
     {
         "abbreviations": {
-            "Gatherer": "HOP",
-            "askwizards-20040812": null,
-            "magiccards.info": "pch"
+            "Gatherer": "TE",
+            "askwizards-20040812": "TMP",
+            "magiccards.info": "tp",
+            "Twitter": null
         },
         "fetch": true,
-        "name": "Planechase",
-        "release_date": "2009-09-04"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "ARC",
-            "askwizards-20040812": null,
-            "magiccards.info": "arc"
-        },
-        "fetch": true,
-        "name": "Archenemy",
-        "release_date": "2010-06-18"
+        "name": "Tempest",
+        "release_date": "1997-10-13"
     },
     {
         "abbreviations": {
-            "Gatherer": "CMD",
-            "askwizards-20040812": null,
-            "magiccards.info": "cmd"
+            "Gatherer": "ST",
+            "askwizards-20040812": "STH",
+            "magiccards.info": "sh",
+            "Twitter": null
         },
         "fetch": true,
-        "name": "Magic: The Gathering-Commander",
-        "release_date": "2011-06-17"
+        "name": "Stronghold",
+        "release_date": "1998-03-02"
     },
-
     {
         "abbreviations": {
-            "Gatherer": "PC2",
-            "askwizards-20040812": null,
-            "magiccards.info": "pc2"
+            "Gatherer": "P2",
+            "askwizards-20040812": "P02",
+            "magiccards.info": "po2",
+            "Twitter": null
         },
         "fetch": true,
-        "name": "Planechase 2012 Edition",
-        "release_date": "2012-06-01"
+        "name": "Portal Second Age",
+        "release_date": "1998-06"
     },
-
     {
         "abbreviations": {
-            "Gatherer": "CM1",
-            "askwizards-20040812": null,
-            "magiccards.info": "cma",
-            "Twitter": "#MTGCMA"
+            "Gatherer": "EX",
+            "askwizards-20040812": "EXO",
+            "magiccards.info": "ex",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Exodus",
+        "release_date": "1998-06-15"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "UG",
+            "askwizards-20040812": "UGL",
+            "magiccards.info": "ug",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Unglued",
+        "release_date": "1998-08-17"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "UZ",
+            "askwizards-20040812": "USG",
+            "magiccards.info": "us",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Urza's Saga",
+        "release_date": "1998-10-12"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "GU",
+            "askwizards-20040812": "ULG",
+            "magiccards.info": "ul",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Urza's Legacy",
+        "release_date": "1999-02-15"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "6E",
+            "askwizards-20040812": "6ED",
+            "magiccards.info": "6e",
+            "Twitter": null
         },
         "fetch": false,
-        "name": "Commander's Arsenal",
-        "release_date": "2012-11-02"
-    },
-
-    {
-        "abbreviations": {
-            "Gatherer": "C13",
-            "askwizards-20040812": null,
-            "magiccards.info": "c13",
-            "Twitter": "#MTGC13"
-        },
-        "fetch": true,
-        "name": "Commander 2013 Edition",
-        "release_date": "2013-11-01"
+        "name": "Classic Sixth Edition",
+        "release_date": "1999-04-28"
     },
     {
         "abbreviations": {
-            "Gatherer": "CNS",
-            "askwizards-20040812": null,
-            "magiccards.info": "cns",
-            "Twitter": "#MTGCNS"
+            "Gatherer": "PK",
+            "askwizards-20040812": "PTK",
+            "magiccards.info": "p3k",
+            "Twitter": null
         },
         "fetch": true,
-        "name": "Magic: The Gathering\u2014Conspiracy",
-        "release_date": "2014-06-06"
+        "name": "Portal Three Kingdoms",
+        "release_date": "1999-05"
     },
     {
         "abbreviations": {
-            "Gatherer": "C14",
-            "askwizards-20040812": null,
-            "magiccards.info": "c14",
-            "Twitter": "#MTGC14"
+            "Gatherer": "CG",
+            "askwizards-20040812": "UDS",
+            "magiccards.info": "ud",
+            "Twitter": null
         },
         "fetch": true,
-        "name": "Commander 2014",
-        "release_date": "2014-11-07"
+        "name": "Urza's Destiny",
+        "release_date": "1999-06-07"
     },
-
     {
         "abbreviations": {
-            "Gatherer": "#C15",
-            "askwizards-20040812": null,
-            "Twitter": "#MTGC15"
+            "Gatherer": "P3",
+            "askwizards-20040812": "S99",
+            "magiccards.info": "st",
+            "Twitter": null
         },
         "fetch": true,
-        "name": "MTG-Commander 2015",
-        "release_date": "2015-11-13"
+        "name": "Starter 1999",
+        "release_date": "1999-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "MM",
+            "askwizards-20040812": "MMQ",
+            "magiccards.info": "mm",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Mercadian Masques",
+        "release_date": "1999-10-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "BR",
+            "askwizards-20040812": "BRB",
+            "magiccards.info": "br",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Battle Royale Box Set",
+        "release_date": "1999-11-12"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "NE",
+            "askwizards-20040812": "NMS",
+            "magiccards.info": "ne",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Nemesis",
+        "release_date": "2000-02-14"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PR",
+            "askwizards-20040812": "PCY",
+            "magiccards.info": "pr",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Prophecy",
+        "release_date": "2000-06-05"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "P4",
+            "askwizards-20040812": "S00",
+            "magiccards.info": "st2k",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Starter 2000",
+        "release_date": "2000-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "BD",
+            "askwizards-20040812": "BTD",
+            "magiccards.info": "bd",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Beatdown Box Set",
+        "release_date": "2000-10"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "IN",
+            "askwizards-20040812": "INV",
+            "magiccards.info": "in",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Invasion",
+        "release_date": "2000-10-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PS",
+            "askwizards-20040812": "PLS",
+            "magiccards.info": "ps",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Planeshift",
+        "release_date": "2001-02-05"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "7E",
+            "askwizards-20040812": "7ED",
+            "magiccards.info": "7e",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Seventh Edition",
+        "release_date": "2001-04-11"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "AP",
+            "askwizards-20040812": "APC",
+            "magiccards.info": "ap",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Apocalypse",
+        "release_date": "2001-06-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "OD",
+            "askwizards-20040812": "ODY",
+            "magiccards.info": "od",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Odyssey",
+        "release_date": "2001-10-01"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "TOR",
+            "askwizards-20040812": "TOR",
+            "magiccards.info": "tr",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Torment",
+        "release_date": "2002-02-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "JUD",
+            "askwizards-20040812": "JUD",
+            "magiccards.info": "ju",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Judgment",
+        "release_date": "2002-05-27"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ONS",
+            "askwizards-20040812": "ONS",
+            "magiccards.info": "on",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Onslaught",
+        "release_date": "2002-10-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "LGN",
+            "askwizards-20040812": "LGN",
+            "magiccards.info": "le",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Legions",
+        "release_date": "2003-02-03"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "SCG",
+            "askwizards-20040812": "SCG",
+            "magiccards.info": "sc",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Scourge",
+        "release_date": "2003-05-26"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "8ED",
+            "askwizards-20040812": "8ED",
+            "magiccards.info": "8e",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Eighth Edition",
+        "release_date": "2003-07-28"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "MRD",
+            "askwizards-20040812": "MRD",
+            "magiccards.info": "mi",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Mirrodin",
+        "release_date": "2003-10-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "DST",
+            "askwizards-20040812": "DST",
+            "magiccards.info": "ds",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Darksteel",
+        "release_date": "2004-02-06"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "5DN",
+            "askwizards-20040812": "5DN",
+            "magiccards.info": "5dn",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Fifth Dawn",
+        "release_date": "2004-06-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "CHK",
+            "askwizards-20040812": "CHK",
+            "magiccards.info": "chk",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Champions of Kamigawa",
+        "release_date": "2004-10-01"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "UNH",
+            "askwizards-20040812": "UNH",
+            "magiccards.info": "uh",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Unhinged",
+        "release_date": "2004-11-19"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "BOK",
+            "askwizards-20040812": "BOK",
+            "magiccards.info": "bok",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Betrayers of Kamigawa",
+        "release_date": "2005-02-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "SOK",
+            "askwizards-20040812": "SOK",
+            "magiccards.info": "sok",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Saviors of Kamigawa",
+        "release_date": "2005-06-03"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "9ED",
+            "askwizards-20040812": "9ED",
+            "magiccards.info": "9e"
+        },
+        "fetch": false,
+        "name": "Ninth Edition",
+        "release_date": "2005-07-29"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "RAV",
+            "askwizards-20040812": null,
+            "magiccards.info": "rav",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Ravnica: City of Guilds",
+        "release_date": "2005-10-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "GPT",
+            "askwizards-20040812": null,
+            "magiccards.info": "gp",
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Guildpact",
+        "release_date": "2006-02-03"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "DIS",
+            "askwizards-20040812": null,
+            "magiccards.info": "di"
+        },
+        "fetch": true,
+        "name": "Dissension",
+        "release_date": "2006-05-05"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "CSP",
+            "askwizards-20040812": null,
+            "magiccards.info": "cs"
+        },
+        "fetch": true,
+        "name": "Coldsnap",
+        "release_date": "2006-07-21"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "TSP",
+            "askwizards-20040812": null,
+            "magiccards.info": "ts"
+        },
+        "fetch": true,
+        "name": "Time Spiral",
+        "release_date": "2006-10-06"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "TSB",
+            "askwizards-20040812": null,
+            "magiccards.info": "tsts"
+        },
+        "fetch": false,
+        "name": "Time Spiral \"Timeshifted\"",
+        "release_date": "2006-10-06"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PLC",
+            "askwizards-20040812": null,
+            "magiccards.info": "pc"
+        },
+        "fetch": true,
+        "name": "Planar Chaos",
+        "release_date": "2007-02-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "FUT",
+            "askwizards-20040812": null,
+            "magiccards.info": "fut"
+        },
+        "fetch": true,
+        "name": "Future Sight",
+        "release_date": "2007-05-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "10E",
+            "askwizards-20040812": null,
+            "magiccards.info": "10e"
+        },
+        "fetch": false,
+        "name": "Tenth Edition",
+        "release_date": "2007-07-14"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "MED",
+            "askwizards-20040812": null,
+            "magiccards.info": "med"
+        },
+        "fetch": false,
+        "name": "Masters Edition",
+        "release_date": "2007-09-10"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "LRW",
+            "askwizards-20040812": null,
+            "magiccards.info": "lw"
+        },
+        "fetch": true,
+        "name": "Lorwyn",
+        "release_date": "2007-10-12"
     },
     {
         "abbreviations": {
@@ -1315,6 +738,66 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "MOR",
+            "askwizards-20040812": null,
+            "magiccards.info": "mt"
+        },
+        "fetch": true,
+        "name": "Morningtide",
+        "release_date": "2008-02-01"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "SHM",
+            "askwizards-20040812": null,
+            "magiccards.info": "shm"
+        },
+        "fetch": true,
+        "name": "Shadowmoor",
+        "release_date": "2008-05-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "EVE",
+            "askwizards-20040812": null,
+            "magiccards.info": "eve"
+        },
+        "fetch": true,
+        "name": "Eventide",
+        "release_date": "2008-07-25"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "DRB",
+            "askwizards-20040812": null,
+            "magiccards.info": "fvd"
+        },
+        "fetch": false,
+        "name": "From the Vault: Dragons",
+        "release_date": "2008-08-29"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ME2",
+            "askwizards-20040812": null,
+            "magiccards.info": "me2"
+        },
+        "fetch": false,
+        "name": "Masters Edition II",
+        "release_date": "2008-09-22"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ALA",
+            "askwizards-20040812": null,
+            "magiccards.info": "ala"
+        },
+        "fetch": true,
+        "name": "Shards of Alara",
+        "release_date": "2008-10-03"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DD2",
             "askwizards-20040812": null,
             "magiccards.info": "jvc"
@@ -1322,6 +805,16 @@
         "fetch": false,
         "name": "Duel Decks: Jace vs. Chandra",
         "release_date": "2008-11-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "CON",
+            "askwizards-20040812": null,
+            "magiccards.info": "cfx"
+        },
+        "fetch": true,
+        "name": "Conflux",
+        "release_date": "2009-02-06"
     },
     {
         "abbreviations": {
@@ -1335,6 +828,67 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "ARB",
+            "askwizards-20040812": null,
+            "magiccards.info": "arb"
+        },
+        "fetch": true,
+        "name": "Alara Reborn",
+        "release_date": "2009-04-30"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "M10",
+            "askwizards-20040812": null,
+            "magiccards.info": "m10"
+        },
+        "fetch": true,
+        "name": "Magic 2010",
+        "release_date": "2009-07-17"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "V09",
+            "askwizards-20040812": null,
+            "magiccards.info": "fve"
+        },
+        "fetch": false,
+        "name": "From the Vault: Exiled",
+        "release_date": "2009-08-28"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "HOP",
+            "askwizards-20040812": null,
+            "magiccards.info": "pch"
+        },
+        "fetch": true,
+        "name": "Planechase",
+        "release_date": "2009-09-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ME3",
+            "askwizards-20040812": null,
+            "magiccards.info": "me3"
+        },
+        "fetch": false,
+        "name": "Masters Edition III",
+        "release_date": "2009-09-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ZEN",
+            "askwizards-20040812": null,
+            "magiccards.info": "zen",
+            "Twitter": "#MTGZEN"
+        },
+        "fetch": true,
+        "name": "Zendikar",
+        "release_date": "2009-10-02"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DDD",
             "askwizards-20040812": null,
             "magiccards.info": "gvl"
@@ -1342,6 +896,27 @@
         "fetch": false,
         "name": "Duel Decks: Garruk vs. Liliana",
         "release_date": "2009-10-30"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "H09",
+            "askwizards-20040812": null,
+            "magiccards.info": "pds"
+        },
+        "fetch": false,
+        "name": "Premium Deck Series: Slivers",
+        "release_date": "2009-11-20"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "WWK",
+            "askwizards-20040812": null,
+            "magiccards.info": "wwk",
+            "Twitter": "#MTGWWK"
+        },
+        "fetch": true,
+        "name": "Worldwake",
+        "release_date": "2010-02-05"
     },
     {
         "abbreviations": {
@@ -1355,6 +930,48 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "ROE",
+            "askwizards-20040812": null,
+            "magiccards.info": "roe",
+            "Twitter": "#MTGROE"
+        },
+        "fetch": true,
+        "name": "Rise of the Eldrazi",
+        "release_date": "2010-04-23"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ARC",
+            "askwizards-20040812": null,
+            "magiccards.info": "arc"
+        },
+        "fetch": true,
+        "name": "Archenemy",
+        "release_date": "2010-06-18"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "M11",
+            "askwizards-20040812": null,
+            "magiccards.info": "m11",
+            "Twitter": "#MTGM11"
+        },
+        "fetch": true,
+        "name": "Magic 2011",
+        "release_date": "2010-07-16"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "V10",
+            "askwizards-20040812": null,
+            "magiccards.info": "fvr"
+        },
+        "fetch": false,
+        "name": "From the Vault: Relics",
+        "release_date": "2010-08-27"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DDF",
             "askwizards-20040812": null,
             "magiccards.info": "ddf"
@@ -1362,6 +979,49 @@
         "fetch": false,
         "name": "Duel Decks: Elspeth vs. Tezzeret",
         "release_date": "2010-09-03"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "SOM",
+            "askwizards-20040812": null,
+            "magiccards.info": "som",
+            "Twitter": "#MTGSOM"
+        },
+        "fetch": true,
+        "name": "Scars of Mirrodin",
+        "release_date": "2010-10-01"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PD2",
+            "askwizards-20040812": null,
+            "magiccards.info": "pd2"
+        },
+        "fetch": false,
+        "name": "Premium Deck Series: Fire and Lightning",
+        "release_date": "2010-11-19"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ME4",
+            "askwizards-20040812": null,
+            "magiccards.info": "me4",
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Masters Edition IV",
+        "release_date": "2011-01-10"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "MBS",
+            "askwizards-20040812": null,
+            "magiccards.info": "mbs",
+            "Twitter": "#MTGMBS"
+        },
+        "fetch": true,
+        "name": "Mirrodin Besieged",
+        "release_date": "2011-02-04"
     },
     {
         "abbreviations": {
@@ -1375,6 +1035,48 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "NPH",
+            "askwizards-20040812": null,
+            "magiccards.info": "nph",
+            "Twitter": "#MTGNPH"
+        },
+        "fetch": true,
+        "name": "New Phyrexia",
+        "release_date": "2011-05-13"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "CMD",
+            "askwizards-20040812": null,
+            "magiccards.info": "cmd"
+        },
+        "fetch": true,
+        "name": "Magic: The Gathering-Commander",
+        "release_date": "2011-06-17"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "M12",
+            "askwizards-20040812": null,
+            "magiccards.info": "m12",
+            "Twitter": "#MTGM12"
+        },
+        "fetch": true,
+        "name": "Magic 2012",
+        "release_date": "2011-07-15"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "V11",
+            "askwizards-20040812": null,
+            "magiccards.info": "fvl"
+        },
+        "fetch": false,
+        "name": "From the Vault: Legends",
+        "release_date": "2011-08-26"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DDH",
             "askwizards-20040812": null,
             "magiccards.info": "ddh"
@@ -1382,6 +1084,39 @@
         "fetch": false,
         "name": "Duel Decks: Ajani vs. Nicol Bolas",
         "release_date": "2011-09-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "ISD",
+            "askwizards-20040812": null,
+            "magiccards.info": "isd",
+            "Twitter": "#MTGINN"
+        },
+        "fetch": true,
+        "name": "Innistrad",
+        "release_date": "2011-09-30"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PD3",
+            "askwizards-20040812": null,
+            "magiccards.info": "pd3",
+            "Twitter": "#MTGPD3"
+        },
+        "fetch": false,
+        "name": "Premium Deck Series: Graveborn",
+        "release_date": "2011-11-18"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "DKA",
+            "askwizards-20040812": null,
+            "magiccards.info": "dka",
+            "Twitter": "#MTGDKA"
+        },
+        "fetch": true,
+        "name": "Dark Ascension",
+        "release_date": "2012-02-03"
     },
     {
         "abbreviations": {
@@ -1396,6 +1131,48 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "AVR",
+            "askwizards-20040812": null,
+            "magiccards.info": "avr",
+            "Twitter": "#MTGAVR"
+        },
+        "fetch": true,
+        "name": "Avacyn Restored",
+        "release_date": "2012-05-04"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PC2",
+            "askwizards-20040812": null,
+            "magiccards.info": "pc2"
+        },
+        "fetch": true,
+        "name": "Planechase 2012 Edition",
+        "release_date": "2012-06-01"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "M13",
+            "askwizards-20040812": null,
+            "magiccards.info": "m13",
+            "Twitter": "#MTGM13"
+        },
+        "fetch": true,
+        "name": "Magic 2013",
+        "release_date": "2012-07-13"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "V12",
+            "askwizards-20040812": null,
+            "magiccards.info": "v12"
+        },
+        "fetch": false,
+        "name": "From the Vault: Realms",
+        "release_date": "2012-08-31"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DDJ",
             "askwizards-20040812": null,
             "magiccards.info": "ddj",
@@ -1407,6 +1184,39 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "RTR",
+            "askwizards-20040812": null,
+            "magiccards.info": "rtr",
+            "Twitter": "#MTGRTR"
+        },
+        "fetch": true,
+        "name": "Return to Ravnica",
+        "release_date": "2012-10-05"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "CM1",
+            "askwizards-20040812": null,
+            "magiccards.info": "cma",
+            "Twitter": "#MTGCMA"
+        },
+        "fetch": false,
+        "name": "Commander's Arsenal",
+        "release_date": "2012-11-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "GTC",
+            "askwizards-20040812": null,
+            "magiccards.info": "gtc",
+            "Twitter": "#MTGGTC"
+        },
+        "fetch": true,
+        "name": "Gatecrash",
+        "release_date": "2013-02-01"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DDK",
             "askwizards-20040812": null,
             "magiccards.info": "ddk",
@@ -1415,6 +1225,50 @@
         "fetch": false,
         "name": "Duel Decks: Sorin vs. Tibalt",
         "release_date": "2013-03-15"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "DGM",
+            "askwizards-20040812": null,
+            "magiccards.info": "dgm",
+            "Twitter": "#MTGDGM"
+        },
+        "fetch": true,
+        "name": "Dragon's Maze",
+        "release_date": "2013-05-03"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "MMA",
+            "askwizards-20040812": null,
+            "magiccards.info": "mma",
+            "Twitter": "#MTGMMA"
+        },
+        "fetch": false,
+        "name": "Modern Masters",
+        "release_date": "2013-06-07"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "M14",
+            "askwizards-20040812": null,
+            "magiccards.info": "m14",
+            "Twitter": "#MTGM14"
+        },
+        "fetch": true,
+        "name": "Magic 2014 Core Set",
+        "release_date": "2013-07-19"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "V13",
+            "askwizards-20040812": null,
+            "magiccards.info": "v13",
+            "Twitter": "#FTV20"
+        },
+        "fetch": false,
+        "name": "From the Vault: Twenty",
+        "release_date": "2013-08-23"
     },
     {
         "abbreviations": {
@@ -1430,7 +1284,39 @@
             "The Heroes vs. Monsters product page lists the official three-letter code as \"HVM\"."
         ]
     },
-
+    {
+        "abbreviations": {
+            "Gatherer": "THS",
+            "askwizards-20040812": null,
+            "magiccards.info": "ths",
+            "Twitter": "#MTGTHS"
+        },
+        "fetch": true,
+        "name": "Theros",
+        "release_date": "2013-09-27"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "C13",
+            "askwizards-20040812": null,
+            "magiccards.info": "c13",
+            "Twitter": "#MTGC13"
+        },
+        "fetch": true,
+        "name": "Commander 2013 Edition",
+        "release_date": "2013-11-01"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "BNG",
+            "askwizards-20040812": null,
+            "magiccards.info": "bng",
+            "Twitter": "#MTGBNG"
+        },
+        "fetch": true,
+        "name": "Born of the Gods",
+        "release_date": "2014-02-07"
+    },
     {
         "abbreviations": {
             "Gatherer": "DDM",
@@ -1444,6 +1330,72 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "JOU",
+            "askwizards-20040812": null,
+            "magiccards.info": "jou",
+            "Twitter": "#MTGJOU"
+        },
+        "fetch": true,
+        "name": "Journey into Nyx",
+        "release_date": "2014-05-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "MD1",
+            "askwizards-20040812": null,
+            "magiccards.info": "md1",
+            "Twitter": "#MTGMD1"
+        },
+        "fetch": false,
+        "name": "Modern Event Deck 2014",
+        "release_date": "2014-05-30"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "CNS",
+            "askwizards-20040812": null,
+            "magiccards.info": "cns",
+            "Twitter": "#MTGCNS"
+        },
+        "fetch": true,
+        "name": "Magic: The Gathering—Conspiracy",
+        "release_date": "2014-06-06"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "VMA",
+            "askwizards-20040812": null,
+            "magiccards.info": "vma",
+            "Twitter": "#MTGOVM"
+        },
+        "fetch": false,
+        "name": "Vintage Masters",
+        "release_date": "2014-06-16"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "M15",
+            "askwizards-20040812": null,
+            "magiccards.info": "m15",
+            "Twitter": "#MTGM15"
+        },
+        "fetch": true,
+        "name": "Magic 2015 Core Set",
+        "release_date": "2014-07-18"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "V14",
+            "askwizards-20040812": null,
+            "magiccards.info": "v14",
+            "Twitter": "#MTGANH"
+        },
+        "fetch": false,
+        "name": "From the Vault: Annihilation (2014)",
+        "release_date": "2014-08-22"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DDN",
             "askwizards-20040812": null,
             "magiccards.info": "ddn",
@@ -1453,7 +1405,28 @@
         "name": "Duel Decks: Speed vs. Cunning",
         "release_date": "2014-09-05"
     },
-
+    {
+        "abbreviations": {
+            "Gatherer": "KTK",
+            "askwizards-20040812": null,
+            "magiccards.info": "ktk",
+            "Twitter": "#MTGKTK"
+        },
+        "fetch": true,
+        "name": "Khans of Tarkir",
+        "release_date": "2014-09-26"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "C14",
+            "askwizards-20040812": null,
+            "magiccards.info": "c14",
+            "Twitter": "#MTGC14"
+        },
+        "fetch": true,
+        "name": "Commander 2014",
+        "release_date": "2014-11-07"
+    },
     {
         "abbreviations": {
             "Gatherer": "DD3_EVG",
@@ -1463,17 +1436,6 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Elves vs. Goblins",
-        "release_date": "2014-12-05"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "DD3_JVC",
-            "askwizards-20040812": null,
-            "magiccards.info": "ddajvc",
-            "Twitter": "#MTGAnth"
-        },
-        "fetch": false,
-        "name": "Duel Decks Anthology, Jace vs. Chandra",
         "release_date": "2014-12-05"
     },
     {
@@ -1489,6 +1451,17 @@
     },
     {
         "abbreviations": {
+            "Gatherer": "DD3_JVC",
+            "askwizards-20040812": null,
+            "magiccards.info": "ddajvc",
+            "Twitter": "#MTGAnth"
+        },
+        "fetch": false,
+        "name": "Duel Decks Anthology, Jace vs. Chandra",
+        "release_date": "2014-12-05"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "DD3_GVL",
             "askwizards-20040812": null,
             "magiccards.info": "ddagvl",
@@ -1497,6 +1470,27 @@
         "fetch": false,
         "name": "Duel Decks Anthology, Garruk vs. Liliana",
         "release_date": "2014-12-05"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "FRF_UGIN",
+            "askwizards-20040812": null,
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Ugin's Fate promos",
+        "release_date": "2015-01-17"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "FRF",
+            "askwizards-20040812": null,
+            "magiccards.info": "frf",
+            "Twitter": "#MTGFRF"
+        },
+        "fetch": true,
+        "name": "Fate Reforged",
+        "release_date": "2015-01-23"
     },
     {
         "abbreviations": {
@@ -1511,86 +1505,47 @@
     },
     {
         "abbreviations": {
-            "Gatherer": "DDP",
+            "Gatherer": "DTK",
             "askwizards-20040812": null,
-            "magiccards.info": "ddp",
-            "Twitter": "#MTGZVE"
+            "magiccards.info": "dtk",
+            "Twitter": "#MTGDTK"
         },
-        "fetch": false,
-        "name": "Duel Decks: Zendikar vs. Eldrazi",
-        "release_date": "2015-08-28"
+        "fetch": true,
+        "name": "Dragons of Tarkir",
+        "release_date": "2015-03-27"
     },
     {
         "abbreviations": {
-            "Gatherer": "DRB",
+            "Gatherer": "TPR",
             "askwizards-20040812": null,
-            "magiccards.info": "fvd"
+            "magiccards.info": "tpr",
+            "Twitter": "#MTGTPR"
         },
         "fetch": false,
-        "name": "From the Vault: Dragons",
-        "release_date": "2008-08-29"
+        "name": "Tempest Remastered",
+        "release_date": "2015-05-06"
     },
     {
         "abbreviations": {
-            "Gatherer": "V09",
+            "Gatherer": "MM2",
             "askwizards-20040812": null,
-            "magiccards.info": "fve"
+            "magiccards.info": "mm2",
+            "Twitter": "#MTGMM2015"
         },
         "fetch": false,
-        "name": "From the Vault: Exiled",
-        "release_date": "2009-08-28"
+        "name": "Modern Masters 2015 Edition",
+        "release_date": "2015-05-22"
     },
     {
         "abbreviations": {
-            "Gatherer": "V10",
+            "Gatherer": "ORI",
             "askwizards-20040812": null,
-            "magiccards.info": "fvr"
+            "magiccards.info": "ori",
+            "Twitter": "#MTGORIGINS"
         },
-        "fetch": false,
-        "name": "From the Vault: Relics",
-        "release_date": "2010-08-27"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "V11",
-            "askwizards-20040812": null,
-            "magiccards.info": "fvl"
-        },
-        "fetch": false,
-        "name": "From the Vault: Legends",
-        "release_date": "2011-08-26"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "V12",
-            "askwizards-20040812": null,
-            "magiccards.info": "v12"
-        },
-        "fetch": false,
-        "name": "From the Vault: Realms",
-        "release_date": "2012-08-31"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "V13",
-            "askwizards-20040812": null,
-            "magiccards.info": "v13",
-            "Twitter": "#FTV20"
-        },
-        "fetch": false,
-        "name": "From the Vault: Twenty",
-        "release_date": "2013-08-23"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "V14",
-            "askwizards-20040812": null,
-            "magiccards.info": "v14",
-            "Twitter": "#MTGANH"
-        },
-        "fetch": false,
-        "name": "From the Vault: Annihilation (2014)",
-        "release_date": "2014-08-22"
+        "fetch": true,
+        "name": "Magic Origins",
+        "release_date": "2015-07-17"
     },
     {
         "abbreviations": {
@@ -1605,129 +1560,65 @@
     },
     {
         "abbreviations": {
-            "Gatherer": "H09",
+            "Gatherer": "DDP",
             "askwizards-20040812": null,
-            "magiccards.info": "pds"
+            "magiccards.info": "ddp",
+            "Twitter": "#MTGZVE"
         },
         "fetch": false,
-        "name": "Premium Deck Series: Slivers",
-        "release_date": "2009-11-20"
+        "name": "Duel Decks: Zendikar vs. Eldrazi",
+        "release_date": "2015-08-28"
     },
     {
         "abbreviations": {
-            "Gatherer": "PD2",
+            "Gatherer": "BFZ",
             "askwizards-20040812": null,
-            "magiccards.info": "pd2"
+            "magiccards.info": "bfz",
+            "Twitter": "#MTGBFZ"
         },
-        "fetch": false,
-        "name": "Premium Deck Series: Fire and Lightning",
-        "release_date": "2010-11-19"
+        "fetch": true,
+        "name": "Battle for Zendikar",
+        "release_date": "2015-10-02"
     },
     {
         "abbreviations": {
-            "Gatherer": "PD3",
+            "Gatherer": "EXP",
             "askwizards-20040812": null,
-            "magiccards.info": "pd3",
-            "Twitter": "#MTGPD3"
+            "Twitter": null
         },
         "fetch": false,
-        "name": "Premium Deck Series: Graveborn",
-        "release_date": "2011-11-18"
+        "name": "Zendikar Expedition",
+        "release_date": "2015-10-02"
     },
     {
         "abbreviations": {
-            "Gatherer": "MD1",
+            "Gatherer": "#C15",
             "askwizards-20040812": null,
-            "magiccards.info": "md1",
-            "Twitter": "#MTGMD1"
+            "Twitter": "#MTGC15"
         },
-        "fetch": false,
-        "name": "Modern Event Deck 2014",
-        "release_date": "2014-05-30"
+        "fetch": true,
+        "name": "MTG-Commander 2015",
+        "release_date": "2015-11-13"
     },
     {
         "abbreviations": {
-            "Gatherer": "UG",
-            "askwizards-20040812": "UGL",
-            "magiccards.info": "ug",
+            "Gatherer": "OGW",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGOGW"
+        },
+        "fetch": true,
+        "name": "Oath of the Gatewatch",
+        "release_date": "2016-01-22"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PPR",
+            "askwizards-20040812": null,
+            "magiccards.info": null,
             "Twitter": null
         },
         "fetch": true,
-        "name": "Unglued",
-        "release_date": "1998-08-17"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "UNH",
-            "askwizards-20040812": "UNH",
-            "magiccards.info": "uh",
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Unhinged",
-        "release_date": "2004-11-19"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "MED",
-            "askwizards-20040812": null,
-            "magiccards.info": "med"
-        },
-        "fetch": false,
-        "name": "Masters Edition",
-        "release_date": "2007-09-10"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "ME2",
-            "askwizards-20040812": null,
-            "magiccards.info": "me2"
-        },
-        "fetch": false,
-        "name": "Masters Edition II",
-        "release_date": "2008-09-22"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "ME3",
-            "askwizards-20040812": null,
-            "magiccards.info": "me3"
-        },
-        "fetch": false,
-        "name": "Masters Edition III",
-        "release_date": "2009-09-07"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "ME4",
-            "askwizards-20040812": null,
-            "magiccards.info": "me4",
-            "Twitter": null
-        },
-        "fetch": false,
-        "name": "Masters Edition IV",
-        "release_date": "2011-01-10"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "VMA",
-            "askwizards-20040812": null,
-            "magiccards.info": "vma",
-            "Twitter": "#MTGOVM"
-        },
-        "fetch": false,
-        "name": "Vintage Masters",
-        "release_date": "2014-06-16"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "TPR",
-            "askwizards-20040812": null,
-            "magiccards.info": "tpr",
-            "Twitter": "#MTGTPR"
-        },
-        "fetch": false,
-        "name": "Tempest Remastered",
-        "release_date": "2015-05-06"
+        "name": "Promo set for Gatherer",
+        "release_date": null
     }
 ]
