@@ -1,32 +1,16 @@
-- Convert everything to Python.
+- Convert everything to Python
+ - Use the `logging` module in tutor.py
 - Everything is broken because checklists are now paginated.  Deal with this.
-- Problem: The json module returns strings as `unicode` objects.  Handle this.
-
-- Make the primary task of the library be reading & querying of JSON & XML card
-  databases?
- - Should all of the scraping-specific code be moved out of EnVec/ and/or
-   hidden from the library user by default?
-
 - Test if checklist.py currently works
 - Try converting checklist.py to SAX
-- Since the xml.sax modules don't support HTML entities like &copy;, and it's
-  likely xml.dom.minidom doesn't support them either, I might have to switch
-  to HTMLParser
- - Use `lxml.html` <https://pypi.python.org/pypi/lxml/> instead?
-- Use `logging` module in tutor.py
-- Use `namedtuple`s
-- Instead of Multivals, make Printing objects store lists of
-  "ComponentPrinting" (or something) objects, with special handling for
-  multiverseids
-- Make card.content.color support devoid
+ - Since the xml.sax modules don't support HTML entities like &copy;, and it's
+   likely xml.dom.minidom doesn't support them either, I might have to switch
+   to HTMLParser
+  - Use `lxml.html` <https://pypi.python.org/pypi/lxml/> instead?
 
 - Robustness:
- - Handle XML::DOM::Lite parse errors
- - Use a more widespread/reliable XML parsing library than XML::DOM::Lite
- - Make EnVec::Multipart::loadParts check for names appearing more than once
+ - Handle XML parse errors
  - tutor.pl should retry failed `get's under certain circumstances
- - EnVec::Sets::loadSets should check that each entry has the right number of
-   fields; cf. EnVec::Multipart::loadParts
  - Make listify.pl's references to external images for \img work for other
    people
  - Improve details.py's attempt to adapt to Gatherer's constant changes of the
@@ -35,72 +19,45 @@
 - Features:
  - Implement the rest of the features for tutor.pl (See the top of its source)
  - Add special handling/storage for leveler cards
- - Add a means to read EnVec::Card objects from a JSON/XML file one at a time
-   rather than all at once
- - Give EnVec::Card a fromXML method
- - EnVec::Card->showField1 should treat a negative width as disabling
-   line-wrapping
+ - Add a means to read Card objects from a JSON/XML file one at a time rather
+   than all at once
+  - Possible libraries for incremental/streaming JSON parsing:
+   - https://pypi.python.org/pypi/ijson/
+   - https://pypi.python.org/pypi/jsonstream/
+ - Give Card a fromXML method?
+ - Card.showField1 should treat a negative width as disabling line-wrapping
  - Fix/improve the PostScript output of listify.pl
- - Give EnVec::Card::Content a "devotion" method?
+ - Give Content a "devotion" method
  - Add checkboxes to the output of listify.pl (but only if a flag is given?)
  - Eliminate (or at least comment out) the "badflip" provisions now that
    they're not (currently) needed?
  - Give the classes `toDict` methods?
- - Give EnVec::Card an isSilver/isUncard method
+ - Give Card an isSilver/isUncard method?
+ - Make Content.color support devoid
 
 - Coding:
- - Make the storage of Content->text fields mirror their representation in
+ - Make the storage of Content.text fields mirror their representation in
    mtgcard.dtd
- - Runtime type enforcement?
-  - Make EnVec::Card only allow valid cardClass values
-  - Make EnVec::Card::Content prohibit empty names
-  - Make EnVec::Card::Content automatically convert empty fields to undef
-  - Abandon all runtime type enforcement (starting with Printing.pm) ?
- - Give EnVec::Card a toHashref method
- - Give EnVec.pm tags for the export lists of each submodule
- - Make EnVec.pm preserve the non-'all' tags of submodules
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
- - Give EnVec::Multipart 'primaries' and 'secondaries' functions (rethink
-   names) for getting all left/top/front and right/bottom/back portions of
-   multipart cards, respectively
  - Make the default datafile paths absolute rather than relative (possibly with
    a way to set the datafile directory at runtime?)
- - Problem: At some point, LWP::Simple was updated in such a way that 'get' now
-   returns text strings rather than binary strings when fetching pages from
-   Gatherer.  In order to ensure that the code (which assumes byte strings)
-   still works with both versions of LWP::Simple, tutor.pl now decodes any
-   text strings that 'get' may return.  This is likely inefficient, and some
-   other solution should be sought instead.  Parts of the code for which
-   encoding is relevant:
-  - output
-  - input from data/*
-  - EnVec::Util::trim should not manipulate 0xA0's that occur in byte strings,
-    but it may manipulate those in text strings.
-  - EnVec::Util::parseTypes currently can only match occurrences of U+2014 in
-    UTF-8 byte strings, not in text strings.
-  - In the absence of 'use utf8;', the ² and ½ in Details.pm are byte strings;
-    what effect would this have when matching the enclosing s/// expressions
-    against text strings?
- - Make Sets.pm and Multipart.pm use objects for storing & retrieving their
-   respective data rather than file-global variables
  - Should subcard numbering in XML output (and internal rulings representation,
    et alii?) start from 1 for the first part rather than 0?
- - Rethink the Multival->get method
- - Be more consistent with which classes have a copy() method and which can be
-   copied by passing an instance to the constructor
- - Eliminate EnVec::Card::Content->isNontraditional?
+ - Rethink the Multival.get method
+ - Give all classes "copy constructors"
+ - Eliminate Content.isNontraditional?
  - Make the fromHashref methods no longer support construction from a
    pre-existing instance?
  - Give Content and Printing (and Multival?) a fromJSON method each?
- - Eliminate EnVec::Card->newCard?
- - Move %formats from Card.pm to Multipart.pm?
+ - Eliminate Card.newCard
  - Should "oversized" or "nontraditional" be a card class?
- - Move the use of &rmitalics from tutor.pl to Details.pm?
- - Rename the `toJSON` methods "toPrettyJSON"?
- - Make most of the classes `namedtuple`s
+ - Move the use of &rmitalics from tutor.pl to details.py?
  - Make multival store tuples instead of lists?
+ - Instead of Multivals, make Printing objects store lists of
+   "ComponentPrinting" (or something) objects, with special handling for
+   multiverseids
 
 - Data & documentation:
  - Add documentation
@@ -116,9 +73,9 @@
     and any other sets not in Gatherer
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
- - Add Cockatrice's abbreviations to sets.json?
- - Add the rest of the Twitter hashtags to sets.json
  - Add a description of the JSON output format
+ - Fill in all of the fields in sets.json
+  - Add the rest of the Twitter hashtags to sets.json
 
 - For later:
  - Make use of all of the unused data/ files
