@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "definitions": {
+        "multipart": {
+            "type": "object",
+            "required": ["primary", "secondary"],
+            "properties": {
+                "primary": {"type": "string"},
+                "secondary": {"type": "string"}
+            }
+        }
+    },
+    "properties": {
+        "double_faced": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/multipart"}
+        },
+        "flip": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/multipart"}
+        },
+        "split": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/multipart"}
+        }
+    }
+}

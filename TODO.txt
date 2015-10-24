@@ -36,8 +36,16 @@
  - Make Content.color support devoid
 
 - Coding:
- - Make the storage of Content.text fields mirror their representation in
-   mtgcard.dtd
+ - Data structures:
+  - Make the storage of Content.text fields mirror their representation in
+    mtgcard.dtd
+  - Instead of Multivals, make Printing objects store lists of
+    "ComponentPrinting" (or something) objects, with special handling for
+    multiverseids
+  - Instead of Card objects having a list of Content objects, instead make them
+    have a "primary" Content attribute and a conditional "secondary" Content
+    attribute?
+  - Make Multival store tuples instead of lists?
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
@@ -48,16 +56,12 @@
  - Rethink the Multival.get method
  - Give all classes "copy constructors"
  - Eliminate Content.isNontraditional?
- - Make the fromHashref methods no longer support construction from a
-   pre-existing instance?
  - Give Content and Printing (and Multival?) a fromJSON method each?
  - Eliminate Card.newCard
  - Should "oversized" or "nontraditional" be a card class?
  - Move the use of &rmitalics from tutor.pl to details.py?
- - Make multival store tuples instead of lists?
- - Instead of Multivals, make Printing objects store lists of
-   "ComponentPrinting" (or something) objects, with special handling for
-   multiverseids
+ - Move the code for fetching & merging together all of a card's printings from
+   tutor.* into the library proper
 
 - Data & documentation:
  - Add documentation
