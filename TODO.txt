@@ -33,7 +33,6 @@
    they're not (currently) needed?
  - Give the classes `toDict`/`_asdict` methods
  - Give Card an isSilver/isUncard method?
- - Make Content.color support devoid
 
 - Coding:
  - Data structures:
@@ -56,8 +55,7 @@
  - Rethink the Multival.get method
  - Give all classes "copy constructors"
  - Eliminate Content.isNontraditional?
- - Give Content and Printing (and Multival?) a fromJSON method each?
- - Eliminate Card.newCard
+ - Eliminate Card.newCard?
  - Should "oversized" or "nontraditional" be a card class?
  - Move the use of &rmitalics from tutor.pl to details.py?
  - Move the code for fetching & merging together all of a card's printings from

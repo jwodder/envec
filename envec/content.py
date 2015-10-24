@@ -43,10 +43,9 @@ class Content(object):
 
     @property
     def color(self):
-        if self.name == 'Ghostfire': return Color()  # special case
-        # Since Innistrad, cards that formerly said "[This card] is [color]"
-        # now have color indicators instead, so there's no need to check for
-        # such strings.
+        if self.name == 'Ghostfire' or \
+                (self.text and 'devoid' in self.baseText().lower()):
+            return Color()
         return Color.fromString((self.cost or '') + (self.indicator or ''))
 
     @property
@@ -55,7 +54,7 @@ class Content(object):
         # now have color indicators instead, so there's no need to check for
         # such strings.
         colors = self.color
-        txt = self.baseText or ''
+        txt = self.baseText() or ''
         # Reminder text is supposed to be ignored for the purposes of
         # establishing color identity, though (as of Dark Ascension) Charmed
         # Pendant and Trinisphere appear to be the only cards for which this
