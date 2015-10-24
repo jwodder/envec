@@ -6,7 +6,7 @@ from ._cardutil import sortPrintings
 from .color     import Color
 from .multipart import CardClass
 from .cardset   import getCardSetDB
-from ._util     import uniq, wrapLines, jsonify, txt2attr, txt2xml
+from ._util     import uniq, wrapLines, txt2attr, txt2xml
 
 sep = ' // '
 
@@ -29,12 +29,6 @@ fields = {
     "HandLife":   'H/L:',
    #"printings":  'Printings:',
 }
-
-shortRares = {"common":      'C',
-              "uncommon":    'U',
-              "rare":        'R',
-              "land":        'L',
-              "mythic rare": 'M'}
 
 def scalarField(field):
     def getter(self):
@@ -70,11 +64,6 @@ class Card(object):
         return cls.fromDict(attrs2)
 
     @classmethod
-    def fromJSON(cls, txt):
-        obj = json.loads(txt)  # This throws an exception on parse errors
-        return cls.fromDict(obj)
-
-    @classmethod
     def fromDict(cls, obj):  # called `fromHashref` in the Perl version
         if isinstance(obj, cls): return obj.copy()
         ### TODO: Move all of these transformations to __init__?
@@ -92,20 +81,6 @@ class Card(object):
         #if not isinstance(rulings, (list, tuple)):
         #    raise TypeError("'rulings' field must be a tuple")
         return cls(cardClass, content, printings, rulings)
-
-    def toJSON(self):
-        return ' {\n  "cardClass": "' + str(self.cardClass) + '",\n' \
-         + '  "content": [' \
-         + ', '.join(c.toJSON() for c in self.content) \
-         + '],\n' \
-         + '  "printings": [\n     ' \
-         + '\n   , '.join(p.toJSON() for p in self.printings) \
-         + '\n  ],\n' \
-         + '  "rulings": [' \
-         + ('\n     ' + '\n   , '.join(map(jsonify, self.rulings)) + '\n  ' \
-            if self.rulings else '') \
-         + ']\n' \
-         + ' }'
 
     def toXML(self):
         txt = ' <card cardClass="' + txt2attr(str(self.cardClass)) + '">\n'
@@ -127,8 +102,10 @@ class Card(object):
 
     @property
     def cmc(self):
-        if self.cardClass == CardClass.FLIP_CARD: return self.part1.cmc
-        else: return sum(c.cmc for c in self.content)
+        if self.cardClass == CardClass.flip:
+            return self.part1.cmc
+        else:
+            return sum(c.cmc for c in self.content)
 
     @property
     def parts(self): return len(self.content)
@@ -140,10 +117,10 @@ class Card(object):
     def part2(self): return self.content[1] if len(self.content) > 1 else None
 
     def isMultipart(self): return self.parts > 1
-    def isNormal(self):    return self.cardClass == CardClass.NORMAL_CARD
-    def isSplit(self):     return self.cardClass == CardClass.SPLIT_CARD
-    def isFlip(self):      return self.cardClass == CardClass.FLIP_CARD
-    def isDouble(self):    return self.cardClass == CardClass.DOUBLE_CARD
+    def isNormal(self):    return self.cardClass == CardClass.normal
+    def isSplit(self):     return self.cardClass == CardClass.split
+    def isFlip(self):      return self.cardClass == CardClass.flip
+    def isDouble(self):    return self.cardClass == CardClass.double
 
     def sets(self): return tuple(set(p.set for p in self.printings))
 
@@ -206,8 +183,7 @@ class Card(object):
         elif field == 'sets':
             def showPrnt(prnt):
                 rare = prnt.rarity or 'UNKNOWN'
-                return prnt.set \
-                     + ' (' + shortRares.get(rare.lower(), rare) + ')'
+                return prnt.set + ' (' + rare.shortname + ')'
             text = ', '.join(uniq(map(showPrnt, sortPrintings(self.printings))))
             lines = wrapLines(text, width, 2)
             (first, rest) = (lines[0], lines[1:]) if lines else ('', [])
@@ -215,7 +191,7 @@ class Card(object):
                          + [' ' * Card.tagwidth + ' ' + r + "\n" for r in rest])
         elif field == 'cardClass':
             return "%-*s %s\n" % (Card.tagwidth, 'Format:',
-                                  str(self.cardClass).title())
+                                  self.cardClass.name.title())
         elif field in fields:
             width = (width - (self.parts - 1) * len(sep)) // self.parts
             def lineify(c):

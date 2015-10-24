@@ -1,6 +1,6 @@
 import re
 from .color import Color
-from ._util import jsonify, txt2xml, sym2xml, trim
+from ._util import txt2xml, sym2xml, trim
 
 class Content(object):
     __slots__ = ("name", "cost", "text", "pow", "tough", "loyalty", "hand",
@@ -21,14 +21,6 @@ class Content(object):
         self.hand       = hand                  # string or None
         self.life       = life                  # string or None
         self.indicator  = indicator             # string or None
-
-    def toJSON(self):
-        attrs = []
-        for attr in self.__slots__:
-            val = getattr(self, attr)
-            if val not in (None, '', ()):
-                attrs.append('    "%s": %s' % (attr, jsonify(val)))
-        return "{\n" + ",\n".join(attrs) + "\n   }"
 
     def toXML(self):
         txt = "  <content>\n   <name>" + txt2xml(self.name) + "</name>\n"

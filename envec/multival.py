@@ -7,7 +7,7 @@
 # None of these lists should ever contain empty strings, None, or non-string
 # values.
 
-from ._util import jsonify, sym2xml, txt2xml
+from ._util import sym2xml, txt2xml
 
 class Multival(object):
     def __init__(self, val):
@@ -49,8 +49,6 @@ class Multival(object):
     def copy(self): return self.__class__(self)
 
     def asArray(self): return [v[:] for v in self.val]
-
-    def toJSON(self): return jsonify(self.val)
 
     def toXML(self, name, sym):
         if not name: name = 'MULTIVAL'  # Just in case

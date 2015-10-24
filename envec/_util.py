@@ -12,22 +12,6 @@ def simplify(txt): return None if txt is None else re.sub(r'\s+',' ',trim(txt))
 def uniq(xs): return [k for k,_ in itertools.groupby(xs)]
  # The list must be pre-sorted.
 
-def jsonify(obj):
-    if obj is None: return 'null'
-    elif isinstance(obj, (list, tuple)):
-        return '[' + ', '.join(map(jsonify, obj)) + ']'
-    elif isinstance(obj, dict):
-        return '{' + ', '.join(jsonify(k) + ': ' + jsonify(obj[k])
-                               for k in sorted(obj.keys())) + '}'
-    else:
-        obj = obj.replace("\\", "\\\\")
-        obj = obj.replace('"', '\\"')
-        obj = obj.replace("\r\n", "\\n")
-        obj = obj.replace("\r", "\\n")
-        obj = obj.replace("\n", "\\n")
-        obj = obj.replace("\t", "\\t")
-        return '"' + obj + '"'
-
 def wrapLines(txt, length=80, postdent=0):
     lines = []
     for line in txt.rstrip().splitlines():
@@ -105,14 +89,6 @@ def sym2xml(txt):
     txt = re.sub(r'\{PW\}', r'<PW/>', txt)
     txt = re.sub(r'\{C\}', r'<chaos/>', txt)
     return txt
-
-def openR(filename):
-    if filename is None or file == '-': return sys.stdin
-    else: return open(filename, 'r')
-
-def openW(filename):
-    if filename is None or file == '-': return sys.stdout
-    else: return open(filename, 'w')
 
 def chomp(txt):
     if txt and txt[-1] == '\n': txt = txt[:-1]

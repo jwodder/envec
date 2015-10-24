@@ -1,7 +1,7 @@
 from string    import ascii_lowercase
 from warnings  import warn
 from .multival import Multival
-from ._util    import jsonify, txt2xml
+from ._util    import txt2xml
 
 multival = "number artist flavor watermark multiverseid notes".split()
 
@@ -41,15 +41,6 @@ class Printing(object):
     def copy(self):
         return self.__class__(**((attr, getattr(self, attr))
                                  for attr in self.__slots__))
-
-    def toJSON(self):
-        txt = '{"set": ' + jsonify(self.set)
-        if self.rarity: txt += ', "rarity": ' + jsonify(self.rarity)
-        for attr in multival:
-            val = getattr(self, attr)
-            if val.any():
-                txt += ', "' + attr + '": ' + val.toJSON()
-        return txt + '}'
 
     def toXML(self):
         txt = "  <printing>\n   <set>" + txt2xml(self.set) + "</set>\n"

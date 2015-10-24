@@ -10,7 +10,7 @@ from .card.printing import Printing
 from .card.util     import joinCards
 from .color         import Color
 from .multipart     import CardClass
-from ._util         import magicContent, trim, simplify, parseTypes, openR
+from ._util         import magicContent, trim, simplify, parseTypes
 
 def parseDetails(txt):
     # Work around italicization farkup:
@@ -32,10 +32,8 @@ def parseDetails(txt):
                              % ('many' if len(parts) > 2 else 'few',))
 
 def loadDetails(filename):
-    fp = openR(filename)
-    txt = fp.read()
-    fp.close()
-    return parseDetails(txt)
+    with fp as open(filename):
+        return parseDetails(fp.read())
 
 def divsByClass(node, dclass):
     if not node: return []
