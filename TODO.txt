@@ -7,6 +7,8 @@
    likely xml.dom.minidom doesn't support them either, I might have to switch
    to HTMLParser
   - Use `lxml.html` <https://pypi.python.org/pypi/lxml/> instead?
+- When fetching card details, ensure that numeric (i.e., '*'-less) P/Ts and
+  loyalties are converted to numbers rather than left as strings
 
 - Robustness:
  - Handle XML parse errors
@@ -45,6 +47,9 @@
     have a "primary" Content attribute and a conditional "secondary" Content
     attribute?
   - Make Multival store tuples instead of lists?
+  - Replace Multivals with lists of `{"subcard": INT, "value": INT | STR}`
+    objects?
+  - Rename "pow" and "tough" to "power" and "toughness"
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
@@ -62,6 +67,7 @@
    tutor.* into the library proper
  - Support both Python 2 and Python 3
  - Add subclasses of JSONDecoder and JSONEncoder
+  - Make sure that JSONification removes empty/null fields
 
 - Data & documentation:
  - Add documentation
@@ -77,7 +83,6 @@
     and any other sets not in Gatherer
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
- - Add a description of the JSON output format
  - Fill in all of the fields in sets.json
   - Add the rest of the Twitter hashtags to sets.json
 
