@@ -91,7 +91,6 @@
  - Implement Card->showField1('printings')
  - Better handling of Uncards, specifically:
   - B.F.M.
-   - Give it its own card class?
   - Who/What/When/Where/Why
   - Curse of the Fire Penguin
   - Little Girl's CMC

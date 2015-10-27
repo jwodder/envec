@@ -181,7 +181,7 @@
                                 "required": ["cardClass"],
                                 "properties": {
                                     "cardClass": {
-                                        "enum": ["split", "flip", "double_faced"]
+                                        "enum": ["split", "flip", "double_faced", "BFM"]
                                     },
                                     "content": {"maxItems": 2, "minItems": 2}
                                 }

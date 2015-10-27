@@ -5,7 +5,7 @@ from   warnings import warn
 from   enum     import Enum
 from   six      import itervalues
 
-CardClass = Enum('CardClass', 'normal split flip double_faced')
+CardClass = Enum('CardClass', 'normal split flip double_faced BFM')
 
 class MultipartDB(object):
     DEFAULT_DATAFILE = 'data/multipart.json'
