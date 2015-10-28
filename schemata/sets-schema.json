@@ -71,7 +71,7 @@
                     "casual supplement"
                 ]
             },
-            "block": {"type": "string"},
+            "block": {"$ref": "#/definitions/nullstr"},
             "modern": {
                 "type": "boolean",
                 "description": "whether inclusion in this set is sufficient to make a card Modern-legal"
@@ -85,16 +85,6 @@
                 "items": {"type": "string"}
             }
         },
-        "additionalProperties": true,
-        "dependencies": {
-            "block": {
-                "required": ["type"],
-                "properties": {
-                    "type": {
-                        "enum": ["expansion"]
-                    }
-                }
-            }
-        }
+        "additionalProperties": true
     }
 }

@@ -1,6 +1,17 @@
 [
     {
         "abbreviations": {
+            "Gatherer": "PPR",
+            "askwizards-20040812": null,
+            "magiccards.info": null,
+            "Twitter": null
+        },
+        "fetch": true,
+        "name": "Promo set for Gatherer",
+        "release_date": null
+    },
+    {
+        "abbreviations": {
             "Gatherer": "1E",
             "askwizards-20040812": "LEA",
             "magiccards.info": "al",
@@ -1589,36 +1600,5 @@
         "fetch": false,
         "name": "Zendikar Expedition",
         "release_date": "2015-10-02"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "#C15",
-            "askwizards-20040812": null,
-            "Twitter": "#MTGC15"
-        },
-        "fetch": true,
-        "name": "MTG-Commander 2015",
-        "release_date": "2015-11-13"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "OGW",
-            "askwizards-20040812": null,
-            "Twitter": "#MTGOGW"
-        },
-        "fetch": true,
-        "name": "Oath of the Gatewatch",
-        "release_date": "2016-01-22"
-    },
-    {
-        "abbreviations": {
-            "Gatherer": "PPR",
-            "askwizards-20040812": null,
-            "magiccards.info": null,
-            "Twitter": null
-        },
-        "fetch": true,
-        "name": "Promo set for Gatherer",
-        "release_date": null
     }
 ]

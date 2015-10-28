@@ -7,6 +7,7 @@
    likely xml.dom.minidom doesn't support them either, I might have to switch
    to HTMLParser
   - Use `lxml.html` <https://pypi.python.org/pypi/lxml/> instead?
+  - Use BeautifulSoup instead?
 - When fetching card details, ensure that numeric (i.e., '*'-less) P/Ts and
   loyalties are converted to numbers rather than left as strings
 
