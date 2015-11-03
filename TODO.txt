@@ -84,8 +84,7 @@
     and any other sets not in Gatherer
   - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
     Planeshift, Brothers Yamazaki, ???)
- - Fill in all of the fields in sets.json
-  - Add the rest of the Twitter hashtags to sets.json
+ - Add the rest of the Twitter hashtags to sets.json
 
 - For later:
  - Make use of all of the unused data/ files
@@ -112,6 +111,7 @@
  - Overload stringification of Multival objects?
  - Add fields to sets.json for:
   - whether a set is online-only?
+  - number of cards?
   - maximum collector's number? (only worth noting for Unhinged and M15)
   - printed abbreviation (M15+)
   - "promotional" (boolean)

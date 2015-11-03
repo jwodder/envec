@@ -1,12 +1,15 @@
 [
     {
         "abbreviations": {
-            "Gatherer": "#C15",
+            "Gatherer": "C15",
             "askwizards-20040812": null,
             "Twitter": "#MTGC15"
         },
         "fetch": true,
         "name": "MTG-Commander 2015",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2015-11-13"
     },
     {
@@ -17,6 +20,36 @@
         },
         "fetch": true,
         "name": "Oath of the Gatewatch",
+        "type": "expansion",
+        "block": "Battle for Zendikar",
+        "modern": true,
+        "border": "black",
         "release_date": "2016-01-22"
+    },
+    {
+        "abbreviations": {
+            "askwizards-20040812": null,
+            "Twitter": "#MTGBVC"
+        },
+        "fetch": false,
+        "name": "Duel Decks: Blessed vs. Cursed",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
+        "release_date": "2016-02-26"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "SOI",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGSOI"
+        },
+        "fetch": true,
+        "name": "Shadows over Innistrad",
+        "type": "expansion",
+        "block": "Shadows Over Innistrad",
+        "modern": true,
+        "border": "black",
+        "release_date": "2016-04-08"
     }
 ]

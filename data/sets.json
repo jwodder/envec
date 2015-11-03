@@ -19,6 +19,9 @@
         },
         "fetch": false,
         "name": "Limited Edition Alpha",
+        "type": "core set",
+        "modern": false,
+        "border": "black",
         "release_date": "1993-08-05"
     },
     {
@@ -30,6 +33,9 @@
         },
         "fetch": true,
         "name": "Limited Edition Beta",
+        "type": "core set",
+        "modern": false,
+        "border": "black",
         "release_date": "1993-10"
     },
     {
@@ -41,6 +47,10 @@
         },
         "fetch": true,
         "name": "Arabian Nights",
+        "type": "expansion",
+        "block": null,
+        "modern": false,
+        "border": "black",
         "release_date": "1993-12"
     },
     {
@@ -52,6 +62,9 @@
         },
         "fetch": false,
         "name": "Unlimited Edition",
+        "type": "core set",
+        "modern": false,
+        "border": "white",
         "release_date": "1993-12"
     },
     {
@@ -63,6 +76,10 @@
         },
         "fetch": true,
         "name": "Antiquities",
+        "type": "expansion",
+        "block": null,
+        "modern": false,
+        "border": "black",
         "release_date": "1994-03"
     },
     {
@@ -74,6 +91,9 @@
         },
         "fetch": false,
         "name": "Revised Edition",
+        "type": "core set",
+        "modern": false,
+        "border": "white",
         "release_date": "1994-04"
     },
     {
@@ -85,6 +105,10 @@
         },
         "fetch": true,
         "name": "Legends",
+        "type": "expansion",
+        "block": null,
+        "modern": false,
+        "border": "black",
         "release_date": "1994-06"
     },
     {
@@ -96,6 +120,10 @@
         },
         "fetch": true,
         "name": "The Dark",
+        "type": "expansion",
+        "block": null,
+        "modern": false,
+        "border": "black",
         "release_date": "1994-08"
     },
     {
@@ -107,6 +135,10 @@
         },
         "fetch": true,
         "name": "Fallen Empires",
+        "type": "expansion",
+        "block": null,
+        "modern": false,
+        "border": "black",
         "release_date": "1994-11"
     },
     {
@@ -118,6 +150,9 @@
         },
         "fetch": false,
         "name": "Fourth Edition",
+        "type": "core set",
+        "modern": false,
+        "border": "white",
         "release_date": "1995-04"
     },
     {
@@ -129,6 +164,10 @@
         },
         "fetch": true,
         "name": "Ice Age",
+        "type": "expansion",
+        "block": "Ice Age",
+        "modern": false,
+        "border": "black",
         "release_date": "1995-06"
     },
     {
@@ -140,6 +179,9 @@
         },
         "fetch": false,
         "name": "Chronicles",
+        "type": "reprint set",
+        "modern": false,
+        "border": "white",
         "release_date": "1995-07"
     },
     {
@@ -151,6 +193,10 @@
         },
         "fetch": true,
         "name": "Homelands",
+        "type": "expansion",
+        "block": null,
+        "modern": false,
+        "border": "black",
         "release_date": "1995-10"
     },
     {
@@ -162,6 +208,10 @@
         },
         "fetch": true,
         "name": "Alliances",
+        "type": "expansion",
+        "block": "Ice Age",
+        "modern": false,
+        "border": "black",
         "release_date": "1996-06-10"
     },
     {
@@ -173,6 +223,10 @@
         },
         "fetch": true,
         "name": "Mirage",
+        "type": "expansion",
+        "block": "Mirage",
+        "modern": false,
+        "border": "black",
         "release_date": "1996-10-07"
     },
     {
@@ -184,6 +238,10 @@
         },
         "fetch": true,
         "name": "Visions",
+        "type": "expansion",
+        "block": "Mirage",
+        "modern": false,
+        "border": "black",
         "release_date": "1997-02-03"
     },
     {
@@ -195,6 +253,9 @@
         },
         "fetch": false,
         "name": "Fifth Edition",
+        "type": "core set",
+        "modern": false,
+        "border": "white",
         "release_date": "1997-03-24"
     },
     {
@@ -206,6 +267,9 @@
         },
         "fetch": true,
         "name": "Portal",
+        "type": "starter set",
+        "modern": false,
+        "border": "black",
         "release_date": "1997-06"
     },
     {
@@ -217,6 +281,10 @@
         },
         "fetch": true,
         "name": "Weatherlight",
+        "type": "expansion",
+        "block": "Mirage",
+        "modern": false,
+        "border": "black",
         "release_date": "1997-06-09"
     },
     {
@@ -228,6 +296,8 @@
         },
         "fetch": true,
         "name": "Vanguard",
+        "type": "casual supplement",
+        "modern": false,
         "release_date": "1997-07"
     },
     {
@@ -239,6 +309,10 @@
         },
         "fetch": true,
         "name": "Tempest",
+        "type": "expansion",
+        "block": "Tempest",
+        "modern": false,
+        "border": "black",
         "release_date": "1997-10-13"
     },
     {
@@ -250,6 +324,10 @@
         },
         "fetch": true,
         "name": "Stronghold",
+        "type": "expansion",
+        "block": "Tempest",
+        "modern": false,
+        "border": "black",
         "release_date": "1998-03-02"
     },
     {
@@ -261,6 +339,9 @@
         },
         "fetch": true,
         "name": "Portal Second Age",
+        "type": "starter set",
+        "modern": false,
+        "border": "black",
         "release_date": "1998-06"
     },
     {
@@ -272,6 +353,10 @@
         },
         "fetch": true,
         "name": "Exodus",
+        "type": "expansion",
+        "block": "Tempest",
+        "modern": false,
+        "border": "black",
         "release_date": "1998-06-15"
     },
     {
@@ -283,6 +368,9 @@
         },
         "fetch": true,
         "name": "Unglued",
+        "type": "Un-set",
+        "modern": false,
+        "border": "silver",
         "release_date": "1998-08-17"
     },
     {
@@ -294,6 +382,10 @@
         },
         "fetch": true,
         "name": "Urza's Saga",
+        "type": "expansion",
+        "block": "Urza",
+        "modern": false,
+        "border": "black",
         "release_date": "1998-10-12"
     },
     {
@@ -305,6 +397,10 @@
         },
         "fetch": true,
         "name": "Urza's Legacy",
+        "type": "expansion",
+        "block": "Urza",
+        "modern": false,
+        "border": "black",
         "release_date": "1999-02-15"
     },
     {
@@ -316,6 +412,9 @@
         },
         "fetch": false,
         "name": "Classic Sixth Edition",
+        "type": "core set",
+        "modern": false,
+        "border": "white",
         "release_date": "1999-04-28"
     },
     {
@@ -327,6 +426,9 @@
         },
         "fetch": true,
         "name": "Portal Three Kingdoms",
+        "type": "starter set",
+        "modern": false,
+        "border": "white",
         "release_date": "1999-05"
     },
     {
@@ -338,6 +440,10 @@
         },
         "fetch": true,
         "name": "Urza's Destiny",
+        "type": "expansion",
+        "block": "Urza",
+        "modern": false,
+        "border": "black",
         "release_date": "1999-06-07"
     },
     {
@@ -349,6 +455,9 @@
         },
         "fetch": true,
         "name": "Starter 1999",
+        "type": "starter set",
+        "modern": false,
+        "border": "white",
         "release_date": "1999-07"
     },
     {
@@ -360,6 +469,10 @@
         },
         "fetch": true,
         "name": "Mercadian Masques",
+        "type": "expansion",
+        "block": "Masques",
+        "modern": false,
+        "border": "black",
         "release_date": "1999-10-04"
     },
     {
@@ -371,6 +484,9 @@
         },
         "fetch": false,
         "name": "Battle Royale Box Set",
+        "type": "box set",
+        "modern": false,
+        "border": "white",
         "release_date": "1999-11-12"
     },
     {
@@ -382,6 +498,10 @@
         },
         "fetch": true,
         "name": "Nemesis",
+        "type": "expansion",
+        "block": "Masques",
+        "modern": false,
+        "border": "black",
         "release_date": "2000-02-14"
     },
     {
@@ -393,6 +513,10 @@
         },
         "fetch": true,
         "name": "Prophecy",
+        "type": "expansion",
+        "block": "Masques",
+        "modern": false,
+        "border": "black",
         "release_date": "2000-06-05"
     },
     {
@@ -404,6 +528,9 @@
         },
         "fetch": false,
         "name": "Starter 2000",
+        "type": "starter set",
+        "modern": false,
+        "border": "white",
         "release_date": "2000-07"
     },
     {
@@ -415,6 +542,9 @@
         },
         "fetch": false,
         "name": "Beatdown Box Set",
+        "type": "box set",
+        "modern": false,
+        "border": "white",
         "release_date": "2000-10"
     },
     {
@@ -426,6 +556,10 @@
         },
         "fetch": true,
         "name": "Invasion",
+        "type": "expansion",
+        "block": "Invasion",
+        "modern": false,
+        "border": "black",
         "release_date": "2000-10-02"
     },
     {
@@ -437,6 +571,10 @@
         },
         "fetch": true,
         "name": "Planeshift",
+        "type": "expansion",
+        "block": "Invasion",
+        "modern": false,
+        "border": "black",
         "release_date": "2001-02-05"
     },
     {
@@ -448,6 +586,9 @@
         },
         "fetch": false,
         "name": "Seventh Edition",
+        "type": "core set",
+        "modern": false,
+        "border": "white",
         "release_date": "2001-04-11"
     },
     {
@@ -459,6 +600,10 @@
         },
         "fetch": true,
         "name": "Apocalypse",
+        "type": "expansion",
+        "block": "Invasion",
+        "modern": false,
+        "border": "black",
         "release_date": "2001-06-04"
     },
     {
@@ -470,6 +615,10 @@
         },
         "fetch": true,
         "name": "Odyssey",
+        "type": "expansion",
+        "block": "Odyssey",
+        "modern": false,
+        "border": "black",
         "release_date": "2001-10-01"
     },
     {
@@ -481,6 +630,10 @@
         },
         "fetch": true,
         "name": "Torment",
+        "type": "expansion",
+        "block": "Odyssey",
+        "modern": false,
+        "border": "black",
         "release_date": "2002-02-04"
     },
     {
@@ -492,6 +645,10 @@
         },
         "fetch": true,
         "name": "Judgment",
+        "type": "expansion",
+        "block": "Odyssey",
+        "modern": false,
+        "border": "black",
         "release_date": "2002-05-27"
     },
     {
@@ -503,6 +660,10 @@
         },
         "fetch": true,
         "name": "Onslaught",
+        "type": "expansion",
+        "block": "Onslaught",
+        "modern": false,
+        "border": "black",
         "release_date": "2002-10-07"
     },
     {
@@ -514,6 +675,10 @@
         },
         "fetch": true,
         "name": "Legions",
+        "type": "expansion",
+        "block": "Onslaught",
+        "modern": false,
+        "border": "black",
         "release_date": "2003-02-03"
     },
     {
@@ -525,6 +690,10 @@
         },
         "fetch": true,
         "name": "Scourge",
+        "type": "expansion",
+        "block": "Onslaught",
+        "modern": false,
+        "border": "black",
         "release_date": "2003-05-26"
     },
     {
@@ -536,6 +705,9 @@
         },
         "fetch": false,
         "name": "Eighth Edition",
+        "type": "core set",
+        "modern": true,
+        "border": "white",
         "release_date": "2003-07-28"
     },
     {
@@ -547,6 +719,10 @@
         },
         "fetch": true,
         "name": "Mirrodin",
+        "type": "expansion",
+        "block": "Mirrodin",
+        "modern": true,
+        "border": "black",
         "release_date": "2003-10-02"
     },
     {
@@ -558,6 +734,10 @@
         },
         "fetch": true,
         "name": "Darksteel",
+        "type": "expansion",
+        "block": "Mirrodin",
+        "modern": true,
+        "border": "black",
         "release_date": "2004-02-06"
     },
     {
@@ -569,6 +749,10 @@
         },
         "fetch": true,
         "name": "Fifth Dawn",
+        "type": "expansion",
+        "block": "Mirrodin",
+        "modern": true,
+        "border": "black",
         "release_date": "2004-06-04"
     },
     {
@@ -580,6 +764,10 @@
         },
         "fetch": true,
         "name": "Champions of Kamigawa",
+        "type": "expansion",
+        "block": "Kamigawa",
+        "modern": true,
+        "border": "black",
         "release_date": "2004-10-01"
     },
     {
@@ -591,6 +779,9 @@
         },
         "fetch": true,
         "name": "Unhinged",
+        "type": "Un-set",
+        "modern": false,
+        "border": "silver",
         "release_date": "2004-11-19"
     },
     {
@@ -602,6 +793,10 @@
         },
         "fetch": true,
         "name": "Betrayers of Kamigawa",
+        "type": "expansion",
+        "block": "Kamigawa",
+        "modern": true,
+        "border": "black",
         "release_date": "2005-02-04"
     },
     {
@@ -613,6 +808,10 @@
         },
         "fetch": true,
         "name": "Saviors of Kamigawa",
+        "type": "expansion",
+        "block": "Kamigawa",
+        "modern": true,
+        "border": "black",
         "release_date": "2005-06-03"
     },
     {
@@ -623,6 +822,9 @@
         },
         "fetch": false,
         "name": "Ninth Edition",
+        "type": "core set",
+        "modern": true,
+        "border": "white",
         "release_date": "2005-07-29"
     },
     {
@@ -634,6 +836,10 @@
         },
         "fetch": true,
         "name": "Ravnica: City of Guilds",
+        "type": "expansion",
+        "block": "Ravnica",
+        "modern": true,
+        "border": "black",
         "release_date": "2005-10-07"
     },
     {
@@ -645,6 +851,10 @@
         },
         "fetch": true,
         "name": "Guildpact",
+        "type": "expansion",
+        "block": "Ravnica",
+        "modern": true,
+        "border": "black",
         "release_date": "2006-02-03"
     },
     {
@@ -655,6 +865,10 @@
         },
         "fetch": true,
         "name": "Dissension",
+        "type": "expansion",
+        "block": "Ravnica",
+        "modern": true,
+        "border": "black",
         "release_date": "2006-05-05"
     },
     {
@@ -665,6 +879,10 @@
         },
         "fetch": true,
         "name": "Coldsnap",
+        "type": "expansion",
+        "block": "Ice Age",
+        "modern": true,
+        "border": "black",
         "release_date": "2006-07-21"
     },
     {
@@ -675,6 +893,10 @@
         },
         "fetch": true,
         "name": "Time Spiral",
+        "type": "expansion",
+        "block": "Time Spiral",
+        "modern": true,
+        "border": "black",
         "release_date": "2006-10-06"
     },
     {
@@ -685,6 +907,9 @@
         },
         "fetch": false,
         "name": "Time Spiral \"Timeshifted\"",
+        "block": "Time Spiral",
+        "modern": true,
+        "border": "black",
         "release_date": "2006-10-06"
     },
     {
@@ -695,6 +920,10 @@
         },
         "fetch": true,
         "name": "Planar Chaos",
+        "type": "expansion",
+        "block": "Time Spiral",
+        "modern": true,
+        "border": "black",
         "release_date": "2007-02-02"
     },
     {
@@ -705,6 +934,10 @@
         },
         "fetch": true,
         "name": "Future Sight",
+        "type": "expansion",
+        "block": "Time Spiral",
+        "modern": true,
+        "border": "black",
         "release_date": "2007-05-04"
     },
     {
@@ -715,6 +948,9 @@
         },
         "fetch": false,
         "name": "Tenth Edition",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2007-07-14"
     },
     {
@@ -725,6 +961,8 @@
         },
         "fetch": false,
         "name": "Masters Edition",
+        "type": "Magic Online",
+        "modern": false,
         "release_date": "2007-09-10"
     },
     {
@@ -735,6 +973,10 @@
         },
         "fetch": true,
         "name": "Lorwyn",
+        "type": "expansion",
+        "block": "Lorwyn-Shadowmoor",
+        "modern": true,
+        "border": "black",
         "release_date": "2007-10-12"
     },
     {
@@ -745,6 +987,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Elves vs. Goblins",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2007-11-16"
     },
     {
@@ -755,6 +1000,10 @@
         },
         "fetch": true,
         "name": "Morningtide",
+        "type": "expansion",
+        "block": "Lorwyn-Shadowmoor",
+        "modern": true,
+        "border": "black",
         "release_date": "2008-02-01"
     },
     {
@@ -765,6 +1014,10 @@
         },
         "fetch": true,
         "name": "Shadowmoor",
+        "type": "expansion",
+        "block": "Lorwyn-Shadowmoor",
+        "modern": true,
+        "border": "black",
         "release_date": "2008-05-02"
     },
     {
@@ -775,6 +1028,10 @@
         },
         "fetch": true,
         "name": "Eventide",
+        "type": "expansion",
+        "block": "Lorwyn-Shadowmoor",
+        "modern": true,
+        "border": "black",
         "release_date": "2008-07-25"
     },
     {
@@ -785,6 +1042,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Dragons",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2008-08-29"
     },
     {
@@ -795,6 +1055,8 @@
         },
         "fetch": false,
         "name": "Masters Edition II",
+        "type": "Magic Online",
+        "modern": false,
         "release_date": "2008-09-22"
     },
     {
@@ -805,6 +1067,10 @@
         },
         "fetch": true,
         "name": "Shards of Alara",
+        "type": "expansion",
+        "block": "Shards of Alara",
+        "modern": true,
+        "border": "black",
         "release_date": "2008-10-03"
     },
     {
@@ -815,6 +1081,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Jace vs. Chandra",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2008-11-07"
     },
     {
@@ -825,6 +1094,10 @@
         },
         "fetch": true,
         "name": "Conflux",
+        "type": "expansion",
+        "block": "Shards of Alara",
+        "modern": true,
+        "border": "black",
         "release_date": "2009-02-06"
     },
     {
@@ -835,6 +1108,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Divine vs. Demonic",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2009-04-10"
     },
     {
@@ -845,6 +1121,10 @@
         },
         "fetch": true,
         "name": "Alara Reborn",
+        "type": "expansion",
+        "block": "Shards of Alara",
+        "modern": true,
+        "border": "black",
         "release_date": "2009-04-30"
     },
     {
@@ -855,6 +1135,9 @@
         },
         "fetch": true,
         "name": "Magic 2010",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2009-07-17"
     },
     {
@@ -865,6 +1148,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Exiled",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2009-08-28"
     },
     {
@@ -875,6 +1161,9 @@
         },
         "fetch": true,
         "name": "Planechase",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2009-09-04"
     },
     {
@@ -885,6 +1174,8 @@
         },
         "fetch": false,
         "name": "Masters Edition III",
+        "type": "Magic Online",
+        "modern": false,
         "release_date": "2009-09-07"
     },
     {
@@ -896,6 +1187,10 @@
         },
         "fetch": true,
         "name": "Zendikar",
+        "type": "expansion",
+        "block": "Zendikar",
+        "modern": true,
+        "border": "black",
         "release_date": "2009-10-02"
     },
     {
@@ -906,6 +1201,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Garruk vs. Liliana",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2009-10-30"
     },
     {
@@ -916,6 +1214,9 @@
         },
         "fetch": false,
         "name": "Premium Deck Series: Slivers",
+        "type": "Premium Deck Series",
+        "modern": false,
+        "border": "black",
         "release_date": "2009-11-20"
     },
     {
@@ -927,6 +1228,10 @@
         },
         "fetch": true,
         "name": "Worldwake",
+        "type": "expansion",
+        "block": "Zendikar",
+        "modern": true,
+        "border": "black",
         "release_date": "2010-02-05"
     },
     {
@@ -937,6 +1242,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Phyrexia vs. the Coalition",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2010-03-19"
     },
     {
@@ -948,6 +1256,10 @@
         },
         "fetch": true,
         "name": "Rise of the Eldrazi",
+        "type": "expansion",
+        "block": "Zendikar",
+        "modern": true,
+        "border": "black",
         "release_date": "2010-04-23"
     },
     {
@@ -958,6 +1270,9 @@
         },
         "fetch": true,
         "name": "Archenemy",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2010-06-18"
     },
     {
@@ -969,6 +1284,9 @@
         },
         "fetch": true,
         "name": "Magic 2011",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2010-07-16"
     },
     {
@@ -979,6 +1297,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Relics",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2010-08-27"
     },
     {
@@ -989,6 +1310,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Elspeth vs. Tezzeret",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2010-09-03"
     },
     {
@@ -1000,6 +1324,10 @@
         },
         "fetch": true,
         "name": "Scars of Mirrodin",
+        "type": "expansion",
+        "block": "Scars of Mirrodin",
+        "modern": true,
+        "border": "black",
         "release_date": "2010-10-01"
     },
     {
@@ -1010,6 +1338,9 @@
         },
         "fetch": false,
         "name": "Premium Deck Series: Fire and Lightning",
+        "type": "Premium Deck Series",
+        "modern": false,
+        "border": "black",
         "release_date": "2010-11-19"
     },
     {
@@ -1021,6 +1352,8 @@
         },
         "fetch": false,
         "name": "Masters Edition IV",
+        "type": "Magic Online",
+        "modern": false,
         "release_date": "2011-01-10"
     },
     {
@@ -1032,6 +1365,10 @@
         },
         "fetch": true,
         "name": "Mirrodin Besieged",
+        "type": "expansion",
+        "block": "Scars of Mirrodin",
+        "modern": true,
+        "border": "black",
         "release_date": "2011-02-04"
     },
     {
@@ -1042,6 +1379,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Knights vs. Dragons",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2011-04-01"
     },
     {
@@ -1053,6 +1393,10 @@
         },
         "fetch": true,
         "name": "New Phyrexia",
+        "type": "expansion",
+        "block": "Scars of Mirrodin",
+        "modern": true,
+        "border": "black",
         "release_date": "2011-05-13"
     },
     {
@@ -1063,6 +1407,9 @@
         },
         "fetch": true,
         "name": "Magic: The Gathering-Commander",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2011-06-17"
     },
     {
@@ -1074,6 +1421,9 @@
         },
         "fetch": true,
         "name": "Magic 2012",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2011-07-15"
     },
     {
@@ -1084,6 +1434,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Legends",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2011-08-26"
     },
     {
@@ -1094,6 +1447,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Ajani vs. Nicol Bolas",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2011-09-02"
     },
     {
@@ -1105,6 +1461,10 @@
         },
         "fetch": true,
         "name": "Innistrad",
+        "type": "expansion",
+        "block": "Innistrad",
+        "modern": true,
+        "border": "black",
         "release_date": "2011-09-30"
     },
     {
@@ -1116,6 +1476,9 @@
         },
         "fetch": false,
         "name": "Premium Deck Series: Graveborn",
+        "type": "Premium Deck Series",
+        "modern": false,
+        "border": "black",
         "release_date": "2011-11-18"
     },
     {
@@ -1127,6 +1490,10 @@
         },
         "fetch": true,
         "name": "Dark Ascension",
+        "type": "expansion",
+        "block": "Innistrad",
+        "modern": true,
+        "border": "black",
         "release_date": "2012-02-03"
     },
     {
@@ -1138,6 +1505,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Venser vs. Koth",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2012-03-30"
     },
     {
@@ -1149,6 +1519,10 @@
         },
         "fetch": true,
         "name": "Avacyn Restored",
+        "type": "expansion",
+        "block": "Innistrad",
+        "modern": true,
+        "border": "black",
         "release_date": "2012-05-04"
     },
     {
@@ -1159,6 +1533,9 @@
         },
         "fetch": true,
         "name": "Planechase 2012 Edition",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2012-06-01"
     },
     {
@@ -1170,6 +1547,9 @@
         },
         "fetch": true,
         "name": "Magic 2013",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2012-07-13"
     },
     {
@@ -1180,6 +1560,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Realms",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2012-08-31"
     },
     {
@@ -1191,6 +1574,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Izzet vs. Golgari",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2012-09-07"
     },
     {
@@ -1202,6 +1588,10 @@
         },
         "fetch": true,
         "name": "Return to Ravnica",
+        "type": "expansion",
+        "block": "Return to Ravnica",
+        "modern": true,
+        "border": "black",
         "release_date": "2012-10-05"
     },
     {
@@ -1213,6 +1603,9 @@
         },
         "fetch": false,
         "name": "Commander's Arsenal",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2012-11-02"
     },
     {
@@ -1224,6 +1617,10 @@
         },
         "fetch": true,
         "name": "Gatecrash",
+        "type": "expansion",
+        "block": "Return to Ravnica",
+        "modern": true,
+        "border": "black",
         "release_date": "2013-02-01"
     },
     {
@@ -1235,6 +1632,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Sorin vs. Tibalt",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2013-03-15"
     },
     {
@@ -1246,6 +1646,10 @@
         },
         "fetch": true,
         "name": "Dragon's Maze",
+        "type": "expansion",
+        "block": "Return to Ravnica",
+        "modern": true,
+        "border": "black",
         "release_date": "2013-05-03"
     },
     {
@@ -1257,6 +1661,9 @@
         },
         "fetch": false,
         "name": "Modern Masters",
+        "type": "reprint set",
+        "modern": false,
+        "border": "black",
         "release_date": "2013-06-07"
     },
     {
@@ -1268,6 +1675,9 @@
         },
         "fetch": true,
         "name": "Magic 2014 Core Set",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2013-07-19"
     },
     {
@@ -1279,6 +1689,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Twenty",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2013-08-23"
     },
     {
@@ -1290,6 +1703,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Heroes vs. Monsters",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2013-09-06",
         "notes": [
             "The Heroes vs. Monsters product page lists the official three-letter code as \"HVM\"."
@@ -1304,6 +1720,10 @@
         },
         "fetch": true,
         "name": "Theros",
+        "type": "expansion",
+        "block": "Theros",
+        "modern": true,
+        "border": "black",
         "release_date": "2013-09-27"
     },
     {
@@ -1315,6 +1735,9 @@
         },
         "fetch": true,
         "name": "Commander 2013 Edition",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2013-11-01"
     },
     {
@@ -1326,6 +1749,10 @@
         },
         "fetch": true,
         "name": "Born of the Gods",
+        "type": "expansion",
+        "block": "Theros",
+        "modern": true,
+        "border": "black",
         "release_date": "2014-02-07"
     },
     {
@@ -1337,6 +1764,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Jace vs. Vraska",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-03-14"
     },
     {
@@ -1348,6 +1778,10 @@
         },
         "fetch": true,
         "name": "Journey into Nyx",
+        "type": "expansion",
+        "block": "Theros",
+        "modern": true,
+        "border": "black",
         "release_date": "2014-05-02"
     },
     {
@@ -1359,6 +1793,8 @@
         },
         "fetch": false,
         "name": "Modern Event Deck 2014",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-05-30"
     },
     {
@@ -1370,6 +1806,9 @@
         },
         "fetch": true,
         "name": "Magic: The Gathering—Conspiracy",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-06-06"
     },
     {
@@ -1381,6 +1820,8 @@
         },
         "fetch": false,
         "name": "Vintage Masters",
+        "type": "Magic Online",
+        "modern": false,
         "release_date": "2014-06-16"
     },
     {
@@ -1392,6 +1833,9 @@
         },
         "fetch": true,
         "name": "Magic 2015 Core Set",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2014-07-18"
     },
     {
@@ -1403,6 +1847,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Annihilation (2014)",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-08-22"
     },
     {
@@ -1414,6 +1861,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Speed vs. Cunning",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-09-05"
     },
     {
@@ -1425,6 +1875,10 @@
         },
         "fetch": true,
         "name": "Khans of Tarkir",
+        "type": "expansion",
+        "block": "Khans of Tarkir",
+        "modern": true,
+        "border": "black",
         "release_date": "2014-09-26"
     },
     {
@@ -1436,6 +1890,9 @@
         },
         "fetch": true,
         "name": "Commander 2014",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-11-07"
     },
     {
@@ -1447,6 +1904,9 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Elves vs. Goblins",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-12-05"
     },
     {
@@ -1458,6 +1918,9 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Divine vs. Demonic",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-12-05"
     },
     {
@@ -1469,6 +1932,9 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Jace vs. Chandra",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-12-05"
     },
     {
@@ -1480,6 +1946,9 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Garruk vs. Liliana",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2014-12-05"
     },
     {
@@ -1490,6 +1959,8 @@
         },
         "fetch": false,
         "name": "Ugin's Fate promos",
+        "block": "Khans of Tarkir",
+        "border": "black",
         "release_date": "2015-01-17"
     },
     {
@@ -1501,6 +1972,10 @@
         },
         "fetch": true,
         "name": "Fate Reforged",
+        "type": "expansion",
+        "block": "Khans of Tarkir",
+        "modern": true,
+        "border": "black",
         "release_date": "2015-01-23"
     },
     {
@@ -1512,6 +1987,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Elspeth vs. Kiora",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2015-02-27"
     },
     {
@@ -1523,6 +2001,10 @@
         },
         "fetch": true,
         "name": "Dragons of Tarkir",
+        "type": "expansion",
+        "block": "Khans of Tarkir",
+        "modern": true,
+        "border": "black",
         "release_date": "2015-03-27"
     },
     {
@@ -1534,6 +2016,8 @@
         },
         "fetch": false,
         "name": "Tempest Remastered",
+        "type": "Magic Online",
+        "modern": false,
         "release_date": "2015-05-06"
     },
     {
@@ -1545,6 +2029,9 @@
         },
         "fetch": false,
         "name": "Modern Masters 2015 Edition",
+        "type": "reprint set",
+        "modern": false,
+        "border": "black",
         "release_date": "2015-05-22"
     },
     {
@@ -1556,6 +2043,9 @@
         },
         "fetch": true,
         "name": "Magic Origins",
+        "type": "core set",
+        "modern": true,
+        "border": "black",
         "release_date": "2015-07-17"
     },
     {
@@ -1567,6 +2057,9 @@
         },
         "fetch": false,
         "name": "From the Vault: Angels",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
         "release_date": "2015-08-21"
     },
     {
@@ -1578,6 +2071,9 @@
         },
         "fetch": false,
         "name": "Duel Decks: Zendikar vs. Eldrazi",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
         "release_date": "2015-08-28"
     },
     {
@@ -1589,16 +2085,23 @@
         },
         "fetch": true,
         "name": "Battle for Zendikar",
+        "type": "expansion",
+        "block": "Battle for Zendikar",
+        "modern": true,
+        "border": "black",
         "release_date": "2015-10-02"
     },
     {
         "abbreviations": {
             "Gatherer": "EXP",
             "askwizards-20040812": null,
+            "magiccards.info": "exp",
             "Twitter": null
         },
         "fetch": false,
-        "name": "Zendikar Expedition",
+        "name": "Zendikar Expeditions",
+        "block": "Battle for Zendikar",
+        "border": "black",
         "release_date": "2015-10-02"
     }
 ]
