@@ -89,8 +89,3 @@ def sym2xml(txt):
     txt = re.sub(r'\{PW\}', r'<PW/>', txt)
     txt = re.sub(r'\{C\}', r'<chaos/>', txt)
     return txt
-
-def chomp(txt):
-    if txt and txt[-1] == '\n': txt = txt[:-1]
-    if txt and txt[-1] == '\r': txt = txt[:-1]
-    return txt
