@@ -8,6 +8,7 @@
         },
         "fetch": true,
         "name": "Promo set for Gatherer",
+        "type": "promotional set",
         "release_date": null
     },
     {
@@ -1959,6 +1960,7 @@
         },
         "fetch": false,
         "name": "Ugin's Fate promos",
+        "type": "promotional set",
         "block": "Khans of Tarkir",
         "border": "black",
         "release_date": "2015-01-17"
@@ -2100,6 +2102,7 @@
         },
         "fetch": false,
         "name": "Zendikar Expeditions",
+        "type": "promotional set",
         "block": "Battle for Zendikar",
         "border": "black",
         "release_date": "2015-10-02"

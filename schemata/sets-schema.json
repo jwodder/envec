@@ -68,7 +68,8 @@
                     "Un-set",
                     "reprint set",
                     "starter set",
-                    "casual supplement"
+                    "casual supplement",
+                    "promotional set"
                 ]
             },
             "block": {"$ref": "#/definitions/nullstr"},
