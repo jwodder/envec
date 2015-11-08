@@ -70,7 +70,7 @@ class CardSetDB(object):
                 else:
                     self.byGatherer[gath] = cs
 
-    def setsToFetch(self):  ### Rethink usefulness
+    def toFetch(self):  ### Rethink usefulness
         return filter(lambda s: s.fetch, self.sets)
 
     def __len__(self):

@@ -32,8 +32,6 @@
  - Fix/improve the PostScript output of listify.pl
  - Give Content a "devotion" method
  - Add checkboxes to the output of listify.pl (but only if a flag is given?)
- - Eliminate (or at least comment out) the "badflip" provisions now that
-   they're not (currently) needed?
  - Give the classes `toDict`/`_asdict` methods
  - Give Card an isSilver/isUncard method?
 
@@ -67,8 +65,7 @@
  - Move the code for fetching & merging together all of a card's printings from
    tutor.* into the library proper
  - Support both Python 2 and Python 3
- - Add subclasses of JSONDecoder and JSONEncoder
-  - Make sure that JSONification removes empty/null fields
+ - Add a JSONDecoder subclass
 
 - Data & documentation:
  - Add documentation

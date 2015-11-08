@@ -1,10 +1,11 @@
-from .card      import Card
-from .content   import Content
-from .multival  import Multival
-from .printing  import Printing
-from .multipart import CardClass
-from .cardset   import getCardSetDB
-from ._util     import parseTypes, simplify
+from collections import defaultdict
+from .card       import Card
+from .content    import Content
+from .multival   import Multival
+from .printing   import Printing
+from .multipart  import CardClass
+from .cardset    import getCardSetDB
+from ._util      import parseTypes, simplify
 
 def joinCards(format, part1, part2):
     return Card(cardClass=format,
@@ -40,12 +41,14 @@ def joinPrintings(name, prnt1, prnt2):
     ###   to be joined that have more than one printing per set, and these
     ###   duplicate printings differ only in multiverseid.
     ### - The rarity field of part 1 is always valid for the whole card.
-    prnts1 = {}
-    prnts2 = {}
-    for p in prnt1: prnts1.get(p.set, []).append(p)
-    for p in prnt2: prnts2.get(p.set, []).append(p)
+    prnts1 = defaultdict(list)
+    prnts2 = defaultdict(list)
+    for p in prnt1:
+        prnts1[p.set].append(p)
+    for p in prnt2:
+        prnts2[p.set].append(p)
     joined = []
-    for set_ in prnts1.iterkeys():
+    for set_ in prnts1:
         if set_ not in prnts2:
             raise ValueError("set mismatch for %r: part 1 has a printing in %s but part 2 does not" % (name, set_))
         ### Should I also check for sets that part 2 has but part 1 doesn't?

@@ -1,6 +1,6 @@
 import re
-from xml.dom.minidom import parse, parseString
-from ._util import simplify, magicContent
+from   xml.dom.minidom import parse, parseString
+from   ._util          import simplify, magicContent
 
 def parseChecklist(txt): return walkChecklist(parseString(txt))
 
@@ -8,6 +8,7 @@ def loadChecklist(fileish): return walkChecklist(parse(fileish))
 
 def walkChecklist(doc):
     ### TODO: Make this use `yield`?
+    ### TODO: Return namedtuples instead of dicts
     cards = []
     for table in doc.getElementsByTagName('table'):
         tblClass = table.getAttribute('class')
