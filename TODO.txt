@@ -1,5 +1,4 @@
 - Convert everything to Python
- - Use the `logging` module in tutor.py
 - Everything is broken because checklists are now paginated.  Deal with this.
 - Test if checklist.py currently works
 - Try converting checklist.py to SAX

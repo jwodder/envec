@@ -21,10 +21,11 @@ import argparse
 from   collections import defaultdict
 from   datetime    import datetime
 import json
+import logging
 import re
-import requests
 import sys
 from   time        import time
+import requests
 import envec
 import envec._util as util
 
@@ -42,31 +43,35 @@ def main():
     parser.add_argument('-I', '--idfile2', type=argparse.FileType('w'))
     args = parser.parse_args()
 
+    if args.logfile is not None:
+        logconf = {"filename": args.logfile}
+    else:
+        logconf = {}
+    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
+                        level=logging.DEBUG, **logconf)
+
     missed = []
     setdb = envec.CardSetDB(args.set_file)
     multidb = envec.MultipartDB()
-
-    def logmsg(*args):
-        print(time(), ' ', *args, sep='', file=args.logfile)
 
     def ending():
         if missed:
             try:
                 misfile = open('missed.txt', 'w')
-            except IOError as e:
-                logmsg("ERROR: Could not write to missed.txt: ", str(e))
+            except IOError:
+                logging.exception('Could not write to missed.txt')
                 for m in missed:
-                    logmsg("MISSED: ", m)
+                    logging.info('MISSED: %s', m)
             else:
                 with misfile:
                     for m in missed:
                         print(m, file=misfile)
-            logmsg("INFO: Failed to fetch ", len(missed), " item",
-                   's' if len(missed) > 1 else '')
-            logmsg("DONE")
+            logging.info('Failed to fetch %d item%s', len(missed),
+                         's' if len(missed) > 1 else '')
+            logging.info('Done.')
             sys.exit(1)
         else:
-            logmsg('DONE')
+            logging.info('Done.')
             sys.exit(0)
 
     cardIDs = {}
@@ -80,8 +85,9 @@ def main():
                 cardIDs.setdefault(card, int(cid))
     else:
         for cardset in setdb.toFetch():
-            logmsg("FETCHING SET " + str(cardset))
-            r = requests.get('http://gatherer.wizards.com/Pages/Search/Default.aspx', params={
+            logging.info('Fetching set %r', str(cardset))
+            r = requests.get('http://gatherer.wizards.com/Pages/Search/'
+                             'Default.aspx', params={
                 "output": "checklist",
                 "action": "advanced",
                 "set": '["' + str(cardset) + '"]',
@@ -93,23 +99,23 @@ def main():
                     for c in cards:
                         cardIDs.setdefault(c.name, c.multiverseid)
                 else:
-                    logmsg("ERROR: No cards in set " + str(cardset) + "???")
+                    logging.warning('No cards in set %r???', str(cardset))
             else:
-                logmsg("ERROR: Could not fetch set " + str(cardset))
-                ### Log r.status_code, r.reason, and/or r.text
+                logging.error('Could not fetch set %r: %d %s', str(cardset),
+                              r.status_code, r.reason)
                 missed.append("SET " + str(cardset))
 
-    logmsg("INFO: ", len(cardIDs), " card names imported")
+    logging.info('%d card names imported', len(cardIDs))
     for c in multidb.secondaries():
         del cardIDs[c]
-    logmsg("INFO: ", len(cardIDs), " cards to fetch")
+    logging.info('%d cards to fetch', len(cardIDs))
 
     if args.idfile or args.idfile2:
         out = args.idfile2 or args.idfile
         with out:
             for k in sorted(cardIDs):
                 print(k, '\t', cardIDs[k], sep='', file=out)
-        logmsg("INFO: Card IDs written to " + out.name)
+        logging.info('Card IDs written to %r', out.name)
         if args.idfile2:
             ending()
 
@@ -120,7 +126,7 @@ def main():
     print('<cardlist date="', datetime.utcfromtimestamp(time()).strftime('%Y-%m-%dT%H:%M:%SZ'), '">', sep='', file=args.xml_out)
     print('', file=args.xml_out)
 
-    logmsg("INFO: Fetching individual card data...")
+    logging.info('Fetching individual card data...')
     first = True
     for name in sorted(cardIDs):
         if first:
@@ -135,7 +141,7 @@ def main():
         while ids:
             id_ = ids.pop(0)
             idstr = name + '/' + str(id_)
-            logmsg("FETCHING CARD ", idstr)
+            logging.info('Fetching card %s', idstr)
             params = {"multiverseid": str(id_)}
             if multidb.isSplit(name):
                 params["part"] = name
@@ -144,10 +150,12 @@ def main():
             # cards, you still need to append "&part=$name" to the end of their
             # URLs or else the page may non-deterministically display the
             # halves in the wrong order.
-            r = requests.get('http://gatherer.wizards.com/Pages/Card/Details.aspx', params=params)
+            r = requests.get('http://gatherer.wizards.com/Pages/Card/'
+                             'Details.aspx', params=params)
             if r.status_code >= 400:
-                logmsg("ERROR: Could not fetch card ", idstr)
-                missed.append("CARD " + idstr)
+                logging.error('Could not fetch card %s: %d %s', idstr,
+                              r.status_code, r.reason)
+                missed.append('CARD ' + idstr)
                 first = True  # to suppress extra commas
                 continue
             prnt = envec.parseDetails(r.text)
@@ -203,13 +211,13 @@ def main():
             try:
                 newPrnt.set = setdb.byGatherer[newPrnt.set]
             except KeyError:
-                logmsg('ERROR: Unknown set "', newPrnt.set, '" for ', idstr)
+                logging.error('Unknown set %r for %s', newPrnt.set, idstr)
             if newPrnt.rarity is not None:
                 try:
                     newPrnt.rarity = envec.Rarity.fromString(newPrnt.rarity)
                 except KeyError:
-                    logmsg('ERROR: Unknown rarity "', newPrnt.rarity, '" for ',
-                           idstr)
+                    logging.error('Unknown rarity %r for %s', newPrnt.rarity,
+                                  idstr)
             newPrnt.flavor = newPrnt.flavor.mapvals(rmitalics)
             newPrnt.watermark = newPrnt.watermark.mapvals(rmitalics)
             printings.append(newPrnt)
