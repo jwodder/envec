@@ -56,26 +56,6 @@ def main():
     setdb = envec.CardSetDB(args.set_file)
     multidb = envec.MultipartDB()
 
-    def ending():
-        if missed:
-            try:
-                misfile = open('missed.txt', 'w')
-            except IOError:
-                logging.exception('Could not write to missed.txt')
-                for m in missed:
-                    logging.info('MISSED: %s', m)
-            else:
-                with misfile:
-                    for m in missed:
-                        print(m, file=misfile)
-            logging.info('Failed to fetch %d item%s', len(missed),
-                         's' if len(missed) > 1 else '')
-            logging.info('Done.')
-            sys.exit(1)
-        else:
-            logging.info('Done.')
-            sys.exit(0)
-
     cardIDs = {}
     if args.card_ids:
         with args.card_ids:
@@ -119,7 +99,7 @@ def main():
                 print(k, '\t', cardIDs[k], sep='', file=out)
         logging.info('Card IDs written to %r', out.name)
         if args.idfile2:
-            ending()
+            ending(missed)
 
     timestamp = datetime.utcfromtimestamp(time()).strftime(datefmt)
 
@@ -236,10 +216,30 @@ def main():
 
     print('\n]}', file=args.json_out)
     print('</cardlist>', file=args.xml_out)
-    ending()
+    ending(missed)
 
 def rmitalics(s):
     return re.sub(r'<i>\s*|\s*</i>', '', s, flags=re.I)
+
+def ending(missed):
+    if missed:
+        try:
+            misfile = open('missed.txt', 'w')
+        except IOError:
+            logging.exception('Could not write to missed.txt')
+            for m in missed:
+                logging.info('MISSED: %s', m)
+        else:
+            with misfile:
+                for m in missed:
+                    print(m, file=misfile)
+        logging.info('Failed to fetch %d item%s', len(missed),
+                     's' if len(missed) > 1 else '')
+        logging.info('Done.')
+        sys.exit(1)
+    else:
+        logging.info('Done.')
+        sys.exit(0)
 
 if __name__ == '__main__':
     main()
