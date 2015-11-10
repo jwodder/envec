@@ -121,11 +121,13 @@ def main():
         if args.idfile2:
             ending()
 
-    print('[', file=args.json_out)
+    timestamp = datetime.utcfromtimestamp(time()).strftime(datefmt)
+
+    print('{"date": "%s", "cards": [' % (timestamp,), file=args.json_out)
 
     print('<?xml version="1.0" encoding="UTF-8"?>', file=args.xml_out)
     #print('<!DOCTYPE cardlist SYSTEM "mtgcard.dtd">', file=args.xml_out)
-    print('<cardlist date="', datetime.utcfromtimestamp(time()).strftime(datefmt), '">', sep='', file=args.xml_out)
+    print('<cardlist date="%s">' % (timestamp,), file=args.xml_out)
     print('', file=args.xml_out)
 
     logging.info('Fetching individual card data...')
@@ -228,10 +230,11 @@ def main():
             card.printings = sortPrintings(printings)
             js = json.dumps(card, cls=envec.EnVecEncoder, sort_keys=True,
                                   indent=4, separators=(',', ': '))
-            print(re.sub('^', '    ', js, flags=re.M), end='', file=args.json_out)
+            print(re.sub('^', '    ', js, flags=re.M), end='',
+                  file=args.json_out)
             print(card.toXML(), file=args.xml_out)
 
-    print('\n]', file=args.json_out)
+    print('\n]}', file=args.json_out)
     print('</cardlist>', file=args.xml_out)
     ending()
 
