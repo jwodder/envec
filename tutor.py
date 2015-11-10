@@ -29,6 +29,8 @@ import requests
 import envec
 import envec._util as util
 
+datefmt = '%Y-%m-%dT%H:%M:%SZ'
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-C', '--card-ids', type=argparse.FileType('r'))
@@ -48,7 +50,7 @@ def main():
     else:
         logconf = {}
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
-                        level=logging.DEBUG, **logconf)
+                        level=logging.DEBUG, datefmt=datefmt, **logconf)
 
     missed = []
     setdb = envec.CardSetDB(args.set_file)
@@ -123,7 +125,7 @@ def main():
 
     print('<?xml version="1.0" encoding="UTF-8"?>', file=args.xml_out)
     #print('<!DOCTYPE cardlist SYSTEM "mtgcard.dtd">', file=args.xml_out)
-    print('<cardlist date="', datetime.utcfromtimestamp(time()).strftime('%Y-%m-%dT%H:%M:%SZ'), '">', sep='', file=args.xml_out)
+    print('<cardlist date="', datetime.utcfromtimestamp(time()).strftime(datefmt), '">', sep='', file=args.xml_out)
     print('', file=args.xml_out)
 
     logging.info('Fetching individual card data...')
