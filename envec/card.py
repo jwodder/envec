@@ -2,7 +2,6 @@
 import json
 from .content   import Content
 from .printing  import Printing
-from ._cardutil import sortPrintings
 from .color     import Color
 from .multipart import CardClass
 from .cardset   import getCardSetDB
@@ -182,9 +181,12 @@ class Card(object):
         if not field: return ''
         elif field == 'sets':
             def showPrnt(prnt):
-                rare = prnt.rarity or 'UNKNOWN'
-                return prnt.set + ' (' + rare.shortname + ')'
-            text = ', '.join(uniq(map(showPrnt, sortPrintings(self.printings))))
+                try:
+                    rare = prnt.rarity.shortname
+                except AttributeError:
+                    rare = 'UNKNOWN'
+                return prnt.set + ' (' + rare + ')'
+            text = ', '.join(uniq(map(showPrnt, sorted(self.printings))))
             lines = wrapLines(text, width, 2)
             (first, rest) = (lines[0], lines[1:]) if lines else ('', [])
             return ''.join(["%-*s %s\n" % (Card.tagwidth, 'Sets:', first)] \

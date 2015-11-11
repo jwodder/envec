@@ -4,7 +4,6 @@ from .content    import Content
 from .multival   import Multival
 from .printing   import Printing
 from .multipart  import CardClass
-from .cardset    import getCardSetDB
 from ._util      import parseTypes, simplify
 
 def joinCards(format, part1, part2):
@@ -76,12 +75,8 @@ def joinPrintings(name, prnt1, prnt2):
             prnt[field] = Multival(valM)
         if multiverse is not None: prnt["multiverseid"] = multiverse
         joined.append(Printing(**prnt))
-    return sortPrintings(joined)
-
-def sortPrintings(xs):
-    setDB = getCardSetDB()
-    return sorted(xs, key=lambda p: (setDB.cmpKey(p.set), p.multiverseid.all()[0]))
-    ### This needs to handle p.multiverseid.all() being empty or unsorted.
+    joined.sort()
+    return joined
 
 def joinRulings(rules1, rules2):
     # This assumes that the rulings in `rules1` and `rules2` only have 'date'

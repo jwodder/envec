@@ -207,7 +207,8 @@ def main():
             printings.append(newPrnt)
 
         if card is not None:  # in case no printings can be fetched
-            card.printings = sortPrintings(printings)
+            printings.sort()
+            card.printings = printings
             js = json.dumps(card, cls=envec.EnVecEncoder, sort_keys=True,
                                   indent=4, separators=(',', ': '))
             print(re.sub('^', '    ', js, flags=re.M), end='',
