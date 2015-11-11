@@ -1,19 +1,6 @@
 [
     {
         "abbreviations": {
-            "Gatherer": "C15",
-            "askwizards-20040812": null,
-            "Twitter": "#MTGC15"
-        },
-        "fetch": true,
-        "name": "MTG-Commander 2015",
-        "type": "casual supplement",
-        "modern": false,
-        "border": "black",
-        "release_date": "2015-11-13"
-    },
-    {
-        "abbreviations": {
             "Gatherer": "OGW",
             "askwizards-20040812": null,
             "Twitter": "#MTGOGW"

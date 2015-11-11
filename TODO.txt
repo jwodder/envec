@@ -14,14 +14,14 @@
 
 - Robustness:
  - Handle XML parse errors
- - tutor.pl should retry failed `get's under certain circumstances
+ - tutor.py should retry failed `get's under certain circumstances
  - Make listify.pl's references to external images for \img work for other
    people
  - Improve details.py's attempt to adapt to Gatherer's constant changes of the
    "ctlXX" substring in the IDs on multipart card pages
 
 - Features:
- - Implement the rest of the features for tutor.pl (See the top of its source)
+ - Implement the rest of the features for tutor.py (See the top of its source)
  - Add special handling/storage for leveler cards
  - Add a means to read Card objects from a JSON/XML file one at a time rather
    than all at once
@@ -62,7 +62,7 @@
  - Eliminate Content.isNontraditional?
  - Eliminate Card.newCard?
  - Should "oversized" or "nontraditional" be a card class?
- - Move the use of &rmitalics from tutor.pl to details.py?
+ - Move the use of &rmitalics from tutor.py to details.py?
  - Move the code for fetching & merging together all of a card's printings from
    tutor.* into the library proper
  - Support both Python 2 and Python 3
@@ -105,7 +105,7 @@
    card language, etc.
  - Add a wrapper around parseDetails that downloads and parses a given
    multiverseid?
- - Make the bulk of tutor.pl into a library function?
+ - Make the bulk of tutor.py into a library function?
  - Overload stringification of Multival objects?
  - Add fields to sets.json for:
   - whether a set is online-only?
