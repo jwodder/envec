@@ -14,7 +14,10 @@ class CardSet(object):
             setattr(self, k, v)
 
     def __str__(self):
-        return self.name
+        if isinstance(self.name, unicode):
+            return self.name.encode('utf-8')
+        else:
+            return self.name
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
