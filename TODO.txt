@@ -3,8 +3,7 @@
 - Use BeautifulSoup for details.py
 - When fetching card details, ensure that numeric (i.e., '*'-less) P/Ts and
   loyalties are converted to numbers rather than left as strings
-- After tutor.py fetches a printing, the set is converted to a CardSet object.
-  Should it be converted back to a string when JSONifying?
+- Update cards.json to allow sets to be set objects as from sets-schema.json
 
 - Robustness:
  - Handle XML parse errors

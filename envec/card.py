@@ -4,7 +4,6 @@ from .content   import Content
 from .printing  import Printing
 from .color     import Color
 from .multipart import CardClass
-from .cardset   import getCardSetDB
 from ._util     import uniq, wrapLines, txt2attr, txt2xml
 
 sep = ' // '
@@ -120,7 +119,7 @@ class Card(object):
 
     def sets(self): return tuple(set(p.set for p in self.printings))
 
-    def firstSet(self): return getCardSetDB().firstSet(self.sets())
+    def firstSet(self): return min(self.sets())
 
     def inSet(self, set_): return [p for p in self.printings if p.set == set_]
 
