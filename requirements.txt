@@ -4,5 +4,6 @@
 
 beautifulsoup4>=4.4.0
 enum34
+ijson
 requests
 six

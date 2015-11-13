@@ -17,11 +17,8 @@
 - Features:
  - Implement the rest of the features for tutor.py (See the top of its source)
  - Add special handling/storage for leveler cards
- - Add a means to read Card objects from a JSON/XML file one at a time rather
-   than all at once
-  - Possible libraries for incremental/streaming JSON parsing:
-   - https://pypi.python.org/pypi/ijson/
-   - https://pypi.python.org/pypi/jsonstream/
+ - Add a means to read Card objects from an XML file one at a time rather than
+   all at once
  - Give Card a fromXML method?
  - Card.showField1 should treat a negative width as disabling line-wrapping
  - Fix/improve the PostScript output of listify.pl
@@ -60,7 +57,7 @@
  - Move the code for fetching & merging together all of a card's printings from
    tutor.* into the library proper
  - Support both Python 2 and Python 3
- - Add a JSONDecoder subclass
+ - Add a JSONDecoder subclass?
 
 - Data & documentation:
  - Add documentation
