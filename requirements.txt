@@ -2,7 +2,7 @@
 # Additionally, total_ordering needs to support NotImplemented, so that leaves
 # Python 3.4+ only.
 
-beautifulsoup4
+beautifulsoup4>=4.4.0
 enum34
 requests
 six

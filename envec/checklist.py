@@ -3,7 +3,6 @@ from   ._util import simplify, magicContent
 from   bs4    import BeautifulSoup
 
 def parseChecklist(obj):
-    ### TODO: Make this use `yield`?
     cards = []
     doc = BeautifulSoup(obj, 'html.parser')
     for tr in doc.find('table', class_='checklist')\
@@ -24,4 +23,8 @@ def parseChecklist(obj):
                     if m:
                         item['multiverseid'] = m.group(1)
         cards.append(item)
-    return cards
+    nextlink = doc.find('div', class_='pagingcontrols')\
+                  .find('a', string=re.compile(r'^\s*>\s*$', flags=re.U))
+    if nextlink is not None:
+        nextlink = nextlink['href']
+    return (cards, nextlink)
