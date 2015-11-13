@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+from   __future__ import unicode_literals
 import itertools
 import re
 import sys
 import textwrap
-from   xml.dom import Node
+from   xml.dom    import Node
 
 def trim(txt): return None if txt is None else txt.strip()
 
@@ -56,18 +57,26 @@ def magicContent(node):
 ### else: ???
 
 def parseTypes(arg):
-    arg = simplify(arg)
-    m = re.search(r' ?— ?| -+ ', arg)  # The first "hyphen" is U+2014.
-    (types, sub) = (arg[:m.start()], arg[m.end():]) if m else (arg, None)
+    split = re.split(r' ?\u2014 ?| -+ ', simplify(arg), maxsplit=1)
+    types = split[0]
+    if len(split) == 1:
+        sublist = []
+    elif types == 'Plane':
+        # Assume that Plane cards never have supertypes or other card types.
+        sublist = [split[1]]
+    else:
+        sublist = split[1].split()
     m = re.search(r'^(Summon|Enchant)(?: (.+))?$', types, re.I)
-    if m: return ([], [m.group(1)], [m.group(2) or sub])
-    sublist = [sub] if types == 'Plane' else (sub or '').split()
-     # Assume that Plane cards never have supertypes or other card types.
-    typelist = types.split()
-    superlist = []
-    while typelist and typelist[0].title() in ('Basic', 'Legendary', 'Ongoing',
-                                               'Snow', 'World'):
-        superlist.append(typelist.pop(0))
+    if m:
+        types = m.group(1)
+        if m.group(2) is not None:
+            sublist.insert(0, m.group(2))
+    else:
+        typelist = types.split()
+        superlist = []
+        while typelist and typelist[0].title() in ('Basic', 'Legendary',
+                                                   'Ongoing', 'Snow', 'World'):
+            superlist.append(typelist.pop(0))
     return (superlist, typelist, sublist)
 
 def txt2xml(txt):
