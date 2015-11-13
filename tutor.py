@@ -68,24 +68,17 @@ def main():
     else:
         for cardset in setdb.toFetch():
             logging.info('Fetching set %r', str(cardset))
-            r = requests.get('http://gatherer.wizards.com/Pages/Search/'
-                             'Default.aspx', params={
-                "output": "checklist",
-                "action": "advanced",
-                "set": '["' + str(cardset) + '"]',
-                "special": "true",
-            })
-            if r.status_code < 400:
-                cards = envec.parseChecklist(r.text)
+            try:
+                cards = list(envec.fetch_checklist(cardset))
+            except Exception:
+                logging.exception('Could not fetch set %r', str(cardset))
+                missed.append("SET " + str(cardset))
+            else:
                 if cards:
                     for c in cards:
-                        cardIDs.setdefault(c.name, c.multiverseid)
+                        cardIDs.setdefault(c["name"], c["multiverseid"])
                 else:
                     logging.warning('No cards in set %r???', str(cardset))
-            else:
-                logging.error('Could not fetch set %r: %d %s', str(cardset),
-                              r.status_code, r.reason)
-                missed.append("SET " + str(cardset))
 
     logging.info('%d card names imported', len(cardIDs))
     for c in multidb.secondaries():

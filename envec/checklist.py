@@ -1,8 +1,30 @@
 import re
-from   ._util import simplify, magicContent
-from   bs4    import BeautifulSoup
+from   urllib   import urlencode
+from   urlparse import urljoin
+from   ._util   import simplify, magicContent
+from   bs4      import BeautifulSoup
+import requests
 
-def parseChecklist(obj):
+SEARCH_ENDPOINT = 'http://gatherer.wizards.com/Pages/Search/Default.aspx'
+
+def fetch_checklist(cardset):
+    url = SEARCH_ENDPOINT + '?' + urlencode({
+        "output": "checklist",
+        "action": "advanced",
+        "set": '["' + str(cardset) + '"]',
+        "special": "true",
+    })
+    with requests.Session() as s:
+        while url is not None:
+            r = s.get(url)
+            r.raise_for_status()
+            cards, url = parse_checklist_page(r.text)
+            for c in cards:
+                yield c
+            if url is not None:
+                url = urljoin(r.request.url, url)
+
+def parse_checklist_page(obj):
     cards = []
     doc = BeautifulSoup(obj, 'html.parser')
     for tr in doc.find('table', class_='checklist')\

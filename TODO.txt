@@ -1,12 +1,6 @@
 - Convert everything to Python
-- Everything is broken because checklists are now paginated.  Deal with this.
 - Test if checklist.py currently works
-- Try converting checklist.py to SAX
- - Since the xml.sax modules don't support HTML entities like &copy;, and it's
-   likely xml.dom.minidom doesn't support them either, I might have to switch
-   to HTMLParser
-  - Use `lxml.html` <https://pypi.python.org/pypi/lxml/> instead?
-  - Use BeautifulSoup instead?
+- Use BeautifulSoup for details.py
 - When fetching card details, ensure that numeric (i.e., '*'-less) P/Ts and
   loyalties are converted to numbers rather than left as strings
 - After tutor.py fetches a printing, the set is converted to a CardSet object.
