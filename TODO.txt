@@ -4,6 +4,8 @@
 - When fetching card details, ensure that numeric (i.e., '*'-less) P/Ts and
   loyalties are converted to numbers rather than left as strings
 - Update cards.json to allow sets to be set objects as from sets-schema.json
+- Should the library calls to `warnings.warn` be replaced with calls to
+  `logging.warn`?
 
 - Robustness:
  - Handle XML parse errors

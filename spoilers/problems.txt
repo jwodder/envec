@@ -9,6 +9,8 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   respectively.
 - Rules text that is italicized in print (e.g., ability words, "Sarpadian
   Empires, Vol. VII", il- and en- creatures) is not italicized in the spoilers.
+- Some instances of text in flavor text are italicized even though they should
+  not be (e.g., the name "Weatherlight" and the word "compleat").
 - Certain tokens are listed in Gatherer for no good reason (see
   data/tokens.txt), and their card numbers overlap with those of the real cards
   in their sets.
@@ -25,14 +27,6 @@ PROBLEMS WITH THE DATA ON GATHERER AND THE SCRAPING THEREOF
   together.
 - [Details only] The bottom portions of the Ascendant/Essence cards have their
   top halves' P/T listed as their own.
-- Italicization of flavor text is only ever applied to the first
-  line/cardtextbox, even though there are some instances (e.g., multiline
-  quotations) where it should be done otherwise, and there are some instances
-  in which italicized text should be unitalicized (e.g., the name
-  "Weatherlight" and the word "compleat").
- - The lack of italicization past the first line is due to the lines in
-   question being enclosed in the invalid HTML "</i>...</i>".
- - The first part was fixed by 2015-04-27.
 - Joven is incorrectly listed as a Common.
 - Uncards only:
  - Some (all?) Unglued cards (and Who/What/When/Where/Why in Unhinged) encode
