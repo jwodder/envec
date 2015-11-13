@@ -58,7 +58,7 @@ class CardSetDB(object):
                 warn('%s: set with unset name' % (infile.name,))
             elif cs.name in self.byName:
                 warn('%s: name %r used for more than one set;'
-                     ' subsequent appearance ignored' % (infile.name, cs.name)
+                     ' subsequent appearance ignored' % (infile.name, cs.name))
             else:
                 self.byName[cs.name] = cs
             gath = cs.abbreviations.get("Gatherer")

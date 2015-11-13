@@ -83,10 +83,10 @@ class Card(object):
         for c in self.content:   txt += c.toXML()
         for p in self.printings: txt += p.toXML()
         for rule in self.rulings:
-            txt += '  <ruling date="' . txt2attr(rule["date"]) . '"'
+            txt += '  <ruling date="' + txt2attr(rule["date"]) + '"'
             if "subcard" in rule:
-                txt += ' subcard="' . txt2attr(rule["subcard"]) . '"'
-            txt += '>' . txt2xml(rule["ruling"]) . '</ruling>\n'
+                txt += ' subcard="' + txt2attr(rule["subcard"]) + '"'
+            txt += '>' + txt2xml(rule["ruling"]) + '</ruling>\n'
         txt += ' </card>\n'
         return txt
 

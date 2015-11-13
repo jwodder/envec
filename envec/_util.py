@@ -55,7 +55,7 @@ def magicContent(node):
         else: return ''.join(map(magicContent, node.childNodes))
 ### else: ???
 
-def parseTypes(arg) {
+def parseTypes(arg):
     arg = simplify(arg)
     m = re.search(r' ?— ?| -+ ', arg)  # The first "hyphen" is U+2014.
     (types, sub) = (arg[:m.start()], arg[m.end():]) if m else (arg, None)
