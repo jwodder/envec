@@ -46,7 +46,7 @@ class Printing(object):
             return sorted(int(n.rstrip(ascii_lowercase)) for n in nums)[0]
 
     @classmethod
-    def fromDict(cls, obj):  # called `fromHashref` in the Perl version
+    def fromDict(cls, obj):
         if isinstance(obj, cls):
             return obj.copy()
         else:

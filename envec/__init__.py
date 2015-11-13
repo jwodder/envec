@@ -1,6 +1,6 @@
 from .card      import Card
 from .cardset   import CardSet, CardSetDB
-from .checklist import parseChecklist, loadChecklist
+from .checklist import parseChecklist
 from .color     import Color
 from .details   import parseDetails, loadDetails
 from .jsonify   import EnVecEncoder

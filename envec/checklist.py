@@ -1,31 +1,29 @@
 import re
-from   xml.dom.minidom import parse, parseString
-from   ._util          import simplify, magicContent
+from   ._util import simplify, magicContent
+from   bs4    import BeautifulSoup
 
-def parseChecklist(txt): return walkChecklist(parseString(txt))
-
-def loadChecklist(fileish): return walkChecklist(parse(fileish))
-
-def walkChecklist(doc):
+def parseChecklist(obj):
     ### TODO: Make this use `yield`?
     ### TODO: Return namedtuples instead of dicts
     cards = []
-    for table in doc.getElementsByTagName('table'):
-        tblClass = table.getAttribute('class')
-        if tblClass != 'checklist': continue
-        for tr in table.getElementsByTagName('tr'):
-            trClass = tr.getAttribute('class')
-            if trClass != 'cardItem': continue
+    doc = BeautifulSoup(obj, 'html.parser')
+    for table in doc.find_all('table'):
+        if 'checklist' not in table['class']:
+            continue
+        for tr in table.find_all('tr'):
+            if 'cardItem' not in tr['class']:
+                continue
             item = {}
-            for td in tr.getElementsByTagName('td'):
-                key = td.getAttribute('class')
+            for td in tr.find_all('td'):
+                key = td['class'][0]
+                #value = td.get_text()
                 value = simplify(magicContent(td))
                 item[key] = value
                 if key == 'name':
-                    url = td.getElementsByTagName('a')[0].getAttribute('href')
+                    url = td.a['href']
                     if url:
                         m = re.search(r'\bmultiverseid=(\d+)', url)
-                        if m: item['multiverseid'] = m.group(1)
+                        if m:
+                            item['multiverseid'] = m.group(1)
             cards.append(item)
         break
-    return cards

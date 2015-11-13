@@ -63,7 +63,7 @@ class Card(object):
         return cls.fromDict(attrs2)
 
     @classmethod
-    def fromDict(cls, obj):  # called `fromHashref` in the Perl version
+    def fromDict(cls, obj):
         if isinstance(obj, cls): return obj.copy()
         ### TODO: Move all of these transformations to __init__?
         cardClass = CardClass[obj.get("cardClass", "normal")]
@@ -75,10 +75,7 @@ class Card(object):
         else:
             content = [Content.fromDict(content)]
         printings = map(Printing.fromDict, obj.get("printings", ()))
-        rulings = obj.get("rulings", ())
-        #if rulings is None: rulings = ()
-        #if not isinstance(rulings, (list, tuple)):
-        #    raise TypeError("'rulings' field must be a tuple")
+        rulings = tuple(obj.get("rulings", ()))
         return cls(cardClass, content, printings, rulings)
 
     def toXML(self):

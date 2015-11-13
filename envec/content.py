@@ -82,9 +82,11 @@ class Content(object):
             # Splitting on an empty pattern like r'(?=\{)' doesn't work in
             # Python.
             m = re.search(r'(\d+)', c)
-            if m: cost += int(m.group(1))
-            elif any(ch in c for ch in 'WUBRGSwubrgs'): cost += 1
-             # This weeds out {X}, {Y}, etc.
+            if m:
+                cost += int(m.group(1))
+            elif any(ch in c for ch in 'WUBRGSwubrgs'):
+                # This weeds out {X}, {Y}, etc.
+                cost += 1
         return cost
 
     @property
@@ -120,9 +122,11 @@ class Content(object):
                    tuple(getattr(other, attr) for attr in self.__slots__))
 
     @classmethod
-    def fromDict(cls, obj):  # called `fromHashref` in the Perl version
-        if isinstance(obj, cls): return obj.copy()
-        else: return cls(**obj)
+    def fromDict(cls, obj):
+        if isinstance(obj, cls):
+            return obj.copy()
+        else:
+            return cls(**obj)
 
     def baseText(self):  # Returns rules text without reminder text
         if self.text is None:
