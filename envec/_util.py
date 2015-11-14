@@ -4,7 +4,8 @@ import itertools
 import re
 import sys
 import textwrap
-from   xml.dom    import Node
+from   urlparse   import urlparse, parse_qs
+import bs4
 
 def trim(txt): return None if txt is None else txt.strip()
 
@@ -25,36 +26,47 @@ def wrapLines(txt, length=80, postdent=0):
     return lines
 
 def magicContent(node):
-    # Like textContent, but better ... for its intended purpose
-    # cf. <http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent>
-    if node is None: return ''
-    elif node.nodeType == Node.TEXT_NODE:
-        return node.nodeValue.replace('&nbsp;', ' ')
-    elif node.nodeType == Node.ELEMENT_NODE:
-        if node.nodeName.lower() == 'br': return "\n"
-        elif node.nodeName.lower() == 'i':
-            return '<i>' + ''.join(map(magicContent, node.childNodes)) + '</i>'
-        elif node.nodeName.lower() == 'img':
-            src = node.getAttribute('src')
-            m = re.search(r'\bname=(\w+)\b', src)
-            if m:
-                sym = m.group(1).upper()
+    if type(node) is bs4.NavigableString or type(node) is bs4.CData:
+        # Using `type` instead of `isinstance` weeds out comments, doctypes,
+        # etc.
+        return unicode(node).replace(u'\xA0', u' ')
+    elif isinstance(node, bs4.Tag):
+        if node.name == 'br':
+            return '\n'
+        elif node.name == 'i':
+            return '<i>' + ''.join(map(magicContent, node.children)) + '</i>'
+        elif node.name == 'img':
+            src = node['src']
+            params = parse_qs(urlparse(src).query)
+            if 'name' in params:
+                sym = params['name'].upper()
                 m = re.search(r'^([2WUBRG])([WUBRGP])$', sym)
-                if m: return '{%s/%s}' % m.groups()
-                elif sym == 'TAP': return '{T}'
-                elif sym == 'UNTAP': return '{Q}'
-                elif sym == 'SNOW': return '{S}'
-                elif sym == 'INFINITY': return '{∞}'  # Mox Lotus
-                elif sym == '500': return '{HALFW}'
+                if m:
+                    return '{%s/%s}' % m.groups()
+                elif sym == 'TAP':
+                    return '{T}'
+                elif sym == 'UNTAP':
+                    return '{Q}'
+                elif sym == 'SNOW':
+                    return '{S}'
+                elif sym == 'INFINITY':
+                    return '{∞}'  # Mox Lotus
+                elif sym == '500':
+                    return '{HALFW}'
                 # It appears that the only fractional mana symbols are
                 # half-white (Little Girl; name=500), half-red (Mons's Goblin
                 # Waiters; name=HalfR), and half-colorless (Flaccify and Cheap
                 # Ass; erroneously omitted from the rules texts).
-                else: return '{' + sym + '}'
-            elif re.search(r'\bchaos\.(gif|png)$', src): return '{C}'
-            else: return '[' + src + ']'
-        else: return ''.join(map(magicContent, node.childNodes))
-### else: ???
+                else:
+                    return '{' + sym + '}'
+            elif re.search(r'\bchaos\.(gif|png)$', src):
+                return '{C}'
+            else:
+                return '[' + src + ']'
+        else:
+            return ''.join(map(magicContent, node.children))
+    else:
+        return ''
 
 def parseTypes(arg):
     split = re.split(r' ?\u2014 ?| -+ ', simplify(arg), maxsplit=1)
