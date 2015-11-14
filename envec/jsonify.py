@@ -16,4 +16,4 @@ class EnVecEncoder(json.JSONEncoder):
 
 def iloadJSON(fp):
     with fp:
-        return map(Card.fromDict, ijson.items(fp, 'cards'))
+        return map(Card.fromDict, ijson.items(fp, 'cards.item'))

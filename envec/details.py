@@ -104,9 +104,7 @@ def multiline(row):
     txt = '\n'.join(m for n in row.find('div', class_='value')
                                   .find_all('div', class_=methodcaller('endswith', 'textbox'))
                       for m in [trim(magicContent(n))]
-                      ### simplify instead of trim?
                       if m)
-    ### Should text in `flavortextbox`es be italicized?
     return txt.rstrip("\n\r")
     # Trailing empty lines should definitely be removed, though.
 
