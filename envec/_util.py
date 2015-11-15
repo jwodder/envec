@@ -118,3 +118,9 @@ def sym2xml(txt):
 
 def cheap_repr(obj):
     return obj.__class__.__name__ + '(' + ', '.join('%s=%r' % kv for kv in vars(obj).iteritems()) + ')'
+
+def maybeInt(s):
+    try:
+        return int(s)
+    except ValueError:
+        return s

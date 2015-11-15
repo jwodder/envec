@@ -134,7 +134,7 @@ def main():
                 id_ = ids.pop(0)
                 idstr = name + '/' + str(id_)
                 logging.info('Fetching card %s', idstr)
-                params = {"multiverseid": str(id_)}
+                params = {"multiverseid": id_}
                 if multidb.isSplit(name):
                     params["part"] = name
                 # As of 2013 July 10, despite the fact that split cards in

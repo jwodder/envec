@@ -4,7 +4,7 @@ from   urllib     import urlencode
 from   urlparse   import urljoin, urlparse, parse_qs
 from   bs4        import BeautifulSoup
 import requests
-from   ._util     import simplify, magicContent
+from   ._util     import simplify, magicContent, maybeInt
 
 SEARCH_ENDPOINT = 'http://gatherer.wizards.com/Pages/Search/Default.aspx'
 
@@ -21,7 +21,7 @@ def fetch_checklist(cardset, session=None):
     url = SEARCH_ENDPOINT + '?' + urlencode({
         "output": "checklist",
         "action": "advanced",
-        "set": '["' + str(cardset) + '"]',
+        "set": '["' + unicode(cardset) + '"]',
         "special": "true",
     })
     with maybeSession() as s:
@@ -53,7 +53,7 @@ def parse_checklist_page(obj):
                 else:
                     params = parse_qs(urlparse(url).query)
                     if 'multiverseid' in params:
-                        item['multiverseid'] = params['multiverseid'][0]
+                        item['multiverseid'] = maybeInt(params['multiverseid'][0])
         cards.append(item)
     nextlink = doc.find('div', class_='pagingcontrols')\
                   .find('a', string=re.compile(r'^\s*>\s*$', flags=re.U))

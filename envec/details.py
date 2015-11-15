@@ -10,7 +10,7 @@ from   .printing  import Printing
 from   ._cardutil import joinCards
 from   .color     import Color
 from   .multipart import CardClass
-from   ._util     import magicContent, trim, simplify, parseTypes
+from   ._util     import magicContent, trim, simplify, parseTypes, maybeInt
 
 def parse_details(obj):
     doc = BeautifulSoup(obj, 'html.parser')
@@ -73,7 +73,7 @@ def scrapeSection(doc, pre):
             prnt0 = expansions(row)[0]
             prnt['set'] = prnt0.set
             prnt['rarity'] = prnt0.rarity
-            prnt['multiverseid'] = prnt0.multiverseid
+            prnt['multiverseid'] = maybeInt(prnt0.multiverseid)
         elif key == 'numberRow':
             prnt['number'] = simplify(value)
         elif key == 'artistRow':
@@ -117,14 +117,8 @@ def expansions(node):
             continue
         expands.append(Printing(set=src.get('set', [None])[0],
                                 rarity=src.get('rarity', [None])[0],
-                                multiverseid=idval))
+                                multiverseid=maybeInt(idval)))
     return expands
-
-def maybeInt(s):
-    try:
-        return int(s)
-    except ValueError:
-        return s
 
 def endswith(end):
     return lambda s: s is not None and s.endswith(end)

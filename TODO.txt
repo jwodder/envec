@@ -2,6 +2,7 @@
 - Test if checklist.py currently works
 - Ensure that numeric values ('*'-less P/Ts, loyalties, and multiverseids) are
   always converted to integers immediately after fetching
+ - Are multiverseids _always_ integers?  Look into this.
 - Update cards.json to allow sets to be set objects as from sets-schema.json
 - Should the library calls to `warnings.warn` be replaced with calls to
   `logging.warn`?
