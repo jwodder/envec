@@ -18,8 +18,10 @@ Things this script still needs to do:
 
 from   __future__  import print_function
 import argparse
+import codecs
 from   collections import defaultdict
 from   datetime    import datetime
+import io
 import json
 import logging
 import re
@@ -27,7 +29,6 @@ import sys
 from   time        import time
 import requests
 import envec
-import envec._util as util
 
 datefmt = '%Y-%m-%dT%H:%M:%SZ'
 
@@ -45,12 +46,24 @@ def main():
     parser.add_argument('-I', '--idfile2', type=argparse.FileType('w'))
     args = parser.parse_args()
 
-    if args.logfile is not None:
-        logconf = {"stream": args.logfile}
-    else:
-        logconf = {}
+    ### TODO: Figure out a better/more Pythonic way to accomplish this:
+    reader = codecs.getreader('utf-8')
+    writer = codecs.getwriter('utf-8')
+    if args.card_ids is not None:
+        args.card_ids = reader(args.card_ids)
+    if args.set_file is not None:
+        args.set_file = reader(args.set_file)
+    args.json_out = writer(args.json_out)
+    args.xml_out = writer(args.xml_out)
+    args.logfile = writer(args.logfile)
+    if args.idfile is not None:
+        args.idfile = writer(args.idfile)
+    if args.idfile2 is not None:
+        args.idfile2 = writer(args.idfile2)
+
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
-                        level=logging.INFO, datefmt=datefmt, **logconf)
+                        level=logging.INFO, datefmt=datefmt,
+                        stream=args.logfile)
 
     missed = []
     setdb = envec.CardSetDB(args.set_file)
@@ -59,7 +72,7 @@ def main():
     cardIDs = {}
     if args.card_ids:
         with args.card_ids:
-            for line in card_ids:
+            for line in args.card_ids:
                 line = line.strip()
                 if not line or line[0] == '#':
                     continue
@@ -82,7 +95,7 @@ def main():
 
     logging.info('%d card names imported', len(cardIDs))
     for c in multidb.secondaries():
-        del cardIDs[c]
+        cardIDs.pop(c, None)
     logging.info('%d cards to fetch', len(cardIDs))
 
     if args.idfile or args.idfile2:
@@ -153,7 +166,7 @@ def main():
                             prnt.part2.pow = None
                             prnt.part2.tough = None
                 elif multidb.isDouble(name):
-                    prnt.cardClass = envec.CardClass.double
+                    prnt.cardClass = envec.CardClass.double_faced
                 if card is None:
                     card = prnt
                 ### When `card` is non-None, check that it equals `prnt`?
@@ -222,7 +235,7 @@ def rmitalics(s):
 def ending(missed):
     if missed:
         try:
-            misfile = open('missed.txt', 'w')
+            misfile = io.open('missed.txt', 'wt', encoding='utf-8')
         except IOError:
             logging.exception('Could not write to missed.txt')
             for m in missed:

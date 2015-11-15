@@ -1,3 +1,4 @@
+from ._cardutil import unmungFlip
 from .card      import Card
 from .cardset   import CardSet, CardSetDB
 from .checklist import SEARCH_ENDPOINT, fetch_checklist, parse_checklist_page

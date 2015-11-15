@@ -1,6 +1,5 @@
 from functools import total_ordering
 from string    import ascii_lowercase
-from warnings  import warn
 from .multival import Multival
 from ._util    import txt2xml
 

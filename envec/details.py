@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
-from   __future__    import unicode_literals
-from   collections   import defaultdict
-from   operator      import methodcaller
+from   __future__ import unicode_literals
 import re
-from   urlparse      import urlparse, parse_qs
-from   warnings      import warn
-from   bs4           import BeautifulSoup
+from   urlparse   import urlparse, parse_qs
+from   warnings   import warn
+from   bs4        import BeautifulSoup
 
-from   .card         import Card
-from   .printing     import Printing
-from   ._cardutil    import joinCards
-from   .color        import Color
-from   .multipart    import CardClass
-from   ._util        import magicContent, trim, simplify, parseTypes
+from   .card      import Card
+from   .printing  import Printing
+from   ._cardutil import joinCards
+from   .color     import Color
+from   .multipart import CardClass
+from   ._util     import magicContent, trim, simplify, parseTypes
 
 def parse_details(obj):
     doc = BeautifulSoup(obj, 'html.parser')
     parts = []
-    for namediv in doc.find_all(id=methodcaller('endswith', 'nameRow')):
+    for namediv in doc.find_all(id=endswith('nameRow')):
         parts.append(scrapeSection(doc, namediv['id'][:-len('nameRow')]))
     if len(parts) == 1:
         return parts[0]
@@ -29,7 +27,7 @@ def parse_details(obj):
 def scrapeSection(doc, pre):
     fields = {}
     prnt = {}
-    for row in doc.find_all('div', id=methodcaller('startswith', pre)):
+    for row in doc.find_all('div', id=startswith(pre)):
         key = row['id'][len(pre):]
         value = magicContent(row.find('div', class_='value'))
         if key == 'nameRow':
@@ -102,7 +100,7 @@ def multiline(row):
     # probably be removed.  On the other hand, preserving empty lines is needed
     # for B.F.M.'s text to line up.
     txt = '\n'.join(m for n in row.find('div', class_='value')
-                                  .find_all('div', class_=methodcaller('endswith', 'textbox'))
+                                  .find_all('div', class_=endswith('textbox'))
                       for m in [trim(magicContent(n))]
                       if m)
     return txt.rstrip("\n\r")
@@ -113,12 +111,12 @@ def expansions(node):
     for a in node.find_all('a'):
         try:
             idval = parse_qs(urlparse(a['href']).query, strict_parsing=True)\
-                            ['multiverseid']
+                            ['multiverseid'][0]
             src = parse_qs(urlparse(a.img['src']).query, strict_parsing=True)
         except (ValueError, TypeError, LookupError):
             continue
-        expands.append(Printing(set=src.get('set'),
-                                rarity=src.get('rarity'),
+        expands.append(Printing(set=src.get('set', [None])[0],
+                                rarity=src.get('rarity', [None])[0],
                                 multiverseid=idval))
     return expands
 
@@ -127,3 +125,9 @@ def maybeInt(s):
         return int(s)
     except ValueError:
         return s
+
+def endswith(end):
+    return lambda s: s is not None and s.endswith(end)
+
+def startswith(start):
+    return lambda s: s is not None and s.startswith(start)

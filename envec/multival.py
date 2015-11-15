@@ -11,30 +11,37 @@ from ._util import sym2xml, txt2xml
 
 class Multival(object):
     def __init__(self, val):
-        if val is None or val == '': self.val = []
-        elif isinstance(val, str): self.val = [[val]]
+        if val is None or val == '':
+            self.val = []
+        elif isinstance(val, basestring):
+            self.val = [[val]]
         elif isinstance(val, list):
             self.val = []
             undef = 0
             for elem in val:
-                if elem is None or elem == '': undef += 1
+                if elem is None or elem == '':
+                    undef += 1
                 elif isinstance(elem, list):
                     elems = []
                     for e in elem:
-                        if isinstance(e, str) and e != '': elems.append(e)
-                        else: raise TypeError("Elements of sublists must be nonempty strings")
+                        if isinstance(e, basestring) and e != '':
+                            elems.append(e)
+                        else:
+                            raise TypeError("Elements of sublists must be nonempty strings")
                     if elems:
                         self.val.extend([[]] * undef + [elems])
                         undef = 0
-                    else: undef += 1
-                elif isinstance(elem, str):
+                    else:
+                        undef += 1
+                elif isinstance(elem, basestring):
                     self.val.extend([[]] * undef + [elem])
                     undef = 0
                 else:
                     raise TypeError("List elements must be strings, array references, or undef")
-                    undef += 1
-        elif isinstance(val, Multival): self.val = [v[:] for v in val.val]
-        else: raise TypeError("Multival constructors must be strings, array references, or undef")
+        elif isinstance(val, Multival):
+            self.val = [v[:] for v in val.val]
+        else:
+            raise TypeError("Multival constructors must be strings, array references, or undef")
 
     def all(self): return [w for v in self.val for w in v]
      # Returns all defined values in the Multival

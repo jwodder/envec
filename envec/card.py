@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-import json
 from .content   import Content
 from .printing  import Printing
 from .color     import Color
@@ -193,17 +191,20 @@ class Card(object):
         elif field in fields:
             width = (width - (self.parts - 1) * len(sep)) // self.parts
             def lineify(c):
-                val = getattr(self, field)
-                if val is None: val = ''
-                elif isinstance(val, (list, tuple)): val = ' '.join(val)
-                val = val.replace('—', '--')
+                val = getattr(c, field)
+                if val is None:
+                    val = ''
+                elif isinstance(val, (list, tuple)):
+                    val = ' '.join(val)
+                val = val.replace(u'\u2014', '--')
                 return ['%-*s' % (width, s) for s in wrapLines(val, width, 2)]
             def joining(tag, *ls):
                 line = sep.join(s or ' ' * width for s in ls).rstrip()
                 return "%-*s %s\n" % (Card.tagwidth, tag or '', line)
             lines = map(lineify, self.content)
             return ''.join(map(joining, [fields[field]], *lines))
-        else: return ''
+        else:
+            return ''
 
     def toText1(self, width=None, showSets=False):
         txt = self.showField1('name', width)

@@ -2,27 +2,31 @@
 from   __future__ import unicode_literals
 import itertools
 import re
-import sys
 import textwrap
 from   urlparse   import urlparse, parse_qs
 import bs4
 
-def trim(txt): return None if txt is None else txt.strip()
+def trim(txt):
+    return None if txt is None else txt.strip()
 
-def simplify(txt): return None if txt is None else re.sub(r'\s+',' ',trim(txt))
+def simplify(txt):
+    return None if txt is None else re.sub(r'\s+', ' ', trim(txt))
 
-def uniq(xs): return [k for k,_ in itertools.groupby(xs)]
- # The list must be pre-sorted.
+def uniq(xs):
+    # The list must be pre-sorted.
+    return [k for k,_ in itertools.groupby(xs)]
 
 def wrapLines(txt, length=80, postdent=0):
     lines = []
     for line in txt.rstrip().splitlines():
         line = line.rstrip()
-        if line == '': lines.append('')
-        else: lines.extend(textwrap.wrap(line, length,
-                                         subsequent_indent=' ' * postdent,
-                                         break_long_words=False,
-                                         break_on_hyphens=False))
+        if line == '':
+            lines.append('')
+        else:
+            lines.extend(textwrap.wrap(line, length,
+                                       subsequent_indent=' ' * postdent,
+                                       break_long_words=False,
+                                       break_on_hyphens=False))
     return lines
 
 def magicContent(node):
@@ -39,7 +43,7 @@ def magicContent(node):
             src = node['src']
             params = parse_qs(urlparse(src).query)
             if 'name' in params:
-                sym = params['name'].upper()
+                sym = params['name'][0].upper()
                 m = re.search(r'^([2WUBRG])([WUBRGP])$', sym)
                 if m:
                     return '{%s/%s}' % m.groups()
@@ -97,7 +101,8 @@ def txt2xml(txt):
     txt = txt.replace('>', '&gt;')
     return txt
 
-def txt2attr(txt): return txt2xml(txt).replace('"', '&quot;')
+def txt2attr(txt):
+    return txt2xml(txt).replace('"', '&quot;')
 
 def sym2xml(txt):
     txt = txt2xml(txt)

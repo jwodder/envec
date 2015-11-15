@@ -1,5 +1,6 @@
 ### Give multipart entries their own class?
 
+import itertools
 import json
 from   warnings import warn
 from   enum     import Enum

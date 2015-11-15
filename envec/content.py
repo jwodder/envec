@@ -59,19 +59,19 @@ class Content(object):
         # establishing color identity, though (as of Dark Ascension) Charmed
         # Pendant and Trinisphere appear to be the only cards for which this
         # makes a difference.
-        if re.search(r'\{(./)?W(/.)?\}', txt): colors |= WHITE
-        if re.search(r'\{(./)?U(/.)?\}', txt): colors |= BLUE
-        if re.search(r'\{(./)?B(/.)?\}', txt): colors |= BLACK
-        if re.search(r'\{(./)?R(/.)?\}', txt): colors |= RED
-        if re.search(r'\{(./)?G(/.)?\}', txt): colors |= GREEN
+        if re.search(r'\{(./)?W(/.)?\}', txt): colors |= Color.WHITE
+        if re.search(r'\{(./)?U(/.)?\}', txt): colors |= Color.BLUE
+        if re.search(r'\{(./)?B(/.)?\}', txt): colors |= Color.BLACK
+        if re.search(r'\{(./)?R(/.)?\}', txt): colors |= Color.RED
+        if re.search(r'\{(./)?G(/.)?\}', txt): colors |= Color.GREEN
         if self.isType('Land'):
-            # Basic land types aren't technically part of color identity, but
-            # rule 903.5d makes them practically a part anyway.
-            if self.isSubtype('Plains'):   colors |= WHITE
-            if self.isSubtype('Island'):   colors |= BLUE
-            if self.isSubtype('Swamp'):    colors |= BLACK
-            if self.isSubtype('Mountain'): colors |= RED
-            if self.isSubtype('Forest'):   colors |= GREEN
+            # Basic land types aren't _de jure_ part of color identity, but
+            # rule 903.5d makes them a part _de facto_ anyway.
+            if self.isSubtype('Plains'):   colors |= Color.WHITE
+            if self.isSubtype('Island'):   colors |= Color.BLUE
+            if self.isSubtype('Swamp'):    colors |= Color.BLACK
+            if self.isSubtype('Mountain'): colors |= Color.RED
+            if self.isSubtype('Forest'):   colors |= Color.GREEN
         return colors
 
     @property

@@ -24,27 +24,30 @@ do case "$1" in
  --) shift; break;;
 esac done
 
-setfile="${1:-data/sets.tsv}"
+set -e
+
+setfile="${1:-data/sets.json}"
 
 if [ -z "$base" ]
-then currSet=`awk -F'\t+' '/^[^#]/ { print $3 "\t" tolower($1) }' $setfile | sort -r | head -n1 | cut -f2`
+then currSet=`jq -r 'max_by(.release_date) | .abbreviations.Gatherer' $setfile`
      base=`date -u +%Y%m%d`-$currSet
 fi
 
 Ci=i
-[ -e "${ids:=$dir/ids.txt}" ] && Ci=C
+[ -s "${ids:=$dir/ids.txt}" ] && Ci=C
 
 mkdir -p "$dir"
-perl tutor.pl -S "$setfile" \
-	      -$Ci "$ids" \
-	      -l "$dir/tutor.log" \
-	      -j "$dir/$base.json" \
-	      -x "$dir/$base.xml" || exit
+python tutor.py -S "$setfile" \
+		-$Ci "$ids" \
+		-j "$dir/$base.json" \
+		-x "$dir/$base.xml"
 
-perl toText1.pl "$dir/$base.json" > "$dir/cards.txt"
+		#-l "$dir/tutor.log" \
 
-perl listify.pl -o "$dir/cardlists.txt" "$dir/$base.json"
-echo '# vim:set nowrap:' >> "$dir/cardlists.txt"
+python toText1.py "$dir/$base.json" > "$dir/cards.txt"
+
+#perl listify.pl -o "$dir/cardlists.txt" "$dir/$base.json"
+#echo '# vim:set nowrap:' >> "$dir/cardlists.txt"
 
 chmod -w "$dir/$base.json" "$dir/$base.xml"
-chmod -w "$dir/cards.txt" "$dir/cardlists.txt"
+#chmod -w "$dir/cards.txt" "$dir/cardlists.txt"
