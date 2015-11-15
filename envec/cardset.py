@@ -46,6 +46,10 @@ class CardSet(object):
         else:
             return NotImplemented
 
+    def jsonable(self):
+        ###return self.name ???
+        return vars(self)
+
 
 class CardSetDB(object):
     ### Add a `__contains__` method?
@@ -88,3 +92,6 @@ class CardSetDB(object):
 
     def __repr__(self):
         return cheap_repr(self)
+
+    def jsonable(self):
+        return vars(self)

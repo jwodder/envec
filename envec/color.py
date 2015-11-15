@@ -96,6 +96,9 @@ class Color(namedtuple('Color', 'W U B R G')):  ### Use an Enum instead?
     def union(cls, *colors):
         return reduce(operator.or_, colors, cls())
 
+    def jsonable(self):
+        return str(self)
+
     ### Implement .iteritems() etc.?
 
 

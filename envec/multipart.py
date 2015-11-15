@@ -1,5 +1,3 @@
-### Give multipart entries their own class?
-
 import itertools
 import json
 from   warnings import warn
@@ -7,7 +5,16 @@ from   enum     import Enum
 from   six      import itervalues
 from   ._util   import cheap_repr
 
-CardClass = Enum('CardClass', 'normal split flip double_faced BFM')
+class CardClass(Enum):
+    normal       = 1
+    split        = 2
+    flip         = 3
+    double_faced = 4
+    BFM          = 5
+
+    def jsonable(self):
+        return self.name
+
 
 class MultipartDB(object):
     DEFAULT_DATAFILE = 'data/multipart.json'
@@ -90,3 +97,6 @@ class MultipartDB(object):
 
     def __repr__(self):
         return cheap_repr(self)
+
+    def jsonable(self):
+        return vars(self)

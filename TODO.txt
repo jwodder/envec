@@ -3,9 +3,12 @@
 - Ensure that numeric values ('*'-less P/Ts, loyalties, and multiverseids) are
   always converted to integers immediately after fetching
  - Are multiverseids _always_ integers?  Look into this.
-- Update cards.json to allow sets to be set objects as from sets-schema.json
+- Rethink JSONifying CardSets in Printings as the full objects rather than just
+  the names
+ - Update cards.json to allow sets to be set objects as from sets-schema.json?
 - Should the library calls to `warnings.warn` be replaced with calls to
   `logging.warn`?
+- Look for a better/more standard name for `jsonable`
 
 - Robustness:
  - Handle XML parse errors
@@ -109,9 +112,3 @@
   - whether the set had foil/premium cards, no foil cards, or only foil cards
   - dates of prereleases etc.?
  - Store card data in actual SQL databases rather than flat JSON/XML files
-
-Reminder about function naming conventions:
- - Functions for parsing the contents of a string should have their names
-   prefixed with "parse"
- - Functions for parsing the contents of a file identified by file name should
-   have their names prefixed with "load"

@@ -222,3 +222,6 @@ class Card(object):
 
     def __repr__(self):
         return cheap_repr(self)
+
+    def jsonable(self):
+        return vars(self)

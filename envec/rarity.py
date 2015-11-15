@@ -40,3 +40,6 @@ class Rarity(Enum):
             return cls[name.upper()]
         else:
             return cls[name.lower()]
+
+    def jsonable(self):
+        return self.name
