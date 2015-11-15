@@ -1,7 +1,7 @@
 from functools import total_ordering
 from string    import ascii_lowercase
 from .multival import Multival
-from ._util    import txt2xml
+from ._util    import txt2xml, cheap_repr
 
 multival = set("number artist flavor watermark multiverseid notes".split())
 
@@ -60,3 +60,6 @@ class Printing(object):
                  < (other.set, other.multiverseid.all()[0])
         else:
             return NotImplemented
+
+    def __repr__(self):
+        return cheap_repr(self)

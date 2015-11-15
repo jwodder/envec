@@ -5,6 +5,7 @@ import json
 from   warnings import warn
 from   enum     import Enum
 from   six      import itervalues
+from   ._util   import cheap_repr
 
 CardClass = Enum('CardClass', 'normal split flip double_faced BFM')
 
@@ -86,3 +87,6 @@ class MultipartDB(object):
 
     def __len__(self):
         return sum(map(len, itervalues(self.byClass)))
+
+    def __repr__(self):
+        return cheap_repr(self)

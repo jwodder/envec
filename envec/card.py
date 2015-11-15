@@ -2,7 +2,7 @@ from .content   import Content
 from .printing  import Printing
 from .color     import Color
 from .multipart import CardClass
-from ._util     import uniq, wrapLines, txt2attr, txt2xml
+from ._util     import uniq, wrapLines, txt2attr, txt2xml, cheap_repr
 
 sep = ' // '
 
@@ -219,3 +219,6 @@ class Card(object):
         if self.isMultipart():       txt += self.showField1('cardClass', width)
         if showSets:                 txt += self.showField1('sets',      width)
         return txt
+
+    def __repr__(self):
+        return cheap_repr(self)

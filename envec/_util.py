@@ -115,3 +115,6 @@ def sym2xml(txt):
     txt = re.sub(r'\{PW\}', r'<PW/>', txt)
     txt = re.sub(r'\{C\}', r'<chaos/>', txt)
     return txt
+
+def cheap_repr(obj):
+    return obj.__class__.__name__ + '(' + ', '.join('%s=%r' % kv for kv in vars(obj).iteritems()) + ')'

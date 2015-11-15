@@ -135,3 +135,6 @@ class Content(object):
         # It is assumed that text is reminder text if & only if it's enclosed
         # in parentheses.
         return '\n'.join(filter(None, map(trim, txt.splitlines())))
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(' + ', '.join('%s=%r' % (attr, getattr(self, attr)) for attr in self.__slots__) + ')'

@@ -7,7 +7,7 @@
 # None of these lists should ever contain empty strings, None, or non-string
 # values.
 
-from ._util import sym2xml, txt2xml
+from ._util import sym2xml, txt2xml, cheap_repr
 
 class Multival(object):
     def __init__(self, val):
@@ -71,3 +71,6 @@ class Multival(object):
 
     def mapvals(self, function):
         return Multival([map(function, v) for v in self.val])
+
+    def __repr__(self):
+        return cheap_repr(self)

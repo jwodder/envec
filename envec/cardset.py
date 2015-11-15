@@ -1,6 +1,7 @@
 from   functools import total_ordering
 import json
 from   warnings  import warn
+from   ._util    import cheap_repr
 
 @total_ordering
 class CardSet(object):
@@ -18,6 +19,9 @@ class CardSet(object):
             return self.name.encode('utf-8')
         else:
             return self.name
+
+    def __repr__(self):
+        return cheap_repr(self)
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
@@ -81,3 +85,6 @@ class CardSetDB(object):
 
     def __iter__(self):
         return iter(self.sets)
+
+    def __repr__(self):
+        return cheap_repr(self)
