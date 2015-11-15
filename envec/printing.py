@@ -27,7 +27,7 @@ class Printing(object):
         return self.__class__(**vars(self))
 
     def toXML(self):
-        txt = "  <printing>\n   <set>" + txt2xml(self.set) + "</set>\n"
+        txt = "  <printing>\n   <set>" + txt2xml(unicode(self.set)) + "</set>\n"
         if self.rarity:
             txt += "   <rarity>" + txt2xml(self.rarity) + "</rarity>\n"
         for attr in multival:

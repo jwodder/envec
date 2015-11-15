@@ -1,11 +1,8 @@
 import re
-from .color import Color
-from ._util import txt2xml, sym2xml, trim
+from   .color import Color
+from   ._util import txt2xml, sym2xml, trim, cheap_repr
 
 class Content(object):
-    __slots__ = ("name", "cost", "text", "pow", "tough", "loyalty", "hand",
-                 "life", "indicator", "supertypes", "types", "subtypes")
-
     def __init__(self, name, types, cost=None, supertypes=(), subtypes=(),
                  text=None, pow=None, tough=None, loyalty=None, hand=None,
                  life=None, indicator=None):
@@ -76,7 +73,8 @@ class Content(object):
 
     @property
     def cmc(self):
-        if not self.cost: return 0
+        if not self.cost:
+            return 0
         cost = 0
         for c in re.split(r'[{}]+', self.cost):
             # Splitting on an empty pattern like r'(?=\{)' doesn't work in
@@ -113,13 +111,10 @@ class Content(object):
         return self.hand + '/' + self.life  if self.hand is not None else None
 
     def copy(self):
-        return self.__class__(**((attr, getattr(self, attr))
-                                 for attr in self.__slots__))
+        return self.__class__(**vars(self))
 
     def __cmp__(self, other):
-        return cmp(type(self), type(other)) or \
-               cmp(tuple(getattr(self,  attr) for attr in self.__slots__),
-                   tuple(getattr(other, attr) for attr in self.__slots__))
+        return cmp(type(self), type(other)) or cmp(vars(self), vars(other))
 
     @classmethod
     def fromDict(cls, obj):
@@ -137,4 +132,4 @@ class Content(object):
         return '\n'.join(filter(None, map(trim, txt.splitlines())))
 
     def __repr__(self):
-        return self.__class__.__name__ + '(' + ', '.join('%s=%r' % (attr, getattr(self, attr)) for attr in self.__slots__) + ')'
+        return cheap_repr(self)
