@@ -1,20 +1,30 @@
+from   contextlib import contextmanager
 import re
-from   urllib   import urlencode
-from   urlparse import urljoin, urlparse, parse_qs
-from   bs4      import BeautifulSoup
+from   urllib     import urlencode
+from   urlparse   import urljoin, urlparse, parse_qs
+from   bs4        import BeautifulSoup
 import requests
-from   ._util   import simplify, magicContent
+from   ._util     import simplify, magicContent
 
 SEARCH_ENDPOINT = 'http://gatherer.wizards.com/Pages/Search/Default.aspx'
 
-def fetch_checklist(cardset):
+def fetch_checklist(cardset, session=None):
+    @contextmanager
+    def maybeSession():
+        ### This isn't Pythonic, is it?
+        if session is None:
+            s = requests.Session()
+            yield s
+            s.close()
+        else:
+            yield session
     url = SEARCH_ENDPOINT + '?' + urlencode({
         "output": "checklist",
         "action": "advanced",
         "set": '["' + str(cardset) + '"]',
         "special": "true",
     })
-    with requests.Session() as s:
+    with maybeSession() as s:
         while url is not None:
             r = s.get(url)
             r.raise_for_status()

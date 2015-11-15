@@ -69,56 +69,57 @@ def main():
     setdb = envec.CardSetDB(args.set_file)
     multidb = envec.MultipartDB()
 
-    cardIDs = {}
-    if args.card_ids:
-        with args.card_ids:
-            for line in args.card_ids:
-                line = line.strip()
-                if not line or line[0] == '#':
-                    continue
-                card, cid = re.search(r'^([^\t]+)\t+([^\t]+)', line).groups()
-                cardIDs.setdefault(card, int(cid))
-    else:
-        for cardset in setdb.toFetch():
-            logging.info('Fetching set %r', str(cardset))
-            try:
-                cards = list(envec.fetch_checklist(cardset))
-            except Exception:
-                logging.exception('Could not fetch set %r', str(cardset))
-                missed.append("SET " + str(cardset))
-            else:
-                if cards:
-                    for c in cards:
-                        cardIDs.setdefault(c["name"], c["multiverseid"])
-                else:
-                    logging.warning('No cards in set %r???', str(cardset))
-
-    logging.info('%d card names imported', len(cardIDs))
-    for c in multidb.secondaries():
-        cardIDs.pop(c, None)
-    logging.info('%d cards to fetch', len(cardIDs))
-
-    if args.idfile or args.idfile2:
-        out = args.idfile2 or args.idfile
-        with out:
-            for k in sorted(cardIDs):
-                print(k, '\t', cardIDs[k], sep='', file=out)
-        logging.info('Card IDs written to %r', out.name)
-        if args.idfile2:
-            ending(missed)
-
-    timestamp = datetime.utcfromtimestamp(time()).strftime(datefmt)
-
-    print('{"date": "%s", "cards": [' % (timestamp,), file=args.json_out)
-
-    print('<?xml version="1.0" encoding="UTF-8"?>', file=args.xml_out)
-    #print('<!DOCTYPE cardlist SYSTEM "mtgcard.dtd">', file=args.xml_out)
-    print('<cardlist date="%s">' % (timestamp,), file=args.xml_out)
-    print('', file=args.xml_out)
-
-    logging.info('Fetching individual card data...')
-    first = True
     with requests.Session() as s:
+        cardIDs = {}
+        if args.card_ids:
+            with args.card_ids:
+                for line in args.card_ids:
+                    line = line.strip()
+                    if not line or line[0] == '#':
+                        continue
+                    card, cid = re.search(r'^([^\t]+)\t+([^\t]+)', line)\
+                                  .groups()
+                    cardIDs.setdefault(card, int(cid))
+        else:
+            for cardset in setdb.toFetch():
+                logging.info('Fetching set %r', str(cardset))
+                try:
+                    cards = list(envec.fetch_checklist(cardset, session=s))
+                except Exception:
+                    logging.exception('Could not fetch set %r', str(cardset))
+                    missed.append("SET " + str(cardset))
+                else:
+                    if cards:
+                        for c in cards:
+                            cardIDs.setdefault(c["name"], c["multiverseid"])
+                    else:
+                        logging.warning('No cards in set %r???', str(cardset))
+
+        logging.info('%d card names imported', len(cardIDs))
+        for c in multidb.secondaries():
+            cardIDs.pop(c, None)
+        logging.info('%d cards to fetch', len(cardIDs))
+
+        if args.idfile or args.idfile2:
+            out = args.idfile2 or args.idfile
+            with out:
+                for k in sorted(cardIDs):
+                    print(k, '\t', cardIDs[k], sep='', file=out)
+            logging.info('Card IDs written to %r', out.name)
+            if args.idfile2:
+                ending(missed)
+
+        timestamp = datetime.utcfromtimestamp(time()).strftime(datefmt)
+
+        print('{"date": "%s", "cards": [' % (timestamp,), file=args.json_out)
+
+        print('<?xml version="1.0" encoding="UTF-8"?>', file=args.xml_out)
+        #print('<!DOCTYPE cardlist SYSTEM "mtgcard.dtd">', file=args.xml_out)
+        print('<cardlist date="%s">' % (timestamp,), file=args.xml_out)
+        print('', file=args.xml_out)
+
+        logging.info('Fetching individual card data...')
+        first = True
         for name in sorted(cardIDs):
             if first:
                 first = False
