@@ -1,4 +1,5 @@
 - Convert everything to Python
+ - Convert everything to Python 3?
 - Ensure that numeric values ('*'-less P/Ts, loyalties, and multiverseids) are
   always converted to integers immediately after fetching
  - Are multiverseids _always_ integers?  Look into this.

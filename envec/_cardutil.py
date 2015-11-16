@@ -14,10 +14,12 @@ def joinCards(format, part1, part2):
                 rulings = joinRulings(part1.rulings, part2.rulings))
 
 def unmungFlip(flip):
-    if flip.isMultipart(): return flip
+    if flip.isMultipart():
+        return flip
     # Should a warning be given if `flip` isn't actually a munged flip card?
     texts = (flip.text or '').split("\n----\n", 1)
-    if len(texts) < 2: return flip
+    if len(texts) < 2:
+        return flip
     lines = texts[1].splitlines()
     (name, type_, pt, txt) = (lines[0], lines[1], lines[2], lines[3:])
     (supers, types, subs) = parseTypes(type_)

@@ -42,7 +42,7 @@ class Content(object):
     @property
     def color(self):
         if self.name == 'Ghostfire' or \
-                (self.text and 'devoid' in self.baseText().lower()):
+                (self.text and 'devoid' in self.baseText.lower()):
             return Color()
         return Color.fromString((self.cost or '') + (self.indicator or ''))
 
@@ -52,24 +52,34 @@ class Content(object):
         # now have color indicators instead, so there's no need to check for
         # such strings.
         colors = self.color
-        txt = self.baseText() or ''
+        txt = self.baseText or ''
         # Reminder text is supposed to be ignored for the purposes of
         # establishing color identity, though (as of Dark Ascension) Charmed
         # Pendant and Trinisphere appear to be the only cards for which this
         # makes a difference.
-        if re.search(r'\{(./)?W(/.)?\}', txt): colors |= Color.WHITE
-        if re.search(r'\{(./)?U(/.)?\}', txt): colors |= Color.BLUE
-        if re.search(r'\{(./)?B(/.)?\}', txt): colors |= Color.BLACK
-        if re.search(r'\{(./)?R(/.)?\}', txt): colors |= Color.RED
-        if re.search(r'\{(./)?G(/.)?\}', txt): colors |= Color.GREEN
+        if re.search(r'\{(./)?W(/.)?\}', txt):
+            colors |= Color.WHITE
+        if re.search(r'\{(./)?U(/.)?\}', txt):
+            colors |= Color.BLUE
+        if re.search(r'\{(./)?B(/.)?\}', txt):
+            colors |= Color.BLACK
+        if re.search(r'\{(./)?R(/.)?\}', txt):
+            colors |= Color.RED
+        if re.search(r'\{(./)?G(/.)?\}', txt):
+            colors |= Color.GREEN
         if self.isType('Land'):
             # Basic land types aren't _de jure_ part of color identity, but
             # rule 903.5d makes them a part _de facto_ anyway.
-            if self.isSubtype('Plains'):   colors |= Color.WHITE
-            if self.isSubtype('Island'):   colors |= Color.BLUE
-            if self.isSubtype('Swamp'):    colors |= Color.BLACK
-            if self.isSubtype('Mountain'): colors |= Color.RED
-            if self.isSubtype('Forest'):   colors |= Color.GREEN
+            if self.isSubtype('Plains'):
+                colors |= Color.WHITE
+            if self.isSubtype('Island'):
+                colors |= Color.BLUE
+            if self.isSubtype('Swamp'):
+                colors |= Color.BLACK
+            if self.isSubtype('Mountain'):
+                colors |= Color.RED
+            if self.isSubtype('Forest'):
+                colors |= Color.GREEN
         return colors
 
     @property
@@ -89,13 +99,18 @@ class Content(object):
         return cost
 
     @property
-    def type(self): return ' '.join(self.supertypes + self.types +
-                                    (('--',) + self.subtypes if self.subtypes
-                                     else ()))
+    def type(self):
+        return ' '.join(self.supertypes + self.types +
+                        (('--',) + self.subtypes if self.subtypes else ()))
 
-    def isSupertype(self, type_): return type_ in self.supertypes
-    def isType(self, type_):      return type_ in self.types
-    def isSubtype(self, type_):   return type_ in self.subtypes
+    def isSupertype(self, type_):
+        return type_ in self.supertypes
+
+    def isType(self, type_):
+        return type_ in self.types
+
+    def isSubtype(self, type_):
+        return type_ in self.subtypes
 
     def hasType(self, type_):
         return self.isType(type_) or self.isSubtype(type_) \

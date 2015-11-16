@@ -30,27 +30,35 @@ class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
         return self._make(map(operator.not_, self))
 
     def colors(self):  ### TODO: Rethink whether this should be __iter__
-        if self.W: yield Color.WHITE
-        if self.U: yield Color.BLUE
-        if self.B: yield Color.BLACK
-        if self.R: yield Color.RED
-        if self.G: yield Color.GREEN
+        if self.W:
+            yield Color.WHITE
+        if self.U:
+            yield Color.BLUE
+        if self.B:
+            yield Color.BLACK
+        if self.R:
+            yield Color.RED
+        if self.G:
+            yield Color.GREEN
 
     def size(self):  ### TODO: Could this be __len__ without breaking too much?
         return sum(self)
 
     @property
-    def multicolor(self): return self.size() > 1
+    def multicolor(self):
+        return self.size() > 1
 
     gold = multicolor
 
     @property
-    def monocolor(self): return self.size() == 1
+    def monocolor(self):
+        return self.size() == 1
 
     mono = monocolor
 
     @property
-    def colorless(self): return not any(self)
+    def colorless(self):
+        return not any(self)
 
     @classmethod
     def fromString(cls, txt):
@@ -86,9 +94,14 @@ class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
     def __eq__(self, other):
         return type(self) is type(other) and all(map(operator.eq, self, other))
 
-    def __ne__(self, other): return not (self == other)
-    def __ge__(self, other): return other <= self
-    def __gt__(self, other): return other <  self
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __ge__(self, other):
+        return other <= self
+
+    def __gt__(self, other):
+        return other <  self
 
     __contains__ = __le__
 
