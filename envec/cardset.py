@@ -1,6 +1,6 @@
 from   functools import total_ordering
 import json
-from   warnings  import warn
+import logging
 from   ._util    import cheap_repr
 
 @total_ordering
@@ -21,7 +21,7 @@ class CardSet(object):
             return self.name
 
     def __unicode__(self):
-            return self.name
+        return self.name
 
     def __repr__(self):
         return cheap_repr(self)
@@ -55,7 +55,7 @@ class CardSet(object):
 
 
 class CardSetDB(object):
-    ### Add a `__contains__` method?
+    ### TODO: Add a `__contains__` method?
 
     DEFAULT_DATAFILE = 'data/sets.json'
 
@@ -69,22 +69,25 @@ class CardSetDB(object):
         self.byGatherer = {}
         for cs in self.sets:
             if cs.name is None:
-                warn('%s: set with unset name' % (infile.name,))
+                logging.warning('%s: set with unset name', infile.name)
             elif cs.name in self.byName:
-                warn('%s: name %r used for more than one set;'
-                     ' subsequent appearance ignored' % (infile.name, cs.name))
+                logging.warning('%s: name %r used for more than one set;'
+                                ' subsequent appearance ignored',
+                                infile.name, cs.name)
             else:
                 self.byName[cs.name] = cs
             gath = cs.abbreviations.get("Gatherer")
             if gath is not None:
                 if gath in self.byGatherer:
-                    warn('%s: Gatherer abbreviation %r already used for'
-                         ' set %r; subsequent use for set %r ignored'
-                         % (infile.name, gath, self.byGatherer[gath], cs))
+                    logging.warning('%s: Gatherer abbreviation %r already used'
+                                    ' for set %r; subsequent use for set %r'
+                                    ' ignored',
+                                    infile.name, gath,
+                                    self.byGatherer[gath].name, cs.name)
                 else:
                     self.byGatherer[gath] = cs
 
-    def toFetch(self):  ### Rethink usefulness
+    def toFetch(self):
         return filter(lambda s: s.fetch, self.sets)
 
     def __len__(self):

@@ -3,8 +3,8 @@ from   __future__ import unicode_literals
 import itertools
 import re
 import textwrap
-from   urlparse   import urlparse, parse_qs
 import bs4
+from   six.moves.urllib.parse import urlparse, parse_qs
 
 def trim(txt):
     return None if txt is None else txt.strip()
@@ -74,6 +74,7 @@ def magicContent(node):
 
 def parseTypes(arg):
     split = re.split(r' ?\u2014 ?| -+ ', simplify(arg), maxsplit=1)
+    superlist = []
     types = split[0]
     if len(split) == 1:
         sublist = []
@@ -84,12 +85,11 @@ def parseTypes(arg):
         sublist = split[1].split()
     m = re.search(r'^(Summon|Enchant)(?: (.+))?$', types, re.I)
     if m:
-        types = m.group(1)
+        typelist = [m.group(1)]
         if m.group(2) is not None:
             sublist.insert(0, m.group(2))
     else:
         typelist = types.split()
-        superlist = []
         while typelist and typelist[0].title() in ('Basic', 'Legendary',
                                                    'Ongoing', 'Snow', 'World'):
             superlist.append(typelist.pop(0))

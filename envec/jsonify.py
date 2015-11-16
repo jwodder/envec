@@ -2,7 +2,6 @@ import json
 import ijson
 from   six.moves import map
 from   .card     import Card
-from   .multival import Multival
 
 class EnVecEncoder(json.JSONEncoder):
     def default(self, obj):

@@ -114,7 +114,7 @@ class Card(object):
     def isNormal(self):    return self.cardClass == CardClass.normal
     def isSplit(self):     return self.cardClass == CardClass.split
     def isFlip(self):      return self.cardClass == CardClass.flip
-    def isDouble(self):    return self.cardClass == CardClass.double
+    def isDouble(self):    return self.cardClass == CardClass.double_faced
 
     def sets(self): return tuple(set(p.set for p in self.printings))
 

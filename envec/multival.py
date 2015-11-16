@@ -47,7 +47,7 @@ class Multival(object):
         # Returns all defined values in the Multival
         return [w for v in self.val for w in v]
 
-    def any(self):
+    def __nonzero__(self):
         return bool(self.val)
 
     def get(self, i=-1):

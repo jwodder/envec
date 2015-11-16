@@ -26,7 +26,7 @@ def unmungFlip(flip):
                      subtypes=subs, pow=pow, tough=tough, text="\n".join(txt))
     top = flip.part1
     top.text = texts[0]
-    return Card(cardClass=CardClass.FLIP_CARD, content=[top, bottom],
+    return Card(cardClass=CardClass.flip, content=[top, bottom],
                 printings=flip.printings, rulings=flip.rulings)
 
 def joinPrintings(name, prnt1, prnt2):
@@ -50,7 +50,7 @@ def joinPrintings(name, prnt1, prnt2):
     for set_ in prnts1:
         if set_ not in prnts2:
             raise ValueError("set mismatch for %r: part 1 has a printing in %s but part 2 does not" % (name, set_))
-        ### Should I also check for sets that part 2 has but part 1 doesn't?
+        ### TODO: Also check for sets that part 2 has but part 1 doesn't?
         if len(prnts1[set_]) != len(prnts2[set_]):
             raise ValueError("printings mismatch for %r in %s: part 1 has %d printings but part 2 has %d" % (name, set_, len(prnts1[set_]), len(prnts2[set_])))
         if len(prnts1[set_]) > 1:

@@ -170,7 +170,7 @@ def main():
                     prnt.cardClass = envec.CardClass.double_faced
                 if card is None:
                     card = prnt
-                ### When `card` is non-None, check that it equals `prnt`?
+                ### TODO: When `card` is non-None, check that it equals `prnt`?
                 if not seen:
                     seen.add(id_)
                     if multidb.isSplit(name) or multidb.isDouble(name) or \
@@ -198,10 +198,10 @@ def main():
                             ids.append(nid)
                             seen.add(nid)
                 ### Assume that the printing currently being fetched is the
-                ### only one that has an "artist" field: (Try to make this more
-                ### robust?)
+                ### only one that has an "artist" field: (TODO: Try to make
+                ### this more robust)
                 for p in prnt.printings:
-                    if p.artist.any():
+                    if p.artist:
                         newPrnt = p
                         break
                 try:

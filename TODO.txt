@@ -7,9 +7,10 @@
 - Rethink JSONifying CardSets in Printings as the full objects rather than just
   the names
  - Update cards.json to allow sets to be set objects as from sets-schema.json?
-- Should the library calls to `warnings.warn` be replaced with calls to
-  `logging.warn`?
 - Look for a better/more standard name for `jsonable`
+- Problem: enum34, unlike Python 3.4's enum, does not preserve the order in
+  which enum members with the same value are declared; as a result, not all
+  rarities serialize correctly
 
 - Robustness:
  - Handle XML parse errors
@@ -31,6 +32,8 @@
  - Add checkboxes to the output of listify.pl (but only if a flag is given?)
  - Give the classes `toDict`/`_asdict` methods
  - Give Card an isSilver/isUncard method?
+ - Add a function for splitting mana costs into a list of one string per mana
+   symbol
 
 - Coding:
  - Data structures:

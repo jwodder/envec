@@ -3,7 +3,7 @@ import operator
 import re
 from   six.moves   import reduce
 
-class Color(namedtuple('Color', 'W U B R G')):  ### Use an Enum instead?
+class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
     __slots__ = ()
 
     def __new__(cls, **colors):
@@ -29,14 +29,14 @@ class Color(namedtuple('Color', 'W U B R G')):  ### Use an Enum instead?
     def __invert__(self):
         return self._make(map(operator.not_, self))
 
-    def colors(self):  ### Rethink whether this should be __iter__
+    def colors(self):  ### TODO: Rethink whether this should be __iter__
         if self.W: yield Color.WHITE
         if self.U: yield Color.BLUE
         if self.B: yield Color.BLACK
         if self.R: yield Color.RED
         if self.G: yield Color.GREEN
 
-    def size(self):  ### Could this be __len__ without breaking too much?
+    def size(self):  ### TODO: Could this be __len__ without breaking too much?
         return sum(self)
 
     @property
@@ -99,7 +99,7 @@ class Color(namedtuple('Color', 'W U B R G')):  ### Use an Enum instead?
     def jsonable(self):
         return str(self)
 
-    ### Implement .iteritems() etc.?
+    ### TODO: Implement .iteritems() etc.?
 
 
 Color.COLORLESS = Color()
@@ -108,6 +108,6 @@ Color.BLUE      = Color(U=True)
 Color.BLACK     = Color(B=True)
 Color.RED       = Color(R=True)
 Color.GREEN     = Color(G=True)
-### Add constants for each color combination?
+### TODO: Add constants for each color combination?
 
 Color.PENTAGON = [Color.WHITE, Color.BLUE, Color.BLACK, Color.RED, Color.GREEN]

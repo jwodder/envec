@@ -1,6 +1,6 @@
 import itertools
 import json
-from   warnings import warn
+import logging
 from   enum     import Enum
 from   six      import itervalues
 from   ._util   import cheap_repr
@@ -36,8 +36,9 @@ class MultipartDB(object):
                 entry["cardClass"] = cclass
                 for name in (entry["primary"], entry["secondary"]):
                     if name in self.byName:
-                        warn('%s: name appears more than once in multipart'
-                             ' file; subsequent appearance ignored' % (name,))
+                        logging.warning('%s: name appears more than once in'
+                                        ' multipart file; subsequent appearance'
+                                        ' ignored', name)
                     else:
                         self.byName[name] = entry
 
