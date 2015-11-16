@@ -20,7 +20,7 @@ def parse_details(obj):
     if len(parts) == 1:
         return parts[0]
     elif len(parts) == 2:
-        return joinCards(CardClass.NORMAL_CARD, *parts)
+        return joinCards(CardClass.normal, *parts)
     else:
         raise ValueError('Card details page has too many components')
 
@@ -73,7 +73,7 @@ def scrapeSection(doc, pre):
             prnt0 = expansions(row)[0]
             prnt['set'] = prnt0.set
             prnt['rarity'] = prnt0.rarity
-            prnt['multiverseid'] = maybeInt(prnt0.multiverseid)
+            prnt['multiverseid'] = prnt0.multiverseid
         elif key == 'numberRow':
             prnt['number'] = simplify(value)
         elif key == 'artistRow':

@@ -11,7 +11,11 @@ class EnVecEncoder(json.JSONEncoder):
             data = obj.jsonable()
         except AttributeError:
             return super(EnVecEncoder, self).default(obj)
-        return {k:v for k,v in data.iteritems() if v is not None and v != ''}
+        if isinstance(data, dict):
+            return {k:v for k,v in data.iteritems()
+                        if v is not None and v != ''}
+        else:
+            return data
 
 def iloadJSON(fp):
     with fp:

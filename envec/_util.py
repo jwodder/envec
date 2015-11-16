@@ -96,6 +96,7 @@ def parseTypes(arg):
     return (superlist, typelist, sublist)
 
 def txt2xml(txt):
+    txt = unicode(txt)
     txt = txt.replace('&', '&amp;')
     txt = txt.replace('<', '&lt;')
     txt = txt.replace('>', '&gt;')

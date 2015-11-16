@@ -1,7 +1,8 @@
-from functools import total_ordering
-from string    import ascii_lowercase
-from .multival import Multival
-from ._util    import txt2xml, cheap_repr
+from __future__ import unicode_literals
+from functools  import total_ordering
+from string     import ascii_lowercase
+from .multival  import Multival
+from ._util     import txt2xml, cheap_repr
 
 multival = set("number artist flavor watermark multiverseid notes".split())
 
@@ -27,9 +28,9 @@ class Printing(object):
         return self.__class__(**vars(self))
 
     def toXML(self):
-        txt = "  <printing>\n   <set>" + txt2xml(unicode(self.set)) + "</set>\n"
+        txt = "  <printing>\n   <set>" + txt2xml(self.set) + "</set>\n"
         if self.rarity:
-            txt += "   <rarity>" + txt2xml(self.rarity) + "</rarity>\n"
+            txt += "   <rarity>" + txt2xml(self.rarity.name) + "</rarity>\n"
         for attr in multival:
             txt += getattr(self, attr).toXML(attr, attr in ('flavor', 'notes'))
         txt += "  </printing>\n"

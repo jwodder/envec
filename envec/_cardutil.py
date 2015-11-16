@@ -67,13 +67,19 @@ def joinPrintings(name, prnt1, prnt2):
             val1 = val1[0] if val1 else None
             val2 = getattr(p2, field).get()
             val2 = val2[0] if val2 else None
+            valM = None
             if val1 is not None or val2 is not None:
-                if val1 is None: valM = [[], [], [val2]]
-                elif val2 is None: valM = [[], [val1]]
-                elif val1 != val2: valM = [[], [val1], [val2]]
-                else: valM = getattr(p1, field)
+                if val1 is None:
+                    valM = [[], [], [val2]]
+                elif val2 is None:
+                    valM = [[], [val1]]
+                elif val1 != val2:
+                    valM = [[], [val1], [val2]]
+                else:
+                    valM = getattr(p1, field)
             prnt[field] = Multival(valM)
-        if multiverse is not None: prnt["multiverseid"] = multiverse
+        if multiverse is not None:
+            prnt["multiverseid"] = multiverse
         joined.append(Printing(**prnt))
     joined.sort()
     return joined
@@ -81,8 +87,10 @@ def joinPrintings(name, prnt1, prnt2):
 def joinRulings(rules1, rules2):
     # This assumes that the rulings in `rules1` and `rules2` only have 'date'
     # and 'ruling' fields.
-    if rules1 is None: rules1 = []
-    if rules2 is None: rules2 = []
+    if rules1 is None:
+        rules1 = []
+    if rules2 is None:
+        rules2 = []
     # The above two lines are unnecessary in the Python version, right?
     rulings = []
     for r1 in rules1:

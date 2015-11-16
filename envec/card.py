@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from .content   import Content
 from .printing  import Printing
 from .color     import Color
@@ -36,12 +37,12 @@ def scalarField(field):
     return property(getter)
 
 class Card(object):
-    def __init__(self, cardClass, content, printings=(), rulings=()):
+    def __init__(self, cardClass, content, printings=None, rulings=None):
         self.cardClass = cardClass
-        self.content   = tuple(content)   # tuple of envec.card.content objects
-        self.printings = tuple(printings) # tuple of envec.card.printing objects
-        self.rulings   = tuple(rulings)
-         # tuple of dicts with the following fields:
+        self.content   = list(content)         # list of envec.content objects
+        self.printings = list(printings or []) # list of envec.printing objects
+        self.rulings   = list(rulings or [])
+         # list of dicts with the following fields:
          #  - date
          #  - ruling
          #  - subcard - 0 or 1 (optional)
@@ -72,11 +73,11 @@ class Card(object):
         else:
             content = [Content.fromDict(content)]
         printings = map(Printing.fromDict, obj.get("printings", ()))
-        rulings = tuple(obj.get("rulings", ()))
+        rulings = list(obj.get("rulings", []))
         return cls(cardClass, content, printings, rulings)
 
     def toXML(self):
-        txt = ' <card cardClass="' + txt2attr(str(self.cardClass)) + '">\n'
+        txt = ' <card cardClass="' + txt2attr(self.cardClass.name) + '">\n'
         for c in self.content:   txt += c.toXML()
         for p in self.printings: txt += p.toXML()
         for rule in self.rulings:

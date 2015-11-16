@@ -1,6 +1,7 @@
+from   __future__ import unicode_literals
 import re
-from   .color import Color
-from   ._util import txt2xml, sym2xml, trim, cheap_repr
+from   .color     import Color
+from   ._util     import txt2xml, sym2xml, trim, cheap_repr
 
 class Content(object):
     def __init__(self, name, types, cost=None, supertypes=(), subtypes=(),
