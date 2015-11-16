@@ -5,7 +5,7 @@ from   ._util    import cheap_repr
 
 @total_ordering
 class CardSet(object):
-    def __init__(self, name, release_date, fetch=False, abbreviations=None,
+    def __init__(self, name, release_date=None, fetch=False, abbreviations=None,
                  **data):
         self.name = name
         self.release_date = release_date

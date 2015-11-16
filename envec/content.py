@@ -105,11 +105,13 @@ class Content(object):
         return self.isType('Vanguard')   or self.isType('Plane') \
             or self.isType('Phenomenon') or self.isType('Scheme')
 
+    @property
     def PT(self):
-        return self.pow +  '/' + self.tough if self.pow  is not None else None
+        return '%s/%s' % (self.pow, self.tough) if self.pow  is not None else None
 
+    @property
     def HandLife(self):
-        return self.hand + '/' + self.life  if self.hand is not None else None
+        return '%s/%s' % (self.hand, self.life) if self.hand is not None else None
 
     def copy(self):
         return self.__class__(**vars(self))
@@ -124,6 +126,7 @@ class Content(object):
         else:
             return cls(**obj)
 
+    @property
     def baseText(self):  # Returns rules text without reminder text
         if self.text is None:
             return None
@@ -136,4 +139,7 @@ class Content(object):
         return cheap_repr(self)
 
     def jsonable(self):
-        return vars(self)
+        data = vars(self).copy()
+        if data["indicator"] is not None:
+            data["indicator"] = str(data["indicator"])
+        return data

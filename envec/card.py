@@ -33,7 +33,7 @@ def scalarField(field):
         if all(f is None for f in fields): return None
         #else: return tuple(fields)
         #else: return tuple(fields) if len(fields) > 1 else fields[0]
-        else: return sep.join(f or '' for f in fields)
+        else: return sep.join(unicode(f) or '' for f in fields)
     return property(getter)
 
 class Card(object):
@@ -62,7 +62,8 @@ class Card(object):
 
     @classmethod
     def fromDict(cls, obj):
-        if isinstance(obj, cls): return obj.copy()
+        if isinstance(obj, cls):
+            return obj.copy()
         ### TODO: Move all of these transformations to __init__?
         cardClass = CardClass[obj.get("cardClass", "normal")]
         content = obj["content"]
@@ -179,8 +180,8 @@ class Card(object):
                 try:
                     rare = prnt.rarity.shortname
                 except AttributeError:
-                    rare = 'UNKNOWN'
-                return prnt.set + ' (' + rare + ')'
+                    rare = unicode(prnt.rarity)
+                return prnt.set.name + ' (' + rare + ')'
             text = ', '.join(uniq(map(showPrnt, sorted(self.printings))))
             lines = wrapLines(text, width, 2)
             (first, rest) = (lines[0], lines[1:]) if lines else ('', [])
@@ -196,7 +197,9 @@ class Card(object):
                 if val is None:
                     val = ''
                 elif isinstance(val, (list, tuple)):
-                    val = ' '.join(val)
+                    val = ' '.join(map(unicode, val))
+                else:
+                    val = unicode(val)
                 val = val.replace(u'\u2014', '--')
                 return ['%-*s' % (width, s) for s in wrapLines(val, width, 2)]
             def joining(tag, *ls):

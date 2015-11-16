@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 from functools  import total_ordering
 from string     import ascii_lowercase
+from .cardset   import CardSet
 from .multival  import Multival
+from .rarity    import Rarity
 from ._util     import txt2xml, cheap_repr
 
 multival = set("number artist flavor watermark multiverseid notes".split())
@@ -10,8 +12,9 @@ multival = set("number artist flavor watermark multiverseid notes".split())
 class Printing(object):
     def __init__(self, set, rarity=None, number=None, artist=None, flavor=None,
                  watermark=None, multiverseid=None, notes=None):
-        self.set = set
-        self.rarity = rarity
+        self.set = CardSet(**set) if isinstance(set, dict) else set
+        self.rarity = rarity if isinstance(rarity, Rarity) \
+                             else Rarity.fromString(rarity)
         self.number = Multival(number)
         self.artist = Multival(artist)
         self.flavor = Multival(flavor)

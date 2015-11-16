@@ -4,13 +4,19 @@
  - Are multiverseids _always_ integers?  Look into this.
  - Update cards.json to allow integer values for P/Ts, loyalties, and
    multiverseids
-- Rethink JSONifying CardSets in Printings as the full objects rather than just
-  the names
+- Properly handle JSONification and un-JSONification of CardSets in Printings
+ - Go back to serializing just the set names?
  - Update cards.json to allow sets to be set objects as from sets-schema.json?
+- Ensure `Printing.set` and `Printing.rarity` are always values of the
+  appropriate types?
 - Look for a better/more standard name for `jsonable`
 - Problem: enum34, unlike Python 3.4's enum, does not preserve the order in
   which enum members with the same value are declared; as a result, not all
   rarities serialize correctly
+- Problem: Because `Color` is a `namedtuple`, the json module automatically
+  JSONifies it as a list instead of letting EnVecEncoder handle it
+- Move EnVecEncoder's filtering out of `None` and `''` values to the individual
+  `jsonify` methods?
 
 - Robustness:
  - Handle XML parse errors

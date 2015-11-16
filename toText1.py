@@ -10,5 +10,6 @@ args = parser.parse_args()
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
-for card in iloadJSON(args.infile):
-    print card.toText1(0,1)
+with args.infile:
+    for card in iloadJSON(args.infile):
+        print card.toText1(0,1)
