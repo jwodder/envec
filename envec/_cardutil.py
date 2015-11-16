@@ -54,8 +54,8 @@ def joinPrintings(name, prnt1, prnt2):
         if len(prnts1[set_]) != len(prnts2[set_]):
             raise ValueError("printings mismatch for %r in %s: part 1 has %d printings but part 2 has %d" % (name, set_, len(prnts1[set_]), len(prnts2[set_])))
         if len(prnts1[set_]) > 1:
-            multiverse = Multival([sorted(p.multiverseid.all()
-                                          for p in prnts1[set_])])
+            multiverse = Multival([sorted(v for p in prnts1[set_]
+                                            for v in p.multiverseid.all())])
         else:
             multiverse = None
         p1 = prnts1[set_][0]

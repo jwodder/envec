@@ -44,8 +44,8 @@ class Multival(object):
             raise TypeError("Multival constructors must be strings, integers, array references, or undef")
 
     def all(self):
+        # Returns all defined values in the Multival
         return [w for v in self.val for w in v]
-     # Returns all defined values in the Multival
 
     def any(self):
         return bool(self.val)

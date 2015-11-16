@@ -1,5 +1,4 @@
 import json
-from   enum      import Enum
 import ijson
 from   six.moves import map
 from   .card     import Card

@@ -1,8 +1,9 @@
 - Convert everything to Python
-- Test if checklist.py currently works
 - Ensure that numeric values ('*'-less P/Ts, loyalties, and multiverseids) are
   always converted to integers immediately after fetching
  - Are multiverseids _always_ integers?  Look into this.
+ - Update cards.json to allow integer values for P/Ts, loyalties, and
+   multiverseids
 - Rethink JSONifying CardSets in Printings as the full objects rather than just
   the names
  - Update cards.json to allow sets to be set objects as from sets-schema.json?
@@ -45,6 +46,11 @@
   - Replace Multivals with lists of `{"subcard": INT, "value": INT | STR}`
     objects?
   - Rename "pow" and "tough" to "power" and "toughness"
+  - Make it so that only multiverseid fields can have multiple values per
+    component
+  - idea: Eliminate Multivals by dividing printing information up into three
+    dicts: fields shared by all components, fields unique to the first
+    component, and fields unique to the last component
  - Ensure that the printings fields of Card objects are always sorted?
  - Ensure that the multiverseid fields (et alii?) of Printing objects are
    always sorted?
