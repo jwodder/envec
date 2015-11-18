@@ -5,16 +5,16 @@ from   ._util     import txt2xml, sym2xml, trim, cheap_repr
 
 class Content(object):
     def __init__(self, name, types, cost=None, supertypes=(), subtypes=(),
-                 text=None, pow=None, tough=None, loyalty=None, hand=None,
-                 life=None, indicator=None):
+                 text=None, power=None, toughness=None, loyalty=None,
+                 hand=None, life=None, indicator=None):
         self.name       = name                  # string
         self.types      = tuple(types)          # tuple of strings
         self.cost       = cost                  # string or None
         self.supertypes = tuple(supertypes)     # tuple of strings
         self.subtypes   = tuple(subtypes)       # tuple of strings
         self.text       = text                  # string or None
-        self.pow        = pow                   # string or None
-        self.tough      = tough                 # string or None
+        self.power      = power                 # string or None
+        self.toughness  = toughness             # string or None
         self.loyalty    = loyalty               # string or None
         self.hand       = hand                  # string or None
         self.life       = life                  # string or None
@@ -32,7 +32,7 @@ class Content(object):
             txt += "   <subtype>" + txt2xml(sub) + "</subtype>\n"
         for line in (self.text or '').splitlines():
             txt += "   <text>" + sym2xml(line) + "</text>\n"
-        for attr in "pow tough loyalty hand life indicator".split():
+        for attr in "power toughness loyalty hand life indicator".split():
             val = getattr(self, attr)
             if val is not None:
                 txt += "   <%s>%s</%s>\n" % (attr, txt2xml(val), attr)
@@ -122,11 +122,17 @@ class Content(object):
 
     @property
     def PT(self):
-        return '%s/%s' % (self.pow, self.tough) if self.pow  is not None else None
+        if self.power is not None:
+            return '%s/%s' % (self.power, self.toughness)
+        else:
+            return None
 
     @property
     def HandLife(self):
-        return '%s/%s' % (self.hand, self.life) if self.hand is not None else None
+        if self.hand is not None:
+            return '%s/%s' % (self.hand, self.life)
+        else:
+            return None
 
     def copy(self):
         return self.__class__(**vars(self))

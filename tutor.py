@@ -164,8 +164,8 @@ def main():
                         # just can't seem to get right:
                         if re.search(r'^[^\s,]+, \w+ Ascendant$',
                                      prnt.part1.name):
-                            prnt.part2.pow = None
-                            prnt.part2.tough = None
+                            prnt.part2.power = None
+                            prnt.part2.toughness = None
                 elif multidb.isDouble(name):
                     prnt.cardClass = envec.CardClass.double_faced
                 if card is None:

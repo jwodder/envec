@@ -20,7 +20,6 @@
 - Convert everything to Python 3?
 
 - Robustness:
- - Handle XML parse errors
  - tutor.py should retry failed `get's under certain circumstances
  - Make listify.py's references to external images for \img work for other
    people
@@ -55,7 +54,6 @@
   - Make Multival store tuples instead of lists?
   - Replace Multivals with lists of `{"subcard": INT, "value": INT | STR}`
     objects?
-  - Rename "pow" and "tough" to "power" and "toughness"
   - Make it so that only multiverseid fields can have multiple values per
     component
   - idea: Eliminate Multivals by dividing printing information up into three

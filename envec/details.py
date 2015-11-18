@@ -58,7 +58,7 @@ def scrapeSection(doc, pre):
             # Note that ½'s in rules texts (in details mode) are already
             # represented by ½.
             if label == 'P/T:':
-                fields['pow'], _, fields['tough'] \
+                fields['power'], _, fields['toughness'] \
                     = [maybeInt(f.strip()) for f in pt.partition('/')]
             elif label == 'Loyalty:':
                 fields['loyalty'] = maybeInt(pt)

@@ -23,9 +23,10 @@ def unmungFlip(flip):
     lines = texts[1].splitlines()
     (name, type_, pt, txt) = (lines[0], lines[1], lines[2], lines[3:])
     (supers, types, subs) = parseTypes(type_)
-    (pow, tough) = map(simplify, pt.split('/', 1)) if pt else (None, None)
+    (power, toughness) = map(simplify, pt.split('/', 1)) if pt else (None, None)
     bottom = Content(name=name, cost=flip.cost, supertypes=supers, types=types,
-                     subtypes=subs, pow=pow, tough=tough, text="\n".join(txt))
+                     subtypes=subs, power=power, toughness=toughness,
+                     text="\n".join(txt))
     top = flip.part1
     top.text = texts[0]
     return Card(cardClass=CardClass.flip, content=[top, bottom],

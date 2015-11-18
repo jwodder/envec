@@ -20,7 +20,7 @@
 
 <!-- A subcard of a multi-part card (or the entirety of a normal card): -->
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,
-		   (pow, tough)?, loyalty?, (hand, life)?, indicator?)>
+		   (power, toughness)?, loyalty?, (hand, life)?, indicator?)>
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT cost (%mana;)*>
 <!ATTLIST cost cmc CDATA #IMPLIED>
@@ -29,10 +29,10 @@
 <!ELEMENT subtype (#PCDATA)>
 <!ATTLIST subtype type CDATA #IMPLIED>
 <!ELEMENT text %text;>  <!-- one line/paragraph of rules text -->
-<!ELEMENT level (text*, pow, tough)>
+<!ELEMENT level (text*, power, toughness)>
 <!ATTLIST level min CDATA #REQUIRED max CDATA #IMPLIED>
-<!ELEMENT pow (#PCDATA)>
-<!ELEMENT tough (#PCDATA)>
+<!ELEMENT power (#PCDATA)>
+<!ELEMENT toughness (#PCDATA)>
 <!ELEMENT loyalty (#PCDATA)>
 <!ELEMENT hand (#PCDATA)>
 <!ELEMENT life (#PCDATA)>

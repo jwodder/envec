@@ -17,8 +17,8 @@ fields = {
     "subtypes":   'Sub:',
     "type":       'Type:',
     "text":       'Text:',
-    "pow":        'Power:',
-    "tough":      'Tough:',
+    "power":      'Power:',
+    "toughness":  'Tough:',
     "loyalty":    'Loyalty:',
     "hand":       'Hand:',
     "life":       'Life:',
@@ -53,7 +53,7 @@ class Card(object):
     @classmethod
     def newCard(cls, **attrs):
         content = {}
-        for field in ("name", "cost", "text", "pow", "tough", "loyalty",
+        for field in ("name", "cost", "text", "power", "toughness", "loyalty",
                       "hand", "life", "indicator", "supertypes", "types",
                       "subtypes"):
             if field in attrs:
@@ -146,8 +146,8 @@ class Card(object):
 
     name      = scalarField("name")
     text      = scalarField("text")
-    pow       = scalarField("pow")
-    tough     = scalarField("tough")
+    power     = scalarField("power")
+    toughness = scalarField("toughness")
     loyalty   = scalarField("loyalty")
     hand      = scalarField("hand")
     life      = scalarField("life")
@@ -251,7 +251,7 @@ class Card(object):
             txt += self.showField1('indicator', width)
         if self.text:
             txt += self.showField1('text', width)
-        if self.pow is not None:
+        if self.power is not None:
             txt += self.showField1('PT', width)
         if self.loyalty is not None:
             txt += self.showField1('loyalty', width)
