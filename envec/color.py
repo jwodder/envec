@@ -1,7 +1,7 @@
 from   collections import namedtuple
+from   functools   import reduce
 import operator
 import re
-from   six.moves   import reduce
 
 class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
     __slots__ = ()
@@ -112,7 +112,7 @@ class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
     def jsonable(self):
         return str(self)
 
-    ### TODO: Implement .iteritems() etc.?
+    ### TODO: Implement .items() etc.?
 
 
 Color.COLORLESS = Color()

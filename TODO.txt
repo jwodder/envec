@@ -1,8 +1,5 @@
-- Ensure that numeric values ('*'-less P/Ts, loyalties, and multiverseids) are
-  always converted to integers immediately after fetching
- - Are multiverseids _always_ integers?  Look into this.
- - Update cards.json to allow integer values for P/Ts, loyalties, and
-   multiverseids
+- Update cards.json to allow integer values for P/Ts, loyalties, and
+  multiverseids
 - Properly handle JSONification and un-JSONification of CardSets in Printings
  - Go back to serializing just the set names?
  - Update cards.json to allow sets to be set objects as from sets-schema.json?
@@ -17,14 +14,11 @@
 - Move EnVecEncoder's filtering out of `None` and `''` values to the individual
   `jsonify` methods?
 - Replace the `copy` methods with `__copy__` and `__deepcopy__`
-- Convert everything to Python 3?
 
 - Robustness:
  - tutor.py should retry failed `get's under certain circumstances
  - Make listify.py's references to external images for \img work for other
    people
- - Improve details.py's attempt to adapt to Gatherer's constant changes of the
-   "ctlXX" substring in the IDs on multipart card pages
 
 - Features:
  - Implement the rest of the features for tutor.py (See the top of its source)
@@ -73,7 +67,6 @@
  - Move the use of &rmitalics from tutor.py to details.py?
  - Move the code for fetching & merging together all of a card's printings from
    tutor.* into the library proper
- - Support both Python 2 and Python 3
  - Add a JSONDecoder subclass?
  - Ensure that all strings involved in library functions are `unicode`
 

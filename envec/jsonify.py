@@ -1,7 +1,6 @@
 import json
 import ijson
-from   six.moves import map
-from   .card     import Card
+from   .card import Card
 
 class EnVecEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -10,7 +9,7 @@ class EnVecEncoder(json.JSONEncoder):
         except AttributeError:
             return super(EnVecEncoder, self).default(obj)
         if isinstance(data, dict):
-            return {k:v for k,v in data.iteritems()
+            return {k:v for k,v in data.items()
                         if v is not None and v != ''}
         else:
             return data

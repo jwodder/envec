@@ -20,20 +20,22 @@ def fetch_checklist(cardset, session=None):
     url = SEARCH_ENDPOINT + '?' + urlencode({
         "output": "checklist",
         "action": "advanced",
-        "set": '["' + unicode(cardset) + '"]',
+        "set": '["' + str(cardset) + '"]',
         "special": "true",
     })
     with maybeSession() as s:
-        while url is not None:
+        while True:
             r = s.get(url)
             r.raise_for_status()
             cards, url = parse_checklist_page(r.text)
             for c in cards:
                 yield c
-            if url is not None:
-                url = urljoin(r.request.url, url)
+            if url is None:
+                return
+            url = urljoin(r.request.url, url)
 
 def parse_checklist_page(obj):
+    ### TODO: also return the link to the previous page?
     cards = []
     doc = BeautifulSoup(obj, 'html.parser')
     for tr in doc.find('table', class_='checklist')\

@@ -2,7 +2,6 @@ import itertools
 import json
 import logging
 from   enum     import Enum
-from   six      import itervalues
 from   ._util   import cheap_repr
 
 class CardClass(Enum):
@@ -16,7 +15,7 @@ class CardClass(Enum):
         return self.name
 
 
-class MultipartDB(object):
+class MultipartDB:
     DEFAULT_DATAFILE = 'data/multipart.json'
 
     def __init__(self, infile=None):
@@ -91,10 +90,10 @@ class MultipartDB(object):
             return entry["secondary" if entry["primary"] == name else "primary"]
 
     def __iter__(self):
-        return itertools.chain.from_iterable(itervalues(self.byClass))
+        return itertools.chain.from_iterable(self.byClass.values())
 
     def __len__(self):
-        return sum(map(len, itervalues(self.byClass)))
+        return sum(map(len, self.byClass.values()))
 
     def __repr__(self):
         return cheap_repr(self)

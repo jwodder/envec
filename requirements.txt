@@ -1,9 +1,4 @@
-# functools.total_ordering is used, so Python 2.7+ and 3.2+ are required.
-# Additionally, total_ordering needs to support NotImplemented, so that leaves
-# Python 3.4+ only.
-
+# Python 3.4+ only
 beautifulsoup4>=4.4.0
-enum34
 ijson
 requests
-six

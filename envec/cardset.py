@@ -4,23 +4,17 @@ import logging
 from   ._util    import cheap_repr
 
 @total_ordering
-class CardSet(object):
+class CardSet:
     def __init__(self, name, release_date=None, fetch=False, abbreviations=None,
                  **data):
         self.name = name
         self.release_date = release_date
         self.fetch = fetch
         self.abbreviations = abbreviations or {}
-        for k,v in data.iteritems():
+        for k,v in data.items():
             setattr(self, k, v)
 
     def __str__(self):
-        if isinstance(self.name, unicode):
-            return self.name.encode('utf-8')
-        else:
-            return self.name
-
-    def __unicode__(self):
         return self.name
 
     def __repr__(self):
@@ -54,7 +48,7 @@ class CardSet(object):
         return vars(self)
 
 
-class CardSetDB(object):
+class CardSetDB:
     ### TODO: Add a `__contains__` method?
 
     DEFAULT_DATAFILE = 'data/sets.json'

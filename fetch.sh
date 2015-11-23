@@ -37,16 +37,16 @@ Ci=i
 [ -s "${ids:=$dir/ids.txt}" ] && Ci=C
 
 mkdir -p "$dir"
-python tutor.py -S "$setfile" \
-		-$Ci "$ids" \
-		-j "$dir/$base.json" \
-		-x "$dir/$base.xml"
+python3 tutor.py -S "$setfile" \
+                 -$Ci "$ids" \
+                 -j "$dir/$base.json" \
+                 -x "$dir/$base.xml"
 
 		#-l "$dir/tutor.log" \
 
-python toText1.py "$dir/$base.json" > "$dir/cards.txt"
+python3 toText1.py "$dir/$base.json" > "$dir/cards.txt"
 
-python listify.pl -o "$dir/cardlists.txt" "$dir/$base.json"
+python3 listify.pl -o "$dir/cardlists.txt" "$dir/$base.json"
 echo '# vim:set nowrap:' >> "$dir/cardlists.txt"
 
 chmod -w "$dir/$base.json" "$dir/$base.xml"

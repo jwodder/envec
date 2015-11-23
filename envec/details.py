@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
-from   __future__ import unicode_literals
 import logging
 import re
-from   bs4        import BeautifulSoup
-from   six.moves.urllib.parse import urlparse, parse_qs
+from   urllib.parse import urlparse, parse_qs
+from   bs4          import BeautifulSoup
 
-from   .card      import Card
-from   .printing  import Printing
-from   ._cardutil import joinCards
-from   .color     import Color
-from   .multipart import CardClass
-from   ._util     import magicContent, trim, simplify, parseTypes, maybeInt
+from   .card        import Card
+from   .printing    import Printing
+from   ._cardutil   import joinCards
+from   .color       import Color
+from   .multipart   import CardClass
+from   ._util       import magicContent, trim, simplify, parseTypes, maybeInt
 
 def parse_details(obj):
     doc = BeautifulSoup(obj, 'html.parser')

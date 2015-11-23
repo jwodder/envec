@@ -9,11 +9,11 @@
 
 from ._util import sym2xml, txt2xml, cheap_repr
 
-class Multival(object):
+class Multival:
     def __init__(self, val):
         if val is None or val == '':
             self.val = []
-        elif isinstance(val, (basestring, int, long)):
+        elif isinstance(val, (str, int)):
             self.val = [[val]]
         elif isinstance(val, list):
             self.val = []
@@ -24,7 +24,7 @@ class Multival(object):
                 elif isinstance(elem, list):
                     elems = []
                     for e in elem:
-                        if isinstance(e, (basestring, int, long)) and e != '':
+                        if isinstance(e, (str, int)) and e != '':
                             elems.append(e)
                         else:
                             raise TypeError("Elements of sublists must be nonempty strings or integers")
@@ -33,7 +33,7 @@ class Multival(object):
                         undef = 0
                     else:
                         undef += 1
-                elif isinstance(elem, (basestring, int, long)):
+                elif isinstance(elem, (str, int)):
                     self.val.extend([[]] * undef + [elem])
                     undef = 0
                 else:
@@ -47,7 +47,7 @@ class Multival(object):
         # Returns all defined values in the Multival
         return [w for v in self.val for w in v]
 
-    def __nonzero__(self):
+    def __bool__(self):
         return bool(self.val)
 
     def get(self, i=-1):
@@ -77,7 +77,7 @@ class Multival(object):
         return txt
 
     def mapvals(self, function):
-        return Multival([map(function, v) for v in self.val])
+        return Multival([list(map(function, v)) for v in self.val])
 
     def __repr__(self):
         return cheap_repr(self)

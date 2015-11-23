@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from   __future__ import unicode_literals
 import itertools
 import re
 import textwrap
+from   urllib.parse import urlparse, parse_qs
 import bs4
-from   six.moves.urllib.parse import urlparse, parse_qs
 
 def trim(txt):
     return None if txt is None else txt.strip()
@@ -33,7 +32,7 @@ def magicContent(node):
     if type(node) is bs4.NavigableString or type(node) is bs4.CData:
         # Using `type` instead of `isinstance` weeds out comments, doctypes,
         # etc.
-        return unicode(node).replace(u'\xA0', u' ')
+        return str(node).replace('\xA0', ' ')
     elif isinstance(node, bs4.Tag):
         if node.name == 'br':
             return '\n'
@@ -96,7 +95,7 @@ def parseTypes(arg):
     return (superlist, typelist, sublist)
 
 def txt2xml(txt):
-    txt = unicode(txt)
+    txt = str(txt)
     txt = txt.replace('&', '&amp;')
     txt = txt.replace('<', '&lt;')
     txt = txt.replace('>', '&gt;')
@@ -118,7 +117,7 @@ def sym2xml(txt):
     return txt
 
 def cheap_repr(obj):
-    return obj.__class__.__name__ + '(' + ', '.join('%s=%r' % kv for kv in vars(obj).iteritems()) + ')'
+    return obj.__class__.__name__ + '(' + ', '.join('%s=%r' % kv for kv in vars(obj).items()) + ')'
 
 def maybeInt(s):
     try:

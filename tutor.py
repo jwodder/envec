@@ -1,9 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 Tasks this script takes care of:
  - Remove italics from flavor text and watermarks
  - Convert short set names to long set names
- - Convert rarities from single characters to full words
  - Tag split, flip, and double-faced cards as such
  - Unmung munged flip cards
  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
@@ -16,12 +15,9 @@ Things this script still needs to do:
  - Somehow handle split cards with differing artists for each half
 """
 
-from   __future__  import print_function
 import argparse
-import codecs
 from   collections import defaultdict
 from   datetime    import datetime
-import io
 import json
 import logging
 import re
@@ -34,32 +30,26 @@ datefmt = '%Y-%m-%dT%H:%M:%SZ'
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-C', '--card-ids', type=argparse.FileType('r'))
-    parser.add_argument('-S', '--set-file', type=argparse.FileType('r'))
-    parser.add_argument('-j', '--json-out', type=argparse.FileType('w', 0),
-                                            default='details.json')
-    parser.add_argument('-x', '--xml-out', type=argparse.FileType('w', 0),
-                                           default='details.xml')
-    parser.add_argument('-l', '--logfile', type=argparse.FileType('w', 0),
-                                           default=sys.stderr)
-    parser.add_argument('-i', '--idfile', type=argparse.FileType('w'))
-    parser.add_argument('-I', '--idfile2', type=argparse.FileType('w'))
+    parser.add_argument('-C', '--card-ids',
+                        type=argparse.FileType('r', encoding='utf-8'))
+    parser.add_argument('-S', '--set-file',
+                        type=argparse.FileType('r', encoding='utf-8'))
+    parser.add_argument('-j', '--json-out',
+                        type=argparse.FileType('w', encoding='utf-8'),
+                        default='details.json')
+    parser.add_argument('-x', '--xml-out',
+                        type=argparse.FileType('w', encoding='utf-8'),
+                        default='details.xml')
+    parser.add_argument('-l', '--logfile',
+                        type=argparse.FileType('w', encoding='utf-8'),
+                        default=sys.stderr)
+    parser.add_argument('-i', '--idfile',
+                        type=argparse.FileType('w', encoding='utf-8'))
+    parser.add_argument('-I', '--idfile2',
+                        type=argparse.FileType('w', encoding='utf-8'))
     args = parser.parse_args()
 
-    ### TODO: Figure out a better/more Pythonic way to accomplish this:
-    reader = codecs.getreader('utf-8')
-    writer = codecs.getwriter('utf-8')
-    if args.card_ids is not None:
-        args.card_ids = reader(args.card_ids)
-    if args.set_file is not None:
-        args.set_file = reader(args.set_file)
-    args.json_out = writer(args.json_out)
-    args.xml_out = writer(args.xml_out)
-    args.logfile = writer(args.logfile)
-    if args.idfile is not None:
-        args.idfile = writer(args.idfile)
-    if args.idfile2 is not None:
-        args.idfile2 = writer(args.idfile2)
+    ### TODO: Turn off output buffering for json_out, xml_out, and logfile
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                         level=logging.INFO, datefmt=datefmt,
@@ -184,12 +174,12 @@ def main():
                         setIDs = defaultdict(list)
                         for p in prnt.printings:
                             setIDs[p.set].extend(p.multiverseid.all())
-                        for cset, idlist in setIDs.iteritems():
+                        for cset, idlist in setIDs.items():
                             if id_ in idlist:
                                 setIDs[cset] = []
                             elif idlist:
                                 setIDs[cset] = [idlist[0]]
-                        newIDs = sum(setIDs.itervalues(), [])
+                        newIDs = sum(setIDs.values(), [])
                     else:
                         newIDs = sum((p.multiverseid.all()
                                       for p in prnt.printings), [])
@@ -208,12 +198,6 @@ def main():
                     newPrnt.set = setdb.byGatherer[newPrnt.set]
                 except KeyError:
                     logging.error('Unknown set %r for %s', newPrnt.set, idstr)
-                if newPrnt.rarity is not None:
-                    try:
-                        newPrnt.rarity = envec.Rarity.fromString(newPrnt.rarity)
-                    except KeyError:
-                        logging.error('Unknown rarity %r for %s',
-                                      newPrnt.rarity, idstr)
                 newPrnt.flavor = newPrnt.flavor.mapvals(rmitalics)
                 newPrnt.watermark = newPrnt.watermark.mapvals(rmitalics)
                 printings.append(newPrnt)
@@ -236,7 +220,7 @@ def rmitalics(s):
 def ending(missed):
     if missed:
         try:
-            misfile = io.open('missed.txt', 'wt', encoding='utf-8')
+            misfile = open('missed.txt', 'wt', encoding='utf-8')
         except IOError:
             logging.exception('Could not write to missed.txt')
             for m in missed:
