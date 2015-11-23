@@ -5,6 +5,7 @@ from   collections import defaultdict
 import os
 import os.path
 import re
+import sys
 import envec
 
 def main():
@@ -14,7 +15,7 @@ def main():
     parser.add_argument('-P', '--postscript', action='store_const',
                         dest='format', const='postscript')
     parser.add_argument('-d', '--dir', default='lists')
-    parser.add_argument('-o', '--outfile', type=argparse.FileType('r'))
+    parser.add_argument('-o', '--outfile', type=argparse.FileType('w', encoding='utf-8'))
     parser.add_argument('infile', type=argparse.FileType('r'),
                         default=sys.stdin)
     args = parser.parse_args()
@@ -43,7 +44,7 @@ def main():
             except KeyError:
                 raise SystemExit('Unknown rarity %r for %s in %s'
                                  % (p.rarity, card.name, p.set))
-            sets[str(p.set)].append(dict(st, num=p.effectiveNum,
+            sets[str(p.set)].append(dict(st, num=p.effectiveNum(),
                                              rarity=rarity.longname.split()[0]))
 
     for cardset in setdb:
@@ -54,7 +55,7 @@ def main():
             outf = args.outfile
         else:
             outf = open(os.path.join(args.dir, re.sub(r'[ \'"]', '_', cardset)
-                                                + ext))
+                                                + ext), 'w', encoding='utf-8')
         special = []
         cards = []
         sets[cardset].sort(key=lambda c: (c["num"] or 0, c["name"]))
@@ -75,26 +76,21 @@ def main():
             outf.close()
 
 
-def chrlength(s):
-    if isinstance(s, str):
-        s = s.decode('utf-8')
-    return len(s)
-
 def stats(card):
     cost = card.cost or '--'
     if card.indicator:
         cost += ' [' + card.indicator + ']'
-    extra = card.PT or card.loyalty or card.HandLife or ''
+    extra = str(card.PT or card.loyalty or card.HandLife or '')
     return {
         "name":     card.name,
-        "nameLen":  chrlength(card.name),
+        "nameLen":  len(card.name),
         "type":     card.type,
-        "typeLen":  chrlength(card.type),
+        "typeLen":  len(card.type),
         "cost":     cost,
-        "costLen":  length(cost),
+        "costLen":  len(cost),
         "extra":    extra,
-        "extraLen": length(extra),
-        "special":  card.isNontraditional,
+        "extraLen": len(extra),
+        "special":  card.isNontraditional(),
     }
 
 def showLaTeXSet(cardset, outf, cards, singlefile):
