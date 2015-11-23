@@ -6,9 +6,6 @@
 - Ensure `Printing.set` and `Printing.rarity` are always values of the
   appropriate types?
 - Look for a better/more standard name for `jsonable`
-- Problem: enum34, unlike Python 3.4's enum, does not preserve the order in
-  which enum members with the same value are declared; as a result, not all
-  rarities serialize correctly
 - Problem: Because `Color` is a `namedtuple`, the json module automatically
   JSONifies it as a list instead of letting EnVecEncoder handle it
 - Move EnVecEncoder's filtering out of `None` and `''` values to the individual

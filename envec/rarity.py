@@ -35,6 +35,8 @@ class Rarity(Enum):
 
     @classmethod
     def fromString(cls, name):
+        if isinstance(name, cls):
+            return name
         name = name.replace('-', '_')
         if len(name) <= 2:
             return cls[name.upper()]

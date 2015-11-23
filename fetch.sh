@@ -46,7 +46,7 @@ python3 tutor.py -S "$setfile" \
 
 python3 toText1.py "$dir/$base.json" > "$dir/cards.txt"
 
-python3 listify.pl -o "$dir/cardlists.txt" "$dir/$base.json"
+python3 listify.py -o "$dir/cardlists.txt" "$dir/$base.json"
 echo '# vim:set nowrap:' >> "$dir/cardlists.txt"
 
 chmod -w "$dir/$base.json" "$dir/$base.xml"

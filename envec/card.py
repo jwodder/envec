@@ -1,3 +1,4 @@
+from itertools  import starmap, zip_longest
 from .content   import Content
 from .printing  import Printing
 from .color     import Color
@@ -235,9 +236,9 @@ class Card:
                 return ['%-*s' % (width, s) for s in wrapLines(val, width, 2)]
             def joining(tag, *ls):
                 line = sep.join(s or ' ' * width for s in ls).rstrip()
-                return "%-*s %s\n" % (Card.tagwidth, tag or '', line)
+                return "%-*s %s\n" % (Card.tagwidth, tag, line)
             lines = map(lineify, self.content)
-            return ''.join(map(joining, [fields[field]], *lines))
+            return ''.join(starmap(joining, zip_longest([fields[field]], *lines, fillvalue='')))
         else:
             return ''
 
