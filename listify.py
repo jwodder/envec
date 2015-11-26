@@ -15,7 +15,8 @@ def main():
     parser.add_argument('-P', '--postscript', action='store_const',
                         dest='format', const='postscript')
     parser.add_argument('-d', '--dir', default='lists')
-    parser.add_argument('-o', '--outfile', type=argparse.FileType('w', encoding='utf-8'))
+    parser.add_argument('-o', '--outfile',
+                        type=argparse.FileType('w', encoding='utf-8'))
     parser.add_argument('infile', type=argparse.FileType('r'),
                         default=sys.stdin)
     args = parser.parse_args()
@@ -126,7 +127,7 @@ def texify(s):
     s = re.sub(r'(^|(?<=\s))"', '``', s)
     s = re.sub(r"(^|(?<=\s))'", '`', s)
     s = s.replace('--', '---')
-    return s.translate({
+    return s.translate(str.maketrans({
         "[": r'\[',
         "]": r'\]',
         "&": r'\&',
@@ -146,7 +147,7 @@ def texify(s):
         "®": r'\textsuperscript{\textregistered}',
         "½": r'\textonehalf',  # needs textcomp package
         "²": r'${}^2$',
-    })
+    }))
 
 def showPSSet(cardset, outf, cards, singlefile):
     print(pshead, '/setData [', sep='', file=outf)
@@ -182,11 +183,9 @@ showpage
 ''' % (cardset, costLen), file=outf)
 
 def psify(s):
-    s = s.replace('\\', r'\\')
-    #s = s.replace('--', r'\320')
-    # \320 is the StandardEncoding value for U+2014
     s = s.replace('--', '-')
-    s = s.translate({
+    s = s.translate(str.maketrans({
+        '\\': r'\\',
         "[": r'\[',
         "]": r'\]',
         "(": r'\(',
@@ -204,7 +203,7 @@ def psify(s):
         "®": r'\256',
         "½": r'\275',
         "²": r'\262',
-    })
+    }))
     return '(' + s + ')'
 
 def showTextSet(cardset, outf, cards, singlefile):
