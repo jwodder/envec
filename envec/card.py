@@ -232,7 +232,6 @@ class Card:
                     val = ' '.join(map(str, val))
                 else:
                     val = str(val)
-                val = val.replace('\u2014', '--')
                 return ['%-*s' % (width, s) for s in wrapLines(val, width, 2)]
             def joining(tag, *ls):
                 line = sep.join(s or ' ' * width for s in ls).rstrip()

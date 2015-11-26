@@ -24,7 +24,7 @@
    all at once
  - Give Card a fromXML method?
  - Card.showField1 should treat a negative width as disabling line-wrapping
- - Fix/improve the PostScript output of listify.py
+ - Improve the PostScript output of listify.py
  - Give Content a "devotion" method
  - Add checkboxes to the output of listify.py (but only if a flag is given?)
  - Give the classes `toDict`/`_asdict` methods

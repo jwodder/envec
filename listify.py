@@ -78,7 +78,7 @@ def main():
 
 
 def stats(card):
-    cost = card.cost or '--'
+    cost = card.cost or '—'
     if card.indicator:
         cost += ' [' + card.indicator + ']'
     extra = str(card.PT or card.loyalty or card.HandLife or '')
@@ -106,7 +106,7 @@ def showLaTeXSet(cardset, outf, cards, singlefile):
 \section*{%s}
 \begin{longtable}[c]{rl|l|l|l|l}
 No. & Name & Type & & Cost & \\ \hline \endhead
-'''.strip() % (cardset,), file=outf)
+'''.strip() % (texify(cardset),), file=outf)
     for c in cards:
         if c is None:
             print(r'\hline', file=outf)
@@ -126,7 +126,6 @@ No. & Name & Type & & Cost & \\ \hline \endhead
 def texify(s):
     s = re.sub(r'(^|(?<=\s))"', '``', s)
     s = re.sub(r"(^|(?<=\s))'", '`', s)
-    s = s.replace('--', '---')
     return s.translate(str.maketrans({
         "[": r'\[',
         "]": r'\]',
@@ -135,6 +134,7 @@ def texify(s):
         "}": r'\}',
         '"': "''",
         "’": "'",
+        "—": "---",
         "Æ": r'\AE{}',
         "à": r'\`a',
         "á": r"\'a",
@@ -176,21 +176,21 @@ def showPSSet(cardset, outf, cards, singlefile):
         print('/' + (c["rarity"] or 'nop'), ']', file=outf)
     print('''\
 ] def
-/setname (%s) def
+/setname %s def
 /costLen %d circRad mul 2 mul def
 showSet
 showpage
-''' % (cardset, costLen), file=outf)
+''' % (psify(cardset), costLen), file=outf)
 
 def psify(s):
-    s = s.replace('--', '-')
-    s = s.translate(str.maketrans({
+    return '(' + s.translate(str.maketrans({
         '\\': r'\\',
         "[": r'\[',
         "]": r'\]',
         "(": r'\(',
         ")": r'\)',
         "’": "'",
+        "—": "-",
         "Æ": r'\306',
         "à": r'\340',
         "á": r'\341',
@@ -203,8 +203,7 @@ def psify(s):
         "®": r'\256',
         "½": r'\275',
         "²": r'\262',
-    }))
-    return '(' + s + ')'
+    })) + ')'
 
 def showTextSet(cardset, outf, cards, singlefile):
     nameLen = maxField('nameLen', cards)

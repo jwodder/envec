@@ -102,7 +102,7 @@ class Content:
     @property
     def type(self):
         return ' '.join(self.supertypes + self.types +
-                        (('--',) + self.subtypes if self.subtypes else ()))
+                        (('—',) + self.subtypes if self.subtypes else ()))
 
     def isSupertype(self, type_):
         return type_ in self.supertypes

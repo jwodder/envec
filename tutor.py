@@ -205,7 +205,7 @@ def main():
                 printings.sort()
                 card.printings = printings
                 js = json.dumps(card, cls=envec.EnVecEncoder, sort_keys=True,
-                                      indent=4, separators=(',', ': '))
+                                      indent='    ', ensure_ascii=False)
                 print(re.sub('^', '    ', js, flags=re.M), end='',
                       file=args.json_out)
                 print(card.toXML(), file=args.xml_out)
