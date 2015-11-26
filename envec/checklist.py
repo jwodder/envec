@@ -1,9 +1,9 @@
-from   contextlib             import contextmanager
+from   contextlib   import contextmanager
 import re
-from   bs4                    import BeautifulSoup
+from   bs4          import BeautifulSoup
 import requests
-from   six.moves.urllib.parse import urljoin, urlparse, parse_qs, urlencode
-from   ._util                 import simplify, magicContent, maybeInt
+from   urllib.parse import urljoin, urlparse, parse_qs, urlencode
+from   ._util       import simplify, magicContent, maybeInt
 
 SEARCH_ENDPOINT = 'http://gatherer.wizards.com/Pages/Search/Default.aspx'
 

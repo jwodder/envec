@@ -10,7 +10,7 @@ class EnVecEncoder(json.JSONEncoder):
             return super(EnVecEncoder, self).default(obj)
         if isinstance(data, dict):
             return {k:v for k,v in data.items()
-                        if v is not None and v != ''}
+                        if v is not None and v != '' and v != [] and v != {}}
         else:
             return data
 

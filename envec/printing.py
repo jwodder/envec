@@ -5,7 +5,7 @@ from .multival  import Multival
 from .rarity    import Rarity
 from ._util     import txt2xml, cheap_repr
 
-multival = set("number artist flavor watermark multiverseid notes".split())
+multival = "number artist flavor watermark multiverseid notes".split()
 
 @total_ordering
 class Printing:

@@ -109,7 +109,8 @@
  - Add fields to sets.json for:
   - whether a set is online-only?
   - number of cards?
-  - maximum collector's number? (only worth noting for Unhinged and M15)
+  - maximum collector's number? (only worth noting for Unhinged, M15, and Magic
+    Origins)
   - printed abbreviation (M15+)
   - "promotional" (boolean)
   - "codename" (used during development; see <http://archive.wizards.com/Magic/magazine/article.aspx?x=mtgcom/daily/mr33>, among other sources)

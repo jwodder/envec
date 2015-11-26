@@ -1,7 +1,9 @@
+from   functools import total_ordering
 import re
-from   .color import Color
-from   ._util import txt2xml, sym2xml, trim, cheap_repr
+from   .color    import Color
+from   ._util    import txt2xml, sym2xml, trim, cheap_repr
 
+@total_ordering
 class Content:
     def __init__(self, name, types, cost=None, supertypes=(), subtypes=(),
                  text=None, power=None, toughness=None, loyalty=None,
@@ -136,8 +138,14 @@ class Content:
     def copy(self):
         return self.__class__(**vars(self))
 
-    def __cmp__(self, other):
-        return cmp(type(self), type(other)) or cmp(vars(self), vars(other))
+    def __eq__(self, other):
+        return type(self) is type(other) and vars(self) == vars(other)
+
+    def __le__(self, other):
+        if type(self) is type(other):
+            return vars(self) <= vars(other)
+        else:
+            return NotImplemented
 
     @classmethod
     def fromDict(cls, obj):
