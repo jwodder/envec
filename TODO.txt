@@ -31,6 +31,7 @@
  - Give Card an isSilver/isUncard method?
  - Add a function for splitting mana costs into a list of one string per mana
    symbol
+ - listify.py: Implement single-file LaTeX & PostScript output
 
 - Coding:
  - Data structures:

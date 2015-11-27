@@ -55,8 +55,9 @@ def main():
         if args.outfile:
             outf = args.outfile
         else:
-            outf = open(os.path.join(args.dir, re.sub(r'[ \'"]', '_', cardset)
-                                                + ext), 'w', encoding='utf-8')
+            filename = re.sub(r'[\'"*?[\]]+', '', cardset).replace(' ', '_')
+            outf = open(os.path.join(args.dir, filename + ext), 'w',
+                        encoding='utf-8')
         special = []
         cards = []
         sets[cardset].sort(key=lambda c: (c["num"] or 0, c["name"]))
@@ -99,7 +100,7 @@ def showLaTeXSet(cardset, outf, cards, singlefile):
 \documentclass{article}
 \usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
 \usepackage{graphicx}
-\newcommand{\img}[1]{\\includegraphics[height=2ex]{../../rules/img/#1}}
+\newcommand{\img}[1]{\includegraphics[height=2ex]{img/#1}}
 \usepackage{longtable}
 \usepackage{textcomp}
 \begin{document}
@@ -119,7 +120,7 @@ No. & Name & Type & & Cost & \\ \hline \endhead
             else:
                 print(r'\img{', gr[0] or gr[1]+gr[2], '.pdf}', sep='', end=' ',
                       file=outf)
-        print('&', c["rarity"][0], r'\\', file=outf)
+        print('&', (c["rarity"] or ' ')[0], r'\\', file=outf)
     print(r'\end{longtable}', file=outf)
     print(r'\end{document}', file=outf)
 
@@ -127,14 +128,13 @@ def texify(s):
     s = re.sub(r'(^|(?<=\s))"', '``', s)
     s = re.sub(r"(^|(?<=\s))'", '`', s)
     return s.translate(str.maketrans({
-        "[": r'\[',
-        "]": r'\]',
         "&": r'\&',
         "{": r'\{',
         "}": r'\}',
         '"': "''",
         "’": "'",
         "—": "---",
+        "_": r'\_',
         "Æ": r'\AE{}',
         "à": r'\`a',
         "á": r"\'a",
@@ -144,8 +144,8 @@ def texify(s):
         "â": r'\^a',
         "û": r'\^u',
         "ö": r'\"o',
-        "®": r'\textsuperscript{\textregistered}',
-        "½": r'\textonehalf',  # needs textcomp package
+        "®": r'\textregistered{}',
+        "½": r'\textonehalf{}',  # needs textcomp package
         "²": r'${}^2$',
     }))
 
