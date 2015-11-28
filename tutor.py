@@ -7,12 +7,6 @@ Tasks this script takes care of:
  - Unmung munged flip cards
  - For the Ascendant/Essence cycle, remove the P/T values from the bottom
    halves
-
-Things this script still needs to do:
- - Incorporate data/rarities.tsv (adding an "old-rarity" field to Printing.pm)
- - Make sure nothing from data/tokens.txt (primarily the Unglued tokens)
-   slipped through
- - Somehow handle split cards with differing artists for each half
 """
 
 import argparse

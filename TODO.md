@@ -6,11 +6,12 @@
       sets-schema.json?
 - Ensure `Printing.set` and `Printing.rarity` are always values of the
   appropriate types?
-- Look for a better/more standard name for `jsonable`
 - Problem: Because `Color` is a `namedtuple`, the json module automatically
   JSONifies it as a list instead of letting EnVecEncoder handle it
 - Move EnVecEncoder's filtering out of `None` and `''` values to the individual
-  `jsonify` methods?
+  `jsonable` methods?
+- Look for a better/more standard name for `jsonable`
+- Eliminate XML output?
 
 # Robustness
 
@@ -20,7 +21,10 @@
 
 # Features
 
-- Implement the rest of the features for tutor.py (See the top of its source)
+- `tutor.py`:
+    - Incorporate data/rarities.tsv (adding an "old-rarity" field to
+      `Printing`)
+    - Somehow handle split cards with differing artists for each half
 - Add special handling/storage for leveler cards
 - Add a means to read Card objects from an XML file one at a time rather than
   all at once
@@ -29,7 +33,7 @@
 - Improve the PostScript output of listify.py
 - Give Content a "devotion" method
 - Add checkboxes to the output of listify.py (but only if a flag is given?)
-- Give the classes `toDict`/`_asdict` methods?
+- Give the classes `toDict`/`_asdict` methods? (i.e., recursive `jsonable`s)
 - Add a function for splitting mana costs into a list of one string per mana
   symbol
 - listify.py: Implement single-file LaTeX & PostScript output
@@ -49,6 +53,7 @@
   tutor.py into the library proper
 - Add a JSONDecoder subclass?
 - Add a class for rulings
+- Make the bulk of tutor.py into a library function?
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
@@ -115,7 +120,6 @@
   card language, etc.
 - Add a wrapper around parseDetails that downloads and parses a given
   multiverseid?
-- Make the bulk of tutor.py into a library function?
 - Overload stringification of Multival objects?
 - Add fields to sets.json for:
     - whether a set is online-only?
