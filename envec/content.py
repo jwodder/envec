@@ -135,9 +135,6 @@ class Content:
         else:
             return None
 
-    def copy(self):
-        return self.__class__(**vars(self))
-
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
 

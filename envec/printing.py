@@ -1,9 +1,10 @@
-from functools  import total_ordering
-from string     import ascii_lowercase
-from .cardset   import CardSet
-from .multival  import Multival
-from .rarity    import Rarity
-from ._util     import txt2xml, cheap_repr
+import copy
+from   functools  import total_ordering
+from   string     import ascii_lowercase
+from   .cardset   import CardSet
+from   .multival  import Multival
+from   .rarity    import Rarity
+from   ._util     import txt2xml, cheap_repr
 
 multival = "number artist flavor watermark multiverseid notes".split()
 
@@ -26,9 +27,6 @@ class Printing:
             value = Multival(value)
         self.__dict__[key] = value
 
-    def copy(self):
-        return self.__class__(**vars(self))
-
     def toXML(self):
         txt = "  <printing>\n   <set>" + txt2xml(self.set) + "</set>\n"
         if self.rarity:
@@ -50,7 +48,7 @@ class Printing:
     @classmethod
     def fromDict(cls, obj):
         if isinstance(obj, cls):
-            return obj.copy()
+            return copy.deepcopy(obj)
         else:
             return cls(**obj)
 

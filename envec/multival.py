@@ -57,9 +57,6 @@ class Multival:
             i += 1
         return self.val[i] if 0 <= i < len(self.val) else []
 
-    def copy(self):
-        return self.__class__(self)
-
     def asArray(self):
         return [v[:] for v in self.val]
 

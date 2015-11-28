@@ -1,9 +1,10 @@
-from itertools  import starmap, zip_longest
-from .content   import Content
-from .printing  import Printing
-from .color     import Color
-from .multipart import CardClass
-from ._util     import uniq, wrapLines, txt2attr, txt2xml, cheap_repr
+import copy
+from   itertools  import starmap, zip_longest
+from   .content   import Content
+from   .printing  import Printing
+from   .color     import Color
+from   .multipart import CardClass
+from   ._util     import uniq, wrapLines, txt2attr, txt2xml, cheap_repr
 
 sep = ' // '
 
@@ -65,7 +66,7 @@ class Card:
     @classmethod
     def fromDict(cls, obj):
         if isinstance(obj, cls):
-            return obj.copy()
+            return copy.deepcopy(obj)
         ### TODO: Move all of these transformations to __init__?
         cardClass = CardClass[obj.get("cardClass", "normal")]
         content = obj["content"]
@@ -192,12 +193,6 @@ class Card:
     def isNontraditional(self):
         return self.isType('Vanguard')   or self.isType('Plane') \
             or self.isType('Phenomenon') or self.isType('Scheme')
-
-    def copy(self):
-        return self.__class__(self.cardClass,
-                              [c.copy() for c in self.content],
-                              [p.copy() for p in self.printings],
-                              [r.copy() for r in self.rulings])
 
     tagwidth = 8  # may be modified externally
 

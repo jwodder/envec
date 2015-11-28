@@ -11,7 +11,6 @@
   JSONifies it as a list instead of letting EnVecEncoder handle it
 - Move EnVecEncoder's filtering out of `None` and `''` values to the individual
   `jsonify` methods?
-- Replace the `copy` methods with `__copy__` and `__deepcopy__`
 
 # Robustness
 
@@ -30,8 +29,7 @@
 - Improve the PostScript output of listify.py
 - Give Content a "devotion" method
 - Add checkboxes to the output of listify.py (but only if a flag is given?)
-- Give the classes `toDict`/`_asdict` methods
-- Give Card an isSilver/isUncard method?
+- Give the classes `toDict`/`_asdict` methods?
 - Add a function for splitting mana costs into a list of one string per mana
   symbol
 - listify.py: Implement single-file LaTeX & PostScript output
@@ -50,6 +48,7 @@
 - Move the code for fetching & merging together all of a card's printings from
   tutor.py into the library proper
 - Add a JSONDecoder subclass?
+- Add a class for rulings
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
