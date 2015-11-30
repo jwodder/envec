@@ -41,9 +41,9 @@ class Printing:
         if not nums:
             return None
         elif len(nums) == 1:
-            return int(nums[0])
+            return nums[0]
         else:
-            return sorted(int(n.rstrip(ascii_lowercase)) for n in nums)[0]
+            return min(int(str(n).rstrip(ascii_lowercase)) for n in nums)
 
     @classmethod
     def fromDict(cls, obj):

@@ -75,7 +75,7 @@ def scrapeSection(doc, pre):
             prnt['rarity'] = prnt0.rarity
             prnt['multiverseid'] = prnt0.multiverseid
         elif key == 'numberRow':
-            prnt['number'] = simplify(value)
+            prnt['number'] = maybeInt(simplify(value))
         elif key == 'artistRow':
             prnt['artist'] = simplify(value)
         elif key == 'otherSetsValue':
