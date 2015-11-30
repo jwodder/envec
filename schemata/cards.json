@@ -22,7 +22,12 @@
             "type": "array",
             "items": {
                 "type": "array",
-                "items": {"$ref": "#/definitions/str1"}
+                "items": {
+                    "oneOf": [
+                        {"$ref": "#/definitions/str1"},
+                        {"type": "integer"}
+                    ]
+                }
             }
         }
     },

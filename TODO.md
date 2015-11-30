@@ -1,5 +1,3 @@
-- Update cards.json to allow integer values for P/Ts, loyalties, and
-  multiverseids
 - Properly handle JSONification and un-JSONification of CardSets in Printings
     - Go back to serializing just the set names?
     - Update cards.json to allow sets to be set objects as from
