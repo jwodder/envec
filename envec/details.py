@@ -48,7 +48,7 @@ def scrapeSection(doc, pre):
         elif key == 'flavorRow':
             prnt['flavor'] = multiline(row)
         elif key == 'markRow':
-            prnt['watermark'] = multiline(row)
+            prnt['watermark'] = re.sub(r'<i>\s*|\s*</i>', '', multiline(row))
         elif key == 'colorIndicatorRow':
             fields['indicator'] = Color.fromLongString(value)
         elif key == 'ptRow':

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
 Tasks this script takes care of:
- - Remove italics from flavor text and watermarks
  - Convert short set names to long set names
  - Tag split, flip, and double-faced cards as such
  - Unmung munged flip cards
@@ -192,8 +191,6 @@ def main():
                     newPrnt.set = setdb.byGatherer[newPrnt.set]
                 except KeyError:
                     logging.error('Unknown set %r for %s', newPrnt.set, idstr)
-                newPrnt.flavor = newPrnt.flavor.mapvals(rmitalics)
-                newPrnt.watermark = newPrnt.watermark.mapvals(rmitalics)
                 printings.append(newPrnt)
             if card is not None:  # in case no printings can be fetched
                 printings.sort()
@@ -207,9 +204,6 @@ def main():
     print('\n]}', file=args.json_out)
     print('</cardlist>', file=args.xml_out)
     ending(missed)
-
-def rmitalics(s):
-    return re.sub(r'<i>\s*|\s*</i>', '', s, flags=re.I)
 
 def ending(missed):
     if missed:

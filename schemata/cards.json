@@ -41,8 +41,8 @@
                 "NOTES": [
                     "All mana and special symbols are referred to using the same notation as in the comprehensive rules.",
                     "Newlines in text must be maintained for paragraph breaks and lines of flavored verse.",
-                    "Italicized text is enclosed in underscores.",
-                    "The \"default\" rules and P/T of leveler cards are given in the <content>'s primary \"rules\", \"power\", and \"toughness\" fields."
+                    "Italicized text is enclosed in <i>...</i>.",
+                    "The \"default\" rules text and P/T of leveler cards are given in the <content>'s primary \"text\", \"power\", and \"toughness\" fields."
                 ],
                 "allOf": [
                     {

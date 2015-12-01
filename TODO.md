@@ -1,5 +1,6 @@
 - Properly handle JSONification and un-JSONification of CardSets in Printings
     - Go back to serializing just the set names?
+        - Also serialize a top-level dict of all the CardSets?
     - Update cards.json to allow sets to be set objects as from
       sets-schema.json?
 - Ensure `Printing.set` and `Printing.rarity` are always values of the
@@ -23,18 +24,19 @@
     - Incorporate data/rarities.tsv (adding an "old-rarity" field to
       `Printing`)
     - Somehow handle split cards with differing artists for each half
+- `listify.py`:
+    - Improve PostScript output
+    - Add checkboxes to the output (but only if a flag is given?)
+    - Implement single-file LaTeX & PostScript output
 - Add special handling/storage for leveler cards
 - Add a means to read Card objects from an XML file one at a time rather than
   all at once
 - Give Card a fromXML method?
 - Card.showField1 should treat a negative width as disabling line-wrapping
-- Improve the PostScript output of listify.py
 - Give Content a "devotion" method
-- Add checkboxes to the output of listify.py (but only if a flag is given?)
 - Give the classes `toDict`/`_asdict` methods? (i.e., recursive `jsonable`s)
 - Add a function for splitting mana costs into a list of one string per mana
   symbol
-- listify.py: Implement single-file LaTeX & PostScript output
 
 # Coding
 
@@ -46,7 +48,6 @@
 - Give all classes "copy constructors"
 - Eliminate Card.newCard?
 - Should "oversized" or "nontraditional" be a card class?
-- Move the use of &rmitalics from tutor.py to details.py?
 - Move the code for fetching & merging together all of a card's printings from
   tutor.py into the library proper
 - Add a JSONDecoder subclass?
