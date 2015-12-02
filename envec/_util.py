@@ -124,3 +124,13 @@ def maybeInt(s):
         return int(s)
     except ValueError:
         return s
+
+def split_mana(s):
+    mana = []
+    while True:
+        m = re.search(r'^\s*\{([^{}]+)\}\s*', s)
+        if m:
+            mana.append(m.group(1))
+            s = s[m.end():]
+        else:
+            return (mana, s)

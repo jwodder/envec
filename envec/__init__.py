@@ -7,3 +7,4 @@ from .details   import parse_details
 from .jsonify   import EnVecEncoder, iloadJSON
 from .multipart import MultipartDB, CardClass
 from .rarity    import Rarity
+from ._util     import split_mana

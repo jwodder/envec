@@ -1,7 +1,7 @@
 from   functools import total_ordering
 import re
 from   .color    import Color
-from   ._util    import txt2xml, sym2xml, trim, cheap_repr
+from   ._util    import txt2xml, sym2xml, trim, cheap_repr, split_mana
 
 @total_ordering
 class Content:
@@ -88,9 +88,7 @@ class Content:
         if not self.cost:
             return 0
         cost = 0
-        for c in re.split(r'[{}]+', self.cost):
-            # Splitting on an empty pattern like r'(?=\{)' doesn't work in
-            # Python.
+        for c in split_mana(self.cost)[0]:
             m = re.search(r'(\d+)', c)
             if m:
                 cost += int(m.group(1))

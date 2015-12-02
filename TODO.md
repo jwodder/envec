@@ -32,8 +32,6 @@
 - Card.showField1 should treat a negative width as disabling line-wrapping
 - Give Content a "devotion" method
 - Give the classes `toDict`/`_asdict` methods? (i.e., recursive `jsonable`s)
-- Add a function for splitting mana costs into a list of one string per mana
-  symbol
 
 # Coding
 
