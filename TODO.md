@@ -3,13 +3,8 @@
         - Also serialize a top-level dict of all the CardSets?
     - Update cards.json to allow sets to be set objects as from
       sets-schema.json?
-- Ensure `Printing.set` and `Printing.rarity` are always values of the
-  appropriate types?
 - Problem: Because `Color` is a `namedtuple`, the json module automatically
   JSONifies it as a list instead of letting EnVecEncoder handle it
-- Move EnVecEncoder's filtering out of `None` and `''` values to the individual
-  `jsonable` methods?
-- Look for a better/more standard name for `jsonable`
 - Eliminate XML output?
 
 # Robustness
@@ -17,6 +12,8 @@
 - Give `tutor.py` better error handling for, e.g., failed HTTP requests
 - Make `listify.py`'s references to external images for `\img` work for other
   people
+- Ensure `Printing.set` and `Printing.rarity` are always values of the
+  appropriate types?
 
 # Features
 
@@ -40,41 +37,47 @@
 
 # Coding
 
-- Make the storage of Content.text fields mirror their representation in
-  mtgcard.dtd
-- Make the default datafile paths absolute rather than relative (possibly with
-  a way to set the datafile directory at runtime?)
-- Rethink the Multival.get method
 - Give all classes "copy constructors"
 - Eliminate Card.newCard?
 - Should "oversized" or "nontraditional" be a card class?
-- Move the code for fetching & merging together all of a card's printings from
-  tutor.py into the library proper
+- Make the bulk of tutor.py into a library function?
+    - Move the code for fetching & merging together all of a card's printings
+      from tutor.py into the library proper
+    - Add a wrapper around `parse_details` that downloads and parses a given
+      multiverseid?
 - Add a JSONDecoder subclass?
 - Add a class for rulings
-- Make the bulk of tutor.py into a library function?
+- Store & access file in `data/` as `package_data`
+- Move EnVecEncoder's filtering out of `None` and `''` values to the individual
+  `jsonable` methods?
+- Look for a better/more standard name for `jsonable`
+- Make `text` and `baseText` equal `''` rather than `None` when empty/absent?
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
-- Ideas for new data structures:
-    - Instead of Multivals, make Printing objects store lists of
-      "ComponentPrinting" (or something) objects, with special handling for
-      multiverseids
-    - Instead of Card objects having a list of Content objects, instead make
-      them have a "primary" Content attribute and a nullable "secondary"
-      Content attribute?
-    - Replace Multivals with lists of `{"subcard": INT, "value": INT | STR}`
-      objects?
-    - Eliminate Multivals by dividing printing information up into three dicts:
-      fields shared by all components, fields unique to the first component,
-      and fields unique to the last component
-    - Eliminate `Content` and make a single `Card` object store all of the
-      content information for the primary component, with a nullable
-      `secondary` field containing a `Card` for the other component
-        - A `Card`'s various fields will only return data for that component
-          (except colorID, which must take both components into account), with
-          variant fields that return a tuple of values for all components.
+- Possible replacements for/alterations to `Content`:
+    - Instead of a list of Content objects, instead make Cards have a "primary"
+      Content attribute and a nullable "secondary" Content attribute?
+    - Make a single `Card` object store all of the content information for the
+      primary component, with a nullable `secondary` (or `alternate`?) field
+      containing a `Card` for the other component
+        - A `Card`'s various attributes will only return data for that
+          component (except colorID, which must take both components into
+          account), with variant attributes that return a tuple of values for
+          all components.
+        - also add attributes/methods for querying split cards while respecting
+          their dual nature?
         - This won't support Who/What/When/Where/Why, but what will?
+
+- Possible replacements for `Multival`:
+    - Make Printing objects store lists of "ComponentPrinting" (or something)
+      objects, with special handling for multiverseids
+    - lists of `{"subcard": INT, "value": INT | STR}` objects?
+    - Divide printing information up into three dicts: fields shared by all
+      components, fields unique to the first component, and fields unique to
+      the last component
+
+- Rethink the Multival.get method
 - Should subcard numbering in XML output (and internal rulings representation,
   et alii?) start from 1 for the first part rather than 0?
 - Make it so that only multiverseid fields can have multiple values per
@@ -95,6 +98,7 @@
       sets and any other sets not in Gatherer
     - Multiversion cards not in rarities.tsv (e.g., alternate-art foils from
       Planeshift, Brothers Yamazaki, ???)
+    - expansion symbols for cards from Chronicles and Anthologies?
 - Add the rest of the Twitter hashtags to sets.json
 
 # For Later
@@ -115,11 +119,7 @@
       format legality
 - Add a function for parsing an individual card page for printed (rather than
   Oracle) text
-- Add elements to mtgcard.dtd for storing printed text, expansion symbols,
-  card language, etc.
-- Add a wrapper around parseDetails that downloads and parses a given
-  multiverseid?
-- Overload stringification of Multival objects?
+    - Also fetch text (printed & Oracle?) in other languages?
 - Add fields to sets.json for:
     - whether a set is online-only?
     - number of cards

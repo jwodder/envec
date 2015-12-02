@@ -9,8 +9,7 @@ class EnVecEncoder(json.JSONEncoder):
         except AttributeError:
             return super(EnVecEncoder, self).default(obj)
         if isinstance(data, dict):
-            return {k:v for k,v in data.items()
-                        if v is not None and v != '' and v != [] and v != {}}
+            return {k:v for k,v in data.items() if v not in (None, '', [], {})}
         else:
             return data
 
