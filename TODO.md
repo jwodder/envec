@@ -30,7 +30,6 @@
   all at once
 - Give Card a fromXML method?
 - Card.showField1 should treat a negative width as disabling line-wrapping
-- Give Content a "devotion" method
 - Give the classes `toDict`/`_asdict` methods? (i.e., recursive `jsonable`s)
 
 # Coding
@@ -45,7 +44,7 @@
       multiverseid?
 - Add a JSONDecoder subclass?
 - Add a class for rulings
-- Store & access file in `data/` as `package_data`
+- Store & access files in `data/` as `package_data`
 - Look for a better/more standard name for `jsonable`
 - Make `text` and `baseText` (and `cost`?) equal `''` rather than `None` when
   empty/absent?
@@ -67,6 +66,9 @@
         - also add attributes/methods for querying split cards while respecting
           their dual nature?
         - This won't support Who/What/When/Where/Why, but what will?
+        - Each Card object stores the rulings for that component; rulings are
+          not merged.
+        - Should printing information also be divided between Card objects?
 
 - Possible replacements for `Multival`:
     - Make Printing objects store lists of "ComponentPrinting" (or something)

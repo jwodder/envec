@@ -263,3 +263,5 @@ class Card:
 
     def jsonable(self):
         return cleanDict(vars(self))
+
+    ### TODO: devotion

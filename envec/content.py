@@ -167,3 +167,13 @@ class Content:
         if "indicator" in data:
             data["indicator"] = str(data["indicator"])
         return data
+
+    def devotion(self, to_color):
+        if not self.cost:
+            return 0
+        devot = 0
+        for c in split_mana(self.cost)[0]:
+            c = Color.fromString(c)
+            if any(to_color & c):
+                devot += 1
+        return devot
