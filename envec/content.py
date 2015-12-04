@@ -1,8 +1,7 @@
 from   functools import total_ordering
 import re
 from   .color    import Color
-from   ._util    import txt2xml, sym2xml, trim, cheap_repr, split_mana,
-                            cleanDict
+from   ._util    import txt2xml, sym2xml, cheap_repr, split_mana, cleanDict
 
 @total_ordering
 class Content:
@@ -157,7 +156,7 @@ class Content:
         txt = re.sub(r'\([^()]+\)', '', self.text)
         # It is assumed that text is reminder text if & only if it's enclosed
         # in parentheses.
-        return '\n'.join(filter(None, map(trim, txt.splitlines())))
+        return '\n'.join(filter(None, map(str.strip, txt.splitlines())))
 
     def __repr__(self):
         return cheap_repr(self)

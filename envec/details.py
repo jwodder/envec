@@ -9,7 +9,7 @@ from   .printing    import Printing
 from   ._cardutil   import joinCards
 from   .color       import Color
 from   .multipart   import CardClass
-from   ._util       import magicContent, trim, simplify, parseTypes, maybeInt
+from   ._util       import magicContent, simplify, parseTypes, maybeInt
 
 def parse_details(obj):
     doc = BeautifulSoup(obj, 'html.parser')
@@ -89,7 +89,7 @@ def scrapeSection(doc, pre):
                 (date, ruling) = map(magicContent, tds)
                 fields['rulings'].append({
                     "date": simplify(date),
-                    "ruling": trim(ruling)
+                    "ruling": ruling.strip()
                 })
     fields.setdefault('printings', []).insert(0, Printing(**prnt))
     return Card.newCard(**fields)
@@ -101,7 +101,7 @@ def multiline(row):
     # for B.F.M.'s text to line up.
     txt = '\n'.join(m for n in row.find('div', class_='value')
                                   .find_all('div', class_=endswith('textbox'))
-                      for m in [trim(magicContent(n))]
+                      for m in [magicContent(n).strip()]
                       if m)
     return txt.rstrip("\n\r")
     # Trailing empty lines should definitely be removed, though.

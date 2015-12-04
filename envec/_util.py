@@ -5,11 +5,8 @@ import textwrap
 from   urllib.parse import urlparse, parse_qs
 import bs4
 
-def trim(txt):
-    return None if txt is None else txt.strip()
-
 def simplify(txt):
-    return None if txt is None else re.sub(r'\s+', ' ', trim(txt))
+    return None if txt is None else re.sub(r'\s+', ' ', txt.strip())
 
 def uniq(xs):
     # The list must be pre-sorted.
