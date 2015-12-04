@@ -43,7 +43,6 @@ def parse_checklist_page(obj):
         item = {}
         for td in tr.find_all('td'):
             key = ' '.join(td['class'])
-            #value = td.get_text()
             value = simplify(magicContent(td))
             item[key] = value
             if key == 'name':

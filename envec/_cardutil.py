@@ -23,7 +23,12 @@ def unmungFlip(flip):
     lines = texts[1].splitlines()
     (name, type_, pt, txt) = (lines[0], lines[1], lines[2], lines[3:])
     (supers, types, subs) = parseTypes(type_)
-    (power, toughness) = map(simplify, pt.split('/', 1)) if pt else (None, None)
+    if pt:
+        (power, toughness) = pt.split('/', 1)
+        power = maybeInt(simplify(power))
+        toughness = maybeInt(simplify(toughness))
+    else:
+        (power, toughness) = (None, None)
     bottom = Content(name=name, cost=flip.cost, supertypes=supers, types=types,
                      subtypes=subs, power=power, toughness=toughness,
                      text="\n".join(txt))
