@@ -134,3 +134,6 @@ def split_mana(s):
             s = s[m.end():]
         else:
             return (mana, s)
+
+def cleanDict(d):
+    return {k:v for k,v in d.items() if v not in (None, '', [], {})}

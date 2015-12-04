@@ -1,7 +1,8 @@
 from   functools import total_ordering
 import re
 from   .color    import Color
-from   ._util    import txt2xml, sym2xml, trim, cheap_repr, split_mana
+from   ._util    import txt2xml, sym2xml, trim, cheap_repr, split_mana,
+                            cleanDict
 
 @total_ordering
 class Content:
@@ -162,7 +163,7 @@ class Content:
         return cheap_repr(self)
 
     def jsonable(self):
-        data = vars(self).copy()
-        if data["indicator"] is not None:
+        data = cleanDict(vars(self))
+        if "indicator" in data:
             data["indicator"] = str(data["indicator"])
         return data

@@ -4,7 +4,7 @@ from   string     import ascii_lowercase
 from   .cardset   import CardSet
 from   .multival  import Multival
 from   .rarity    import Rarity
-from   ._util     import txt2xml, cheap_repr
+from   ._util     import txt2xml, cheap_repr, cleanDict
 
 multival = "number artist flavor watermark multiverseid notes".split()
 
@@ -66,4 +66,4 @@ class Printing:
         return cheap_repr(self)
 
     def jsonable(self):
-        return vars(self)
+        return cleanDict(vars(self))

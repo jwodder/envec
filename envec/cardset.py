@@ -1,7 +1,7 @@
 from   functools import total_ordering
 import json
 import logging
-from   ._util    import cheap_repr
+from   ._util    import cheap_repr, cleanDict
 
 @total_ordering
 class CardSet:
@@ -41,7 +41,7 @@ class CardSet:
 
     def jsonable(self):
         ###return self.name ???
-        return vars(self)
+        return cleanDict(vars(self))
 
 
 class CardSetDB:
@@ -90,4 +90,4 @@ class CardSetDB:
         return cheap_repr(self)
 
     def jsonable(self):
-        return vars(self)
+        return cleanDict(vars(self))

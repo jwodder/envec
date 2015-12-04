@@ -4,7 +4,8 @@ from   .content   import Content
 from   .printing  import Printing
 from   .color     import Color
 from   .multipart import CardClass
-from   ._util     import uniq, wrapLines, txt2attr, txt2xml, cheap_repr
+from   ._util     import uniq, wrapLines, txt2attr, txt2xml, cheap_repr, \
+                            cleanDict
 
 sep = ' // '
 
@@ -261,4 +262,4 @@ class Card:
         return cheap_repr(self)
 
     def jsonable(self):
-        return vars(self)
+        return cleanDict(vars(self))

@@ -46,10 +46,11 @@
 - Add a JSONDecoder subclass?
 - Add a class for rulings
 - Store & access file in `data/` as `package_data`
-- Move EnVecEncoder's filtering out of `None` and `''` values to the individual
-  `jsonable` methods?
 - Look for a better/more standard name for `jsonable`
-- Make `text` and `baseText` equal `''` rather than `None` when empty/absent?
+- Make `text` and `baseText` (and `cost`?) equal `''` rather than `None` when
+  empty/absent?
+- Change all tuple attributes to lists?
+- Rethink the necessity of `cleanDict`
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 

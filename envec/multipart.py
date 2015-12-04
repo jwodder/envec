@@ -2,7 +2,7 @@ import itertools
 import json
 import logging
 from   enum     import Enum
-from   ._util   import cheap_repr
+from   ._util   import cheap_repr, cleanDict
 
 class CardClass(Enum):
     normal       = 1
@@ -99,4 +99,4 @@ class MultipartDB:
         return cheap_repr(self)
 
     def jsonable(self):
-        return vars(self)
+        return cleanDict(vars(self))
