@@ -1,11 +1,10 @@
 import copy
-from   itertools  import starmap, zip_longest
+from   itertools  import groupby, starmap, zip_longest
 from   .content   import Content
 from   .printing  import Printing
 from   .color     import Color
 from   .multipart import CardClass
-from   ._util     import uniq, wrapLines, txt2attr, txt2xml, cheap_repr, \
-                            cleanDict
+from   ._util     import wrapLines, txt2attr, txt2xml, cheap_repr, cleanDict
 
 sep = ' // '
 
@@ -210,7 +209,8 @@ class Card:
                 except AttributeError:
                     rare = str(prnt.rarity)
                 return prnt.set.name + ' (' + rare + ')'
-            text = ', '.join(uniq(map(showPrnt, sorted(self.printings))))
+            text = ', '.join(k for k,_ in groupby(map(showPrnt,
+                                                      sorted(self.printings))))
             lines = wrapLines(text, width, 2)
             (first, rest) = (lines[0], lines[1:]) if lines else ('', [])
             return ''.join(["%-*s %s\n" % (Card.tagwidth, 'Sets:', first)] \

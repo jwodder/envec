@@ -8,10 +8,6 @@ import bs4
 def simplify(txt):
     return None if txt is None else re.sub(r'\s+', ' ', txt.strip())
 
-def uniq(xs):
-    # The list must be pre-sorted.
-    return [k for k,_ in itertools.groupby(xs)]
-
 def wrapLines(txt, length=80, postdent=0):
     lines = []
     for line in txt.rstrip().splitlines():
