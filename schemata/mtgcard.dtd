@@ -20,7 +20,8 @@
 
 <!-- A subcard of a multi-part card (or the entirety of a normal card): -->
 <!ELEMENT content (name, cost?, supertype*, type+, subtype*, text*, level*,
-		   (power, toughness)?, loyalty?, (hand, life)?, indicator?)>
+		   (power, toughness)?, loyalty?, (hand, life)?,
+		   color_indicator?)>
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT cost (%mana;)*>
 <!ATTLIST cost cmc CDATA #IMPLIED>
@@ -36,7 +37,7 @@
 <!ELEMENT loyalty (#PCDATA)>
 <!ELEMENT hand (#PCDATA)>
 <!ELEMENT life (#PCDATA)>
-<!ELEMENT indicator (#PCDATA)>  <!-- color indicator (as /^W?U?B?R?G?$/) -->
+<!ELEMENT color_indicator (#PCDATA)>  <!-- color indicator (as /^W?U?B?R?G?$/) -->
 
 <!ELEMENT printing (set, rarity?, number*, artist+, flavor*, watermark*,
 		    multiverseid*, notes*)>

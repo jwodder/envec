@@ -80,8 +80,8 @@ def main():
 
 def stats(card):
     cost = card.cost or '—'
-    if card.indicator:
-        cost += ' [' + card.indicator + ']'
+    if card.color_indicator:
+        cost += ' [' + card.color_indicator + ']'
     extra = str(card.PT or card.loyalty or card.HandLife or '')
     return {
         "name":     card.name,

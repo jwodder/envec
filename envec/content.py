@@ -7,7 +7,7 @@ from   ._util    import txt2xml, sym2xml, cheap_repr, split_mana, cleanDict
 class Content:
     def __init__(self, name, types, cost=None, supertypes=(), subtypes=(),
                  text=None, power=None, toughness=None, loyalty=None,
-                 hand=None, life=None, indicator=None):
+                 hand=None, life=None, color_indicator=None):
         self.name       = name                  # string
         self.types      = tuple(types)          # tuple of strings
         self.cost       = cost                  # string or None
@@ -19,7 +19,7 @@ class Content:
         self.loyalty    = loyalty               # string or None
         self.hand       = hand                  # string or None
         self.life       = life                  # string or None
-        self.indicator  = indicator             # string or None
+        self.color_indicator = color_indicator  # Color or None
 
     def toXML(self):
         txt = "  <content>\n   <name>" + txt2xml(self.name) + "</name>\n"
@@ -33,7 +33,7 @@ class Content:
             txt += "   <subtype>" + txt2xml(sub) + "</subtype>\n"
         for line in (self.text or '').splitlines():
             txt += "   <text>" + sym2xml(line) + "</text>\n"
-        for attr in "power toughness loyalty hand life indicator".split():
+        for attr in "power toughness loyalty hand life color_indicator".split():
             val = getattr(self, attr)
             if val is not None:
                 txt += "   <%s>%s</%s>\n" % (attr, txt2xml(val), attr)
@@ -45,7 +45,7 @@ class Content:
         if self.name == 'Ghostfire' or \
                 (self.text and 'devoid' in self.baseText.lower()):
             return Color()
-        return Color.fromString((self.cost or '') + (self.indicator or ''))
+        return Color.fromString((self.cost or '') + (self.color_indicator or ''))
 
     @property
     def colorID(self):
@@ -163,8 +163,8 @@ class Content:
 
     def jsonable(self):
         data = cleanDict(vars(self))
-        if "indicator" in data:
-            data["indicator"] = str(data["indicator"])
+        if "color_indicator" in data:
+            data["color_indicator"] = str(data["color_indicator"])
         return data
 
     def devotion(self, to_color):

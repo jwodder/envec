@@ -12,7 +12,7 @@ fields = {
     "name":       'Name:',
     "cost":       'Cost:',
     "cmc":        'CMC:',
-    "indicator":  'Color:',
+    "color_indicator": 'Color:',
     "supertypes": 'Super:',
     "types":      'Types:',
     "subtypes":   'Sub:',
@@ -55,7 +55,7 @@ class Card:
     def newCard(cls, **attrs):
         content = {}
         for field in ("name", "cost", "text", "power", "toughness", "loyalty",
-                      "hand", "life", "indicator", "supertypes", "types",
+                      "hand", "life", "color_indicator", "supertypes", "types",
                       "subtypes"):
             if field in attrs:
                 content[field] = attrs[field]
@@ -152,7 +152,7 @@ class Card:
     loyalty   = scalarField("loyalty")
     hand      = scalarField("hand")
     life      = scalarField("life")
-    indicator = scalarField("indicator")
+    color_indicator = scalarField("color_indicator")
     type      = scalarField("type")
     PT        = scalarField("PT")
     HandLife  = scalarField("HandLife")
@@ -242,8 +242,8 @@ class Card:
         txt += self.showField1('type', width)
         if self.cost:
             txt += self.showField1('cost', width)
-        if self.indicator is not None:
-            txt += self.showField1('indicator', width)
+        if self.color_indicator is not None:
+            txt += self.showField1('color_indicator', width)
         if self.text:
             txt += self.showField1('text', width)
         if self.power is not None:

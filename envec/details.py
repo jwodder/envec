@@ -3,7 +3,6 @@ import logging
 import re
 from   urllib.parse import urlparse, parse_qs
 from   bs4          import BeautifulSoup
-
 from   .card        import Card
 from   .printing    import Printing
 from   ._cardutil   import joinCards
@@ -50,7 +49,7 @@ def scrapeSection(doc, pre):
         elif key == 'markRow':
             prnt['watermark'] = re.sub(r'<i>\s*|\s*</i>', '', multiline(row))
         elif key == 'colorIndicatorRow':
-            fields['indicator'] = Color.fromLongString(value)
+            fields['color_indicator'] = Color.fromLongString(value)
         elif key == 'ptRow':
             label = simplify(magicContent(row.find('div', class_='label')))
             pt = simplify(value).replace('{^2}', '²').replace('{1/2}', '½')

@@ -50,6 +50,10 @@
   empty/absent?
 - Change all tuple attributes to lists?
 - Rethink the necessity of `cleanDict`
+- Make `parse_details`/`scrapeSection` return the list of "Other Sets"
+  separately from the Card object?
+- Should the checklist parsing functions perform any massaging or typecasting
+  of the data or make any guarantees about what the data will contain at all?
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
