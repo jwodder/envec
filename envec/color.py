@@ -2,47 +2,44 @@ from   enum import Enum
 import re
 
 class Color(Enum):
+    # The first name on each line is the "canonical" name for the value.
     COLORLESS = 0
+    W = WHITE = 0b00001
+    U = BLUE  = 0b00010
+    B = BLACK = 0b00100
+    R = RED   = 0b01000
+    G = GREEN = 0b10000
 
-    W = 0b00001
-    U = 0b00010
-    B = 0b00100
-    R = 0b01000
-    G = 0b10000
+    WU = UW = AZORIUS  = W | U
+    WB = BW = ORZHOV   = W | B
+    UB = BU = DIMIR    = U | B
+    UR = RU = IZZET    = U | R
+    BR = RB = RAKDOS   = B | R
+    BG = GB = GOLGARI  = B | G
+    RG = GR = GRUUL    = R | G
+    RW = WR = BOROS    = R | W
+    GW = WG = SELESNYA = G | W
+    GU = UG = SIMIC    = G | U
 
-    WHITE = W
-    BLUE  = U
-    BLACK = B
-    RED   = R
-    GREEN = G
+    GWU = GUW = WGU = WUG = UGW = UWG = BANT   = G | W | U
+    WUB = WBU = UWB = UBW = BWU = BUW = ESPER  = W | U | B
+    UBR = URB = BUR = BRU = RUB = RBU = GRIXIS = U | B | R
+    BRG = BGR = RBG = RGB = GBR = GRB = JUND   = B | R | G
+    RGW = RWG = GRW = GWR = WRG = WGR = NAYA   = R | G | W
 
-    WU = W | U
-    WB = W | B
-    UB = U | B
-    UR = U | R
-    BR = B | R
-    BG = B | G
-    RG = R | G
-    RW = R | W
-    GW = G | W
-    GU = G | U
+    WBR = WRB = BWR = BRW = RWB = RBW = MARDU  = DEGA  = W | B | R
+    URG = UGR = RUG = RGU = GUR = GRU = TEMUR  = CETA  = U | R | G
+    BGW = BWG = GBW = GWB = WBG = WGB = ABZAN  = NECRA = B | G | W
+    RWU = RUW = WRU = WUR = URW = UWR = JESKAI = RAKA  = R | W | U
+    GUB = GBU = UGB = UBG = BGU = BUG = SULTAI = ANA   = G | U | B
 
-    WUB = W | U | B
-    UBR = U | B | R
-    BRG = B | R | G
-    RGW = R | G | W
-
-    WBR = W | B | R
-    URG = U | R | G
-    BGW = B | G | W
-    RWU = R | W | U
-    GUB = G | U | B
-
-    WUBR = W | U | B | R
-    WUBG = W | U | B | G
-    WURG = W | U | R | G
-    WBRG = W | B | R | G
-    UBRG = U | B | R | G
+    # I am NOT putting every 4-color permutation here; just the ones where the
+    # colors are in clockwise order.
+    WUBR = UBRW = BRWU = RWUB = YORE_TILLER = W | U | B | R
+    WUBG = UBGW = BGWU = GWUB = WITCH_MAW   = W | U | B | G
+    WURG = URGW = RGWU = GWUR = INK_TREADER = W | U | R | G
+    WBRG = BRGW = RGWB = GWBR = DUNE_BROOD  = W | B | R | G
+    UBRG = BRGU = RGUB = GUBR = GLINT_EYE   = U | B | R | G
 
     # Neat trick: Iterating over WUBRG gives each of the five colors!
     WUBRG = W | U | B | R | G
@@ -95,7 +92,7 @@ class Color(Enum):
         if self.w:
             yield Color.W
         if self.u:
-            yield Color.B
+            yield Color.U
         if self.b:
             yield Color.B
         if self.r:

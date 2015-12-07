@@ -52,8 +52,7 @@
   separately from the Card object?
 - Should the checklist parsing functions perform any massaging or typecasting
   of the data or make any guarantees about what the data will contain at all?
-- Give `Color` duplicate members for all possible color orderings (WUB, WBU,
-  BUW, etc.) and names of guilds, shard, and clans (and volvers?)
+- Give `Color` objects an attribute for their nicknames (guild, shard, etc.) ?
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
