@@ -44,8 +44,11 @@ class Content:
     def color(self):
         if self.name == 'Ghostfire' or \
                 (self.text and 'devoid' in self.baseText.lower()):
-            return Color()
-        return Color.fromString((self.cost or '') + (self.color_indicator or ''))
+            return Color.COLORLESS
+        if self.color_indicator is not None:
+            return self.color_indicator
+        else:
+            return Color.fromString(self.cost or '')
 
     @property
     def colorID(self):
@@ -162,10 +165,7 @@ class Content:
         return cheap_repr(self)
 
     def jsonable(self):
-        data = cleanDict(vars(self))
-        if "color_indicator" in data:
-            data["color_indicator"] = str(data["color_indicator"])
-        return data
+        return cleanDict(vars(self))
 
     def devotion(self, to_color):
         if not self.cost:

@@ -3,8 +3,6 @@
         - Also serialize a top-level dict of all the CardSets?
     - Update cards.json to allow sets to be set objects as from
       sets-schema.json?
-- Problem: Because `Color` is a `namedtuple`, the json module automatically
-  JSONifies it as a list instead of letting EnVecEncoder handle it
 - Eliminate XML output?
 
 # Robustness
@@ -54,6 +52,8 @@
   separately from the Card object?
 - Should the checklist parsing functions perform any massaging or typecasting
   of the data or make any guarantees about what the data will contain at all?
+- Give `Color` duplicate members for all possible color orderings (WUB, WBU,
+  BUW, etc.) and names of guilds, shard, and clans (and volvers?)
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 

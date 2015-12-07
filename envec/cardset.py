@@ -45,8 +45,6 @@ class CardSet:
 
 
 class CardSetDB:
-    ### TODO: Add a `__contains__` method?
-
     DEFAULT_DATAFILE = 'data/sets.json'
 
     def __init__(self, infile=None):

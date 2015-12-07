@@ -1,81 +1,143 @@
-from   collections import namedtuple
-from   functools   import reduce
-import operator
+from   enum import Enum
 import re
 
-class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
-    __slots__ = ()
+class Color(Enum):
+    COLORLESS = 0
 
-    def __new__(cls, **colors):
-        for c in 'WUBRG':
-            colors[c] = bool(colors.get(c, False))
-        return super(Color, cls).__new__(cls, **colors)
+    W = 0b00001
+    U = 0b00010
+    B = 0b00100
+    R = 0b01000
+    G = 0b10000
 
-    def __str__(self):
-        return ''.join(c for c in 'WUBRG' if getattr(self, c))
+    WHITE = W
+    BLUE  = U
+    BLACK = B
+    RED   = R
+    GREEN = G
+
+    WU = W | U
+    WB = W | B
+    UB = U | B
+    UR = U | R
+    BR = B | R
+    BG = B | G
+    RG = R | G
+    RW = R | W
+    GW = G | W
+    GU = G | U
+
+    WUB = W | U | B
+    UBR = U | B | R
+    BRG = B | R | G
+    RGW = R | G | W
+
+    WBR = W | B | R
+    URG = U | R | G
+    BGW = B | G | W
+    RWU = R | W | U
+    GUB = G | U | B
+
+    WUBR = W | U | B | R
+    WUBG = W | U | B | G
+    WURG = W | U | R | G
+    WBRG = W | B | R | G
+    UBRG = U | B | R | G
+
+    # Neat trick: Iterating over WUBRG gives each of the five colors!
+    WUBRG = W | U | B | R | G
+
+    @property
+    def w(self):
+        return self & Color.W
+
+    @property
+    def u(self):
+        return self & Color.U
+
+    @property
+    def b(self):
+        return self & Color.B
+
+    @property
+    def r(self):
+        return self & Color.R
+
+    @property
+    def g(self):
+        return self & Color.G
+
+    white = w
+    blue  = u
+    black = b
+    red   = r
+    green = g
 
     def __or__(self, other):
-        return self._make(map(operator.or_,  self, other))
+        return Color(self.value | other.value)
 
     def __and__(self, other):
-        return self._make(map(operator.and_, self, other))
+        return Color(self.value & other.value)
 
     def __xor__(self, other):
-        return self._make(map(operator.xor,  self, other))
+        return Color(self.value ^ other.value)
 
     def __sub__(self, other):
-        return self._make(c and not d for (c,d) in zip(self, other))
+        return Color(self.value & ~other.value)
+
+    __add__ = __or__
 
     def __invert__(self):
-        return self._make(map(operator.not_, self))
+        return Color(self.value ^ 0b11111)
 
-    def colors(self):  ### TODO: Rethink whether this should be __iter__
-        if self.W:
-            yield Color.WHITE
-        if self.U:
-            yield Color.BLUE
-        if self.B:
-            yield Color.BLACK
-        if self.R:
-            yield Color.RED
-        if self.G:
-            yield Color.GREEN
+    def __iter__(self):
+        #return (c for c in [self.w, self.u, self.b, self.r, self.g] if c)
+        if self.w:
+            yield Color.W
+        if self.u:
+            yield Color.B
+        if self.b:
+            yield Color.B
+        if self.r:
+            yield Color.R
+        if self.g:
+            yield Color.G
 
-    def size(self):  ### TODO: Could this be __len__ without breaking too much?
-        return sum(self)
+    def __len__(self):
+        return sum(1 for i in range(5) if self.value & (1 << i))
+
+    def __bool__(self):
+        return self.value != 0
 
     @property
     def multicolor(self):
-        return self.size() > 1
+        return len(self) > 1
 
     gold = multicolor
 
     @property
     def monocolor(self):
-        return self.size() == 1
+        return len(self) == 1
 
     mono = monocolor
 
     @property
     def colorless(self):
-        return not any(self)
+        return self.value == 0
 
     @classmethod
     def fromString(cls, txt):
-        if txt is None:
-            return None
-        return cls(W='W' in txt, U='U' in txt, B='B' in txt, R='R' in txt,
-                   G='G' in txt)
+        #if txt is None:
+        #    return None
+        return sum((Color[c] for c in 'WUBRG' if c in txt), Color.COLORLESS)
 
     @classmethod
     def fromLongString(cls, txt):
-        if txt is None:
-            return None
-        return cls(W=re.search(r'\bWhite\b', txt, re.I),
-                   U=re.search(r'\bBlue\b',  txt, re.I),
-                   B=re.search(r'\bBlack\b', txt, re.I),
-                   R=re.search(r'\bRed\b',   txt, re.I),
-                   G=re.search(r'\bGreen\b', txt, re.I))
+        #if txt is None:
+        #    return None
+        return sum((Color[c] for c in 'WHITE BLUE BLACK RED GREEN'.split()
+                             if re.search('r\b' + c + r'\b', txt, re.I)),
+                   Color.COLORLESS)
 
     # Set-like comparison (not a total ordering):
 
@@ -87,15 +149,13 @@ class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
 
     def __le__(self, other):
         if type(self) is type(other):
-            return all(map(operator.le, self, other))
+            return (self.value & other.value) == self.value
         else:
             return NotImplemented
 
     def __eq__(self, other):
-        return type(self) is type(other) and all(map(operator.eq, self, other))
-
-    def __ne__(self, other):
-        return not (self == other)
+        ### Is this superfluous?
+        return type(self) is type(other) and self.value == other.value
 
     def __ge__(self, other):
         return other <= self
@@ -105,22 +165,11 @@ class Color(namedtuple('Color', 'W U B R G')):  ### TODO: Use an Enum instead?
 
     __contains__ = __le__
 
-    @classmethod
-    def union(cls, *colors):
-        return reduce(operator.or_, colors, cls())
+    def __str__(self):
+        return self.name
 
     def jsonable(self):
-        return str(self)
+        return self.name
 
-    ### TODO: Implement .items() etc.?
-
-
-Color.COLORLESS = Color()
-Color.WHITE     = Color(W=True)
-Color.BLUE      = Color(U=True)
-Color.BLACK     = Color(B=True)
-Color.RED       = Color(R=True)
-Color.GREEN     = Color(G=True)
-### TODO: Add constants for each color combination?
-
-Color.PENTAGON = [Color.WHITE, Color.BLUE, Color.BLACK, Color.RED, Color.GREEN]
+### Construction from a list of bools?
+### Construction from a dict?

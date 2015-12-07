@@ -96,11 +96,11 @@ class Card:
 
     @property
     def color(self):
-        return Color.union(*[c.color   for c in self.content])
+        return sum([c.color for c in self.content], Color.COLORLESS)
 
     @property
     def colorID(self):
-        return Color.union(*[c.colorID for c in self.content])
+        return sum([c.colorID for c in self.content], Color.COLORLESS)
 
     @property
     def cmc(self):
