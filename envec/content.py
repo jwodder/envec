@@ -61,16 +61,9 @@ class Content:
         # establishing color identity, though (as of Dark Ascension) Charmed
         # Pendant and Trinisphere appear to be the only cards for which this
         # makes a difference.
-        if re.search(r'\{(./)?W(/.)?\}', txt):
-            colors |= Color.WHITE
-        if re.search(r'\{(./)?U(/.)?\}', txt):
-            colors |= Color.BLUE
-        if re.search(r'\{(./)?B(/.)?\}', txt):
-            colors |= Color.BLACK
-        if re.search(r'\{(./)?R(/.)?\}', txt):
-            colors |= Color.RED
-        if re.search(r'\{(./)?G(/.)?\}', txt):
-            colors |= Color.GREEN
+        for c in Color.WUBRG:
+            if re.search(r'\{(./)?' + c.name + r'(/.)?\}', txt):
+                colors |= c
         if self.isType('Land'):
             # Basic land types aren't _de jure_ part of color identity, but
             # rule 903.5d makes them a part _de facto_ anyway.
