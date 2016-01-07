@@ -4,6 +4,8 @@
     - Update cards.json to allow sets to be set objects as from
       sets-schema.json?
 - Eliminate XML output?
+- Turn this into a library with one or more CLI commands that can be used for
+  querying, updating, & dumping a local version of Gatherer
 
 # Robustness
 
@@ -53,6 +55,9 @@
 - Should the checklist parsing functions perform any massaging or typecasting
   of the data or make any guarantees about what the data will contain at all?
 - Give `Color` objects an attribute for their nicknames (guild, shard, etc.) ?
+    - also (for single & dual colors) an attribute for land type?
+- The library functions that use `logging` should register a `NullHandler`
+  first; see <https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library>.
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
@@ -71,7 +76,11 @@
         - This won't support Who/What/When/Where/Why, but what will?
         - Each Card object stores the rulings for that component; rulings are
           not merged.
-        - Should printing information also be divided between Card objects?
+        - Also divide printing information between Card objects, with each
+          Printing object containing a reference to its counterpart?
+            - Add a method for getting a Printing object containing only the
+              values that are shared between components (including
+              `effectiveNum`) ?
 
 - Possible replacements for `Multival`:
     - Make Printing objects store lists of "ComponentPrinting" (or something)

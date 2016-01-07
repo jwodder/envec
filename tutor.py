@@ -10,12 +10,11 @@ Tasks this script takes care of:
 
 import argparse
 from   collections import defaultdict
-from   datetime    import datetime
 import json
 import logging
 import re
 import sys
-from   time        import time
+import time
 import requests
 import envec
 
@@ -92,7 +91,7 @@ def main():
             if args.idfile2:
                 ending(missed)
 
-        timestamp = datetime.utcfromtimestamp(time()).strftime(datefmt)
+        timestamp = time.strftime(datefmt, time.gmtime())
 
         print('{"date": "%s", "cards": [' % (timestamp,), file=args.json_out)
 

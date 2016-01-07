@@ -36,9 +36,9 @@ class Color(Enum):
     # I am NOT putting every 4-color permutation here; just the ones where the
     # colors are in clockwise order.
     WUBR = UBRW = BRWU = RWUB = YORE_TILLER = W | U | B | R
-    WUBG = UBGW = BGWU = GWUB = WITCH_MAW   = W | U | B | G
-    WURG = URGW = RGWU = GWUR = INK_TREADER = W | U | R | G
-    WBRG = BRGW = RGWB = GWBR = DUNE_BROOD  = W | B | R | G
+    GWUB = WUBG = UBGW = BGWU = WITCH_MAW   = W | U | B | G
+    RGWU = GWUR = WURG = URGW = INK_TREADER = W | U | R | G
+    BRGW = RGWB = GWBR = WBRG = DUNE_BROOD  = W | B | R | G
     UBRG = BRGU = RGUB = GUBR = GLINT_EYE   = U | B | R | G
 
     # Neat trick: Iterating over WUBRG gives each of the five colors!
