@@ -2120,5 +2120,19 @@
         "modern": false,
         "border": "black",
         "release_date": "2015-11-13"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "OGW",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGOGW"
+        },
+        "fetch": true,
+        "name": "Oath of the Gatewatch",
+        "type": "expansion",
+        "block": "Battle for Zendikar",
+        "modern": true,
+        "border": "black",
+        "release_date": "2016-01-22"
     }
 ]

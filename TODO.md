@@ -6,6 +6,8 @@
 - Eliminate XML output?
 - Turn this into a library with one or more CLI commands that can be used for
   querying, updating, & dumping a local version of Gatherer
+    - This would mean that I could stop storing printing & ruling information
+      in Card objects and could instead store it separately.
 
 # Robustness
 
