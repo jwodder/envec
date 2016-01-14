@@ -41,8 +41,6 @@ def main():
                         type=argparse.FileType('w', encoding='utf-8'))
     args = parser.parse_args()
 
-    ### TODO: Turn off output buffering for json_out, xml_out, and logfile
-
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                         level=logging.INFO, datefmt=datefmt,
                         stream=args.logfile)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from   collections  import Iterable
 import itertools
 import re
 import textwrap
@@ -129,4 +130,7 @@ def split_mana(s):
             return (mana, s)
 
 def cleanDict(d):
-    return {k:v for k,v in d.items() if v not in (None, '', [], {})}
+    return {
+        k:v for k,v in d.items() if v is not None and
+                                    not (isinstance(v, Iterable) and not v)
+    }
