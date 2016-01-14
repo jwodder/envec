@@ -4,7 +4,7 @@ from .content    import Content
 from .multival   import Multival
 from .printing   import Printing
 from .multipart  import CardClass
-from ._util      import parseTypes, simplify
+from ._util      import maybeInt, parseTypes, simplify
 
 def joinCards(format, part1, part2):
     return Card(cardClass=format,
