@@ -66,4 +66,7 @@ class Printing:
         return cheap_repr(self)
 
     def jsonable(self):
-        return cleanDict(vars(self))
+        data = vars(self).copy()
+        for field in multival:
+            data[field] = data[field].jsonable()
+        return cleanDict(data)
