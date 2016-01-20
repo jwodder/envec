@@ -1956,6 +1956,7 @@
         "abbreviations": {
             "Gatherer": "FRF_UGIN",
             "askwizards-20040812": null,
+            "magiccards.info": "ugin",
             "Twitter": null
         },
         "fetch": false,
@@ -2125,6 +2126,7 @@
         "abbreviations": {
             "Gatherer": "OGW",
             "askwizards-20040812": null,
+            "magiccards.info": "ogw",
             "Twitter": "#MTGOGW"
         },
         "fetch": true,
