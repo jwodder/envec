@@ -24,5 +24,19 @@
         "modern": true,
         "border": "black",
         "release_date": "2016-04-08"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "EMN",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGEMN"
+        },
+        "fetch": true,
+        "name": "Eldritch Moon",
+        "type": "expansion",
+        "block": "Shadows Over Innistrad",
+        "modern": true,
+        "border": "black",
+        "release_date": "2016-07-22"
     }
 ]

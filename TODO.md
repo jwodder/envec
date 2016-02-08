@@ -44,6 +44,8 @@
       from tutor.py into the library proper
     - Add a wrapper around `parse_details` that downloads and parses a given
       multiverseid?
+    - Add a class ("Gathererer"?) containing a `Session` object with methods
+      for fetching & parsing checklists & details pages
 - Add a JSONDecoder subclass?
 - Add a class for rulings
 - Store & access files in `data/` as `package_data`
@@ -76,6 +78,8 @@
         - also add attributes/methods for querying split cards while respecting
           their dual nature?
         - This won't support Who/What/When/Where/Why, but what will?
+            - Support WWWWW by replacing the `secondary` field with a reference
+              to the next component in the card?
         - Each Card object stores the rulings for that component; rulings are
           not merged.
         - Also divide printing information between Card objects, with each
@@ -83,6 +87,9 @@
             - Add a method for getting a Printing object containing only the
               values that are shared between components (including
               `effectiveNum`) ?
+        - The primary component of each card will have the combined card's card
+          class, while the secondary component will have a special
+          "secondary"/"alternative" card class
 
 - Possible replacements for `Multival`:
     - Make Printing objects store lists of "ComponentPrinting" (or something)
