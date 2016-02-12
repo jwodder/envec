@@ -8,6 +8,8 @@
   querying, updating, & dumping a local version of Gatherer
     - This would mean that I could stop storing printing & ruling information
       in Card objects and could instead store it separately.
+    - There should still be methods for converting the database to (and from?)
+      JSON.
 
 # Robustness
 

@@ -168,5 +168,6 @@ class Color(Enum):
     def jsonable(self):
         return self.name
 
-### Construction from a list of bools?
-### Construction from a dict?
+    @classmethod
+    def fromBits(cls, W=False, U=False, B=False, R=False, G=False):
+        return cls(int(''.join('1' if c else '0' for c in (G,R,B,U,W)), base=2))
