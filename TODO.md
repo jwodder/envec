@@ -46,8 +46,8 @@
       from tutor.py into the library proper
     - Add a wrapper around `parse_details` that downloads and parses a given
       multiverseid?
-    - Add a class ("Gathererer"?) containing a `Session` object with methods
-      for fetching & parsing checklists & details pages
+    - Add a class ("Gathererer"? "Gatherest"?) containing a `Session` object
+      with methods for fetching & parsing checklists & details pages
 - Add a JSONDecoder subclass?
 - Add a class for rulings
 - Store & access files in `data/` as `package_data`
