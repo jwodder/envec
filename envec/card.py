@@ -109,6 +109,9 @@ class Card:
         else:
             return sum(c.cmc for c in self.content)
 
+    def devotion(self, to_color):
+        return tuple(c.devotion(to_color) for c in self.content)
+
     @property
     def parts(self):
         return len(self.content)
@@ -263,5 +266,3 @@ class Card:
 
     def jsonable(self):
         return cleanDict(vars(self))
-
-    ### TODO: devotion
