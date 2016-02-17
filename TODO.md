@@ -64,48 +64,36 @@
     - also (for single & dual colors) an attribute for land type?
 - The library functions that use `logging` should register a `NullHandler`
   first; see <https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library>.
+- Add function annotations?
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
-- Possible replacements for/alterations to `Content`:
-    - Instead of a list of Content objects, instead make Cards have a "primary"
-      Content attribute and a nullable "secondary" Content attribute?
-    - Make a single `Card` object store all of the content information for the
-      primary component, with a nullable `secondary` (or `alternate`?) field
-      containing a `Card` for the other component
-        - A `Card`'s various attributes will only return data for that
-          component (except colorID, which must take both components into
-          account), with variant attributes that return a tuple of values for
-          all components.
-        - also add attributes/methods for querying split cards while respecting
-          their dual nature?
-        - This won't support Who/What/When/Where/Why, but what will?
-            - Support WWWWW by replacing the `secondary` field with a reference
-              to the next component in the card?
-        - Each Card object stores the rulings for that component; rulings are
-          not merged.
-        - Also divide printing information between Card objects, with each
-          Printing object containing a reference to its counterpart?
-            - Add a method for getting a Printing object containing only the
-              values that are shared between components (including
-              `effectiveNum`) ?
-        - The primary component of each card will have the combined card's card
-          class, while the secondary component will have a special
-          "secondary"/"alternative" card class
+Merge `Card` and `Content` into a single type that stores all of the content
+information for a single card component plus a `secondary` (or `alternate`?)
+field containing a reference to the card's other component, if any.
 
-- Possible replacements for `Multival`:
-    - Make Printing objects store lists of "ComponentPrinting" (or something)
-      objects, with special handling for multiverseids
-    - lists of `{"subcard": INT, "value": INT | STR}` objects?
-    - Divide printing information up into three dicts: fields shared by all
-      components, fields unique to the first component, and fields unique to
-      the last component
-
-- Rethink the Multival.get method
-- Should subcard numbering in XML output (and internal rulings representation,
-  et alii?) start from 1 for the first part rather than 0?
-- Make it so that only multiverseid fields can have multiple values per
-  component
+- Lists of cards will be of primary components with populated `secondary`
+  fields.
+- A `Card`'s various attributes will only return data for that component
+  (except colorID, which must take both components into account), with variant
+  attributes that return a tuple of values for all components.
+- also add attributes/methods for querying split cards while respecting their
+  dual nature?
+- Support Who/What/When/Where/Why by using the `secondary` field as a reference
+  to the next component in the card, thereby constructing a linked list?
+- Each Card object stores the rulings for that component; rulings are not
+  merged.
+- The primary component of each card will have the combined card's card class,
+  while the secondary component will have a special "secondary"/"alternative"
+  card class.
+- A single `Printing` object should only store information for a single
+  component and should, like `Card` objects, contain a reference to the
+  corresponding `Printing` for the other half of the card, if any
+    - Give `Printing` a method for getting a `Printing` object containing only
+      the values that are shared between components (including `effectiveNum`)
+    - For the few cards with more than one multiverseid per component printing,
+      just store multiple nearly-identical `Printing` objects.  This eliminates
+      the need for `Multival`.
 
 # Data & Documentation
 
