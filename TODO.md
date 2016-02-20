@@ -38,7 +38,7 @@
 
 # Coding
 
-- Give all classes "copy constructors"
+- Give all classes "copy constructors"?
 - Eliminate Card.newCard?
 - Should "oversized" or "nontraditional" be a card class?
 - Make the bulk of tutor.py into a library function?
