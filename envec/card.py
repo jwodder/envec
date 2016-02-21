@@ -4,7 +4,7 @@ from   .content   import Content
 from   .printing  import Printing
 from   .color     import Color
 from   .multipart import CardClass
-from   ._util     import wrapLines, txt2attr, txt2xml, cheap_repr, cleanDict
+from   ._util     import wrapLines, txt2attr, cheap_repr, cleanDict
 
 sep = ' // '
 
@@ -79,20 +79,6 @@ class Card:
         printings = map(Printing.fromDict, obj.get("printings", ()))
         rulings = obj.get("rulings", [])
         return cls(cardClass, content, printings, rulings)
-
-    def toXML(self):
-        txt = ' <card cardClass="' + txt2attr(self.cardClass.name) + '">\n'
-        for c in self.content:
-            txt += c.toXML()
-        for p in self.printings:
-            txt += p.toXML()
-        for rule in self.rulings:
-            txt += '  <ruling date="' + txt2attr(rule["date"]) + '"'
-            if "subcard" in rule:
-                txt += ' subcard="' + txt2attr(rule["subcard"]) + '"'
-            txt += '>' + txt2xml(rule["ruling"]) + '</ruling>\n'
-        txt += ' </card>\n'
-        return txt
 
     @property
     def color(self):

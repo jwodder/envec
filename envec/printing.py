@@ -4,7 +4,7 @@ from   string     import ascii_lowercase
 from   .cardset   import CardSet
 from   .multival  import Multival
 from   .rarity    import Rarity
-from   ._util     import txt2xml, cheap_repr, cleanDict
+from   ._util     import cheap_repr, cleanDict
 
 multival = "number artist flavor watermark multiverseid notes".split()
 
@@ -26,15 +26,6 @@ class Printing:
         if key in multival:
             value = Multival(value)
         self.__dict__[key] = value
-
-    def toXML(self):
-        txt = "  <printing>\n   <set>" + txt2xml(self.set) + "</set>\n"
-        if self.rarity:
-            txt += "   <rarity>" + txt2xml(self.rarity.name) + "</rarity>\n"
-        for attr in multival:
-            txt += getattr(self, attr).toXML(attr, attr in ('flavor', 'notes'))
-        txt += "  </printing>\n"
-        return txt
 
     def effectiveNum(self):
         nums = self.number.all()

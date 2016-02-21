@@ -1,7 +1,7 @@
 from   functools import total_ordering
 import re
 from   .color    import Color
-from   ._util    import txt2xml, sym2xml, cheap_repr, split_mana, cleanDict
+from   ._util    import cheap_repr, split_mana, cleanDict
 
 @total_ordering
 class Content:
@@ -20,25 +20,6 @@ class Content:
         self.hand       = hand                  # string or None
         self.life       = life                  # string or None
         self.color_indicator = color_indicator  # Color or None
-
-    def toXML(self):
-        txt = "  <content>\n   <name>" + txt2xml(self.name) + "</name>\n"
-        if self.cost is not None:
-            txt += "   <cost>" + sym2xml(self.cost) + "</cost>\n"
-        for sup in self.supertypes:
-            txt += "   <supertype>" + txt2xml(sup) + "</supertype>\n"
-        for t in self.types:
-            txt += "   <type>" + txt2xml(t) + "</type>\n"
-        for sub in self.subtypes:
-            txt += "   <subtype>" + txt2xml(sub) + "</subtype>\n"
-        for line in (self.text or '').splitlines():
-            txt += "   <text>" + sym2xml(line) + "</text>\n"
-        for attr in "power toughness loyalty hand life color_indicator".split():
-            val = getattr(self, attr)
-            if val is not None:
-                txt += "   <%s>%s</%s>\n" % (attr, txt2xml(val), attr)
-        txt += "  </content>\n"
-        return txt
 
     @property
     def color(self):

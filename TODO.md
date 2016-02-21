@@ -3,9 +3,9 @@
         - Also serialize a top-level dict of all the CardSets?
     - Update cards.json to allow sets to be set objects as from
       sets-schema.json?
-- Eliminate XML output?
 - Turn this into a library with one or more CLI commands that can be used for
   querying, updating, & dumping a local version of Gatherer
+    - Store card data in actual SQL databases rather than flat JSON files
     - This would mean that I could stop storing printing & ruling information
       in Card objects and could instead store it separately.
     - There should still be methods for converting the database to (and from?)
@@ -30,11 +30,7 @@
     - Add checkboxes to the output (but only if a flag is given?)
     - Implement single-file LaTeX & PostScript output
 - Add special handling/storage for leveler cards
-- Add a means to read Card objects from an XML file one at a time rather than
-  all at once
-- Give Card a fromXML method?
 - Card.showField1 should treat a negative width as disabling line-wrapping
-- Give the classes `toDict`/`_asdict` methods? (i.e., recursive `jsonable`s)
 
 # Coding
 
@@ -45,9 +41,9 @@
     - Move the code for fetching & merging together all of a card's printings
       from tutor.py into the library proper
     - Add a wrapper around `parse_details` that downloads and parses a given
-      multiverseid?
-    - Add a class ("Gathererer"? "Gatherest"?) containing a `Session` object
-      with methods for fetching & parsing checklists & details pages
+      multiverseid
+    - Add a class ("Gathererer"? "Gatherest"? "Tutor"?) containing a `Session`
+      object with methods for fetching & parsing checklists & details pages
 - Add a JSONDecoder subclass?
 - Add a class for rulings
 - Store & access files in `data/` as `package_data`
@@ -56,8 +52,9 @@
   empty/absent?
 - Change all tuple attributes to lists?
 - Rethink the necessity of `cleanDict`
-- Make `parse_details`/`scrapeSection` return the list of "Other Sets"
-  separately from the Card object?
+- Make `parse_details` return a list of `(Card, [OtherSet])` pairs, one for
+  each section/component on the page, rather than joining everything together
+  into one card
 - Should the checklist parsing functions perform any massaging or typecasting
   of the data or make any guarantees about what the data will contain at all?
 - Give `Color` objects an attribute for their nicknames (guild, shard, etc.) ?
@@ -94,6 +91,10 @@ field containing a reference to the card's other component, if any.
     - For the few cards with more than one multiverseid per component printing,
       just store multiple nearly-identical `Printing` objects.  This eliminates
       the need for `Multival`.
+
+Yet another idea: Each card class is represented by a different subclass of the
+`Card` ABC, with instances of the multipart classes (subclassing
+`MultipartCard`) each containing two "normal card" (`SimpleCard`?) objects.
 
 # Data & Documentation
 
@@ -143,4 +144,7 @@ field containing a reference to the card's other component, if any.
       among other sources
     - whether the set had foil/premium cards, no foil cards, or only foil cards
     - dates of prereleases etc.?
-- Store card data in actual SQL databases rather than flat JSON/XML files
+- Make the scraping code able to handle sets in Gatherer that aren't listed in
+  sets.json
+- Make `parse_details` automatically determine whether a multipart card is
+  split, flip, or double-faced (by looking at the rulings?)

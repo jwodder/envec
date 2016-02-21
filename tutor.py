@@ -29,9 +29,6 @@ def main():
     parser.add_argument('-j', '--json-out',
                         type=argparse.FileType('w', encoding='utf-8'),
                         default='details.json')
-    parser.add_argument('-x', '--xml-out',
-                        type=argparse.FileType('w', encoding='utf-8'),
-                        default='details.xml')
     parser.add_argument('-l', '--logfile',
                         type=argparse.FileType('w', encoding='utf-8'),
                         default=sys.stderr)
@@ -92,11 +89,6 @@ def main():
         timestamp = time.strftime(datefmt, time.gmtime())
 
         print('{"date": "%s", "cards": [' % (timestamp,), file=args.json_out)
-
-        print('<?xml version="1.0" encoding="UTF-8"?>', file=args.xml_out)
-        #print('<!DOCTYPE cardlist SYSTEM "mtgcard.dtd">', file=args.xml_out)
-        print('<cardlist date="%s">' % (timestamp,), file=args.xml_out)
-        print('', file=args.xml_out)
 
         logging.info('Fetching individual card data...')
         first = True
@@ -196,10 +188,8 @@ def main():
                                       indent='    ', ensure_ascii=False)
                 print(re.sub('^', '    ', js, flags=re.M), end='',
                       file=args.json_out)
-                print(card.toXML(), file=args.xml_out)
 
     print('\n]}', file=args.json_out)
-    print('</cardlist>', file=args.xml_out)
     ending(missed)
 
 def ending(missed):

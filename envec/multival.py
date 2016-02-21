@@ -7,7 +7,7 @@
 # None of these lists should ever contain empty strings or values that are
 # neither strings nor integers.
 
-from ._util import sym2xml, txt2xml, cheap_repr
+from ._util import cheap_repr
 
 class Multival:
     def __init__(self, val):
@@ -59,19 +59,6 @@ class Multival:
 
     def asArray(self):
         return [v[:] for v in self.val]
-
-    def toXML(self, name, sym):
-        if not name:
-            name = 'MULTIVAL'  # Just in case
-        txt = ''
-        i = -1
-        for sub in self.val:
-            attr = '' if i == -1 else ' subcard="%d"' % (i,)
-            for s in sub:
-                txt += '   <%s%s>%s</%s>\n' \
-                      % (name, attr, sym2xml(s) if sym else txt2xml(s), name)
-            i += 1
-        return txt
 
     def mapvals(self, function):
         return Multival([list(map(function, v)) for v in self.val])

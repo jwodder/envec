@@ -88,28 +88,6 @@ def parseTypes(arg):
             superlist.append(typelist.pop(0))
     return (superlist, typelist, sublist)
 
-def txt2xml(txt):
-    txt = str(txt)
-    txt = txt.replace('&', '&amp;')
-    txt = txt.replace('<', '&lt;')
-    txt = txt.replace('>', '&gt;')
-    return txt
-
-def txt2attr(txt):
-    return txt2xml(txt).replace('"', '&quot;')
-
-def sym2xml(txt):
-    txt = txt2xml(txt)
-    txt = re.sub(r'&lt;(/?i)&gt;', lambda m: '<%s>' % m.group(1).lower(), txt,
-                 flags=re.I)
-    txt = re.sub(r'\{(\d+|∞)\}', r'<m>\1</m>', txt)
-    txt = re.sub(r'\{([WUBRGPXYZSTQ])\}', r'<\1/>', txt)
-    txt = re.sub(r'\{([WUBRG])/([WUBRGP])\}', r'<\1\2/>', txt)
-    txt = re.sub(r'\{2/([WUBRG])\}', r'<\g<1>2/>', txt)
-    txt = re.sub(r'\{PW\}', r'<PW/>', txt)
-    txt = re.sub(r'\{C\}', r'<chaos/>', txt)
-    return txt
-
 def cheap_repr(obj):
     return obj.__class__.__name__ + '(' + ', '.join('%s=%r' % kv for kv in vars(obj).items()) + ')'
 

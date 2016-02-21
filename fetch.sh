@@ -2,7 +2,7 @@
 # Recommended invocation: nice ./fetch.sh &
 #
 # Options:
-#  -b base - Use `base` as the basename of the JSON & XML output files instead
+#  -b base - Use `base` as the basename of the JSON output files instead
 #            of the current date and most recent set abbreviation
 #  -i ids - Write card IDs to (or, if it already exists, read card IDs from)
 #           `ids` instead of `ids.txt` in the output directory
@@ -40,7 +40,6 @@ mkdir -p "$dir"
 python3 tutor.py -S "$setfile" \
                  -$Ci "$ids" \
                  -j "$dir/$base.json" \
-                 -x "$dir/$base.xml" \
                  -l "$dir/tutor.log"
 
 python3 toText1.py "$dir/$base.json" > "$dir/cards.txt"
@@ -48,5 +47,4 @@ python3 toText1.py "$dir/$base.json" > "$dir/cards.txt"
 python3 listify.py -o "$dir/cardlists.txt" "$dir/$base.json"
 echo '# vim:set nowrap:' >> "$dir/cardlists.txt"
 
-chmod -w "$dir/$base.json" "$dir/$base.xml"
-chmod -w "$dir/cards.txt" "$dir/cardlists.txt"
+chmod -w "$dir/$base.json" "$dir/cards.txt" "$dir/cardlists.txt"
