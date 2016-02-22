@@ -66,5 +66,5 @@ class Multival:
     def __repr__(self):
         return cheap_repr(self)
 
-    def jsonable(self):
+    def for_json(self):
         return self.val

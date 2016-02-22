@@ -1,7 +1,7 @@
 from   functools import total_ordering
 import re
 from   .color    import Color
-from   ._util    import cheap_repr, split_mana, cleanDict
+from   ._util    import cheap_repr, split_mana, for_json
 
 @total_ordering
 class Content:
@@ -138,8 +138,8 @@ class Content:
     def __repr__(self):
         return cheap_repr(self)
 
-    def jsonable(self):
-        return cleanDict(vars(self))
+    def for_json(self):
+        return for_json(vars(self), trim=True)
 
     def devotion(self, to_color):
         if not self.cost:

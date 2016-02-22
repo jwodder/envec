@@ -107,8 +107,21 @@ def split_mana(s):
         else:
             return (mana, s)
 
-def cleanDict(d):
-    return {
-        k:v for k,v in d.items() if v is not None and
-                                    not (isinstance(v, Iterable) and not v)
-    }
+def for_json(obj, trim=False):
+    # Note that `trim` is not inherited.  This is deliberate, as `trim` should
+    # only be `True` when called by an object's `for_json` method.
+    if isinstance(obj, list):
+        return list(map(for_json, obj))
+    elif isinstance(obj, dict):
+        data = dict()
+        for k,v in obj.items():
+            v = for_json(v)
+            # Note that this automatically gets rid of empty Multivals.
+            if not (trim and (v is None or \
+                    (isinstance(v, Iterable) and not v))):
+                data[k] = v
+        return data
+    elif hasattr(obj, 'for_json'):
+        return obj.for_json()
+    else:
+        return obj

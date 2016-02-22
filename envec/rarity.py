@@ -43,5 +43,5 @@ class Rarity(Enum):
         else:
             return cls[name.lower()]
 
-    def jsonable(self):
+    def for_json(self):
         return self.name

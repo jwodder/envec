@@ -1,15 +1,15 @@
-- Properly handle JSONification and un-JSONification of CardSets in Printings
-    - Go back to serializing just the set names?
-        - Also serialize a top-level dict of all the CardSets?
-    - Update cards.json to allow sets to be set objects as from
-      sets-schema.json?
 - Turn this into a library with one or more CLI commands that can be used for
-  querying, updating, & dumping a local version of Gatherer
+  creating, querying, & dumping (and updating?) a local version of Gatherer
     - Store card data in actual SQL databases rather than flat JSON files
-    - This would mean that I could stop storing printing & ruling information
-      in Card objects and could instead store it separately.
+    - Stop storing printings inside Card objects; instead make them available
+      to the user via a `db.get_printings(card, set)` method
     - There should still be methods for converting the database to (and from?)
       JSON.
+        - In addition to `"date"` and `"cards"`, the JSON database should have
+          a `"sets"` field containing the contents of `sets.json`.  Rather than
+          each JSONified `Printing` object storing a copy of its `CardSet`,
+          each `Printing` should instead store the set's long name (or some
+          other identifying string).
 
 # Robustness
 
@@ -62,6 +62,7 @@
 - The library functions that use `logging` should register a `NullHandler`
   first; see <https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library>.
 - Add function annotations?
+- Convert ruling dates into `datetime.date` objects
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 

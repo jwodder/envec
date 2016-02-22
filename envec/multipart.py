@@ -2,7 +2,7 @@ import itertools
 import json
 import logging
 from   enum     import Enum
-from   ._util   import cheap_repr, cleanDict
+from   ._util   import cheap_repr, for_json
 
 class CardClass(Enum):
     normal       = 1
@@ -11,7 +11,7 @@ class CardClass(Enum):
     double_faced = 4
     BFM          = 5
 
-    def jsonable(self):
+    def for_json(self):
         return self.name
 
 
@@ -98,5 +98,5 @@ class MultipartDB:
     def __repr__(self):
         return cheap_repr(self)
 
-    def jsonable(self):
-        return cleanDict(vars(self))
+    def for_json(self):
+        return for_json(vars(self), trim=True)

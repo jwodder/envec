@@ -4,7 +4,7 @@ from   string     import ascii_lowercase
 from   .cardset   import CardSet
 from   .multival  import Multival
 from   .rarity    import Rarity
-from   ._util     import cheap_repr, cleanDict
+from   ._util     import cheap_repr, for_json
 
 multival = "number artist flavor watermark multiverseid notes".split()
 
@@ -56,8 +56,7 @@ class Printing:
     def __repr__(self):
         return cheap_repr(self)
 
-    def jsonable(self):
+    def for_json(self):
         data = vars(self).copy()
-        for field in multival:
-            data[field] = data[field].jsonable()
-        return cleanDict(data)
+        data["set"] = self.set.name
+        return for_json(data, trim=True)

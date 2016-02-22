@@ -4,7 +4,7 @@ from   .content   import Content
 from   .printing  import Printing
 from   .color     import Color
 from   .multipart import CardClass
-from   ._util     import wrapLines, txt2attr, cheap_repr, cleanDict
+from   ._util     import wrapLines, cheap_repr, for_json
 
 sep = ' // '
 
@@ -250,5 +250,5 @@ class Card:
     def __repr__(self):
         return cheap_repr(self)
 
-    def jsonable(self):
-        return cleanDict(vars(self))
+    def for_json(self):
+        return for_json(vars(self), trim=True)

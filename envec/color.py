@@ -165,7 +165,7 @@ class Color(Enum):
     def __str__(self):
         return self.name
 
-    def jsonable(self):
+    def for_json(self):
         return self.name
 
     @classmethod
