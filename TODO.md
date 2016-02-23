@@ -29,8 +29,9 @@
     - Improve PostScript output
     - Add checkboxes to the output (but only if a flag is given?)
     - Implement single-file LaTeX & PostScript output
-- Add special handling/storage for leveler cards
 - Card.showField1 should treat a negative width as disabling line-wrapping
+- Add functions/methods for splitting up a block of rules text into lines
+  and/or levels
 
 # Coding
 
@@ -63,6 +64,7 @@
   first; see <https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library>.
 - Add function annotations?
 - Convert ruling dates into `datetime.date` objects
+- Define rarities via a data/ file?
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
@@ -126,7 +128,6 @@ Yet another idea: Each card class is represented by a different subclass of the
     - Little Girl's CMC
     - Should fractional P/T's be stored as floats rather than as strings with
       '½'?
-    - How should mtgcard.dtd handle fractional mana symbols?
     - Give all Uncards an attribute marking them as such?
 - Support fetching & storing format legality information
     - Note that Gatherer has been known to be out of date regarding Commander
