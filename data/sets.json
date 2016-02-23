@@ -2136,5 +2136,18 @@
         "modern": true,
         "border": "black",
         "release_date": "2016-01-22"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "DDQ",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGBVC"
+        },
+        "fetch": false,
+        "name": "Duel Decks: Blessed vs. Cursed",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
+        "release_date": "2016-02-26"
     }
 ]
