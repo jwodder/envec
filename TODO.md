@@ -35,7 +35,6 @@
 
 # Coding
 
-- Give all classes "copy constructors"?
 - Eliminate Card.newCard?
 - Should "oversized" or "nontraditional" be a card class?
 - Make the bulk of tutor.py into a library function?
@@ -48,23 +47,19 @@
 - Add a JSONDecoder subclass?
 - Add a class for rulings
 - Store & access files in `data/` as `package_data`
-- Look for a better/more standard name for `jsonable`
 - Make `text` and `baseText` (and `cost`?) equal `''` rather than `None` when
   empty/absent?
 - Change all tuple attributes to lists?
-- Rethink the necessity of `cleanDict`
+- Rethink the necessity of `for_json(*, trim=True)`
 - Make `parse_details` return a list of `(Card, [OtherSet])` pairs, one for
   each section/component on the page, rather than joining everything together
   into one card
 - Should the checklist parsing functions perform any massaging or typecasting
   of the data or make any guarantees about what the data will contain at all?
-- Give `Color` objects an attribute for their nicknames (guild, shard, etc.) ?
-    - also (for single & dual colors) an attribute for land type?
-- The library functions that use `logging` should register a `NullHandler`
-  first; see <https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library>.
 - Add function annotations?
 - Convert ruling dates into `datetime.date` objects
 - Define rarities via a data/ file?
+- Define a custom class for warnings
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 

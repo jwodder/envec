@@ -1,7 +1,7 @@
+from   enum     import Enum
 import itertools
 import json
-import logging
-from   enum     import Enum
+import warnings
 from   ._util   import cheap_repr, for_json
 
 class CardClass(Enum):
@@ -35,9 +35,9 @@ class MultipartDB:
                 entry["cardClass"] = cclass
                 for name in (entry["primary"], entry["secondary"]):
                     if name in self.byName:
-                        logging.warning('%s: name appears more than once in'
-                                        ' multipart file; subsequent appearance'
-                                        ' ignored', name)
+                        warnings.warn('%s: name appears more than once in'
+                                      ' multipart file; subsequent appearance'
+                                      ' ignored', name)
                     else:
                         self.byName[name] = entry
 

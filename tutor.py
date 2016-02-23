@@ -41,6 +41,7 @@ def main():
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                         level=logging.INFO, datefmt=datefmt,
                         stream=args.logfile)
+    logging.captureWarnings(True)
 
     missed = []
     setdb = envec.CardSetDB(args.set_file)

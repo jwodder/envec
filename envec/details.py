@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import logging
 import re
 from   urllib.parse import urlparse, parse_qs
+import warnings
 from   bs4          import BeautifulSoup
 from   .card        import Card
 from   .printing    import Printing
@@ -66,8 +66,8 @@ def scrapeSection(doc, pre):
                                 r' ?Life Modifier: ?([-+]?\d+)', pt, re.I)\
                         .groups()
             else:
-                logging.warning('Unknown ptRow label for %s: %r',
-                                fields['name'], label)
+                warnings.warn('Unknown ptRow label for %s: %r',
+                              fields['name'], label)
         elif key == 'currentSetSymbol':
             prnt0 = expansions(row)[0]
             prnt['set'] = prnt0.set
