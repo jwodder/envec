@@ -15,7 +15,6 @@ import logging
 import re
 import sys
 import time
-import requests
 import envec
 
 datefmt = '%Y-%m-%dT%H:%M:%SZ'
@@ -47,7 +46,7 @@ def main():
     setdb = envec.CardSetDB(args.set_file)
     multidb = envec.MultipartDB()
 
-    with requests.Session() as s:
+    with envec.Tutor() as t:
         cardIDs = {}
         if args.card_ids:
             with args.card_ids:
@@ -62,7 +61,7 @@ def main():
             for cardset in setdb.toFetch():
                 logging.info('Fetching set %r', str(cardset))
                 try:
-                    cards = list(envec.fetch_checklist(cardset, session=s))
+                    cards = list(t.fetch_checklist(cardset))
                 except Exception:
                     logging.exception('Could not fetch set %r', str(cardset))
                     missed.append("SET " + str(cardset))
@@ -107,23 +106,20 @@ def main():
                 id_ = ids.pop(0)
                 idstr = name + '/' + str(id_)
                 logging.info('Fetching card %s', idstr)
-                params = {"multiverseid": id_}
-                if multidb.isSplit(name):
-                    params["part"] = name
-                # As of 2013 July 10, despite the fact that split cards in
-                # Gatherer now have both halves on a single page like flip &
-                # double-faced cards, you still need to append "&part=$name" to
-                # the end of their URLs or else the page may
-                # non-deterministically display the halves in the wrong order.
-                r = s.get('http://gatherer.wizards.com/Pages/Card/Details.aspx',
-                          params=params)
-                if r.status_code >= 400:
-                    logging.error('Could not fetch card %s: %d %s', idstr,
-                                  r.status_code, r.reason)
+                try:
+                    prnt = t.fetch_details(id_, name if multidb.isSplit(name)
+                                                     else None)
+                    # As of 2013 July 10, despite the fact that split cards in
+                    # Gatherer now have both halves on a single page like flip
+                    # & double-faced cards, you still need to append
+                    # "&part=$name" to the end of their URLs or else the page
+                    # may non-deterministically display the halves in the wrong
+                    # order.
+                except Exception:
+                    logging.exception('Could not fetch card %s', idstr)
                     missed.append('CARD ' + idstr)
                     first = True  # to suppress extra commas
                     continue
-                prnt = envec.parse_details(r.text)
                 ### TODO: This needs to detect flip & double-faced cards that
                 ### are missing parts.
                 if multidb.isSplit(name):

@@ -46,7 +46,7 @@ class Tutor:
         while True:
             r = self.session.get(url)
             r.raise_for_status()
-            page = parse_checklist_page(r.text)
+            page = self.parse_checklist_page(r.text)
             for c in page.cards:
                 yield c
             if page.next_url is None:
@@ -198,7 +198,7 @@ def multiline(row):
 
 def url2id(url):
     """ Extract the multiverseid parameter from a URL"""
-    params = parse_qs(urlparse(url).query)['multiverseid'][0]
+    params = parse_qs(urlparse(url).query)
     if 'multiverseid' in params:
         return maybeInt(params['multiverseid'][0])
     else:

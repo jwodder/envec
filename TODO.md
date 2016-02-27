@@ -38,9 +38,9 @@
 
 - Eliminate Card.newCard?
 - Should "oversized" or "nontraditional" be a card class?
-- Make the bulk of tutor.py into a library function?
-    - Move the code for fetching & merging together all of a card's printings
-      from tutor.py into the library proper
+- Move the code for fetching & merging together all of a card's printings
+  from tutor.py to `Tutor`
+- Convert `tutor.py` into a `main` function for `envec.tutor`?
 - Add a JSONDecoder subclass?
 - Add a class for rulings
 - Store & access files in `data/` as `package_data`
