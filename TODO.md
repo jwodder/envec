@@ -10,6 +10,7 @@
           each JSONified `Printing` object storing a copy of its `CardSet`,
           each `Printing` should instead store the set's long name (or some
           other identifying string).
+    - Add an `EnVec` class that handles interactions with the database
 
 # Robustness
 
