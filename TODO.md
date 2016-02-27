@@ -41,10 +41,6 @@
 - Make the bulk of tutor.py into a library function?
     - Move the code for fetching & merging together all of a card's printings
       from tutor.py into the library proper
-    - Add a wrapper around `parse_details` that downloads and parses a given
-      multiverseid
-    - Add a class ("Gathererer"? "Gatherest"? "Tutor"?) containing a `Session`
-      object with methods for fetching & parsing checklists & details pages
 - Add a JSONDecoder subclass?
 - Add a class for rulings
 - Store & access files in `data/` as `package_data`
@@ -61,6 +57,9 @@
 - Convert ruling dates into `datetime.date` objects
 - Define rarities via a data/ file?
 - Define a custom class for warnings
+- Make `Tutor.parse_details` return a `Details` object containing a list of
+  dicts (or another custom class?), one for each component on the page
+    - Give the `Details` class a `to_card` method
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
