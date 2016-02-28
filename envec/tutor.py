@@ -46,16 +46,16 @@ class Tutor:
         while True:
             r = self.session.get(url)
             r.raise_for_status()
-            page = self.parse_checklist_page(r.text)
+            page = self.parse_checklist_page(r.content, encoding=charset(r))
             for c in page.cards:
                 yield c
             if page.next_url is None:
                 return
             url = urljoin(r.request.url, page.next_url)
 
-    def parse_checklist_page(self, html):
+    def parse_checklist_page(self, html, encoding=None):
         cards = []
-        doc = BeautifulSoup(html, self.parser)
+        doc = BeautifulSoup(html, self.parser, from_encoding=encoding)
         for tr in doc.find('table', class_='checklist')\
                      .find_all('tr', class_='cardItem'):
             item = {}
@@ -96,10 +96,10 @@ class Tutor:
         # order.
         r = self.session.get(self.endpoint + self.DETAILS_PATH, params=params)
         r.raise_for_status()
-        return self.parse_details(r.text)
+        return self.parse_details(r.content, encoding=charset(r))
 
-    def parse_details(self, html):
-        doc = BeautifulSoup(html, self.parser)
+    def parse_details(self, html, encoding=None):
+        doc = BeautifulSoup(html, self.parser, from_encoding=encoding)
         parts = []
         for namediv in doc.find_all(id=endswith('nameRow')):
             parts.append(scrapeSection(doc, namediv['id'][:-len('nameRow')]))
@@ -223,3 +223,12 @@ def endswith(end):
 
 def startswith(start):
     return lambda s: s is not None and s.startswith(start)
+
+def charset(r):
+    # Only use `r.encoding` if the response explicitly defined it; see
+    # <http://stackoverflow.com/a/35383883/744178> and comments thereon for
+    # more information
+    if 'charset' in r.headers.get('content-type', '').lower():
+        return r.encoding
+    else:
+        return None
