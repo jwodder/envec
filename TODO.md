@@ -97,6 +97,7 @@ Yet another idea: Each card class is represented by a different subclass of the
 # Data & Documentation
 
 - Add documentation
+- Update & reformat/rewrite the pages on the wiki
 - For the multiversion cards in rarities.tsv, give each entry a field for the
   multiverseid and another field for a short description (to become the
   'notes' field) that a mortal can use to identify the version
