@@ -38,8 +38,8 @@
 
 - Eliminate Card.newCard?
 - Should "oversized" or "nontraditional" be a card class?
-- Move the code for fetching & merging together all of a card's printings
-  from tutor.py to `Tutor`
+- Move the code for fetching & merging together all of a card's printings from
+  tutor.py to `Tutor`
 - Convert `tutor.py` into a `main` function for `envec.tutor`?
 - Add a JSONDecoder subclass?
 - Add a class for rulings
@@ -97,7 +97,6 @@ Yet another idea: Each card class is represented by a different subclass of the
 # Data & Documentation
 
 - Add documentation
-- Rewrite `spoilers/*` so that it makes sense to other people
 - For the multiversion cards in rarities.tsv, give each entry a field for the
   multiverseid and another field for a short description (to become the
   'notes' field) that a mortal can use to identify the version
