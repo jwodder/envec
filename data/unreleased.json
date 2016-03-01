@@ -42,6 +42,18 @@
     },
     {
         "abbreviations": {
+            "askwizards-20040812": null,
+            "Twitter": "#FTVLORE"
+        },
+        "fetch": false,
+        "name": "From the Vault: Lore",
+        "type": "From the Vault",
+        "modern": false,
+        "border": "black",
+        "release_date": "2016-08-19"
+    },
+    {
+        "abbreviations": {
             "Gatherer": "CN2",
             "askwizards-20040812": null,
             "Twitter": "#MTGCN2"
