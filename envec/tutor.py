@@ -182,7 +182,7 @@ def scrapeSection(doc, pre):
                     "ruling": ruling.strip()
                 })
     fields.setdefault('printings', []).insert(0, Printing(**prnt))
-    return Card.newCard(**fields)
+    return Card(**fields)
 
 def multiline(row):
     # There are some cards with superfluous empty cardtextboxes inserted into

@@ -2,7 +2,6 @@ import copy
 from   functools  import total_ordering
 from   itertools  import groupby, starmap, zip_longest
 import re
-from   .content   import Content
 from   .printing  import Printing
 from   .color     import Color
 from   .multipart import CardClass
@@ -29,17 +28,6 @@ fields = {
     "HandLife":   'H/L:',
    #"printings":  'Printings:',
 }
-
-def scalarField(field):
-    def getter(self):
-        fields = [getattr(c, field) for c in self.content]
-        if all(f is None for f in fields):
-            return None
-        else:
-            #return tuple(fields)
-            #return tuple(fields) if len(fields) > 1 else fields[0]
-            return sep.join(str(f) or '' for f in fields)
-    return property(getter)
 
 @total_ordering
 class Card:
