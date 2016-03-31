@@ -1,20 +1,6 @@
 [
     {
         "abbreviations": {
-            "Gatherer": "SOI",
-            "askwizards-20040812": null,
-            "Twitter": "#MTGSOI"
-        },
-        "fetch": true,
-        "name": "Shadows over Innistrad",
-        "type": "expansion",
-        "block": "Shadows over Innistrad",
-        "modern": true,
-        "border": "black",
-        "release_date": "2016-04-08"
-    },
-    {
-        "abbreviations": {
             "Gatherer": "EMA",
             "askwizards-20040812": null,
             "Twitter": "#MTGEMA"

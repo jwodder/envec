@@ -48,9 +48,6 @@
   empty/absent?
 - Change all tuple attributes to lists?
 - Rethink the necessity of `for_json(*, trim=True)`
-- Make `parse_details` return a list of `(Card, [OtherSet])` pairs, one for
-  each section/component on the page, rather than joining everything together
-  into one card
 - Should the checklist parsing functions perform any massaging or typecasting
   of the data or make any guarantees about what the data will contain at all?
 - Add function annotations?
@@ -90,9 +87,14 @@ field containing a reference to the card's other component, if any.
       just store multiple nearly-identical `Printing` objects.  This eliminates
       the need for `Multival`.
 
+
 Yet another idea: Each card class is represented by a different subclass of the
 `Card` ABC, with instances of the multipart classes (subclassing
 `MultipartCard`) each containing two "normal card" (`SimpleCard`?) objects.
+
+- Even if this idea isn't used, `CardClass` should still be replaced by a class
+  hierarchy (with the `"cardClass"` field in JSON output renamed to
+  `"__class__"`).
 
 # Data & Documentation
 
