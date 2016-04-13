@@ -2168,5 +2168,20 @@
         "modern": true,
         "border": "black",
         "release_date": "2016-04-08"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "W16",
+            "askwizards-20040812": null,
+            "Twitter": null
+        },
+        "fetch": false,
+        "name": "Welcome Deck 2016",
+        "modern": true,
+        "border": "black",
+        "release_date": "2016-05-13",
+        "notes": [
+            "\"[T]hese cards are Standard-legal for as long as _Shadows over Innistrad_ cards are Standard-legal.\" — <http://magic.wizards.com/en/articles/archive/daily-magic-update/update-2016-03-25>" 
+        ]
     }
 ]
