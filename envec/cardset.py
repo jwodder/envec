@@ -56,11 +56,11 @@ class CardSetDB:
         self.byGatherer = {}
         for cs in self.sets:
             if cs.name is None:
-                warnings.warn('%s: set with unset name', infile.name)
+                warnings.warn('%s: set with unset name' % (infile.name,))
             elif cs.name in self.byName:
                 warnings.warn('%s: name %r used for more than one set;'
-                              ' subsequent appearance ignored',
-                              infile.name, cs.name)
+                              ' subsequent appearance ignored'
+                              % (infile.name, cs.name))
             else:
                 self.byName[cs.name] = cs
             gath = cs.abbreviations.get("Gatherer")
@@ -68,8 +68,9 @@ class CardSetDB:
                 if gath in self.byGatherer:
                     warnings.warn('%s: Gatherer abbreviation %r already used'
                                   ' for set %r; subsequent use for set %r'
-                                  ' ignored', infile.name, gath,
-                                  self.byGatherer[gath].name, cs.name)
+                                  ' ignored'
+                                  % (infile.name, gath,
+                                     self.byGatherer[gath].name, cs.name))
                 else:
                     self.byGatherer[gath] = cs
 

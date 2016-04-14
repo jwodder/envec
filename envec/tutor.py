@@ -157,8 +157,8 @@ def scrapeSection(doc, pre):
                                 r' ?Life Modifier: ?([-+]?\d+)', pt, re.I)\
                         .groups()
             else:
-                warnings.warn('Unknown ptRow label for %s: %r',
-                              fields['name'], label)
+                warnings.warn('Unknown ptRow label for %s: %r'
+                              % (fields['name'], label))
         elif key == 'currentSetSymbol':
             prnt0 = expansions(row)[0]
             prnt['set'] = prnt0.set

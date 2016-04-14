@@ -37,7 +37,7 @@ class MultipartDB:
                     if name in self.byName:
                         warnings.warn('%s: name appears more than once in'
                                       ' multipart file; subsequent appearance'
-                                      ' ignored', name)
+                                      ' ignored' % (name,))
                     else:
                         self.byName[name] = entry
 

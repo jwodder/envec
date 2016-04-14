@@ -58,6 +58,7 @@
   dicts (or another custom class?), one for each component on the page
     - Give the `Details` class a `to_card` method
 - Actually _use_ the `BFM` CardClass
+- Use `.format` instead of `%`
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
