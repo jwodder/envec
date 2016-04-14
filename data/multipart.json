@@ -151,6 +151,142 @@
         {
             "primary": "Nissa, Vastwood Seer",
             "secondary": "Nissa, Sage Animist"
+        },
+        {
+            "primary": "Aberrant Researcher",
+            "secondary": "Perfected Form"
+        },
+        {
+            "primary": "Accursed Witch",
+            "secondary": "Infectious Curse"
+        },
+        {
+            "primary": "Archangel Avacyn",
+            "secondary": "Avacyn, the Purifier"
+        },
+        {
+            "primary": "Arlinn Kord",
+            "secondary": "Arlinn, Embraced by the Moon"
+        },
+        {
+            "primary": "Autumnal Gloom",
+            "secondary": "Ancient of the Equinox"
+        },
+        {
+            "primary": "Avacynian Missionaries",
+            "secondary": "Lunarch Inquisitors"
+        },
+        {
+            "primary": "Breakneck Rider",
+            "secondary": "Neck Breaker"
+        },
+        {
+            "primary": "Convicted Killer",
+            "secondary": "Branded Howler"
+        },
+        {
+            "primary": "Daring Sleuth",
+            "secondary": "Bearer of Overwhelming Truths"
+        },
+        {
+            "primary": "Duskwatch Recruiter",
+            "secondary": "Krallenhorde Howler"
+        },
+        {
+            "primary": "Elusive Tormentor",
+            "secondary": "Insidious Mist"
+        },
+        {
+            "primary": "Gatstaf Arsonists",
+            "secondary": "Gatstaf Ravagers"
+        },
+        {
+            "primary": "Geier Reach Bandit",
+            "secondary": "Vildin-Pack Alpha"
+        },
+        {
+            "primary": "Hanweir Militia Captain",
+            "secondary": "Westvale Cult Leader"
+        },
+        {
+            "primary": "Harvest Hand",
+            "secondary": "Scrounged Scythe"
+        },
+        {
+            "primary": "Heir of Falkenrath",
+            "secondary": "Heir to the Night"
+        },
+        {
+            "primary": "Hermit of the Natterknolls",
+            "secondary": "Lone Wolf of the Natterknolls"
+        },
+        {
+            "primary": "Hinterland Logger",
+            "secondary": "Timber Shredder"
+        },
+        {
+            "primary": "Kessig Forgemaster",
+            "secondary": "Flameheart Werewolf"
+        },
+        {
+            "primary": "Kindly Stranger",
+            "secondary": "Demon-Possessed Witch"
+        },
+        {
+            "primary": "Lambholt Pacifist",
+            "secondary": "Lambholt Butcher"
+        },
+        {
+            "primary": "Neglected Heirloom",
+            "secondary": "Ashmouth Blade"
+        },
+        {
+            "primary": "Ormendahl, Profane Prince",
+            "secondary": "Westvale Abbey"
+        },
+        {
+            "primary": "Pious Evangel",
+            "secondary": "Wayward Disciple"
+        },
+        {
+            "primary": "Sage of Ancient Lore",
+            "secondary": "Werewolf of Ancient Hunger"
+        },
+        {
+            "primary": "Skin Invasion",
+            "secondary": "Skin Shedder"
+        },
+        {
+            "primary": "Solitary Hunter",
+            "secondary": "One of the Pack"
+        },
+        {
+            "primary": "Startled Awake",
+            "secondary": "Persistent Nightmare"
+        },
+        {
+            "primary": "Thing in the Ice",
+            "secondary": "Awoken Horror"
+        },
+        {
+            "primary": "Thraben Gargoyle",
+            "secondary": "Stonewing Antagonizer"
+        },
+        {
+            "primary": "Town Gossipmonger",
+            "secondary": "Incited Rabble"
+        },
+        {
+            "primary": "Uninvited Geist",
+            "secondary": "Unimpeded Trespasser"
+        },
+        {
+            "primary": "Village Messenger",
+            "secondary": "Moonrise Intruder"
+        },
+        {
+            "primary": "Westvale Abbey",
+            "secondary": "Ormendahl, Profane Prince"
         }
     ],
     "flip": [

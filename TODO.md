@@ -57,6 +57,7 @@
 - Make `Tutor.parse_details` return a `Details` object containing a list of
   dicts (or another custom class?), one for each component on the page
     - Give the `Details` class a `to_card` method
+- Actually _use_ the `BFM` CardClass
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 
