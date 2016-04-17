@@ -25,12 +25,10 @@ def main():
                         type=argparse.FileType('r', encoding='utf-8'))
     parser.add_argument('-S', '--set-file',
                         type=argparse.FileType('r', encoding='utf-8'))
-    parser.add_argument('-j', '--json-out',
-                        type=argparse.FileType('w', encoding='utf-8'),
-                        default='details.json')
-    parser.add_argument('-l', '--logfile',
-                        type=argparse.FileType('w', encoding='utf-8'),
-                        default=sys.stderr)
+    parser.add_argument('-o', '--outfile',
+                        type=argparse.FileType('w', encoding='utf-8'))
+    parser.add_argument('-l', '--logfile', default=sys.stderr,
+                        type=argparse.FileType('w', encoding='utf-8'))
     parser.add_argument('-i', '--idfile',
                         type=argparse.FileType('w', encoding='utf-8'))
     parser.add_argument('-I', '--idfile2',
@@ -45,6 +43,14 @@ def main():
     missed = []
     setdb = envec.CardSetDB(args.set_file)
     multidb = envec.MultipartDB()
+
+    if args.outfile is None:
+        latest = max(filter(lambda s: s.release_date is not None and \
+                                      s.abbreviations.get("Gatherer") \
+                                        is not None, setdb)) 
+        outname = time.strftime('%Y%m%d', time.gmtime()) + '-' + \
+            latest.abbreviations["Gatherer"] + '.json'
+        args.outfile = open(outname, 'w', encoding='utf-8')
 
     with envec.Tutor() as t:
         cardIDs = {}
@@ -88,7 +94,7 @@ def main():
 
         timestamp = time.strftime(datefmt, time.gmtime())
 
-        print('{"date": "%s", "cards": [' % (timestamp,), file=args.json_out)
+        print('{"date": "%s", "cards": [' % (timestamp,), file=args.outfile)
 
         logging.info('Fetching individual card data...')
         first = True
@@ -96,8 +102,8 @@ def main():
             if first:
                 first = False
             else:
-                print(',', file=args.json_out)
-                print('', file=args.json_out)
+                print(',', file=args.outfile)
+                print('', file=args.outfile)
             ids = [cardIDs[name]]
             seen = set()
             card = None
@@ -184,9 +190,9 @@ def main():
                 js = json.dumps(card, cls=envec.EnVecEncoder, sort_keys=True,
                                       indent='    ', ensure_ascii=False)
                 print(re.sub('^', '    ', js, flags=re.M), end='',
-                      file=args.json_out)
+                      file=args.outfile)
 
-    print('\n]}', file=args.json_out)
+    print('\n]}', file=args.outfile)
     ending(missed)
 
 def ending(missed):

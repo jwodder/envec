@@ -12,6 +12,11 @@
           other identifying string).
     - Add an `EnVec` class that handles interactions with the database
 
+- It appears that flavor text of double-faced cards and BFM is rendered in
+  details pages inside `<div class="cardtextbox"><i> ... </i></div>` tags
+  instead of just a `<div class="flavortextbox"> ... </div>` tag as is done for
+  other cards.  Deal with this.
+
 # Robustness
 
 - Give `tutor.py` better error handling for, e.g., failed HTTP requests

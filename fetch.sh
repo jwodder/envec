@@ -39,7 +39,7 @@ Ci=i
 mkdir -p "$dir"
 python3 tutor.py -S "$setfile" \
                  -$Ci "$ids" \
-                 -j "$dir/$base.json" \
+                 -o "$dir/$base.json" \
                  -l "$dir/tutor.log"
 
 python3 toText1.py "$dir/$base.json" > "$dir/cards.txt"
