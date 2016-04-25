@@ -60,9 +60,8 @@
 - Convert ruling dates into `datetime.date` objects
 - Define rarities via a data/ file?
 - Define a custom class for warnings
-- Make `Tutor.parse_details` return a `Details` object containing a list of
-  dicts (or another custom class?), one for each component on the page
-    - Give the `Details` class a `to_card` method
+- Instead of a list of dicts, make `Tutor.parse_details` return a `Details`
+  object (containing a list of dicts) with a `to_card` method
 - Actually _use_ the `BFM` CardClass
 - Use `.format` instead of `%`
 - `tutor.py`: Log _all_ exceptions that propagate to the top by wrapping almost

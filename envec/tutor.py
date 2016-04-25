@@ -5,7 +5,6 @@ from   urllib.parse import parse_qs, urlencode, urljoin, urlparse
 import warnings
 from   bs4          import BeautifulSoup
 import requests
-from   .card        import Card
 from   .printing    import Printing
 from   ._cardutil   import joinCards
 from   .color       import Color
@@ -103,19 +102,12 @@ class Tutor:
         parts = []
         for namediv in doc.find_all(id=endswith('nameRow')):
             parts.append(scrapeSection(doc, namediv['id'][:-len('nameRow')]))
-        if len(parts) == 1:
-            return parts[0]
-        elif len(parts) == 2:
-            return joinCards(CardClass.normal, *parts)
-        else:
-            raise ValueError('Card details page has too many components')
-
+        return parts
 
 # Here be internal helper functions
 
 def scrapeSection(doc, pre):
     fields = {}
-    prnt = {}
     for row in doc.find_all('div', id=startswith(pre)):
         key = row['id'][len(pre):]
         value = magicContent(row.find('div', class_='value'))
@@ -136,9 +128,9 @@ def scrapeSection(doc, pre):
                 changes = n1 + n2
             fields['text'] = txt
         elif key == 'flavorRow':
-            prnt['flavor'] = multiline(row)
+            fields['flavor'] = multiline(row)
         elif key == 'markRow':
-            prnt['watermark'] = re.sub(r'<i>\s*|\s*</i>', '', multiline(row))
+            fields['watermark'] = re.sub(r'<i>\s*|\s*</i>', '', multiline(row))
         elif key == 'colorIndicatorRow':
             fields['color_indicator'] = Color.fromLongString(value)
         elif key == 'ptRow':
@@ -160,14 +152,11 @@ def scrapeSection(doc, pre):
                 warnings.warn('Unknown ptRow label for %s: %r'
                               % (fields['name'], label))
         elif key == 'currentSetSymbol':
-            prnt0 = expansions(row)[0]
-            prnt['set'] = prnt0.set
-            prnt['rarity'] = prnt0.rarity
-            prnt['multiverseid'] = prnt0.multiverseid
+            fields['printing'] = expansions(row)[0]
         elif key == 'numberRow':
-            prnt['number'] = maybeInt(simplify(value))
+            fields['number'] = maybeInt(simplify(value))
         elif key == 'artistRow':
-            prnt['artist'] = simplify(value)
+            fields['artist'] = simplify(value)
         elif key == 'otherSetsValue':
             fields['printings'] = expansions(row)
         elif key == 'rulingsContainer':
@@ -181,8 +170,7 @@ def scrapeSection(doc, pre):
                     "date": simplify(date),
                     "ruling": ruling.strip()
                 })
-    fields.setdefault('printings', []).insert(0, Printing(**prnt))
-    return Card.newCard(**fields)
+    return fields
 
 def multiline(row):
     # There are some cards with superfluous empty cardtextboxes inserted into
