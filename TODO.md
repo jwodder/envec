@@ -38,6 +38,7 @@
 - Card.showField1 should treat a negative width as disabling line-wrapping
 - Add functions/methods for splitting up a block of rules text into lines
   and/or levels
+- Give `fetch.sh` IDfile-handling functionality again?
 
 # Coding
 
@@ -64,6 +65,8 @@
     - Give the `Details` class a `to_card` method
 - Actually _use_ the `BFM` CardClass
 - Use `.format` instead of `%`
+- `tutor.py`: Log _all_ exceptions that propagate to the top by wrapping almost
+  everything in `try: ... except Exception: logging.exception( ... ); raise`
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 

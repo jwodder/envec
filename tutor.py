@@ -21,17 +21,15 @@ datefmt = '%Y-%m-%dT%H:%M:%SZ'
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-C', '--card-ids',
-                        type=argparse.FileType('r', encoding='utf-8'))
     parser.add_argument('-S', '--set-file',
                         type=argparse.FileType('r', encoding='utf-8'))
     parser.add_argument('-o', '--outfile',
                         type=argparse.FileType('w', encoding='utf-8'))
     parser.add_argument('-l', '--logfile', default=sys.stderr,
                         type=argparse.FileType('w', encoding='utf-8'))
-    parser.add_argument('-i', '--idfile',
-                        type=argparse.FileType('w', encoding='utf-8'))
-    parser.add_argument('-I', '--idfile2',
+    parser.add_argument('-i', '--ids', metavar='IDFILE',
+                        type=argparse.FileType('r', encoding='utf-8'))
+    parser.add_argument('-I', '--write-ids', metavar='IDFILE',
                         type=argparse.FileType('w', encoding='utf-8'))
     args = parser.parse_args()
 
@@ -54,9 +52,9 @@ def main():
 
     with envec.Tutor() as t:
         cardIDs = {}
-        if args.card_ids:
-            with args.card_ids:
-                for line in args.card_ids:
+        if args.ids:
+            with args.ids:
+                for line in args.ids:
                     line = line.strip()
                     if not line or line[0] == '#':
                         continue
@@ -83,14 +81,12 @@ def main():
             cardIDs.pop(c, None)
         logging.info('%d cards to fetch', len(cardIDs))
 
-        if args.idfile or args.idfile2:
-            out = args.idfile2 or args.idfile
-            with out:
+        if args.write_ids:
+            with args.write_ids:
                 for k in sorted(cardIDs):
-                    print(k, '\t', cardIDs[k], sep='', file=out)
-            logging.info('Card IDs written to %r', out.name)
-            if args.idfile2:
-                ending(missed)
+                    print(k, cardIDs[k], sep='\t', file=args.write_ids)
+            logging.info('Card IDs written to %r', args.write_ids.name)
+            ending(missed)
 
         timestamp = time.strftime(datefmt, time.gmtime())
 
