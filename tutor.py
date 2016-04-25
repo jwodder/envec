@@ -12,6 +12,7 @@ import argparse
 from   collections import defaultdict
 import json
 import logging
+import os.path
 import re
 import sys
 import time
@@ -21,10 +22,12 @@ datefmt = '%Y-%m-%dT%H:%M:%SZ'
 
 def main():
     parser = argparse.ArgumentParser()
+    outopts = parser.add_mutually_exclusive_group()
+    outopts.add_argument('-o', '--outfile',
+                         type=argparse.FileType('w', encoding='utf-8'))
+    outopts.add_argument('-d', '--outdir')
     parser.add_argument('-S', '--set-file',
                         type=argparse.FileType('r', encoding='utf-8'))
-    parser.add_argument('-o', '--outfile',
-                        type=argparse.FileType('w', encoding='utf-8'))
     parser.add_argument('-l', '--logfile', default=sys.stderr,
                         type=argparse.FileType('w', encoding='utf-8'))
     parser.add_argument('-i', '--ids', metavar='IDFILE',
@@ -48,6 +51,9 @@ def main():
                                         is not None, setdb)) 
         outname = time.strftime('%Y%m%d', time.gmtime()) + '-' + \
             latest.abbreviations["Gatherer"] + '.json'
+        if args.outdir is not None:
+            ### TODO: Create outdir if it doesn't already exist
+            outname = os.path.join(args.outdir, outname)
         args.outfile = open(outname, 'w', encoding='utf-8')
 
     with envec.Tutor() as t:
