@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from   collections  import Iterable
-import itertools
 import re
 import textwrap
 from   urllib.parse import urlparse, parse_qs
