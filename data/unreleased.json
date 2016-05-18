@@ -50,5 +50,72 @@
         "modern": false,
         "border": "black",
         "release_date": "2016-08-26"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": null,
+            "askwizards-20040812": null,
+            "Twitter": "#MTGNVO"
+        },
+        "fetch": false,
+        "name": "Duel Decks: Nissa vs. Ob Nixilis",
+        "type": "Duel Decks",
+        "modern": false,
+        "border": "black",
+        "release_date": "2016-09-02"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "KLD",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGKLD"
+        },
+        "fetch": true,
+        "name": "Kaladesh",
+        "type": "expansion",
+        "block": "Kaladesh",
+        "modern": true,
+        "border": "black",
+        "release_date": "2016-09-30"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "C16",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGC16"
+        },
+        "fetch": true,
+        "name": "Commander (2016 Edition)",
+        "type": "casual supplement",
+        "modern": false,
+        "border": "black",
+        "release_date": "2016-11-11"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "PCA",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGPCA"
+        },
+        "fetch": false,
+        "name": "Planechase Anthology",
+        "type": "reprint set",
+        "modern": false,
+        "border": "black",
+        "release_date": "2016-11-25"
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "AER",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGAER"
+        },
+        "fetch": true,
+        "name": "Aether Revolt",
+        "type": "expansion",
+        "block": "Kaladesh",
+        "modern": true,
+        "border": "black",
+        "release_date": "2017-01-20"
     }
 ]

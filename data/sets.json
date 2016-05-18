@@ -1906,7 +1906,7 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Elves vs. Goblins",
-        "type": "Duel Decks",
+        "type": "reprint set",
         "modern": false,
         "border": "black",
         "release_date": "2014-12-05"
@@ -1920,7 +1920,7 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Divine vs. Demonic",
-        "type": "Duel Decks",
+        "type": "reprint set",
         "modern": false,
         "border": "black",
         "release_date": "2014-12-05"
@@ -1934,7 +1934,7 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Jace vs. Chandra",
-        "type": "Duel Decks",
+        "type": "reprint set",
         "modern": false,
         "border": "black",
         "release_date": "2014-12-05"
@@ -1948,7 +1948,7 @@
         },
         "fetch": false,
         "name": "Duel Decks Anthology, Garruk vs. Liliana",
-        "type": "Duel Decks",
+        "type": "reprint set",
         "modern": false,
         "border": "black",
         "release_date": "2014-12-05"
