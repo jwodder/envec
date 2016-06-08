@@ -1,19 +1,6 @@
 [
     {
         "abbreviations": {
-            "Gatherer": "EMA",
-            "askwizards-20040812": null,
-            "Twitter": "#MTGEMA"
-        },
-        "fetch": false,
-        "name": "Eternal Masters",
-        "type": "reprint set",
-        "modern": false,
-        "border": "black",
-        "release_date": "2016-06-10"
-    },
-    {
-        "abbreviations": {
             "Gatherer": "EMN",
             "askwizards-20040812": null,
             "Twitter": "#MTGEMN"

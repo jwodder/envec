@@ -2183,5 +2183,18 @@
         "notes": [
             "\"[T]hese cards are Standard-legal for as long as _Shadows over Innistrad_ cards are Standard-legal.\" — <http://magic.wizards.com/en/articles/archive/daily-magic-update/update-2016-03-25>" 
         ]
+    },
+    {
+        "abbreviations": {
+            "Gatherer": "EMA",
+            "askwizards-20040812": null,
+            "Twitter": "#MTGEMA"
+        },
+        "fetch": false,
+        "name": "Eternal Masters",
+        "type": "reprint set",
+        "modern": false,
+        "border": "black",
+        "release_date": "2016-06-10"
     }
 ]
