@@ -12,6 +12,8 @@
           other identifying string).
     - Add an `EnVec` class that handles interactions with the database
 
+- Handle meld cards
+
 - It appears that flavor text of double-faced cards and BFM is rendered in
   details pages inside `<div class="cardtextbox"><i> ... </i></div>` tags
   instead of just a `<div class="flavortextbox"> ... </div>` tag as is done for
@@ -67,6 +69,7 @@
 - Use `.format` instead of `%`
 - `tutor.py`: Log _all_ exceptions that propagate to the top by wrapping almost
   everything in `try: ... except Exception: logging.exception( ... ); raise`
+  (or by setting `sys.excepthook`?)
 
 ## Redo Handling of Multipart Cards and Their Printing Fields
 

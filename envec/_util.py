@@ -88,7 +88,7 @@ def parseTypes(arg):
     return (superlist, typelist, sublist)
 
 def cheap_repr(obj):
-    return obj.__class__.__name__ + '(' + ', '.join('%s=%r' % kv for kv in vars(obj).items()) + ')'
+    return type(obj).__name__ + '(' + ', '.join('%s=%r' % kv for kv in vars(obj).items()) + ')'
 
 def maybeInt(s):
     try:
